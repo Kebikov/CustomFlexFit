@@ -1,7 +1,8 @@
 
 
 export type AppRouterTypes = {
-
+    '/': undefined;
+    '/sql': undefined;
 };
 
 

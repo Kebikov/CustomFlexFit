@@ -39,7 +39,7 @@ const WrapperScroll: FC<IWrapper> = ({
                 <StatusBar animated={true} barStyle={barStyle} backgroundColor={backgroundColor} />
             </View>
             <SafeAreaProvider>
-                <SafeAreaView style={{ flex: 1, backgroundColor: '#f2f1f7' }}>
+                <SafeAreaView style={{ flex: 1, backgroundColor }}>
                     {
                         isScrollEnabled
                         ?

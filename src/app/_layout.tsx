@@ -8,6 +8,7 @@ import { PortalProvider, PortalHost } from '@gorhom/portal';
 import COMMAND_SQL from '@/SQLite/CommandSQL/commandSQL';
 import CONFIGURATION from '@/constants/сonfiguration';
 import DBManagment from '@/SQLite/DBManagment';
+import { useFonts } from 'expo-font';
 
 
 interface IMainLayout {
@@ -15,6 +16,12 @@ interface IMainLayout {
 }
 
 export const MainLayout: FC<IMainLayout> = ({children}) => {
+
+    const [fontsLoaded] = useFonts({
+		Sport: require('@/source/fonts/BebasNeue.ttf')
+	});
+
+    if (!fontsLoaded) return null;
 
 	return (
         <GestureHandlerRootView style={{flex: 1}} >
@@ -40,7 +47,8 @@ const IndexLayout = () => {
                     headerShown: false
                 }}
             >
-                <Stack.Screen name='index' />
+                <Stack.Screen name='sql' options={{animation: 'ios'}}/>
+                <Stack.Screen name='index' options={{animation: 'ios'}}/>
             </Stack>
         </MainLayout>
     )
@@ -57,7 +65,7 @@ async function migrateDbIfNeeded(db: SQLiteDatabase) {
     if(version?.user_version === undefined) return;
     //if (version.user_version >= DATABASE_VERSION) return;
     //* если версия равна 0 значит она только что создана и можно заволняь ее начальными данными, если надо
-    //if(version.user_version === 0) {
+    if(version.user_version === 0) {
         db.withTransactionAsync(async () => {
             await db.runAsync(`PRAGMA journal_mode = 'wal'`);
 
@@ -72,8 +80,7 @@ async function migrateDbIfNeeded(db: SQLiteDatabase) {
             await DBManagment.addDataStartInTableExercise(db);
             console.log('готово');
         });
-    //}
-
+    }
 
     //* меняем версию базы данных
     await db.runAsync(`PRAGMA user_version = ${DATABASE_VERSION}`);
