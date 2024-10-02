@@ -35,6 +35,10 @@ const Sql: FC = () => {
         await DBManagment.showTableExercise(db);
     }
 
+    const del = async () => {
+        await DBManagment.deleteData(db);
+    }
+
     return (
         <View style={styles.container}>
 
@@ -52,6 +56,10 @@ const Sql: FC = () => {
 
             <View style={styles.button}>
                 <Button title='Tables Exercise' onPress={() => pressShowTableExercise()} />
+            </View>
+            
+            <View style={styles.button}>
+                <Button title='all delete' onPress={() => del()} color={'red'} />
             </View>
 
             <View style={styles.button}>

@@ -7,6 +7,7 @@ import { useHookRouter } from '@/router/useHookRouter';
 import Day from '@/components/Day/Day';
 import Gradient from '@/components/Gradient/Gradient';
 import { icon } from '@/source/icon/icon';
+import DBManagment from '@/SQLite/DBManagment';
 
 import type { IDataDays } from '@/constants/dataDays';
 import { COLOR_ROOT } from '@/constants/colors';
@@ -19,23 +20,19 @@ const Index: FC = () => {
 
     const {appRouter} = useHookRouter();
     const db = useSQLiteContext();
+    console.log('DB = ', db);
 
     /**
      * @param stateDays Массив с данными дней.
      */
     const [stateDays, setStateDays] = useState<Array<IDataDays> | []>([]);
-    
-    /**
-     * Массив элементов карточек с днями тренировак.
-     */
-    const days: JSX.Element[] = stateDays.map((item, i) => <Day day={item} key={i}/>);
 
-    const press = () => {
-        
-    }
 
     useEffect(() => {
         (async () => {
+            const result = await db.getAllAsync(`SELECT name FROM sqlite_master WHERE type='table'`);
+            console.log('Таблицы уже есть = ', result);
+            //if(result.length === 0) return;
             let data: Array<IDataDays> | null = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE__DAYS}`);
             if(data === null) data = [];
             setStateDays(data);
@@ -54,7 +51,11 @@ const Index: FC = () => {
                 </Pressable>
                 <Gradient text='Days Of Training' size={32} />
                 {
-                    days
+                    stateDays.length > 0
+                    ?
+                    stateDays.map((item, i) => <Day day={item} key={i}/>)
+                    :
+                    null
                 }
             </View>
         </WrapperScroll>
@@ -104,3 +105,6 @@ const styles = StyleSheet.create({
 });
 
 export default Index;
+
+
+

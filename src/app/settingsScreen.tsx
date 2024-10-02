@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Button } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import loadDb from '@/SQLite/Backup/loadDb';
+// import loadDb from '@/SQLite/Backup/loadDb';
 import backupDB from '@/SQLite/Backup/backupDB';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { setSliceIsUpdateToggle } from '@/redux/slice/sets.slice';
@@ -25,7 +25,8 @@ const SettingsScreen: FC = () => {
             <TopMenu/>
             <View style={styles.main} >
                 <Sql/>
-                <Text style={styles.text} >Backup Data</Text>
+
+                {/* <Text style={styles.text} >Backup Data</Text>
                 <View style={styles.buttonsBox} >
                     <View style={styles.button} >
                         <Button title='save data' color={COLOR_ROOT.LIME_70} onPress={() => backupDB()}/>
@@ -40,8 +41,9 @@ const SettingsScreen: FC = () => {
                                 }
                             }
                         />
-                    </View>
-                </View>
+                    </View> */}
+
+                {/* </View> */}
             </View>
         </WrapperScroll>
     );

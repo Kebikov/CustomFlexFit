@@ -14,7 +14,7 @@ interface IArrayName {
  * @returns Вывод в console.log() массива имен всех существуюших таблиц, кроме системных.
  */
 
-const showAllTable = async (db: SQLiteDatabase) => {
+const showAllTable = async (db: SQLiteDatabase, comand?: 'get'): Promise<string[] | undefined> => {
 
     const tables: Array<{"name": string}> = await db.getAllAsync(`SELECT name FROM sqlite_master WHERE type='table'`);
     const currentArrayTables: Array<string> = [];
@@ -23,7 +23,12 @@ const showAllTable = async (db: SQLiteDatabase) => {
         if(item.name !== 'sqlite_sequence') currentArrayTables.push(item.name);
     });
 
-    console.info(`Таблицы в ${Configuration.DB_NAME}: `, currentArrayTables);
+    if(comand === 'get') {
+        return currentArrayTables;
+    } else {
+        console.info(`Таблицы в ${Configuration.DB_NAME}: `, currentArrayTables);
+    }
+
 };
 
 export default showAllTable;

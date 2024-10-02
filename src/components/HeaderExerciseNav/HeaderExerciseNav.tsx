@@ -4,19 +4,14 @@ import { useHookRouter } from '@/router/useHookRouter';
 import { icon } from '@/source/icon/icon';
 
 interface IBottomMenu {
-    /**
-     * @function
-     * Изминения состояния выбора упражнения.
-     * - Состояние должно быть от 0 до 2.
-     */
-    setSelectExercise: Function;
+
 }
 
 /**
  * @component
  * `Навигация вверху экрана на экране упражнения`
  */
-const HeaderExerciseNav: FC<IBottomMenu> = ({setSelectExercise}) => {
+const HeaderExerciseNav: FC<IBottomMenu> = () => {
 
     const {appRouter} = useHookRouter();
 
@@ -24,33 +19,10 @@ const HeaderExerciseNav: FC<IBottomMenu> = ({setSelectExercise}) => {
 		<View style={styles.container} >
             <Pressable
                 // Нажатие назад.
-                onPress={() => {
-                        setSelectExercise((state: number) => {
-                            if(state === 0) { 
-                                appRouter.navigate('/');
-                            } else if(0 < state && state < 3) {
-                                return state - 1;
-                            } else {
-                                return state;
-                            }
-                        });
-                }}
+                onPress={() => appRouter.replace('/')}
             >
-                <Image source={icon.arrow_back} style={styles.img} />
-            </Pressable>
-            <Pressable
-                // Нажатие вперед.
-                onPress={() => {
-                    setSelectExercise((state: number) => {
-                        if(0 <= state && state < 2) { 
-                            return state + 1;
-                        } else {
-                            return state;
-                        }
-                    });
-                }}
-            >
-                <Text style={styles.text} >Next Exercise</Text>
+                {/* <Image source={icon.arrow_back} style={styles.img} /> */}
+                <Text>finish and exit</Text>
             </Pressable>
 		</View>
 	);

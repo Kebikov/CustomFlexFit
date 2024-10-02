@@ -1,4 +1,4 @@
-import { View, StyleSheet, ImageBackground, ActivityIndicator, Text } from 'react-native';
+import { View, StyleSheet, ImageBackground, ActivityIndicator, Text, Dimensions } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
 import { IExercise, TExercise } from '@/constants/dataStartExercise';
 import { Gesture, GestureDetector, FlatList } from 'react-native-gesture-handler';
@@ -14,11 +14,13 @@ import UpDownWeight from '@/components/UpDownWeight/UpDownWeight';
 import TimeView from '@/components/TimeView/TimeView';
 import Sets from '@/components/Sets/Sets';
 import HeaderExerciseNav from '@/components/HeaderExerciseNav/HeaderExerciseNav';
-//* SQL
+import ExerciseElement from '@/components/ExerciseElement/ExerciseElement';
 import CONFIGURATION from '@/constants/сonfiguration';
 import { useSQLiteContext } from 'expo-sqlite';
 import { COLOR_ROOT } from '@/constants/colors';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
+import Test from '@/components/Test/Test';
+
 
 export type TNumExercise = 0 | 1 | 2;
 
@@ -29,91 +31,44 @@ export type TNumExercise = 0 | 1 | 2;
  * @returns {JSX.Element}
  */
 const Exercise: FC = () => {
-
     const db = useSQLiteContext();
-
-	// dayExercise - День занятий который propse полученый при переходе, в формате "DAY_1" | "DAY_2" | ...
-    const {dayExercise} = useLocalSearchParams<{dayExercise: string}>();
-    console.log(dayExercise);
-
-	const exerciseValue: Array<TExercise> = ['EXERCISE_1', 'EXERCISE_2', 'EXERCISE_3'];
-	/**
-	 * @param exerciseArray Массив с данными о упражнениях в данный день.
-	 */
-	const exerciseArray = useAppSelector(state => state.setsSlice.exerciseArray); 
-	/**
-	 * Изминения состояния выбора упражнения.
-	 * @param selectExercise - Число которое используется для выбора упражнения из массива.
-	 */
-	const [selectExercise, setSelectExercise] = useState<TNumExercise>(0);
-    const dispatch = useAppDispatch();
     /**
-     * Обьект выбранного упрожнения.
+     * `Ширина экрана телефона.`
      */
-	let exercise = exerciseArray.find(item => item.exercise === exerciseValue[selectExercise]);
+    const windowsWidth = Dimensions.get('window').width;
+	/**
+     * dayExercise - День занятий который propse полученый при переходе, в формате "DAY_1" | "DAY_2" | ...
+     */
+    const {dayExercise} = useLocalSearchParams<{dayExercise: string}>();
+
+    const [currentExercises, setCurrentExercises] = useState<Array<IExercise>>([]);
 
 	useEffect(() => {
         (async () => {
             const data: Array<IExercise> = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_EXERCISE} WHERE day = "${dayExercise}"`);
             console.log(JSON.stringify( data, null, 2));
-
-            dispatch(setSliceExerciseArray(data));
+            setCurrentExercises(data);
         })();
-        return () => {
-            dispatch(setSliceSaveInDataBase());
-        }
 	}, []);
 
 
-    // Обработка свайпов
-    const swipe = Gesture.Pan()
-        .onEnd((e) => {
-            if(e.translationX > 80) {
-                setSelectExercise(state => {
-                    if(state !== undefined && 0 < state) {
-                        return (state - 1) as TNumExercise;
-                    } else {
-                        return state;
-                    }
-                });
-            }
-            if(e.translationX < -80) {
-
-                setSelectExercise(state => {
-                    if(state !== undefined && state < 2) {
-                        return (state + 1) as TNumExercise;
-                    } else {
-                        return state;
-                    }
-                });
-            }
-        });
-
-    if (!exercise) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size='large' color='#0000ff' />
-            </View>
-        );
-    }
-
-    
     return (
         <WrapperScroll>
-            <HeaderExerciseNav setSelectExercise={setSelectExercise} />
-            <GestureDetector gesture={swipe} >
-                <View style={styles.main}>
-                    <ImageBackground source={exercise.img} style={styles.header} >
-                        <DateExercise/>
-                        <View style={styles.numberBox} >
-                            <Text style={styles.numberText} >{selectExercise + 1}</Text>
-                        </View>
-                        <WeightExercise exercise={exercise} />
-                        <UpDownWeight exercise={exercise} />
-                    </ImageBackground>
-                    <Sets exercise={exercise} />
-                </View>
-            </GestureDetector>
+            <HeaderExerciseNav />
+            <View style={{backgroundColor: 'grey', flex: 1}}>
+                <FlatList
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+
+                    data={currentExercises}
+                    renderItem={({item, index}) => <ExerciseElement exercise={item} width={windowsWidth} order={index} />}
+                    keyExtractor={item => String(item.id)}
+                    ListEmptyComponent={<View><Text>Нет элементов.</Text></View>}
+
+                    pagingEnabled
+                    scrollEventThrottle={16}
+                />
+            </View>
             <TimeView givenTime={150} />
         </WrapperScroll>
     );

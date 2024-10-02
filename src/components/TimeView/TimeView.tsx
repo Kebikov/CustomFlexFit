@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
 		gap: 10,
 		paddingHorizontal: 10,
 		marginBottom: 10,
-        //marginTop: 100
+        marginTop: 10
 	},
 	containerBox: {
 		flex: 1,

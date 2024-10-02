@@ -1,4 +1,7 @@
 import * as FileSystem from 'expo-file-system';
+import CONFIGURATION from '@/constants/сonfiguration';
+import * as SQLite from 'expo-sqlite';
+import { SQLiteDatabase } from "expo-sqlite";
 
 /**
  * @function
@@ -8,18 +11,21 @@ import * as FileSystem from 'expo-file-system';
  * @returns Вывод в console.log() содержимого папки с базами данных.
  */
 
-export const deleteData = async (name: string) => {
+export const deleteData = async (db: SQLiteDatabase) => {
 
-	const dbDir = FileSystem.documentDirectory + 'SQLite/';
+    await db.closeAsync();
+    await SQLite.deleteDatabaseAsync(CONFIGURATION.DB_NAME);
 
-	const dirInfo = await FileSystem.getInfoAsync(dbDir + name);
+	// const dbDir = FileSystem.documentDirectory + 'SQLite/';
 
-	if (dirInfo.exists) {
-		await FileSystem.deleteAsync(dbDir + name, { idempotent: true });
-        await FileSystem.deleteAsync(dbDir + name + '-journal', { idempotent: true });
-	}
-    const result = await FileSystem.readDirectoryAsync(dbDir);
-	console.log('Data Base Deleted.', result);
+	// const dirInfo = await FileSystem.getInfoAsync(dbDir + CONFIGURATION.DB_NAME);
+
+	// if (dirInfo.exists) {
+	// 	await FileSystem.deleteAsync(dbDir + CONFIGURATION.DB_NAME, { idempotent: true });
+    //     await FileSystem.deleteAsync(dbDir + CONFIGURATION.DB_NAME + '-journal', { idempotent: true });
+	// }
+    // const result = await FileSystem.readDirectoryAsync(dbDir);
+	console.log('Data Base Deleted.');
 };
 
 export default deleteData;
