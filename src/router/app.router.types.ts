@@ -2,8 +2,12 @@
 
 export type AppRouterTypes = {
     '/': undefined;
-    '/sql': undefined;
+    '/settingsScreen': undefined;
+    '/exercise/[id]': {dayExercise: string}; 
 };
+
+
+
 
 
 export type TTypeToString<T> = {

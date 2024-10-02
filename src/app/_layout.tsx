@@ -42,12 +42,9 @@ const IndexLayout = () => {
 
     return(
         <MainLayout>
-            <Stack
-                screenOptions={{
-                    headerShown: false
-                }}
-            >
-                <Stack.Screen name='sql' options={{animation: 'ios'}}/>
+            <Stack screenOptions={{headerShown: false}} >
+                <Stack.Screen name='exercise/[id]' options={{animation: 'ios'}}/>
+                <Stack.Screen name='settingsScreen' options={{animation: 'ios'}}/>
                 <Stack.Screen name='index' options={{animation: 'ios'}}/>
             </Stack>
         </MainLayout>
@@ -58,17 +55,14 @@ async function migrateDbIfNeeded(db: SQLiteDatabase) {
     const DATABASE_VERSION = 1;
     //* получаем версию BD
     let version = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
-    console.log('SQLiteProvider: ', version?.user_version);
-    //const result: boolean = await deleteData();
-	//const result: boolean = await createData();
     //* если версия равна или больше чем DATABASE_VERSION, то ни чего не делаем
     if(version?.user_version === undefined) return;
     //if (version.user_version >= DATABASE_VERSION) return;
     //* если версия равна 0 значит она только что создана и можно заволняь ее начальными данными, если надо
     if(version.user_version === 0) {
         db.withTransactionAsync(async () => {
+            // включени более эфективного режима работы BD
             await db.runAsync(`PRAGMA journal_mode = 'wal'`);
-
             // Создание таблицы с днями.
             await db.runAsync(COMMAND_SQL.createTableDays);
             // Создание таблицы с упражнениями.
@@ -78,10 +72,8 @@ async function migrateDbIfNeeded(db: SQLiteDatabase) {
             await DBManagment.addDataStartInTableDays();
             // внесение начальных данных в таблицу Exercise
             await DBManagment.addDataStartInTableExercise(db);
-            console.log('готово');
         });
     }
-
     //* меняем версию базы данных
     await db.runAsync(`PRAGMA user_version = ${DATABASE_VERSION}`);
 }

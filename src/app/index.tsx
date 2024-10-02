@@ -1,9 +1,8 @@
-import { View, Text, StyleSheet, ImageBackground, Platform, Button, Image, Pressable } from 'react-native';
+import { View, StyleSheet, Button, Image, Pressable } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import { useSQLiteContext } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
-import DBManagment from '@/SQLite/DBManagment';
 import { useHookRouter } from '@/router/useHookRouter';
 import Day from '@/components/Day/Day';
 import Gradient from '@/components/Gradient/Gradient';
@@ -25,14 +24,14 @@ const Index: FC = () => {
      * @param stateDays Массив с данными дней.
      */
     const [stateDays, setStateDays] = useState<Array<IDataDays> | []>([]);
-    console.log(stateDays);
+    
     /**
      * Массив элементов карточек с днями тренировак.
      */
     const days: JSX.Element[] = stateDays.map((item, i) => <Day day={item} key={i}/>);
 
     const press = () => {
-        appRouter.navigate('/sql');
+        
     }
 
     useEffect(() => {
@@ -47,16 +46,11 @@ const Index: FC = () => {
     return (
         <WrapperScroll backgroundColor={COLOR_ROOT.BACKGROUND} >
             <View style={styles.main} > 
-
-                <View style={styles.button}>
-                    <Button title='переход' onPress={() => press()} />
-                </View>
-
                 <Pressable
                     style={styles.settingsBox}
-                    //onPress={() => navigate('SettingsScreen')}
+                    onPress={() => appRouter.navigate('/settingsScreen')}
                 >
-                    <Image source={icon.settings_icon} style={styles.settingsImg} />
+                    <Image source={icon.menu} style={styles.settingsImg} />
                 </Pressable>
                 <Gradient text='Days Of Training' size={32} />
                 {
@@ -95,13 +89,14 @@ const styles = StyleSheet.create({
     settingsBox: {
         position: 'absolute',
         zIndex: 1,
-        top: 20,
-        right: 20,
+        top: 5,
+        left: 20,
         width: 45,
         height: 45,
         padding: 5
     },
     settingsImg: {
+        tintColor: 'white',
         resizeMode: 'contain',
         width: '100%',
         height: '100%'

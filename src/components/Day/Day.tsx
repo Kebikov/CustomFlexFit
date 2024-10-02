@@ -7,13 +7,14 @@ import { useAppDispatch } from '@/redux/store/hooks';
 import { setSliceCurrentDaysId } from '@/redux/slice/sets.slice';
 import { useHookRouter } from '@/router/useHookRouter';
 
+
 interface IDay {
 	day: IDataDays;
 }
 
 /**
  * @component
- * Карточка дня занятий.
+ * `Карточка дня занятий.`
  * @returns {JSX.Element}
  */
 //= Day 
@@ -27,8 +28,7 @@ const Day: FC<IDay> = ({ day }) => {
 		<Pressable
 			onPress={() => {
                 dispatch(setSliceCurrentDaysId(day.id));
-                
-				// navigate('ExerciseScreen', { day: day.day});
+                appRouter.navigate({pathname: '/exercise/[id]', params: {dayExercise: day.day}})
 			}}
 			style={style.main}
 		>

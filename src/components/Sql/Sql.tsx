@@ -36,40 +36,39 @@ const Sql: FC = () => {
     }
 
     return (
-        <WrapperScroll>
-            <View style={styles.container}>
+        <View style={styles.container}>
 
-                <View style={styles.button}>
-                    <Button title='DB' onPress={() => pressDB()} />
-                </View>
-
-                <View style={styles.button}>
-                    <Button title='All tables DB' onPress={() => pressDBT()} />
-                </View>
-
-                <View style={styles.button}>
-                    <Button title='Tables Days' onPress={() => pressShowDays()} />
-                </View>
-
-                <View style={styles.button}>
-                    <Button title='Tables Exercise' onPress={() => pressShowTableExercise()} />
-                </View>
-
-                <View style={styles.button}>
-                    <Button title='Действие' onPress={() => press()} />
-                </View>
-
+            <View style={styles.button}>
+                <Button title='DB' onPress={() => pressDB()} />
             </View>
-        </WrapperScroll>
+
+            <View style={styles.button}>
+                <Button title='All tables DB' onPress={() => pressDBT()} />
+            </View>
+
+            <View style={styles.button}>
+                <Button title='Tables Days' onPress={() => pressShowDays()} />
+            </View>
+
+            <View style={styles.button}>
+                <Button title='Tables Exercise' onPress={() => pressShowTableExercise()} />
+            </View>
+
+            <View style={styles.button}>
+                <Button title='Действие' onPress={() => press()} />
+            </View>
+
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 10
+        padding: 10,
+        marginBottom: 20
     },
     button: { 
         width: '100%',
