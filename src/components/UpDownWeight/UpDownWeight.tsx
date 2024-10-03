@@ -2,13 +2,13 @@ import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import { icon } from '@/source/icon/icon';
-import { IExercise, TIsUp } from '@/constants/dataStartExercise';
+import type { ExerciseDTO, TIsUp } from '@/SQLite/exercise/DTO/exercise.dto'; 
 //* redux
 import { useAppDispatch } from '@/redux/store/hooks';
 import { setSliceChangeExerciseInArray } from '@/redux/slice/sets.slice';
 
 interface IUpDownWeight {
-    exercise: IExercise;
+    exercise: ExerciseDTO;
 }
 
 /**

@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import React, { FC } from 'react';
-import { IExercise } from '@/constants/dataStartExercise';
+import type { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
 //* component
 import Set from '@/components/Set/Set';
 
@@ -8,7 +8,7 @@ interface ISets {
     /**
      * Обьект с упражнением.
      */
-    exercise: IExercise;
+    exercise: ExerciseDTO;
 }
 
 

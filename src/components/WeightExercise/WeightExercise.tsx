@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import React, { FC, useState } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import { IExercise } from '@/constants/dataStartExercise';
+import type { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 //* helpers
 import calculationTotalWeight from '@/helpers/calculationTotalWeight';
@@ -12,7 +12,7 @@ interface IWeightExercise {
     /**
      * Обьект упражнения.
      */
-    exercise: IExercise;
+    exercise: ExerciseDTO;
 }
 
 //= WeightExercise

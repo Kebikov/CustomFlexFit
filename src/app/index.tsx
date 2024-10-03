@@ -1,4 +1,4 @@
-import { View, StyleSheet, Button, Image, Pressable } from 'react-native';
+import { View, StyleSheet, Image, Pressable } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import { useSQLiteContext } from 'expo-sqlite';
@@ -7,9 +7,8 @@ import { useHookRouter } from '@/router/useHookRouter';
 import Day from '@/components/Day/Day';
 import Gradient from '@/components/Gradient/Gradient';
 import { icon } from '@/source/icon/icon';
-import DBManagment from '@/SQLite/DBManagment';
 
-import type { IDataDays } from '@/constants/dataDays';
+import type { DaysDTOomitId } from '@/SQLite/days/DTO/days.dto';
 import { COLOR_ROOT } from '@/constants/colors';
 
 
@@ -17,23 +16,19 @@ import { COLOR_ROOT } from '@/constants/colors';
  * @page Стартовая страница приложения. 
  */
 const Index: FC = () => {
-
+    console.log(2);
     const {appRouter} = useHookRouter();
     const db = useSQLiteContext();
-    console.log('DB = ', db);
 
     /**
      * @param stateDays Массив с данными дней.
      */
-    const [stateDays, setStateDays] = useState<Array<IDataDays> | []>([]);
+    const [stateDays, setStateDays] = useState<Array<DaysDTOomitId> | []>([]);
 
 
     useEffect(() => {
         (async () => {
-            const result = await db.getAllAsync(`SELECT name FROM sqlite_master WHERE type='table'`);
-            console.log('Таблицы уже есть = ', result);
-            //if(result.length === 0) return;
-            let data: Array<IDataDays> | null = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE__DAYS}`);
+            let data: Array<DaysDTOomitId> | null = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE__DAYS}`);
             if(data === null) data = [];
             setStateDays(data);
         })();

@@ -21,10 +21,10 @@ const checkExistenceDataBase = async (): Promise<boolean> => {
 	 */
 	const dirInfo = await FileSystem.getInfoAsync(dbDir + Configuration.DB_NAME);
 	if (dirInfo.exists) {
-        console.log(`База данных ${Configuration.DB_NAME} сушествует.`);
+        console.info(`База данных ${Configuration.DB_NAME} сушествует.`);
 		return true;
 	} else {
-        console.log(`База данных ${Configuration.DB_NAME} не сушествует.`);
+        console.info(`База данных ${Configuration.DB_NAME} не сушествует.`);
 		return false;
 	}
 };

@@ -1,9 +1,8 @@
-import { DATA_START_EXERCISE, IExercise } from "@/constants/dataStartExercise";
-import Configuration from "../../constants/сonfiguration";
-import checkExistenceDataBase from "./checkExistenceDataBase";
-import * as SQLite from 'expo-sqlite';
+import { DATA_START_EXERCISE } from "@/constants/dataExercise";
+import type { ExerciseDTOomitId } from "../exercise/DTO/exercise.dto";
+import type { SQLiteDatabase } from "expo-sqlite";
 import checkDataExistenceInTable from "./checkDataExistenceInTable";
-import CONFIGURATION from "../../constants/сonfiguration";
+import CONFIGURATION from "@/constants/сonfiguration";
 
 
 
@@ -13,11 +12,11 @@ import CONFIGURATION from "../../constants/сonfiguration";
  * @param data Массив обьектов занятий, при его передаче данные устанавливаются с него.
  * @example await addDataStartInTableExercise()
  */
-const addDataStartInTableExercise = async (db:SQLite.SQLiteDatabase, data?: IExercise[]): Promise<void> => {
+const addDataStartInTableExercise = async (db: SQLiteDatabase, data?: ExerciseDTOomitId[]): Promise<void> => {
     /**
      * Команда для SQL по добавлению данных.
      */
-    let commandStart: string = `INSERT INTO ${Configuration.TABLE_EXERCISE} 
+    let commandStart: string = `INSERT INTO ${CONFIGURATION.TABLE_EXERCISE} 
         (day, exercise, title, description, weightNeck, weightOne, weightTwo, amount, amountExercise, isUp, img, burpee) 
         VALUES `;
 
@@ -33,7 +32,7 @@ const addDataStartInTableExercise = async (db:SQLite.SQLiteDatabase, data?: IExe
      * @param dataTable Массив обьектов упражнений.
      * @returns {string} Вернет сформированную команду строкой.
      */
-    function handleCommand(dataTable: IExercise[], command: string): string {
+    function handleCommand(dataTable: ExerciseDTOomitId[], command: string): string {
         dataTable.forEach(item => {
             command += `(
                 "${item.day}", 
@@ -59,7 +58,7 @@ const addDataStartInTableExercise = async (db:SQLite.SQLiteDatabase, data?: IExe
     const isDataExistence = await checkDataExistenceInTable(db, CONFIGURATION.TABLE_EXERCISE);
 
     if(!isDataExistence) {
-        await db.runAsync(command);
+        await db.execAsync(command);
     }
 
 }

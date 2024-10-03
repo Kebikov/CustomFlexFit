@@ -1,12 +1,10 @@
-import { IExercise } from '@/constants/dataStartExercise';
+import type { ExerciseDTO } from "./exercise/DTO/exercise.dto";
 import checkExistenceDataBase from "./DBManagment/checkExistenceDataBase";
 import viewFolders from "./DBManagment/viewFolders";
 import deleteData from "./DBManagment/deleteData";
 import showAllTable from "./DBManagment/showAllTable";
 import addDataStartInTableDays from "./DBManagment/addDataStartInTableDays";
 import addDataStartInTableExercise from "./DBManagment/addDataStartInTableExercise";
-import showTableExercise from './DBManagment/showTableExercise';
-import showTableDays from './DBManagment/showTableDays';
 import { SQLiteDatabase } from "expo-sqlite";
 import checkDataExistenceInTable from './DBManagment/checkDataExistenceInTable';
 
@@ -30,21 +28,11 @@ interface IDBManagment {
     checkDataExistenceInTable: (db: SQLiteDatabase, table: string) => Promise<boolean>;
 
     /**
-     * `Вывод в консоль данных таблицы CONFIGURATION.TABLE__DAYS`
-     */
-    showTableDays: (db: SQLiteDatabase) => Promise<void>;
-
-    /**
-     * `Вывод в консоль данных таблицы CONFIGURATION.TABLE_EXERCISE`
-     */
-    showTableExercise: (db: SQLiteDatabase) => Promise<void>;
-
-    /**
      * @function
      * Удаление данных.
      * @param name Имя для удаления.
      * @example await deleteDataBase(name)
-     * @returns Вывод в console.log() содержимого папки с базами данных.
+     * @returns Вывод в console содержимого папки с базами данных.
      */
     deleteData: (db: SQLiteDatabase) => Promise<void>;
 
@@ -52,9 +40,9 @@ interface IDBManagment {
      * @function
      * Показ всех сушествуюших таблиц в базе данных.
      * @example await showAllTable()
-     * @returns Вывод в console.log() массива имен всех существуюших таблиц, кроме системных.
+     * @returns Вывод в console массива имен всех существуюших таблиц, кроме системных.
      */
-    showAllTable: (db: SQLiteDatabase, comand?: 'get') => Promise<string | undefined>;
+    showAllTable: (db: SQLiteDatabase, comand?: 'get') => Promise<string[] | undefined>;
     /**
      * `Добавление начальных данных в таблицу с именем "Configuration.TABLE__DAYS".`
      * @example await addDataStartInTableDays()
@@ -64,14 +52,12 @@ interface IDBManagment {
      * `Добавление начальных данных в таблицу с именем "Configuration.TABLE_EXERCISE".`
      * @example await addDataStartInTableExercise()
      */
-    addDataStartInTableExercise: (db: SQLiteDatabase, data?: IExercise[]) => Promise<void>;
+    addDataStartInTableExercise: (db: SQLiteDatabase, data?: ExerciseDTO[]) => Promise<void>;
 
 }
 
 
 const DBManagment: IDBManagment = {
-    showTableDays,
-    showTableExercise,
     checkExistenceDataBase,
     viewFolders,
     deleteData,

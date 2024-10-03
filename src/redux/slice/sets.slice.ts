@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { TDay } from '@/constants/dataDays';
+import type { DaysDTO } from '@/SQLite/days/DTO/days.dto';
 import { RootState } from '../store/store';
-import { IExercise, TExercise } from '@/constants/dataStartExercise';
+import type { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
 
 import DBManagment from '@/SQLite/DBManagment';
 import updateTableDays from '@/SQLite/DBManagment/updateTableDays';
@@ -40,7 +40,7 @@ export interface ISlice {
     /**
      * Массив с обьектами занятий.
      */
-    exerciseArray: IExercise[] | [];
+    exerciseArray: ExerciseDTO[] | [];
     /**
      * Массив строк, строки являются уникальными значениями для упражнения.
      * - Формируются так, титульное название упражнения + количество подходов.
@@ -49,15 +49,15 @@ export interface ISlice {
     pushSetId: Array<string>;
 }
 
-interface IChangeExercise extends Partial<IExercise> {
+interface IChangeExercise extends Partial<ExerciseDTO> {
     /**
      * День в котором меняем упражнение.
      */
-    day: TDay;
+    day: number;
     /**
      * Упражнение которое меняем.
      */
-    exercise: TExercise;
+    exercise: number;
 
 }
 

@@ -12,7 +12,6 @@ import showAllTable from "./showAllTable";
  */
 const addDataStartInTableDays = async (db: SQLiteDatabase, data: IDataDays[] | null = null) => {
     try{
-        console.log('addDataStartInTableDays');
         /**
          * Команда для SQL по добавлению данных.
          */
@@ -30,25 +29,18 @@ const addDataStartInTableDays = async (db: SQLiteDatabase, data: IDataDays[] | n
 
         // Удаление зарпятой в конце команды.
         let command = commandStart.slice(0, -1);
-        console.log(command);
         const isExistTable = await checkExistenceDataBase();
-        console.log(6);
         if (!isExistTable) {
             console.info(`База данных ${CONFIGURATION.DB_NAME} не сушествует.`);
             return;
         }
-        console.log(7);
         const days = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE__DAYS}`);
-        console.log(days);
-        console.log('Tablesss = ', await showAllTable(db, 'get'));
+
         if(days.length === 0) {
-            console.log(8);
-            const result = await db.runAsync(command);
-            console.log(9, result);
-            console.log('addDataStartInTableDays = ', result.changes);
+            await db.execAsync(command);
         }
     } catch(error) {
-        console.log('Error in addDataStartInTableDays >>> ',  error);
+        console.error('Error in addDataStartInTableDays >>> ',  error);
         throw error;
     }
 

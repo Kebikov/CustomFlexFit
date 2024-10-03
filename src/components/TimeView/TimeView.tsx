@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, type LayoutChangeEvent, Platform } from 'react-native';
 import React, { FC } from 'react';
 import { Svg, Circle, G } from 'react-native-svg';
 import { useState, useEffect } from 'react';
@@ -29,6 +29,10 @@ interface ITimerView {
 const TimeView: FC<ITimerView> = ({ givenTime }) => {
 
     const dispatch = useAppDispatch();
+    /**
+     * @param heightTime Высота блока с текстом таймера.
+     */
+    const [heightTime, setHeightTime] = useState<number>(0);
 	/**
 	 * @param balanceTime - Остаток времени работы таймера в секундах.
 	 */
@@ -98,14 +102,20 @@ const TimeView: FC<ITimerView> = ({ givenTime }) => {
     const stopSound = async () => {
         try {
             if(soundPlay) {
-                console.log(soundPlay);
                 await soundPlay.unloadAsync();
             }
         } catch(error) {
             console.error('Error in funtion "stopSound" >>> ', error);
         }
     }
-
+    /**
+     * `Определение и установка высоты блока текста с таймером.`
+     * @param event 
+     */
+    const onLayoutContainerText = (event: LayoutChangeEvent) => {
+        const { height } = event.nativeEvent.layout;
+        setHeightTime(height);
+    }
 
 
     useEffect(() => {
@@ -158,23 +168,26 @@ const TimeView: FC<ITimerView> = ({ givenTime }) => {
             >
 				<Text style={styles.text}>START</Text>
 			</Pressable>
-
-			<Svg width={size} height={size}>
-				<G rotation={'-90'} origin={center}>
-					<Circle stroke={COLOR_ROOT.LIGHT_GREY} cx={center} cy={center} r={radius} fill={'transparent'} strokeWidth={strokeWidthColor} />
-					<Circle
-						stroke={COLOR_ROOT.BACKGROUND}
-						cx={center}
-						cy={center}
-						r={radius}
-						fill={'transparent'}
-						strokeWidth={strokeWidth}
-						strokeDasharray={circumference}
-						strokeDashoffset={circumference - (circumference * positionProgressInCircle * step) / 100}
-					/>
-				</G>
-				<Text style={[styles.text, styles.absoluteCenter]}>{transferSecInTime(balanceTime)}</Text>
-			</Svg>
+            <View style={styles.containerCircle} >
+                <Svg width={size} height={size}>
+                    <G rotation={'-90'} origin={center}>
+                        <Circle stroke={COLOR_ROOT.LIGHT_GREY} cx={center} cy={center} r={radius} fill={'transparent'} strokeWidth={strokeWidthColor} />
+                        <Circle
+                            stroke={COLOR_ROOT.BACKGROUND}
+                            cx={center}
+                            cy={center}
+                            r={radius}
+                            fill={'transparent'}
+                            strokeWidth={strokeWidth}
+                            strokeDasharray={circumference}
+                            strokeDashoffset={circumference - (circumference * positionProgressInCircle * step) / 100}
+                        />
+                    </G>
+                </Svg>
+                <View style={[styles.containerText, {marginTop: heightTime === 0 ? 0 : -1 * heightTime / 2}]} onLayout={onLayoutContainerText} >
+                    <Text style={[styles.text]}>{transferSecInTime(balanceTime)}</Text>
+                </View>
+            </View>
 
             <Pressable 
                 style={styles.containerBox}
@@ -211,17 +224,21 @@ const styles = StyleSheet.create({
 
 		backgroundColor: COLOR_ROOT.GREY
 	},
+    containerCircle: {
+        position: 'relative'
+    },
+    containerText: {
+        position: 'absolute',
+        top: '50%',
+        width: '100%'
+    },
 	text: {
 		fontFamily: 'Sport',
 		color: 'white',
 		fontSize: 30,
-		paddingVertical: 3,
-		textAlign: 'center'
-	},
-	absoluteCenter: {
-		position: 'absolute',
-		top: 43,
-		left: 35
+		paddingTop: 3,
+        paddingBottom: Platform.OS === 'ios' ? 1 : 2,
+		textAlign: 'center',
 	}
 });
 

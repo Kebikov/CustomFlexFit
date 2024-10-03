@@ -1,5 +1,5 @@
 import Configuration from '@/constants/сonfiguration';
-import { IExercise } from '@/constants/dataStartExercise';
+import { IExercise } from '@/constants/dataExercise';
 import inset from './inset';
 
 /**

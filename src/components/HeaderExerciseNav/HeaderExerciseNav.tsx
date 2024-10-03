@@ -21,8 +21,7 @@ const HeaderExerciseNav: FC<IBottomMenu> = () => {
                 // Нажатие назад.
                 onPress={() => appRouter.replace('/')}
             >
-                {/* <Image source={icon.arrow_back} style={styles.img} /> */}
-                <Text>finish and exit</Text>
+                <Text style={styles.text} >finish and exit</Text>
             </Pressable>
 		</View>
 	);
@@ -45,7 +44,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'Sport',
         fontSize: 18,
-        marginRight: 10
+        marginLeft: 10
     }
 });
 

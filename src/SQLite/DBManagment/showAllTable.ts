@@ -11,7 +11,7 @@ interface IArrayName {
  * @function
  * Показ всех сушествуюших таблиц в базе данных.
  * @example await showAllTable()
- * @returns Вывод в console.log() массива имен всех существуюших таблиц, кроме системных.
+ * @returns Вывод в console массива имен всех существуюших таблиц, кроме системных.
  */
 
 const showAllTable = async (db: SQLiteDatabase, comand?: 'get'): Promise<string[] | undefined> => {

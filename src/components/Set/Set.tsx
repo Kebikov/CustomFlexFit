@@ -6,7 +6,7 @@ import { Audio } from 'expo-av';
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import { setSlicePushSetId, setSliceIsStartTimer } from '@/redux/slice/sets.slice';
 import { useDispatch } from 'react-redux';
-import { IExercise } from '@/constants/dataStartExercise';
+import type { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
 import ModalForAmount from '@/components/ModalForAmount/ModalForAmount';
 
 export type TId = '0' | '1' | '2' | 'burpee';
@@ -19,7 +19,7 @@ interface ISet {
     /**
      * Обьект упражнения.
      */
-    exercise: IExercise;
+    exercise: ExerciseDTO;
     /**
      * Уникальное имя поля.
      * - Формируется как обшее название упражнения + номер по очередности.

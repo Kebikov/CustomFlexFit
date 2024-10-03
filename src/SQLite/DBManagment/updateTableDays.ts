@@ -33,7 +33,7 @@ const updateTableDays = async (data: IUpdateTableDays): Promise<boolean> => {
         return true;
 
     }catch (error) {
-        console.log('Error in Function updateTableDays >>> ', error);
+        console.error('Error in Function updateTableDays >>> ', error);
         return false;
     }
 }

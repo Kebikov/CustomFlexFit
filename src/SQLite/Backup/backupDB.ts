@@ -2,7 +2,7 @@ import * as FileSystem from 'expo-file-system';
 // import select from '../DBManagment/select';
 // import Configuration from '../../constants/сonfiguration';
 // import { IDataDays } from '@/data/dataDays';
-// import { IExercise } from '@/data/dataStartExercise';
+// import { IExercise } from '@/data/dataExercise';
 // import { ToastAndroid } from 'react-native';
 
 /**
@@ -46,7 +46,7 @@ const backupDB = async () => {
 
 
 	// } catch (error) {
-	// 	console.log('Error in Function "backupDB" >>>  ', error);
+	// 	console.error('Error in Function "backupDB" >>>  ', error);
 	// }
 };
 

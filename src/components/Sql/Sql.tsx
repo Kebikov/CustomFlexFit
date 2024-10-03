@@ -1,15 +1,19 @@
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet, Button, Platform } from 'react-native';
 import React, { FC } from 'react';
-import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import { useSQLiteContext } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
 import DBManagment from '@/SQLite/DBManagment';
+import ButtonPress from '../ButtonPress/ButtonPress';
+import Days from '@/SQLite/days/modules/Days';
+import Exercise from '@/SQLite/exercise/modules/Exercise';
+
+
+const colorBlue = '#007aeb';
+const colorRed = 'rgba( 241, 50, 43, .9)';
 
 
 /**
  * @component
- * @example 
- * @returns {JSX.Element}
  */
 const Sql: FC = () => {
 
@@ -24,47 +28,32 @@ const Sql: FC = () => {
     }
 
     const press = async () => {
-        await DBManagment.checkDataExistenceInTable(db, CONFIGURATION.TABLE_EXERCISE);
+        console.info('test press');
     }
 
     const pressShowDays = async () => {
-        await DBManagment.showTableDays(db);
+        await Days.showTableInConsole(db);
     }
 
     const pressShowTableExercise = async () => {
-        await DBManagment.showTableExercise(db);
+        await Exercise.showTableInConsole(db);
     }
 
     const del = async () => {
         await DBManagment.deleteData(db);
     }
 
+
+
     return (
         <View style={styles.container}>
 
-            <View style={styles.button}>
-                <Button title='DB' onPress={() => pressDB()} />
-            </View>
-
-            <View style={styles.button}>
-                <Button title='All tables DB' onPress={() => pressDBT()} />
-            </View>
-
-            <View style={styles.button}>
-                <Button title='Tables Days' onPress={() => pressShowDays()} />
-            </View>
-
-            <View style={styles.button}>
-                <Button title='Tables Exercise' onPress={() => pressShowTableExercise()} />
-            </View>
-            
-            <View style={styles.button}>
-                <Button title='all delete' onPress={() => del()} color={'red'} />
-            </View>
-
-            <View style={styles.button}>
-                <Button title='Действие' onPress={() => press()} />
-            </View>
+            <ButtonPress title='check DB' onPress={pressDB} />
+            <ButtonPress title='All tables DB' onPress={pressDBT} />
+            <ButtonPress title='Tables Days' onPress={pressShowDays} />
+            <ButtonPress title='Tables Exercise' onPress={pressShowTableExercise} />
+            <ButtonPress title='all delete' onPress={del} type='dangerous' />
+            <ButtonPress title='действие' onPress={press} />
 
         </View>
     );
@@ -77,10 +66,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 10,
         marginBottom: 20
-    },
-    button: { 
-        width: '100%',
-        marginTop: 10 
     }
 });
 

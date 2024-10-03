@@ -5,10 +5,10 @@ import DateExercise from '@/components/DateExercise/DateExercise';
 import WeightExercise from '@/components/WeightExercise/WeightExercise';
 import UpDownWeight from '@/components/UpDownWeight/UpDownWeight';
 import Sets from '@/components/Sets/Sets';
-import type { IExercise, TExercise } from '@/constants/dataStartExercise';
+import type { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
 
 interface IExerciseElement {
-    exercise: IExercise;
+    exercise: ExerciseDTO;
     width: number;
     order: number;
 }

@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { setSliceChangeExerciseInArray } from '@/redux/slice/sets.slice';
-import { IExercise } from '@/constants/dataStartExercise';
+import type { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
 
 export interface IModalForAmountExercise {
 	/**
@@ -17,7 +17,7 @@ export interface IModalForAmountExercise {
 	/**
 	 * Обьект упражнения.
 	 */
-	exercise: IExercise;
+	exercise: ExerciseDTO;
 }
 
 /**
@@ -29,7 +29,6 @@ export interface IModalForAmountExercise {
  * @example <ModalForAmountExercise modalVisible={#} setModalVisible={#} exercise={#} />
  * @returns {JSX.Element}
  */
-//= ModalForAmountExercise
 const ModalForAmountExercise: FC<IModalForAmountExercise> = ({ modalVisible, setModalVisible, exercise }) => {
 	const dispatch = useAppDispatch();
 

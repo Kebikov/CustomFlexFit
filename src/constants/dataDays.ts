@@ -1,49 +1,12 @@
-export type TDay = 'DAY_1' | 'DAY_2' | 'DAY_3' | 'DAY_4' | 'DAY_5';
+import { DaysDTO } from "@/SQLite/days/DTO/days.dto";
+
 
 /**
- * @interface
- * Обьект одного дня занятий на стартовой странице.
+ * `Начальные данные дней занятий.`
  */
-export interface IDataDays {
-    /**
-     * Id текушей записи в таблице.
-     */
-    id?: number;
-    /**
-     * День занятий.
-     * @example "DAY_1" | "DAY_2"  | ...
-     */
-    day: TDay;
-    /**
-     * Изображение фоновое.
-     */
-    img: number;
-    /**
-     * Дата последнего занятия по данной программе.
-     * @example "23.12.2023"
-     */
-    date: string;
-    /**
-     * Титульное название для дня занятий.
-     */
-    title: string;
-    /**
-     * Описание для дня занятий, внизу блока.
-     */
-    description: string;
-    /**
-     * Последний ли это день по которому занимался.
-     * @example 0-false, 1-true
-     */
-    lastExercise: number;
-}
-
-/**
- * Массив данный для элементов дней занятий.
- */
-export const DATA_DAYS: Array<IDataDays> = [
+export const DATA_DAYS: Array<Omit<DaysDTO, 'id'>> = [
     {
-        day: 'DAY_1',
+        day: 1,
         img: require(`@/source/img/daysScreen/daysScreen_1.jpg`),
         date: '16.01.2024',
         title: 'Day One',
@@ -51,7 +14,7 @@ export const DATA_DAYS: Array<IDataDays> = [
         lastExercise: 0
     },
     {
-        day: 'DAY_2',
+        day: 2,
         img: require(`@/source/img/daysScreen/daysScreen_2.jpg`),
         date: '17.01.2024',
         title: 'Day Two',
@@ -59,7 +22,7 @@ export const DATA_DAYS: Array<IDataDays> = [
         lastExercise: 0
     },
     {
-        day: 'DAY_3',
+        day: 3,
         img: require(`@/source/img/daysScreen/daysScreen_3.jpg`),
         date: '19.01.2024',
         title: 'Day Three',
@@ -67,7 +30,7 @@ export const DATA_DAYS: Array<IDataDays> = [
         lastExercise: 0
     },
     {
-        day: 'DAY_4',
+        day: 4,
         img: require(`@/source/img/daysScreen/daysScreen_4.jpg`),
         date: '21.01.2024',
         title: 'Day Four',
@@ -75,7 +38,7 @@ export const DATA_DAYS: Array<IDataDays> = [
         lastExercise: 0
     },
     {
-        day: 'DAY_5',
+        day: 5,
         img: require(`@/source/img/daysScreen/daysScreen_5.jpg`),
         date: '23.01.2024',
         title: 'Day Five',

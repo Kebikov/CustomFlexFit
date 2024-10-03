@@ -1,25 +1,20 @@
-import { View, StyleSheet, ImageBackground, ActivityIndicator, Text, Dimensions } from 'react-native';
+import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
-import { IExercise, TExercise } from '@/constants/dataStartExercise';
-import { Gesture, GestureDetector, FlatList } from 'react-native-gesture-handler';
+import { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
+import { FlatList } from 'react-native-gesture-handler';
 //* redux
 import { useAppDispatch, useAppSelector } from '@/redux/store/hooks';
 import { setSliceExerciseArray } from '@/redux/slice/sets.slice';
 import { setSliceSaveInDataBase } from '@/redux/slice/sets.slice';
 import { useLocalSearchParams } from 'expo-router';
 //* component
-import DateExercise from '@/components/DateExercise/DateExercise';
-import WeightExercise from '@/components/WeightExercise/WeightExercise';
-import UpDownWeight from '@/components/UpDownWeight/UpDownWeight';
 import TimeView from '@/components/TimeView/TimeView';
-import Sets from '@/components/Sets/Sets';
 import HeaderExerciseNav from '@/components/HeaderExerciseNav/HeaderExerciseNav';
 import ExerciseElement from '@/components/ExerciseElement/ExerciseElement';
 import CONFIGURATION from '@/constants/сonfiguration';
 import { useSQLiteContext } from 'expo-sqlite';
 import { COLOR_ROOT } from '@/constants/colors';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
-import Test from '@/components/Test/Test';
 
 
 export type TNumExercise = 0 | 1 | 2;
@@ -41,12 +36,11 @@ const Exercise: FC = () => {
      */
     const {dayExercise} = useLocalSearchParams<{dayExercise: string}>();
 
-    const [currentExercises, setCurrentExercises] = useState<Array<IExercise>>([]);
+    const [currentExercises, setCurrentExercises] = useState<Array<ExerciseDTO>>([]);
 
 	useEffect(() => {
         (async () => {
-            const data: Array<IExercise> = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_EXERCISE} WHERE day = "${dayExercise}"`);
-            console.log(JSON.stringify( data, null, 2));
+            const data: Array<ExerciseDTO> = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_EXERCISE} WHERE day = "${dayExercise}"`);
             setCurrentExercises(data);
         })();
 	}, []);
