@@ -6,18 +6,22 @@ import store from '@/redux/store/store';
 import { Stack } from 'expo-router';
 import { PortalProvider, PortalHost } from '@gorhom/portal';
 import CONFIGURATION from '@/constants/сonfiguration';
-import DBManagment from '@/SQLite/DBManagment';
+import DBManagment from '@/SQLite/database/service/database.service';
 import { useFonts } from 'expo-font';
-import showAllTable from '@/SQLite/DBManagment/showAllTable';
 import * as SplashScreen from 'expo-splash-screen';
-import Days from '@/SQLite/days/modules/Days';
-import Exercise from '@/SQLite/exercise/modules/Exercise';
+
+import dayService from '@/SQLite/day/service/day.service';
+import exerciseService from '@/SQLite/exercise/service/exercise.service';
+import databaseService from '@/SQLite/database/service/database.service';
+
 
 SplashScreen.preventAutoHideAsync();
+
 
 interface IMainLayout {
     children?: JSX.Element | JSX.Element[] | undefined;
 }
+
 
 export const MainLayout: FC<IMainLayout> = ({children}) => {
 
@@ -67,25 +71,22 @@ async function migrateDbIfNeeded(db: SQLiteDatabase) {
     try{
         const DATABASE_VERSION = 1;
         //* получаем версию BD
-        let version = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
+        let version = await databaseService.getVersion(db);
         //* если версия равна или больше чем DATABASE_VERSION, то ни чего не делаем
-        if(version?.user_version === undefined) return;
+        if(!version) return;
         //if (version.user_version >= DATABASE_VERSION) return;
         //* если версия равна 0 значит она только что создана и можно заволняь ее начальными данными, если надо
-        if(version.user_version === 0) {
+        if(version === 0) {
             await db.withExclusiveTransactionAsync(async () => {
-                // включени более эфективного режима работы BD
-                await db.runAsync(`PRAGMA journal_mode = 'wal'`);
-                await Days.createTable(db);
-                await Exercise.createTable(db);
-                // внесение начальных данных в таблицу Days
-                await DBManagment.addDataStartInTableDays(db);
-                // внесение начальных данных в таблицу Exercise
-                await DBManagment.addDataStartInTableExercise(db);
+                await databaseService.connectionModeWal(db);
+                await dayService.createTable(db);
+                await exerciseService.createTable(db);
+                await dayService.addDataStartInTableDay(db);
+                await exerciseService.addDataStartInTableExercise(db);
             });
         }
         //* меняем версию базы данных
-        await db.runAsync(`PRAGMA user_version = ${DATABASE_VERSION}`);
+        await databaseService.setVersion(db, DATABASE_VERSION);
     } catch(error) {
         console.error('Error in migrateDbIfNeeded >>> ', error);
         throw error;

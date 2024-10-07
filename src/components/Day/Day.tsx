@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, ImageBackground, Image, Pressable } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import { IDataDays } from '@/constants/dataDays';
+import { IDataDays } from '@/constants/dataDay';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { setSliceCurrentDaysId } from '@/redux/slice/sets.slice';

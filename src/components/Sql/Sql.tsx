@@ -2,10 +2,13 @@ import { View, StyleSheet, Button, Platform } from 'react-native';
 import React, { FC } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
-import DBManagment from '@/SQLite/DBManagment';
 import ButtonPress from '../ButtonPress/ButtonPress';
-import Days from '@/SQLite/days/modules/Days';
+import Days from '@/SQLite/day/modules/Day';
 import Exercise from '@/SQLite/exercise/modules/Exercise';
+
+import dayService from '@/SQLite/day/service/day.service';
+import exerciseService from '@/SQLite/exercise/service/exercise.service';
+import databaseService from '@/SQLite/database/service/database.service';
 
 
 const colorBlue = '#007aeb';
@@ -20,11 +23,11 @@ const Sql: FC = () => {
     const db = useSQLiteContext();
 
     const pressDB = async () => {
-        await DBManagment.checkExistenceDataBase();
+        await databaseService.checkExistenceDataBase();
     }
 
     const pressDBT = async () => {
-        await DBManagment.showAllTable(db);
+        await databaseService.getTable(db, 'log');
     }
 
     const press = async () => {
@@ -32,15 +35,15 @@ const Sql: FC = () => {
     }
 
     const pressShowDays = async () => {
-        await Days.showTableInConsole(db);
+        await dayService.showTableInConsole(db);
     }
 
     const pressShowTableExercise = async () => {
-        await Exercise.showTableInConsole(db);
+        await exerciseService.showTableInConsole(db);
     }
 
     const del = async () => {
-        await DBManagment.deleteData(db);
+        await databaseService.removeDataBase(db);
     }
 
 

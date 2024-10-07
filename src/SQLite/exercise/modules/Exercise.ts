@@ -1,12 +1,14 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
+import { ExerciseDTO } from '../DTO/exercise.dto';
+
 
 class Exercise {
 
     /**
      * `//* Создание таблицы Exercise.`
      */
-    async createTable(db: SQLiteDatabase): Promise<void> {
+    async create(db: SQLiteDatabase): Promise<void> {
         await db.runAsync(`
             CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE_EXERCISE}
             (
@@ -28,14 +30,14 @@ class Exercise {
     }
 
     /**
-     * `//* Вывод в консоль данные таблицы Exercise.`
+     * `//* Возврат записей в таблице.`
      */
-    async showTableInConsole(db: SQLiteDatabase): Promise<void> {
-        const result = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_EXERCISE}`);
-        console.info(JSON.stringify(result, null, 2));
+    async find(db: SQLiteDatabase): Promise<ExerciseDTO[]> {
+        const result: ExerciseDTO[] = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_EXERCISE}`);
+        return result;
     }
 
-    
+
 }
 
 export default new Exercise();

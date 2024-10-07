@@ -8,7 +8,7 @@ import Day from '@/components/Day/Day';
 import Gradient from '@/components/Gradient/Gradient';
 import { icon } from '@/source/icon/icon';
 
-import type { DaysDTOomitId } from '@/SQLite/days/DTO/days.dto';
+import type { DaysDTOomitId } from '@/SQLite/day/DTO/day.dto';
 import { COLOR_ROOT } from '@/constants/colors';
 
 
@@ -28,7 +28,7 @@ const Index: FC = () => {
 
     useEffect(() => {
         (async () => {
-            let data: Array<DaysDTOomitId> | null = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE__DAYS}`);
+            let data: Array<DaysDTOomitId> | null = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE__DAY}`);
             if(data === null) data = [];
             setStateDays(data);
         })();

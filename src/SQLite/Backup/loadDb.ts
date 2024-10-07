@@ -1,11 +1,8 @@
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import Configuration from '../../constants/сonfiguration';
-import addDataStartInTableDays from '../DBManagment/addDataStartInTableDays';
-import addDataStartInTableExercise from '../DBManagment/addDataStartInTableExercise';
 import { ToastAndroid } from 'react-native';
 
-import { IExercise } from '@/constants/dataExercise';
 
 /**
  * Загрузка сохраненных данных таблиц.

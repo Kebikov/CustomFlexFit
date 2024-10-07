@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { DaysDTO } from '@/SQLite/days/DTO/days.dto';
+import type { DaysDTO } from '@/SQLite/day/DTO/day.dto';
 import { RootState } from '../store/store';
 import type { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
 
-import DBManagment from '@/SQLite/DBManagment';
-import updateTableDays from '@/SQLite/DBManagment/updateTableDays';
-import { IUpdateTableDays } from '@/SQLite/DBManagment/updateTableDays';
+import DBManagment from '@/SQLite/database/service/database.service';
+import updateTableDays from '@/SQLite/database/updateTableDays';
+import { IUpdateTableDays } from '@/SQLite/database/updateTableDays';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
 
 

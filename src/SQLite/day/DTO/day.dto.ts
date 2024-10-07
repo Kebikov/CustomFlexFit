@@ -9,7 +9,7 @@
  * @param description Описание для дня занятий, внизу блока.
  * @param lastExercise Последний ли это день по которому занимался.(0-false, 1-true)
  */
-export interface DaysDTO {
+export interface DayDTO {
     id: number;
     day: number;
     img: number;
@@ -19,4 +19,4 @@ export interface DaysDTO {
     lastExercise: number;
 }
 
-export interface DaysDTOomitId extends DaysDTO {}
+export interface DaysDTOomitId extends DayDTO {}

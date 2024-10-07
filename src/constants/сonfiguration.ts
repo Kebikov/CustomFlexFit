@@ -7,7 +7,7 @@ export interface IConfiguration {
     /**
      * Таблица дни.
      */
-    TABLE__DAYS: string;
+    TABLE__DAY: string;
     /**
      * Таблица занятий.
      */
@@ -18,7 +18,7 @@ export interface IConfiguration {
 const CONFIGURATION: IConfiguration = {
 	DB_NAME: 'customFlexFit.db',
 
-	TABLE__DAYS: 'days',
+	TABLE__DAY: 'day',
 	TABLE_EXERCISE: 'exercise'
 };
 

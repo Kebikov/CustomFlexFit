@@ -1,10 +1,10 @@
-import { DaysDTO } from "@/SQLite/days/DTO/days.dto";
+import { DayDTO } from "@/SQLite/day/DTO/day.dto";
 
 
 /**
  * `Начальные данные дней занятий.`
  */
-export const DATA_DAYS: Array<Omit<DaysDTO, 'id'>> = [
+export const DATA_DAY: Array<Omit<DayDTO, 'id'>> = [
     {
         day: 1,
         img: require(`@/source/img/daysScreen/daysScreen_1.jpg`),
