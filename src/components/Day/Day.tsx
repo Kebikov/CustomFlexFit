@@ -1,15 +1,14 @@
 import { View, Text, StyleSheet, ImageBackground, Image, Pressable } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import { IDataDays } from '@/constants/dataDay';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useAppDispatch } from '@/redux/store/hooks';
-import { setSliceCurrentDaysId } from '@/redux/slice/sets.slice';
 import { useHookRouter } from '@/router/useHookRouter';
+import type { DayDTOomitId } from '@/SQLite/day/DTO/day.dto';
 
 
 interface IDay {
-	day: IDataDays;
+	day: DayDTOomitId;
 }
 
 /**
@@ -17,7 +16,6 @@ interface IDay {
  * `Карточка дня занятий.`
  * @returns {JSX.Element}
  */
-//= Day 
 const Day: FC<IDay> = ({ day }) => {
 
     const dispatch = useAppDispatch();
@@ -26,10 +24,7 @@ const Day: FC<IDay> = ({ day }) => {
 
 	return (
 		<Pressable
-			onPress={() => {
-                dispatch(setSliceCurrentDaysId(day.id));
-                appRouter.navigate({pathname: '/exercise/[id]', params: {dayExercise: day.day}})
-			}}
+			onPress={() => {}}
 			style={style.main}
 		>
 			<ImageBackground source={day.img} style={style.imageBackground}>

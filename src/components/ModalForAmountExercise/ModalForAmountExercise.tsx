@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, Modal, Button } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import { useAppDispatch } from '@/redux/store/hooks';
-import { setSliceChangeExerciseInArray } from '@/redux/slice/sets.slice';
 import type { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
 
 export interface IModalForAmountExercise {
@@ -43,16 +42,7 @@ const ModalForAmountExercise: FC<IModalForAmountExercise> = ({ modalVisible, set
 								<Button
 									title='yes'
 									color={COLOR_ROOT.LIME_70}
-									onPress={() => {
-										dispatch(
-											setSliceChangeExerciseInArray({
-												day: exercise.day,
-												exercise: exercise.exercise,
-												amountExercise: 0
-											})
-										);
-										setModalVisible(!modalVisible);
-									}}
+									onPress={() => {}}
 								/>
 							</View>
 							<View style={styles.button}>

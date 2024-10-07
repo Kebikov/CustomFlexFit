@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, Modal, Button, TextInput, ToastAndroid } from '
 import React, { FC, useState } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import { useAppDispatch } from '@/redux/store/hooks';
-import { setSliceChangeExerciseInArray } from '@/redux/slice/sets.slice';
 import { IModalForAmountExercise } from '../ModalForAmountExercise/ModalForAmountExercise';
 import { TId } from '../Set/Set';
 
@@ -30,32 +29,6 @@ const ModalForAmount: FC<IModalForAmount> = ({ modalVisible, setModalVisible, ex
     }
 
     const saveData = () => {
-        let amount = Number(stateAmount);
-
-        if(typeof amount === 'number') {
-            if(id === 'burpee') {
-                dispatch(
-                    setSliceChangeExerciseInArray({
-                        day: exercise.day,
-                        exercise: exercise.exercise,
-                        burpee: amount
-                    })
-                );
-                ToastAndroid.show('Данные сохранены.', ToastAndroid.SHORT);
-            }
-            if(id === '2') {
-                dispatch(
-                    setSliceChangeExerciseInArray({
-                        day: exercise.day,
-                        exercise: exercise.exercise,
-                        amount
-                    })
-                );
-                ToastAndroid.show('Данные сохранены.', ToastAndroid.SHORT);
-            }
-        } else {
-            ToastAndroid.show('Значение должно быть числом.', ToastAndroid.SHORT);
-        }
     }
 
 	return (

@@ -9,7 +9,6 @@ import {soundAudio} from '@/constants/soundAudio';
 import { Vibration } from 'react-native';
 //* redux 
 import { useAppDispatch, useAppSelector } from '@/redux/store/hooks';
-import { setSliceIsStartTimer } from '@/redux/slice/sets.slice';
 
 
 interface ITimerView {
@@ -41,6 +40,7 @@ const TimeView: FC<ITimerView> = ({ givenTime }) => {
 	 * @param positionProgressInCircle - Позиция прогресса в круге.
 	 */
 	const [positionProgressInCircle, setPositionProgressInCircle] = useState<number>(0);
+    
 	/**
 	 * Флаг включения/выключения таймера.
 	 */

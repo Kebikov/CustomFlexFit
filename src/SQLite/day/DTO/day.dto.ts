@@ -19,4 +19,4 @@ export interface DayDTO {
     lastExercise: number;
 }
 
-export interface DaysDTOomitId extends DayDTO {}
+export interface DayDTOomitId extends DayDTO {}

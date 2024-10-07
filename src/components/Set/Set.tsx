@@ -4,7 +4,6 @@ import { COLOR_ROOT } from '@/constants/colors';
 import { Audio } from 'expo-av';
 //* redux
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
-import { setSlicePushSetId, setSliceIsStartTimer } from '@/redux/slice/sets.slice';
 import { useDispatch } from 'react-redux';
 import type { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
 import ModalForAmount from '@/components/ModalForAmount/ModalForAmount';
@@ -12,19 +11,8 @@ import ModalForAmount from '@/components/ModalForAmount/ModalForAmount';
 export type TId = '0' | '1' | '2' | 'burpee';
 
 interface ISet {
-    /**
-     * Количество повторов в подходе.
-     */
     amount: number;
-    /**
-     * Обьект упражнения.
-     */
     exercise: ExerciseDTO;
-    /**
-     * Уникальное имя поля.
-     * - Формируется как обшее название упражнения + номер по очередности.
-     * - Пример: 'EXERCISE_1' + 1.
-     */
     id: TId;
 }
 
@@ -66,20 +54,15 @@ const Set: FC<ISet> = ({amount, exercise, id}) => {
                 })
                 .catch(error => console.error('Ошибка очистки звука:', error))
     };
-    /**
-     * Массив с нажатыми id.
-     */
-    const pushSetId = useAppSelector(state => state.setsSlice.pushSetId);
+
     /**
      * Переменная с результатом, есть ли совпадения в массиве с нажатыми id, нашего текушего id.
      */
-    const isPush: boolean = pushSetId.includes(createdId);
+    const isPush: boolean = true;
     /**
      * Добавление id в массив нажатых кнопок.
      */
     const onPush = () => {
-        dispatch(setSlicePushSetId(createdId));
-        dispatch(setSliceIsStartTimer(true));
     }
 
     

@@ -4,7 +4,6 @@ import { COLOR_ROOT } from '@/constants/colors';
 // import loadDb from '@/SQLite/Backup/loadDb';
 import backupDB from '@/SQLite/Backup/backupDB';
 import { useAppDispatch } from '@/redux/store/hooks';
-import { setSliceIsUpdateToggle } from '@/redux/slice/sets.slice';
 //* component
 import TopMenu from '@/components/TopMenu/TopMenu';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';

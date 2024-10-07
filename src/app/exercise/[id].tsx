@@ -4,8 +4,6 @@ import { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
 import { FlatList } from 'react-native-gesture-handler';
 //* redux
 import { useAppDispatch, useAppSelector } from '@/redux/store/hooks';
-import { setSliceExerciseArray } from '@/redux/slice/sets.slice';
-import { setSliceSaveInDataBase } from '@/redux/slice/sets.slice';
 import { useLocalSearchParams } from 'expo-router';
 //* component
 import TimeView from '@/components/TimeView/TimeView';
