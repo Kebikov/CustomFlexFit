@@ -14,7 +14,7 @@ class Exercise {
             (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 day INTEGER,
-                exercise INTEGER UNIQUE,
+                exercise INTEGER,
                 title TEXT,
                 description TEXT,
                 weightNeck TEXT,
@@ -37,6 +37,13 @@ class Exercise {
         return result;
     }
 
+    /**
+     * `//* Возврат упражнений по дню занятий.`
+     */
+    async findByDay(db: SQLiteDatabase, day: number): Promise<ExerciseDTO[]> {
+        const data: Array<ExerciseDTO> = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_EXERCISE} WHERE day = ${day}`);
+        return data;
+    }
 
 }
 

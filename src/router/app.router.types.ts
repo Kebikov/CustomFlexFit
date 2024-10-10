@@ -3,7 +3,9 @@
 export type AppRouterTypes = {
     '/': undefined;
     '/settingsScreen': undefined;
-    '/exercise/[id]': {dayExercise: string}; 
+    '/exercise/[id]': {dayExercise: number};
+    '/modal': undefined;
+    '/exercise/modal': undefined;
 };
 
 

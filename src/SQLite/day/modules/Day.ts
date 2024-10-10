@@ -2,6 +2,7 @@ import { SQLiteDatabase } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
 import { DayDTO } from '@/SQLite/day/DTO/day.dto';
 
+
 class Day {
 
     /**
@@ -9,7 +10,7 @@ class Day {
      */
     async create(db: SQLiteDatabase): Promise<void> {
         try {
-            await db.runAsync(`
+            const result = await db.runAsync(`
                 CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE__DAY}
                 (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,6 +32,7 @@ class Day {
      */
     async find(db: SQLiteDatabase): Promise<DayDTO[] | undefined> {
         try{
+            
             const result: DayDTO[] = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE__DAY}`);
             return result;
         } catch(error) {

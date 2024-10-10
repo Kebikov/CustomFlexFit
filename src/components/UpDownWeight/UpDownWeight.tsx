@@ -5,7 +5,7 @@ import { icon } from '@/source/icon/icon';
 import type { ExerciseDTO, TIsUp } from '@/SQLite/exercise/DTO/exercise.dto'; 
 //* redux
 import { useAppDispatch } from '@/redux/store/hooks';
-import { setSliceChangeExerciseInArray } from '@/redux/slice/sets.slice';
+//import { setSliceChangeExerciseInArray } from '@/redux/slice/sets.slice';
 
 interface IUpDownWeight {
     exercise: ExerciseDTO;
@@ -23,7 +23,7 @@ const UpDownWeight: FC<IUpDownWeight> = ({exercise}) => {
      * Изминение состояния к кнопки верх/низ или вопрос.
      */
     const changeIsUp = (value: TIsUp) => {
-        dispatsh(setSliceChangeExerciseInArray({day: exercise.day, exercise: exercise.exercise, isUp: value}));
+        //dispatsh(setSliceChangeExerciseInArray({day: exercise.day, exercise: exercise.exercise, isUp: value}));
     }
 
 	return (

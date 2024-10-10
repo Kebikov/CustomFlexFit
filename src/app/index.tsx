@@ -7,6 +7,7 @@ import { useHookRouter } from '@/router/useHookRouter';
 import Day from '@/components/Day/Day';
 import Gradient from '@/components/Gradient/Gradient';
 import { icon } from '@/source/icon/icon';
+import dayService from '@/SQLite/day/service/day.service';
 
 import type { DayDTOomitId } from '@/SQLite/day/DTO/day.dto';
 import { COLOR_ROOT } from '@/constants/colors';
@@ -16,7 +17,6 @@ import { COLOR_ROOT } from '@/constants/colors';
  * @page Стартовая страница приложения. 
  */
 const Index: FC = () => {
-    console.log(2);
     const {appRouter} = useHookRouter();
     const db = useSQLiteContext();
 
@@ -28,8 +28,7 @@ const Index: FC = () => {
 
     useEffect(() => {
         (async () => {
-            let data: Array<DayDTOomitId> | null = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE__DAY}`);
-            if(data === null) data = [];
+            let data: Array<DayDTOomitId> = await dayService.find(db);
             setStateDays(data);
         })();
     },[]);
@@ -40,7 +39,8 @@ const Index: FC = () => {
             <View style={styles.main} > 
                 <Pressable
                     style={styles.settingsBox}
-                    onPress={() => appRouter.navigate('/settingsScreen')}
+                    //onPress={() => appRouter.navigate('/settingsScreen')}
+                    onPress={() => appRouter.navigate('/modal')}
                 >
                     <Image source={icon.menu} style={styles.settingsImg} />
                 </Pressable>

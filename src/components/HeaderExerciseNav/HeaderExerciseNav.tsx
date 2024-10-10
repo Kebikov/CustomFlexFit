@@ -13,13 +13,14 @@ interface IBottomMenu {
  */
 const HeaderExerciseNav: FC<IBottomMenu> = () => {
 
-    const {appRouter} = useHookRouter();
-
+    const {appRouter, router} = useHookRouter();
+    router.navigate
 	return (
 		<View style={styles.container} >
             <Pressable
                 // Нажатие назад.
-                onPress={() => appRouter.replace('/')}
+                //onPress={() => appRouter.replace('/')}
+                onPress={() => appRouter.navigate('/exercise/modal')}
             >
                 <Text style={styles.text} >finish and exit</Text>
             </Pressable>

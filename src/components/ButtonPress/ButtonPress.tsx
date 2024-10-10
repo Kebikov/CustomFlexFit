@@ -15,8 +15,14 @@ const colorBlue = '#007aeb';
 const colorRed = 'rgba( 241, 50, 43, .9)';
 
 /**
- * @component
- * `Компонент кнопки.`
+ * @component `Компонент кнопки.`
+ * @param title Текст кнопки.
+ * @param onPress Функция обработки нажатия на кнопку.
+ * @optional
+ * @param backgroundColor Цвет кнопки.
+ * @param color Цвет текста кнопки.
+ * @param type Предустановленный стиль кнопки.
+ * @param fontSize Размер текста кнопки.
  */
 const ButtonPress: FC<IButton> = ({
     title,

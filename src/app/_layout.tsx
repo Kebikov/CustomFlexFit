@@ -1,18 +1,18 @@
-import { FC, useCallback, useState, useEffect } from 'react';
-import { SQLiteProvider, useSQLiteContext, type SQLiteDatabase } from 'expo-sqlite';
+import { FC, useEffect } from 'react';
+import { SQLiteProvider, type SQLiteDatabase } from 'expo-sqlite';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
 import store from '@/redux/store/store';
-import { Stack } from 'expo-router';
-import { PortalProvider, PortalHost } from '@gorhom/portal';
+import { Stack, SplashScreen } from 'expo-router';
+import { PortalProvider } from '@gorhom/portal';
 import CONFIGURATION from '@/constants/сonfiguration';
-import DBManagment from '@/SQLite/database/service/database.service';
 import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
 
 import dayService from '@/SQLite/day/service/day.service';
 import exerciseService from '@/SQLite/exercise/service/exercise.service';
 import databaseService from '@/SQLite/database/service/database.service';
+import { COLOR_ROOT } from '@/constants/colors';
+import ExerciseLayout from './exercise/_layout';
 
 
 SplashScreen.preventAutoHideAsync();
@@ -24,23 +24,22 @@ interface IMainLayout {
 
 
 export const MainLayout: FC<IMainLayout> = ({children}) => {
-
+    
     const [loaded, error] = useFonts({
-		Sport: require('@/source/fonts/BebasNeue.ttf')
+		'Sport': require('@/source/fonts/BebasNeue.ttf')
 	});
 
 
     useEffect(() => {
         if (loaded || error) {
             SplashScreen.hideAsync();
-            console.log(1);
-          }
-    },[loaded, error]);
-
+        }
+    }, [loaded, error]);
+    
     if (!loaded && !error) return null;
-
+    
 	return (
-        <GestureHandlerRootView style={{flex: 1}} >
+        <GestureHandlerRootView style={{flex: 1, backgroundColor: COLOR_ROOT.BACKGROUND}} >
             <PortalProvider>
                 <SQLiteProvider databaseName={CONFIGURATION.DB_NAME} onInit={migrateDbIfNeeded} >
                     <Provider store={store} >
@@ -59,9 +58,11 @@ const IndexLayout = () => {
     return(
         <MainLayout>
             <Stack screenOptions={{headerShown: false}} >
-                <Stack.Screen name='exercise/[id]' options={{animation: 'ios'}}/>
-                <Stack.Screen name='settingsScreen' options={{animation: 'ios'}}/>
                 <Stack.Screen name='index' options={{animation: 'ios'}}/>
+                <Stack.Screen name='settingsScreen' options={{animation: 'ios'}}/>
+                <Stack.Screen name='exercise' options={{animation: 'ios'}}/>
+
+                <Stack.Screen name="modal" options={{presentation: 'modal'}} />
             </Stack>
         </MainLayout>
     )
@@ -69,12 +70,13 @@ const IndexLayout = () => {
 
 async function migrateDbIfNeeded(db: SQLiteDatabase) {
     try{
+        await databaseService.checkExistenceDataBase();
         const DATABASE_VERSION = 1;
         //* получаем версию BD
         let version = await databaseService.getVersion(db);
+        
         //* если версия равна или больше чем DATABASE_VERSION, то ни чего не делаем
-        if(!version) return;
-        //if (version.user_version >= DATABASE_VERSION) return;
+        if (version >= DATABASE_VERSION) return;
         //* если версия равна 0 значит она только что создана и можно заволняь ее начальными данными, если надо
         if(version === 0) {
             await db.withExclusiveTransactionAsync(async () => {
@@ -94,6 +96,10 @@ async function migrateDbIfNeeded(db: SQLiteDatabase) {
 }
 
 export default IndexLayout;
+
+
+
+
 
 
 

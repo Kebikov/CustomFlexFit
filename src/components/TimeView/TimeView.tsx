@@ -44,7 +44,7 @@ const TimeView: FC<ITimerView> = ({ givenTime }) => {
 	/**
 	 * Флаг включения/выключения таймера.
 	 */
-    const isStartTimer = useAppSelector(state => state.setsSlice.isStartTimer);
+    //const isStartTimer = useAppSelector(state => state.setsSlice.isStartTimer);
     /**
      * @param saundPlay Воспроизводимый обьект звука.
      */
@@ -118,40 +118,40 @@ const TimeView: FC<ITimerView> = ({ givenTime }) => {
     }
 
 
-    useEffect(() => {
-        /**
-         * Обьект таймера.
-         */
-        let timer: NodeJS.Timeout | undefined = undefined;
+    // useEffect(() => {
+    //     /**
+    //      * Обьект таймера.
+    //      */
+    //     let timer: NodeJS.Timeout | undefined = undefined;
 
-        if (isStartTimer) {
-            timer = setTimeout(function upTime() {
-                setBalanceTime(balanceTime => {
-                    if (balanceTime === 0) {
-                        clearTimeout(timer);
-                        return givenTime;
-                    } else {
-                        setPositionProgressInCircle(positionProgressInCircle => positionProgressInCircle + 1);
-                        timer = setTimeout(upTime, 1000);
-                        return balanceTime - 1;
-                    }
-                });
+    //     if (isStartTimer) {
+    //         timer = setTimeout(function upTime() {
+    //             setBalanceTime(balanceTime => {
+    //                 if (balanceTime === 0) {
+    //                     clearTimeout(timer);
+    //                     return givenTime;
+    //                 } else {
+    //                     setPositionProgressInCircle(positionProgressInCircle => positionProgressInCircle + 1);
+    //                     timer = setTimeout(upTime, 1000);
+    //                     return balanceTime - 1;
+    //                 }
+    //             });
                 
-            }, 1000);
-        } else {
-            clearTimeout(timer);
-            setBalanceTime(givenTime);
-        }
+    //         }, 1000);
+    //     } else {
+    //         clearTimeout(timer);
+    //         setBalanceTime(givenTime);
+    //     }
 
-        return () => {
-            clearTimeout(timer);
-        };
-    }, [isStartTimer]);
+    //     return () => {
+    //         clearTimeout(timer);
+    //     };
+    // }, [isStartTimer]);
 
     useEffect(() => {
         if(balanceTime === 0) {
             playSound(soundAudio.end);
-            dispatch(setSliceIsStartTimer(false));
+            //dispatch(setSliceIsStartTimer(false));
             setPositionProgressInCircle(0);
         }
     },[balanceTime]);
@@ -162,7 +162,7 @@ const TimeView: FC<ITimerView> = ({ givenTime }) => {
                 style={styles.containerBox} 
                 onPressIn={() => {
                         playSound(soundAudio.play);
-                        dispatch(setSliceIsStartTimer(true));
+                        //dispatch(setSliceIsStartTimer(true));
                     }
                 }
             >
@@ -195,7 +195,7 @@ const TimeView: FC<ITimerView> = ({ givenTime }) => {
                     stopSound();
                     playSound(soundAudio.play);
                     setPositionProgressInCircle(0);
-                    dispatch(setSliceIsStartTimer(false));
+                    //dispatch(setSliceIsStartTimer(false));
                 }}
             >
                 <Text style={styles.text}>STOP</Text>

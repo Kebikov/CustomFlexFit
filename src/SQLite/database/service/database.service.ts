@@ -2,6 +2,7 @@ import { SQLiteDatabase } from "expo-sqlite";
 import CONFIGURATION from '@/constants/сonfiguration';
 import * as FileSystem from 'expo-file-system';
 import Database from "../model/Database";
+import * as SQLite from 'expo-sqlite';
 
 
 class DatabaseService {
@@ -36,6 +37,7 @@ class DatabaseService {
         await Database.close(db);
         await Database.remove();
         console.info('Data Base Deleted.');
+        await this.checkExistenceDataBase();
     }
 
     /**`
@@ -44,7 +46,7 @@ class DatabaseService {
     async checkDataExistenceInTable(db: SQLiteDatabase, table: string) {
         const result = await Database.findCountTable(db, table);
 
-        if(result === null) {
+        if(result === null || result === 0) {
             return false;
         } else {
             return true;
@@ -74,7 +76,7 @@ class DatabaseService {
     /**
      * `//* Возврат версии базы данных.`
      */
-    async getVersion(db: SQLiteDatabase): Promise<number | null> {
+    async getVersion(db: SQLiteDatabase): Promise<number> {
         const result = await Database.getVersion(db);
         return result;
     }
@@ -85,6 +87,7 @@ class DatabaseService {
     async connectionModeWal(db: SQLiteDatabase) {
         await Database.modeWal(db);
     }
+
 }
 
 export default new DatabaseService();

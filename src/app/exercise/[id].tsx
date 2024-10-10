@@ -2,6 +2,7 @@ import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
 import { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
 import { FlatList } from 'react-native-gesture-handler';
+import exerciseService from '@/SQLite/exercise/service/exercise.service';
 //* redux
 import { useAppDispatch, useAppSelector } from '@/redux/store/hooks';
 import { useLocalSearchParams } from 'expo-router';
@@ -30,15 +31,18 @@ const Exercise: FC = () => {
      */
     const windowsWidth = Dimensions.get('window').width;
 	/**
-     * dayExercise - День занятий который propse полученый при переходе, в формате "DAY_1" | "DAY_2" | ...
+     * @param dayExercise День занятий который propse полученый при переходе.
      */
     const {dayExercise} = useLocalSearchParams<{dayExercise: string}>();
 
+    /**
+     * @param currentExercises Массив с занятиями.
+     */
     const [currentExercises, setCurrentExercises] = useState<Array<ExerciseDTO>>([]);
 
 	useEffect(() => {
         (async () => {
-            const data: Array<ExerciseDTO> = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_EXERCISE} WHERE day = "${dayExercise}"`);
+            const data: Array<ExerciseDTO> = await exerciseService.findByDay(db, dayExercise);
             setCurrentExercises(data);
         })();
 	}, []);
@@ -47,7 +51,7 @@ const Exercise: FC = () => {
     return (
         <WrapperScroll>
             <HeaderExerciseNav />
-            <View style={{backgroundColor: 'grey', flex: 1}}>
+            <View style={{backgroundColor: 'grey', flex: 1}} >
                 <FlatList
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
@@ -67,39 +71,6 @@ const Exercise: FC = () => {
 };
 
 const styles = StyleSheet.create({
-	main: {
-		flex: 1,
-        backgroundColor: COLOR_ROOT.BACKGROUND
-	},
-	header: {
-		width: '100%',
-		height: 340,
-		borderBottomLeftRadius: 40,
-		borderBottomRightRadius: 40,
-		overflow: 'hidden',
-		justifyContent: 'space-between',
-
-        shadowColor: '#fff',
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.3,
-		shadowRadius: 4,
-		elevation: 5
-	},
-	text: {
-		color: '#fff',
-		fontSize: 30
-	},
-    numberBox: {
-        position: 'absolute',
-        left: 30,
-        top: 30
-    },
-    numberText: {
-        color: 'white',
-        fontSize: 200,
-        fontFamily: 'Sport',
-        opacity: .6
-    }
 });
 
 export default Exercise;

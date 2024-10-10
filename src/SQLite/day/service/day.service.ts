@@ -1,5 +1,5 @@
 import { SQLiteDatabase } from 'expo-sqlite';
-import Days from '../modules/Day';
+import Day from '../modules/Day';
 import displayError from '@/helpers/displayError';
 import { DayDTO } from '../DTO/day.dto';
 import CONFIGURATION from '@/constants/сonfiguration';
@@ -13,53 +13,64 @@ class DayServise {
      * `//* Создание таблицы.`
      */
     async createTable(db: SQLiteDatabase) {
-        await Days.create(db);
+        await Day.create(db);
     }
 
     /**
      * `//* Вывод в консоль данные таблицы.`
      */
     async showTableInConsole(db: SQLiteDatabase): Promise<void> {
-        const result = await Days.find(db); 
+        const result = await Day.find(db); 
         if(!result) return displayError('in Days.find');
-        console.log(JSON.stringify( result, null, 2));
+        console.info(JSON.stringify( result, null, 2));
     }
 
     /**
      * `//* Добавление начальных данных в таблицу.`
      */
     async addDataStartInTableDay(db: SQLiteDatabase, data: DayDTO[] | null = null) {
-        /**
-         * Команда для SQL по добавлению данных.
-         */
-        let commandStart: string = `INSERT INTO ${CONFIGURATION.TABLE__DAY} (day, img, date, title, description, lastExercise) VALUES `;
+        try {
+            /**
+             * Команда для SQL по добавлению данных.
+             */
+            let commandStart: string = `INSERT INTO ${CONFIGURATION.TABLE__DAY} (day, img, date, title, description, lastExercise) VALUES `;
 
-        if(data) {
-            data.forEach(item => {
-                commandStart += `("${item.day}", "${item.img}", "${item.date}", "${item.title}", "${item.description}", "${item.lastExercise ? 1 : 0}"),`;
-            });
-        } else {
-            DATA_DAY.forEach(item => {
-                commandStart += `("${item.day}", "${item.img}", "${item.date}", "${item.title}", "${item.description}", "${item.lastExercise ? 1 : 0}"),`;
-            });
-        }
+            if(data) {
+                data.forEach(item => {
+                    commandStart += `("${item.day}", "${item.img}", "${item.date}", "${item.title}", "${item.description}", "${item.lastExercise ? 1 : 0}"),`;
+                });
+            } else {
+                DATA_DAY.forEach(item => {
+                    commandStart += `("${item.day}", "${item.img}", "${item.date}", "${item.title}", "${item.description}", "${item.lastExercise ? 1 : 0}"),`;
+                });
+            }
 
-        // Удаление зарпятой в конце команды.
-        let command = commandStart.slice(0, -1);
-        const isExistTable = await DatabaseService.checkExistenceDataBase();
-        if (!isExistTable) {
-            console.info(`База данных ${CONFIGURATION.DB_NAME} не сушествует.`);
-            return;
-        }
+            // Удаление зарпятой в конце команды.
+            let command = commandStart.slice(0, -1);
 
-        const result = await DatabaseService.checkDataExistenceInTable(db, CONFIGURATION.TABLE__DAY);
+            const isExistTable = await DatabaseService.checkExistenceDataBase();
+            if (!isExistTable) {
+                console.info(`База данных ${CONFIGURATION.DB_NAME} не сушествует.`);
+                return;
+            }
 
-        if(!result) {
-            await db.execAsync(command);
+            const result = await DatabaseService.checkDataExistenceInTable(db, CONFIGURATION.TABLE__DAY);
+            
+            if(!result) {
+                await db.execAsync(command);
+            }
+        } catch (error) {
+            console.error('Error in  >>>', error);
         }
     }
 
-    
+    /**
+     * `//* Возврат всех записей.`
+     */
+    async find(db: SQLiteDatabase): Promise<DayDTO[]> {
+        const result = await Day.find(db);
+        return result === undefined ? [] : result;
+    }
 }
 
 export default new DayServise();

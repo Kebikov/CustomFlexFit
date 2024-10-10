@@ -30,10 +30,6 @@ const Sql: FC = () => {
         await databaseService.getTable(db, 'log');
     }
 
-    const press = async () => {
-        console.info('test press');
-    }
-
     const pressShowDays = async () => {
         await dayService.showTableInConsole(db);
     }
@@ -47,17 +43,20 @@ const Sql: FC = () => {
     }
 
 
+    const pressNew = async () => {
+        
+    }
+
+
 
     return (
         <View style={styles.container}>
-
             <ButtonPress title='check DB' onPress={pressDB} />
             <ButtonPress title='All tables DB' onPress={pressDBT} />
             <ButtonPress title='Tables Days' onPress={pressShowDays} />
             <ButtonPress title='Tables Exercise' onPress={pressShowTableExercise} />
             <ButtonPress title='all delete' onPress={del} type='dangerous' />
-            <ButtonPress title='действие' onPress={press} />
-
+            <ButtonPress title='' onPress={pressNew} />
         </View>
     );
 };

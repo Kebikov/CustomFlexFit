@@ -17,14 +17,14 @@ interface IDay {
  * @returns {JSX.Element}
  */
 const Day: FC<IDay> = ({ day }) => {
-
+    console.log(day);
     const dispatch = useAppDispatch();
 
 	const { appRouter } = useHookRouter();
 
 	return (
 		<Pressable
-			onPress={() => {}}
+			onPress={() => appRouter.navigate({pathname: '/exercise/[id]', params: {dayExercise: day.day}})}
 			style={style.main}
 		>
 			<ImageBackground source={day.img} style={style.imageBackground}>
