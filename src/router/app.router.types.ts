@@ -2,10 +2,14 @@
 
 export type AppRouterTypes = {
     '/': undefined;
+    '/listDay': undefined;
+    '/choiceLanguage': undefined;
     '/settingsScreen': undefined;
     '/exercise/[id]': {dayExercise: number};
     '/modal': undefined;
     '/exercise/modal': undefined;
+    '/addDay': undefined;
+
 };
 
 

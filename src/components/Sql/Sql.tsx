@@ -9,6 +9,7 @@ import Exercise from '@/SQLite/exercise/modules/Exercise';
 import dayService from '@/SQLite/day/service/day.service';
 import exerciseService from '@/SQLite/exercise/service/exercise.service';
 import databaseService from '@/SQLite/database/service/database.service';
+import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
 
 
 const colorBlue = '#007aeb';
@@ -43,8 +44,16 @@ const Sql: FC = () => {
     }
 
 
-    const pressNew = async () => {
-        
+    const pressSet = async () => {
+        await LocalStorageService.setChoiceLanguage('English');
+    }
+
+    const pressGet = async () => {
+        console.log(await LocalStorageService.getChoiceLanguage());
+    }
+
+    const pressDel = async () => {
+        await LocalStorageService.removeChoiceLanguage();
     }
 
 
@@ -56,7 +65,9 @@ const Sql: FC = () => {
             <ButtonPress title='Tables Days' onPress={pressShowDays} />
             <ButtonPress title='Tables Exercise' onPress={pressShowTableExercise} />
             <ButtonPress title='all delete' onPress={del} type='dangerous' />
-            <ButtonPress title='' onPress={pressNew} />
+            <ButtonPress title='set' onPress={pressSet} />
+            <ButtonPress title='get' onPress={pressGet} />
+            <ButtonPress title='remove' onPress={pressDel} />
         </View>
     );
 };

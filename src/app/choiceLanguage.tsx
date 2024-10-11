@@ -1,0 +1,94 @@
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import React, { FC } from 'react';
+import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
+import { useHookRouter } from '@/router/useHookRouter';
+
+
+/**
+ * @page `Страница с выбором языка.`
+ */
+const ChoiceLanguage: FC = () => {
+    console.log('page > ChoiceLanguage');
+    const {appRouter} = useHookRouter();
+
+    return (
+        <View style={styles.container}>
+            <Text style={styles.text} >What is your {"\n"}language ?</Text>
+
+            <Pressable 
+                style={styles.language} 
+                onPress={async () => {
+                    await LocalStorageService.setChoiceLanguage('English');
+                    appRouter.replace('/addDay');
+                }}
+            >
+                <View style={styles.imgBox} >
+                    <Image source={require('@/source/img/flags/States.svg.jpg')} style={styles.img} />
+                </View>
+                <Text style={styles.textLanguage} >English</Text>
+            </Pressable>
+
+            <View style={styles.line}></View>
+            
+            <Pressable 
+                style={styles.language} 
+                onPress={async () => {
+                    await LocalStorageService.setChoiceLanguage('Russian');
+                    appRouter.replace('/addDay');
+                }}
+            >
+                <View style={styles.imgBox} >
+                    <Image source={require('@/source/img/flags/rus.jpg')} style={styles.img} />
+                </View>
+                <Text style={styles.textLanguage} >Russian</Text>
+            </Pressable>
+        </View>
+    );
+};
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        //alignItems: 'center',
+        paddingHorizontal: 20
+    },
+    text: {
+        fontFamily: 'Sport',
+        fontSize: 34,
+        color: 'white',
+        marginBottom: 30
+    },
+    imgBox: {
+        width: 50,
+        height: 50
+    },
+    img: {
+        borderRadius: 150,
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
+    },
+    language: {
+        marginTop: 10,
+        marginBottom: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        //backgroundColor: 'red',
+        width: '100%'
+    },
+    textLanguage: {
+        fontFamily: 'Sport',
+        fontSize: 24,
+        color: 'white',
+        marginLeft: 30
+    },
+    line: {
+        height: 1,
+        width: '100%',
+        backgroundColor: 'rgba(255, 255, 255, .3)'
+    }
+});
+
+export default ChoiceLanguage;

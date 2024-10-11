@@ -61,6 +61,8 @@ const IndexLayout = () => {
                 <Stack.Screen name='index' options={{animation: 'ios'}}/>
                 <Stack.Screen name='settingsScreen' options={{animation: 'ios'}}/>
                 <Stack.Screen name='exercise' options={{animation: 'ios'}}/>
+                <Stack.Screen name='choiceLanguage' options={{animation: 'ios'}}/>
+                <Stack.Screen name='addDay' options={{animation: 'ios'}}/>
 
                 <Stack.Screen name="modal" options={{presentation: 'modal'}} />
             </Stack>
