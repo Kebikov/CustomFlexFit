@@ -11,7 +11,7 @@
         "day": {
             "guide": {
                 "title": "Creating a workout day",
-                "description": "Create your workout day, specify its background image and description.",
+                "description": "Create your workout day, specify its background image and description. Later, we will fill it with exercises.",
                 "button": "Let’s start"
             }
         }

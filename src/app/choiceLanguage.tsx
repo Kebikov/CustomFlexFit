@@ -6,6 +6,7 @@ import { COLOR_ROOT } from '../constants/colors';
 import { useTranslation } from 'react-i18next';
 import { TLanguage } from '../LocalStorage/model/LocalStorage';
 import { AppRouterTypes } from '../router/app.router.types';
+import VibrationApp from '../helpers/VibrationApp';
 
 
 /**
@@ -17,6 +18,7 @@ const ChoiceLanguage: FC = () => {
     const {i18n} = useTranslation();
 
     const setLanguage = (language: TLanguage, path: keyof AppRouterTypes) => {
+        VibrationApp.pressButton();
         i18n.changeLanguage(language);
         appRouter.replace(path);
     }

@@ -3,7 +3,7 @@ import { SQLiteDatabase } from 'expo-sqlite';
 import { ExerciseDTO, ExerciseDTOomitId } from "../DTO/exercise.dto";
 import CONFIGURATION from "@/constants/сonfiguration";
 import { DATA_START_EXERCISE } from "@/constants/dataExercise";
-import DatabaseService from "@/SQLite/database/service/database.service";
+import DatabaseService from "@/SQLite/database/service/DatabaseService";
 
 
 class ExerciseService {

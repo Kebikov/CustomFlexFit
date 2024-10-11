@@ -4,7 +4,7 @@ import displayError from '@/helpers/displayError';
 import { DayDTO } from '../DTO/day.dto';
 import CONFIGURATION from '@/constants/сonfiguration';
 import { DATA_DAY } from "@/constants/dataDay";
-import DatabaseService from '@/SQLite/database/service/database.service';
+import DatabaseService from '@/SQLite/database/service/DatabaseService';
 
 
 class DayServise {

@@ -8,7 +8,7 @@ import Exercise from '@/SQLite/exercise/modules/Exercise';
 
 import dayService from '@/SQLite/day/service/day.service';
 import exerciseService from '@/SQLite/exercise/service/exercise.service';
-import databaseService from '@/SQLite/database/service/database.service';
+import databaseService from '@/SQLite/database/service/DatabaseService';
 import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
 
 

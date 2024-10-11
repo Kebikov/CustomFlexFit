@@ -10,7 +10,7 @@ import { useFonts } from 'expo-font';
 
 import dayService from '@/SQLite/day/service/day.service';
 import exerciseService from '@/SQLite/exercise/service/exercise.service';
-import databaseService from '@/SQLite/database/service/database.service';
+import databaseService from '@/SQLite/database/service/DatabaseService';
 import { COLOR_ROOT } from '@/constants/colors';
 import ExerciseLayout from './exercise/_layout';
 import '@/localization/i18n';
@@ -26,8 +26,18 @@ interface IMainLayout {
 
 export const MainLayout: FC<IMainLayout> = ({children}) => {
     
+    // const [loaded, error] = useFonts({
+	// 	'Sport': require('@/source/fonts/BebasNeue.ttf')
+	// });
+
     const [loaded, error] = useFonts({
-		'Sport': require('@/source/fonts/BebasNeue.ttf')
+        'Sport': require('@/source/fonts/BebasNeue.ttf'),
+		'Sport200': require('@/source/fonts/Oswald/Oswald-ExtraLight.ttf'),
+        'Sport300': require('@/source/fonts/Oswald/Oswald-Light.ttf'),
+        'Sport400': require('@/source/fonts/Oswald/Oswald-Regular.ttf'),
+        'Sport500': require('@/source/fonts/Oswald/Oswald-Medium.ttf'),
+        'Sport600': require('@/source/fonts/Oswald/Oswald-SemiBold.ttf'),
+        'Sport700': require('@/source/fonts/Oswald/Oswald-Bold.ttf')
 	});
 
 

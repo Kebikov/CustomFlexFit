@@ -4,15 +4,12 @@ import { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
 import { FlatList } from 'react-native-gesture-handler';
 import exerciseService from '@/SQLite/exercise/service/exercise.service';
 //* redux
-import { useAppDispatch, useAppSelector } from '@/redux/store/hooks';
 import { useLocalSearchParams } from 'expo-router';
 //* component
 import TimeView from '@/components/TimeView/TimeView';
 import HeaderExerciseNav from '@/components/HeaderExerciseNav/HeaderExerciseNav';
 import ExerciseElement from '@/components/ExerciseElement/ExerciseElement';
-import CONFIGURATION from '@/constants/сonfiguration';
 import { useSQLiteContext } from 'expo-sqlite';
-import { COLOR_ROOT } from '@/constants/colors';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 
 

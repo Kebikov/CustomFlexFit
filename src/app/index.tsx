@@ -4,6 +4,9 @@ import { useHookRouter } from '@/router/useHookRouter';
 import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
 import { LocalStorageDTO } from '@/LocalStorage/model/LocalStorage';
 import { COLOR_ROOT } from '@/constants/colors';
+import DatabaseService from '../SQLite/database/service/DatabaseService';
+import { useSQLiteContext } from 'expo-sqlite';
+import VibrationApp from '../helpers/VibrationApp';
 
 
 /**
@@ -13,11 +16,14 @@ const Index: FC = () => {
     console.log('page > Index');
     const {appRouter} = useHookRouter();
 
+    const db = useSQLiteContext();
+
 
     useEffect(() => {
         (async () => {
             const result = await LocalStorageService.getChoiceLanguage();
             console.log(result);
+            //await DatabaseService.removeDataBase(db);
 
             if(!result) {
                 appRouter.replace('/choiceLanguage');
