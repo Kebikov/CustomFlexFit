@@ -1,5 +1,7 @@
-import { View, Text, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, Pressable } from 'react-native';
 import React, { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import Menu from '../../components/Menu/Menu';
 
 
 /**
@@ -7,13 +9,17 @@ import React, { FC } from 'react';
  */
 const AddDay: FC = () => {
     console.log('page > AddDay');
+
+    const {t} = useTranslation();
+
     return (
         <ImageBackground
             source={require('@/source/img/imgForScreen/1.jpg')} 
             style={[styles.imageBackground]}
         >
+            <Menu/>
             <View style={styles.overlay} >
-                <Text>addDay</Text>
+                <Text style={styles.text}>{t('page.listDay.title')}</Text>
             </View>
         </ImageBackground>
     );
@@ -27,12 +33,16 @@ const styles = StyleSheet.create({
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     text: {
         color: 'white',
-        fontSize: 20
+        fontSize: 30
     }
 });
 
 export default AddDay;
+
+

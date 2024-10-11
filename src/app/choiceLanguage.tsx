@@ -2,6 +2,10 @@ import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import React, { FC } from 'react';
 import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
 import { useHookRouter } from '@/router/useHookRouter';
+import { COLOR_ROOT } from '../constants/colors';
+import { useTranslation } from 'react-i18next';
+import { TLanguage } from '../LocalStorage/model/LocalStorage';
+import { AppRouterTypes } from '../router/app.router.types';
 
 
 /**
@@ -10,6 +14,12 @@ import { useHookRouter } from '@/router/useHookRouter';
 const ChoiceLanguage: FC = () => {
     console.log('page > ChoiceLanguage');
     const {appRouter} = useHookRouter();
+    const {i18n} = useTranslation();
+
+    const setLanguage = (language: TLanguage, path: keyof AppRouterTypes) => {
+        i18n.changeLanguage(language);
+        appRouter.replace(path);
+    }
 
     return (
         <View style={styles.container}>
@@ -18,8 +28,7 @@ const ChoiceLanguage: FC = () => {
             <Pressable 
                 style={styles.language} 
                 onPress={async () => {
-                    await LocalStorageService.setChoiceLanguage('English');
-                    appRouter.replace('/addDay');
+                    setLanguage('English', '/day/guide');
                 }}
             >
                 <View style={styles.imgBox} >
@@ -33,8 +42,7 @@ const ChoiceLanguage: FC = () => {
             <Pressable 
                 style={styles.language} 
                 onPress={async () => {
-                    await LocalStorageService.setChoiceLanguage('Russian');
-                    appRouter.replace('/addDay');
+                    setLanguage('Russian', '/day/guide');
                 }}
             >
                 <View style={styles.imgBox} >
@@ -52,7 +60,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         //alignItems: 'center',
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        backgroundColor: COLOR_ROOT.BACKGROUND
     },
     text: {
         fontFamily: 'Sport',

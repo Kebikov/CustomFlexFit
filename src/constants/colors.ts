@@ -3,6 +3,7 @@ interface IColors {
     LIME: string;
     LIME_70: string;
     WHITE_40: string;
+    WHITE_70: string;
     GREY: string;
     DARK_GREY: string;
     LIGHT_GREY: string;
@@ -17,6 +18,7 @@ export const COLOR_ROOT: IColors = {
     LIME: '#D9F511',
     LIME_70: 'rgba(217, 245, 17, 0.7)',
     WHITE_40: 'rgba(255, 255, 255, .4)',
+    WHITE_70: 'rgba(255, 255, 255, .7)',
     GREY: '#444B53',
     DARK_GREY: '#28292c',
     LIGHT_GREY: '#ececec',

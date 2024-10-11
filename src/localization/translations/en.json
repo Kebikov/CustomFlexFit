@@ -1,0 +1,19 @@
+{
+    "language": "English",
+    "page": {
+        "listDay": {
+            "title": "My Title",
+            "description": "My description",
+            "button": "My button"
+        }
+    },
+    "folder": {
+        "day": {
+            "guide": {
+                "title": "Creating a workout day",
+                "description": "Create your workout day, specify its background image and description.",
+                "button": "Let’s start"
+            }
+        }
+    }
+}

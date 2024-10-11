@@ -7,9 +7,10 @@ import dayService from '@/SQLite/day/service/day.service';
 import Gradient from '@/components/Gradient/Gradient';
 import Day from '@/components/Day/Day';
 import { icon } from '@/source/icon/icon';
-import WrapperScroll from '../components/WrapperScroll/WrapperScroll';
+import WrapperScroll from '../../components/WrapperScroll/WrapperScroll';
 import { COLOR_ROOT } from '@/constants/colors';
 import { useSQLiteContext } from 'expo-sqlite';
+import Menu from '@/components/Menu/Menu';
 
 
 
@@ -36,13 +37,7 @@ const ListDay: FC = () => {
     return (
         <WrapperScroll backgroundColor={COLOR_ROOT.BACKGROUND} >
             <View style={styles.main} > 
-                <Pressable
-                    style={styles.settingsBox}
-                    //onPress={() => appRouter.navigate('/settingsScreen')}
-                    onPress={() => appRouter.navigate('/modal')}
-                >
-                    <Image source={icon.menu} style={styles.settingsImg} />
-                </Pressable>
+                <Menu/>
                 <Gradient text='Days Of Training' size={32} />
                 {
                     stateDays.length > 0
@@ -80,21 +75,6 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         textTransform: 'uppercase',
         fontFamily: 'Sport'
-    },
-    settingsBox: {
-        position: 'absolute',
-        zIndex: 1,
-        top: 5,
-        left: 20,
-        width: 45,
-        height: 45,
-        padding: 5
-    },
-    settingsImg: {
-        tintColor: 'white',
-        resizeMode: 'contain',
-        width: '100%',
-        height: '100%'
     }
 });
 

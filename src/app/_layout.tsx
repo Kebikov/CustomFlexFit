@@ -13,6 +13,7 @@ import exerciseService from '@/SQLite/exercise/service/exercise.service';
 import databaseService from '@/SQLite/database/service/database.service';
 import { COLOR_ROOT } from '@/constants/colors';
 import ExerciseLayout from './exercise/_layout';
+import '@/localization/i18n';
 
 
 SplashScreen.preventAutoHideAsync();
@@ -60,11 +61,12 @@ const IndexLayout = () => {
             <Stack screenOptions={{headerShown: false}} >
                 <Stack.Screen name='index' options={{animation: 'ios'}}/>
                 <Stack.Screen name='settingsScreen' options={{animation: 'ios'}}/>
-                <Stack.Screen name='exercise' options={{animation: 'ios'}}/>
                 <Stack.Screen name='choiceLanguage' options={{animation: 'ios'}}/>
-                <Stack.Screen name='addDay' options={{animation: 'ios'}}/>
 
                 <Stack.Screen name="modal" options={{presentation: 'modal'}} />
+                {/* folders */}
+                <Stack.Screen name='exercise' options={{animation: 'ios'}}/>
+                <Stack.Screen name='day' options={{animation: 'ios'}}/>
             </Stack>
         </MainLayout>
     )

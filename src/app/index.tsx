@@ -17,11 +17,12 @@ const Index: FC = () => {
     useEffect(() => {
         (async () => {
             const result = await LocalStorageService.getChoiceLanguage();
+            console.log(result);
 
             if(!result) {
                 appRouter.replace('/choiceLanguage');
             } else if(result) {
-                appRouter.replace('/addDay');
+                appRouter.replace('/day/guide');
             } 
 
         })();
