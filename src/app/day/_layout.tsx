@@ -7,6 +7,8 @@ const DayLayout = () => {
             <Stack.Screen name='addDay' options={{animation: 'ios'}}/>
             <Stack.Screen name='guide' options={{animation: 'ios'}}/>
             <Stack.Screen name='listDay' options={{animation: 'ios'}}/>
+
+            <Stack.Screen name="modalAddDay" options={{presentation: 'modal'}} />
         </Stack>
     )
 }

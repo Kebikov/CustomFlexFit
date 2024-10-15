@@ -46,6 +46,7 @@ const WrapperScroll: FC<IWrapper> = ({
                         <ScrollView 
                             contentContainerStyle={{flexGrow: 1}} 
                             keyboardShouldPersistTaps={'handled'} 
+                            showsVerticalScrollIndicator={false}
                         >
                             {children}
                         </ScrollView>

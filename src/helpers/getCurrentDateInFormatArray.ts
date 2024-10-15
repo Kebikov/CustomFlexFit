@@ -1,8 +1,7 @@
 
 /**
- * Получение текушей даты в формате массива.
- * @example getCurrentDateInFormatArray()
- * @returns {string[]} ["2024", "01", "08"]
+ * @function `Получение текушей даты в формате массива.`
+ * @return {string[]} ["2024", "01", "08"] || '08.01.2024'
  */
 const getCurrentDateInFormatArray = () => {
     /**
@@ -21,7 +20,12 @@ const getCurrentDateInFormatArray = () => {
      */
     const arraySplitMinus: string[] = arraySplitT[0].split('-');
 
-    return arraySplitMinus;
+    const textCurrentDay = `${arraySplitMinus[2]}.${arraySplitMinus[1]}.${arraySplitMinus[0]}`;
+
+    return {
+        arraySplitMinus,
+        textCurrentDay
+    }
 }
 
 export default getCurrentDateInFormatArray;

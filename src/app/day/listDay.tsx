@@ -5,7 +5,7 @@ import type { DayDTOomitId } from '@/SQLite/day/DTO/day.dto';
 import { useHookRouter } from '@/router/useHookRouter';
 import dayService from '@/SQLite/day/service/day.service';
 import Gradient from '@/components/Gradient/Gradient';
-import Day from '@/components/Day/Day';
+import DayElement from '@/components/DayElement/DayElement';
 import { icon } from '@/source/icon/icon';
 import WrapperScroll from '../../components/WrapperScroll/WrapperScroll';
 import { COLOR_ROOT } from '@/constants/colors';
@@ -42,7 +42,7 @@ const ListDay: FC = () => {
                 {
                     stateDays.length > 0
                     ?
-                    stateDays.map((item, i) => <Day day={item} key={i}/>)
+                    stateDays.map((item, i) => <DayElement day={item} key={i}/>)
                     :
                     null
                 }

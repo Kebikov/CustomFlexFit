@@ -1,5 +1,9 @@
 {
     "language": "English",
+    "general": {
+        "title": "Title",
+        "description": "Description"
+    },
     "page": {
         "listDay": {
             "title": "My Title",
@@ -10,10 +14,28 @@
     "folder": {
         "day": {
             "guide": {
-                "title": "Creating a workout day",
-                "description": "Create your workout day, specify its background image and description. Later, we will fill it with exercises.",
-                "button": "Let’s start"
+                "title": "Three simple steps to create a workout",
+                "description": "Below is a guide for a simpler understanding of how to build your workout plan.",
+                "step1": "Create a workout day. This is a set of exercises you plan to perform on the training day. Later, you can fill it with the exercises you’ve created.", 
+                "step2": "Set the weight of the bars you plan to use for calculating the total weight. Specify which plate weights you will use in the exercises.",
+                "step3": "Create exercises. You can create exercises and then add them to the desired workout day, specifying the number of repetitions, the weight used, rest time after the exercise, etc.",
+                "button": "Let’s go"
+            },
+            "addDay": {
+                "pageTitle": "Creating a workout day",
+                "title": "Here is the workout day title.",
+                "description": "Here is your day description.",
+                "addExistingnBackground": "you can select an existing background",
+                "buttonChoiceBackground": "your background image",
+                "placeholderInputTitle": "enter a title",
+                "placeholderInputDescription": "enter a description"
+            },
+            "modalAddDay": {
+                "description": "Select a background image for the workout day."
             }
         }
+    },
+    "alert_and_toast": {
+        "imgNotSelect" : "You haven’t selected any photo."
     }
 }

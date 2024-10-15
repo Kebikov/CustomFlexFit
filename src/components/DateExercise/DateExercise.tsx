@@ -12,7 +12,7 @@ import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
  */
 const DateExercise: FC = () => {
 
-    const arraySplitMinus: string[] = getCurrentDateInFormatArray();
+    const {arraySplitMinus} = getCurrentDateInFormatArray();
 
 
 	return (

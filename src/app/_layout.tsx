@@ -32,13 +32,13 @@ export const MainLayout: FC<IMainLayout> = ({children}) => {
 
     const [loaded, error] = useFonts({
         'Sport': require('@/source/fonts/BebasNeue.ttf'),
-		'Sport200': require('@/source/fonts/Oswald/Oswald-ExtraLight.ttf'),
+        'Sport200': require('@/source/fonts/Oswald/Oswald-ExtraLight.ttf'),
         'Sport300': require('@/source/fonts/Oswald/Oswald-Light.ttf'),
         'Sport400': require('@/source/fonts/Oswald/Oswald-Regular.ttf'),
         'Sport500': require('@/source/fonts/Oswald/Oswald-Medium.ttf'),
         'Sport600': require('@/source/fonts/Oswald/Oswald-SemiBold.ttf'),
         'Sport700': require('@/source/fonts/Oswald/Oswald-Bold.ttf')
-	});
+    });
 
 
     useEffect(() => {

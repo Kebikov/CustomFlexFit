@@ -5,6 +5,9 @@ import { useHookRouter } from '../../router/useHookRouter';
 import ButtonGreen from '../../components/ButtonGreen/ButtonGreen';
 import Title from '../../components/Title/Title';
 import Description from '../../components/Description/Description';
+import Step from '@/components/Step/Step';
+import AppStatusBar from '@/components/AppStatusBar/AppStatusBar';
+import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 
 
 /**
@@ -23,12 +26,24 @@ const Guide: FC = () => {
             style={[styles.imageBackground]}
         >
             <View style={styles.overlay} >
-                <Title text={t('folder.day.guide.title')} />
-                <Description text={t('folder.day.guide.description')} />
-                <ButtonGreen
-                    text={t('folder.day.guide.button')}
-                    handlePess={() => appRouter.push('/day/addDay')}
-                />
+                <WrapperScroll backgroundColor='transparent' > 
+
+                    <View style={styles.boxHi} >
+                        <Title text={t('folder.day.guide.title')} />
+                        <Description text={t('folder.day.guide.description')} marginTop={40} />
+                        <Step numberStep={1} text={t('folder.day.guide.step1')} marginTop={40} />
+                        <Step numberStep={2} text={t('folder.day.guide.step2')} marginTop={20} />
+                        <Step numberStep={3} text={t('folder.day.guide.step3')} marginTop={20} />
+                    </View>
+
+                    <ButtonGreen
+                        text={t('folder.day.guide.button')}
+                        handlePess={() => appRouter.push('/day/addDay')}
+                        marginBottom={20}
+                        widthProcent={100}
+                    />
+
+                </WrapperScroll>
             </View>
         </ImageBackground>
     );
@@ -41,9 +56,13 @@ const styles = StyleSheet.create({
     overlay: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        justifyContent: 'flex-end',
         alignItems: 'center',
-        padding: 20
+        paddingHorizontal: 20
+    },
+    boxHi: {
+        flex: 1,
+        justifyContent: 'center'
+        //backgroundColor: 'red',
     }
 });
 
