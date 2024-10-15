@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ImageBackground, Pressable, Image, Platform, Alert, ToastAndroid, TextInput, NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, KeyboardAvoidingView, Platform, ToastAndroid, TextInput, NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
 import React, { FC, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Title from '@/components/Title/Title';
@@ -11,11 +11,14 @@ import { useAppSelector } from '@/redux/store/hooks';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import PickBackgroundForDay from '@/components/PickBackgroundForDay/PickBackgroundForDay';
 import Description from '@/components/Description/Description';
+import InputForAddDay from '@/components/InputForAddDay/InputForAddDay';
+import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 
 
 export interface IdayState {
     img: number | string | undefined;
     title: string;
+    description: string;
 }
 
 
@@ -32,86 +35,77 @@ const AddDay: FC = () => {
     const [dayState, setDayState] = useState<IdayState>({
         img: undefined,
         title: t('folder.day.addDay.title'),
-
+        description: t('folder.day.addDay.description')
     });
 
     const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
 
-    
-    
-
-    const onChangeForm = (e: NativeSyntheticEvent<TextInputChangeEventData>, key: string) => {
-            e.persist();
-            setDayState( state => ({...state, [key]: e.nativeEvent.text}) );
-        }
-        
 
     useEffect(() => {
         selectedBackground ? setDayState(state => ({...state, img: selectedBackground})) : null;
     }, [selectedBackground]);
 
     return (
+        
         <ImageBackground
             source={require('@/source/img/imgForScreen/4.jpg')}
             style={[styles.imageBackground]}
         >
             <View style={styles.overlay} >
-                <Title text={t('folder.day.addDay.pageTitle')} />
+                <WrapperScroll>
+                    <View style={styles.containerWrapperScroll} >
+                        <Title text={t('folder.day.addDay.pageTitle')} />
 
-                <DayElement
-                    title={dayState.title}
-                    description={t('folder.day.addDay.description')}
-                    backgroundZero={true} 
-                    img={dayState?.img}
-                    isShowShadow={selectedBackground ? true : false}
-                />
+                        <DayElement
+                            title={dayState.title}
+                            description={dayState.description}
+                            backgroundZero={true} 
+                            img={dayState?.img}
+                            isShowShadow={selectedBackground ? true : false}
+                        />
 
-                <PickBackgroundForDay setDayState={setDayState} />
+                        <PickBackgroundForDay setDayState={setDayState} />
 
-                <View style={{alignItems: 'flex-start', width: '85%'}}>
-                    <Description text={t('general.title')} />
-                </View>
-                
-                <TextInput
-                    style={styleTextInput.input}
-                    placeholder={t('folder.day.addDay.placeholderInputTitle')}
-                    onChange={text => onChangeForm(text, 'title')}
-                    maxLength={27}
-                    placeholderTextColor={COLOR_ROOT.WHITE_70}
-                />
+                        <InputForAddDay
+                            keyForState='title'
+                            title={t('general.title')}
+                            setDayState={setDayState} 
+                            placeholder={t('folder.day.addDay.placeholderInputTitle')}
+                            maxLength={27}
+                            marginTop={10}
+                        />
+
+                        <InputForAddDay
+                            keyForState='description'
+                            title={t('general.description')}
+                            setDayState={setDayState} 
+                            placeholder={t('folder.day.addDay.placeholderInputDescription')}
+                            maxLength={35}
+                            marginTop={10}
+                        />
+                    </View>
+                </WrapperScroll>
             </View>
         </ImageBackground>
+        
     );
 };
 
 
 const styles = StyleSheet.create({
     imageBackground: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        flex: 1
     },
         overlay: {
-            ...StyleSheet.absoluteFillObject,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            flex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        },
+        containerWrapperScroll: {
             flex: 1,
             width: '100%',
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'center'
         }
-});
-
-const styleTextInput = StyleSheet.create({
-    input: {
-        backgroundColor: COLOR_ROOT.BACKGROUND_LIGHT,
-        width: '85%',
-        marginTop: 3,
-        borderRadius: 10,
-        paddingVertical: 3,
-        paddingHorizontal: 10,
-        fontSize: 17,
-        color: 'white'
-    }
 });
 
 

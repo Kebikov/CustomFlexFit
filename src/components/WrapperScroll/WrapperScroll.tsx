@@ -1,4 +1,4 @@
-import { StatusBar, View, Platform, StatusBarStyle } from 'react-native';
+import { StatusBar, View, Platform, StatusBarStyle, KeyboardAvoidingView } from 'react-native';
 import React, { FC } from 'react';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { COLOR_ROOT } from '@/constants/colors';
@@ -18,11 +18,12 @@ interface IWrapper {
  * - SafeAreaView 
  * - StatusBar
  * - ScrollView 
+ * @optional 
  * @param scrollEnabled ? Если не нужен ScrollView, передаем false.
  * @param barStyle ? Стиль StatusBar.
- * @param backgroundColor ? Цвет фона StatusBar.
+ * @param backgroundColor ? Цвет фона StatusBar. [default - 'transparent']
  * @example 
- * <WrapperScroll page={#}>
+ * <WrapperScroll>
         {JSX.Element}
     </WrapperScroll>
  */
@@ -30,7 +31,7 @@ const WrapperScroll: FC<IWrapper> = ({
     children, 
     isScrollEnabled = true,
     barStyle = 'light-content',
-    backgroundColor = COLOR_ROOT.BACKGROUND,
+    backgroundColor = 'transparent'
 }) => {
 
     return (
@@ -39,23 +40,35 @@ const WrapperScroll: FC<IWrapper> = ({
                 <StatusBar animated={true} barStyle={barStyle} backgroundColor={backgroundColor} />
             </View>
             <SafeAreaProvider>
-                <SafeAreaView style={{ flex: 1, backgroundColor }}>
-                    {
-                        isScrollEnabled
-                        ?
-                        <ScrollView 
-                            contentContainerStyle={{flexGrow: 1}} 
-                            keyboardShouldPersistTaps={'handled'} 
-                            showsVerticalScrollIndicator={false}
-                        >
-                            {children}
-                        </ScrollView>
-                        :
-                        <>
-                            {children}
-                        </>
+                <KeyboardAvoidingView
+                    style={{ flex: 1 }}
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    keyboardVerticalOffset={
+                        Platform.OS === 'ios' ? 47 
+                        : 
+                        StatusBar.currentHeight !== undefined ? StatusBar.currentHeight + 20 
+                        : 
+                        undefined
                     }
-                </SafeAreaView>
+                >
+                    <SafeAreaView style={{ flex: 1, backgroundColor }}>
+                        {
+                            isScrollEnabled
+                            ?
+                            <ScrollView 
+                                contentContainerStyle={{flexGrow: 1}} 
+                                keyboardShouldPersistTaps={'handled'} 
+                                showsVerticalScrollIndicator={false}
+                            >
+                                {children}
+                            </ScrollView>
+                            :
+                            <>
+                                {children}
+                            </>
+                        }
+                    </SafeAreaView>
+                </KeyboardAvoidingView>
             </SafeAreaProvider>
         </>
     );

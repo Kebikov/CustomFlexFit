@@ -1,4 +1,4 @@
-import { View, StyleSheet, ImageBackground } from 'react-native';
+import { View, StyleSheet, ImageBackground, Text } from 'react-native';
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHookRouter } from '../../router/useHookRouter';
@@ -6,8 +6,8 @@ import ButtonGreen from '../../components/ButtonGreen/ButtonGreen';
 import Title from '../../components/Title/Title';
 import Description from '../../components/Description/Description';
 import Step from '@/components/Step/Step';
-import AppStatusBar from '@/components/AppStatusBar/AppStatusBar';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
 /**
@@ -26,7 +26,7 @@ const Guide: FC = () => {
             style={[styles.imageBackground]}
         >
             <View style={styles.overlay} >
-                <WrapperScroll backgroundColor='transparent' > 
+                <WrapperScroll> 
 
                     <View style={styles.boxHi} >
                         <Title text={t('folder.day.guide.title')} />
@@ -45,25 +45,27 @@ const Guide: FC = () => {
 
                 </WrapperScroll>
             </View>
-        </ImageBackground>
+        </ImageBackground> 
     );
 };
 
 const styles = StyleSheet.create({
     imageBackground: {
-        flex: 1
+        flex: 1,
+        width: '100%',
     },
     overlay: {
         flex: 1,
+        width: '100%',
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        alignItems: 'center',
         paddingHorizontal: 20
     },
     boxHi: {
         flex: 1,
-        justifyContent: 'center'
-        //backgroundColor: 'red',
+        width: '100%',
+        justifyContent: 'center',
     }
 });
 
 export default Guide;
+
