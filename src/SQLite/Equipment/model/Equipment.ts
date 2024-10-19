@@ -1,9 +1,9 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
-import { DayDTO } from '@/SQLite/Day/DTO/DayDTO';
+import { EquipmentDTO } from '../DTO/EquipmentDTO';
 
 
-class Day {
+class Equipment {
 
     /**
      * `//* Создание таблицы.`
@@ -11,15 +11,12 @@ class Day {
     async create(db: SQLiteDatabase): Promise<void> {
         try {
             const result = await db.runAsync(`
-                CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE_Day}
+                CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE_Equipment}
                 (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    queue INT UNIQUE,
-                    img INT,
-                    date TEXT,
                     title TEXT,
-                    description TEXT,
-                    lastExercise INTEGER
+                    type TEXT,
+                    weight INTEGER
                 )
             `);
         } catch (error) {
@@ -30,9 +27,9 @@ class Day {
     /**
      * `//* Возврат записей в таблице.`
      */
-    async find(db: SQLiteDatabase): Promise<DayDTO[] | undefined> {
+    async find(db: SQLiteDatabase): Promise<EquipmentDTO[] | undefined> {
         try{
-            const result: DayDTO[] = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_Day}`);
+            const result: EquipmentDTO[] = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_Equipment}`);
             return result;
         } catch(error) {
             console.error('Error in Days.find >>> ', error);
@@ -41,4 +38,4 @@ class Day {
 
 }
 
-export default new Day();
+export default new Equipment();

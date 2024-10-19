@@ -1,6 +1,5 @@
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
-import Configuration from '../../constants/сonfiguration';
 import { ToastAndroid } from 'react-native';
 
 

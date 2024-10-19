@@ -6,7 +6,7 @@ import { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO';
 class Exercise {
 
     /**
-     * `//* Создание таблицы Exercise.`
+     * `//* Создание таблицы.`
      */
     async create(db: SQLiteDatabase): Promise<void> {
         await db.runAsync(`

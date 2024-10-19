@@ -1,9 +1,9 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
-import { DayDTO } from '@/SQLite/Day/DTO/DayDTO';
+import { RepsRestDTO } from '../DTO/RepsRestDTO';
 
 
-class Day {
+class RepsRest {
 
     /**
      * `//* Создание таблицы.`
@@ -11,15 +11,17 @@ class Day {
     async create(db: SQLiteDatabase): Promise<void> {
         try {
             const result = await db.runAsync(`
-                CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE_Day}
+                CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE_RepsRest}
                 (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    queue INT UNIQUE,
-                    img INT,
-                    date TEXT,
-                    title TEXT,
-                    description TEXT,
-                    lastExercise INTEGER
+                    reps INT,
+                    rest INT,
+                    id_List INT NOT NULL,
+
+                    CONSTRAINT FK_RepsRest
+                    FOREIGN KEY (id_List)
+                    REFERENCES List (id) 
+                    ON DELETE CASCADE
                 )
             `);
         } catch (error) {
@@ -30,9 +32,9 @@ class Day {
     /**
      * `//* Возврат записей в таблице.`
      */
-    async find(db: SQLiteDatabase): Promise<DayDTO[] | undefined> {
+    async find(db: SQLiteDatabase): Promise<RepsRestDTO[] | undefined> {
         try{
-            const result: DayDTO[] = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_Day}`);
+            const result: RepsRestDTO[] = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_RepsRest}`);
             return result;
         } catch(error) {
             console.error('Error in Days.find >>> ', error);
@@ -41,4 +43,4 @@ class Day {
 
 }
 
-export default new Day();
+export default new RepsRest();

@@ -7,13 +7,17 @@ import { Stack, SplashScreen } from 'expo-router';
 import { PortalProvider } from '@gorhom/portal';
 import CONFIGURATION from '@/constants/сonfiguration';
 import { useFonts } from 'expo-font';
-
-import dayService from '@/SQLite/Day/service/DayService';
-import exerciseService from '@/SQLite/Exercise/service/ExerciseService';
-import databaseService from '@/SQLite/Database/service/DatabaseService';
 import { COLOR_ROOT } from '@/constants/colors';
-import ExerciseLayout from './exercise/_layout';
 import '@/localization/i18n';
+//* SQLite
+import DayService from '@/SQLite/Day/service/DayService';
+import ExerciseService from '@/SQLite/Exercise/service/ExerciseService';
+import DatabaseService from '@/SQLite/Database/service/DatabaseService';
+import EquipmentService from '@/SQLite/Equipment/service/EquipmentService';
+import ListService from '@/SQLite/List/service/ListService';
+import List_Equipment_Service from '@/SQLite/REFERENCES/List_Equipment/service/List_Equipment_Service';
+import RepsRestService from '@/SQLite/RepsRest/service/RepsRestService';
+
 
 
 SplashScreen.preventAutoHideAsync();
@@ -69,14 +73,14 @@ const IndexLayout = () => {
     return(
         <MainLayout>
             <Stack screenOptions={{headerShown: false}} >
-                <Stack.Screen name='index' options={{animation: 'ios'}}/>
-                <Stack.Screen name='settingsScreen' options={{animation: 'ios'}}/>
-                <Stack.Screen name='choiceLanguage' options={{animation: 'ios'}}/>
+                <Stack.Screen name='index' options={{animation: 'ios'}} />
+                <Stack.Screen name='settingsScreen' options={{animation: 'ios'}} />
+                <Stack.Screen name='choiceLanguage' options={{animation: 'ios'}} />
 
                 <Stack.Screen name="modal" options={{presentation: 'modal'}} />
                 {/* folders */}
-                <Stack.Screen name='exercise' options={{animation: 'ios'}}/>
-                <Stack.Screen name='day' options={{animation: 'ios'}}/>
+                <Stack.Screen name='exercise' options={{animation: 'ios'}} />
+                <Stack.Screen name='day' options={{animation: 'ios'}} />
             </Stack>
         </MainLayout>
     )
@@ -84,25 +88,31 @@ const IndexLayout = () => {
 
 async function migrateDbIfNeeded(db: SQLiteDatabase) {
     try{
-        await databaseService.checkExistenceDataBase();
+        await DatabaseService.checkExistenceDataBase();
         const DATABASE_VERSION = 1;
         //* получаем версию BD
-        let version = await databaseService.getVersion(db);
+        let version = await DatabaseService.getVersion(db);
         
         //* если версия равна или больше чем DATABASE_VERSION, то ни чего не делаем
         if (version >= DATABASE_VERSION) return;
         //* если версия равна 0 значит она только что создана и можно заволняь ее начальными данными, если надо
         if(version === 0) {
             await db.withExclusiveTransactionAsync(async () => {
-                await databaseService.connectionModeWal(db);
-                await dayService.createTable(db);
-                await exerciseService.createTable(db);
+                await DatabaseService.connectionModeWal(db);
+
+                await DayService.createTable(db);
+                await ExerciseService.createTable(db);
+                await ListService.createTable(db);
+                await EquipmentService.createTable(db);
+                await List_Equipment_Service.createTable(db);
+                await RepsRestService.createTable(db);
+
                 //await dayService.addDataStartInTableDay(db);
                 //await exerciseService.addDataStartInTableExercise(db);
             });
         }
         //* меняем версию базы данных
-        await databaseService.setVersion(db, DATABASE_VERSION);
+        await DatabaseService.setVersion(db, DATABASE_VERSION);
     } catch(error) {
         console.error('Error in migrateDbIfNeeded >>> ', error);
         throw error;
