@@ -20,12 +20,12 @@ class DatabaseService {
          * Результат проверки сушествования базы данных.
          * @returns {Object} {"exists": false, "isDirectory": false}
          */
-        const dirInfo = await FileSystem.getInfoAsync(dbDir + CONFIGURATION.DB_NAME);
+        const dirInfo = await FileSystem.getInfoAsync(dbDir + CONFIGURATION.DB_Name);
         if (dirInfo.exists) {
-            console.info(`База данных ${CONFIGURATION.DB_NAME} сушествует.`);
+            console.info(`База данных ${CONFIGURATION.DB_Name} сушествует.`);
             return true;
         } else {
-            console.info(`База данных ${CONFIGURATION.DB_NAME} не сушествует.`);
+            console.info(`База данных ${CONFIGURATION.DB_Name} не сушествует.`);
             return false;
         }
     }
@@ -62,7 +62,7 @@ class DatabaseService {
         if(comand === 'get') {
             return result;
         } else {
-            console.info(`Таблицы в ${CONFIGURATION.DB_NAME}: `, result);
+            console.info(`Таблицы в ${CONFIGURATION.DB_Name}: `, result);
         }
     }
     

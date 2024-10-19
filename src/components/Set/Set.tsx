@@ -5,7 +5,7 @@ import { Audio } from 'expo-av';
 //* redux
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import { useDispatch } from 'react-redux';
-import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/Day.DTO';
+import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO';
 import ModalForAmount from '@/components/ModalForAmount/ModalForAmount';
 
 export type TId = '0' | '1' | '2' | 'burpee';
@@ -30,7 +30,7 @@ const Set: FC<ISet> = ({amount, exercise, id}) => {
      * Формирование уникального id для подхода в упражнении.
      * @example "DAY_1#EXERCISE_1#0"
      */
-    const createdId:string = exercise.day + '#' + exercise.exercise + '#' + id;
+    //const createdId:string = exercise.day + '#' + exercise.exercise + '#' + id;
     /**
      * Состояние видимости модального окна с изминение количества упражнений.
      */

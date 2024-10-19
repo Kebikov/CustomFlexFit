@@ -14,7 +14,7 @@ class Day {
                 CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE_Day}
                 (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    dayQueue INTEGER UNIQUE,
+                    queue INTEGER UNIQUE,
                     img INTEGER,
                     date TEXT,
                     title TEXT,

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import React, { FC, useState } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/Day.DTO';
+import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 //* helpers
 import calculationTotalWeight from '@/helpers/calculationTotalWeight';
@@ -43,22 +43,22 @@ const WeightExercise: FC<IWeightExercise> = ({exercise}) => {
     let weightTotal: number | '-';
 
     // если вес грифа равен "0"
-    if(exercise.weightNeck === '0') {
-        weightOne = '-';
-        weightTwo = '-';
-        weightTotal = '-';
-    } else {
-        weightOne = calculationTotalWeight(exercise.weightOne);
+    // if(exercise.weightNeck === '0') {
+    //     weightOne = '-';
+    //     weightTwo = '-';
+    //     weightTotal = '-';
+    // } else {
+    //     weightOne = calculationTotalWeight(exercise.weightOne);
 
-        if(exercise.weightTwo === '-') {
-            weightTwo = weightOne;
-        } else {
-            weightTwo = calculationTotalWeight(exercise.weightTwo);
-        }
+    //     if(exercise.weightTwo === '-') {
+    //         weightTwo = weightOne;
+    //     } else {
+    //         weightTwo = calculationTotalWeight(exercise.weightTwo);
+    //     }
     
-        weightTotal = weightOne + weightTwo + Number(exercise.weightNeck);
-        weightTotal = Number( weightTotal.toFixed(1) ); 
-    }
+    //     weightTotal = weightOne + weightTwo + Number(exercise.weightNeck);
+    //     weightTotal = Number( weightTotal.toFixed(1) ); 
+    // }
 
     if(!exercise) {
         return null;
@@ -67,11 +67,11 @@ const WeightExercise: FC<IWeightExercise> = ({exercise}) => {
 
 	return (
         <>
-            <ModalForAmountExercise modalVisible={modalVisible} setModalVisible={setModalVisible} exercise={exercise} />
+            {/* <ModalForAmountExercise modalVisible={modalVisible} setModalVisible={setModalVisible} exercise={exercise} />
             <View style={styles.main} >
                 <Pressable 
                     style={[styles.left, styles.publicBox]} 
-                    //onPress={() => navigate('EditWeight', {exercise})}
+                    onPress={() => navigate('EditWeight', {exercise})}
                 >
                     <Text style={styles.textKg} >{exercise.weightOne}</Text>
                 </Pressable>
@@ -90,7 +90,7 @@ const WeightExercise: FC<IWeightExercise> = ({exercise}) => {
                 <View style={[styles.right, styles.publicBox]} >
                     <Text style={styles.textKg} >{exercise.weightTwo === '-' ? 'SIMILAR' : exercise.weightTwo}</Text>
                 </View>
-            </View>
+            </View> */}
         </>
 	);
 };

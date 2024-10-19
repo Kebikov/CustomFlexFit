@@ -1,6 +1,6 @@
 import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
-import { ExerciseDTO } from '@/SQLite/Exercise/DTO/Day.DTO';
+import { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO';
 import { FlatList } from 'react-native-gesture-handler';
 import exerciseService from '@/SQLite/Exercise/service/ExerciseService';
 //* redux
@@ -39,8 +39,8 @@ const Exercise: FC = () => {
 
 	useEffect(() => {
         (async () => {
-            const data: Array<ExerciseDTO> = await exerciseService.findByDay(db, dayExercise);
-            setCurrentExercises(data);
+            //const data: Array<ExerciseDTO> = await exerciseService.findByDay(db, dayExercise);
+            //setCurrentExercises(data);
         })();
 	}, []);
 

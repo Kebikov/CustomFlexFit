@@ -37,8 +37,10 @@ const PickBackgroundForDay: FC<IPickBackgroundForDay> = ({
             aspect: [28, 10]
         });
     
-        if (!result.canceled) {
+        if (!result.canceled)  {
+            //@ts-ignore
             setDayState(state => ({...state, img: result.assets[0].uri}));
+            //@ts-ignore
             dispatch(SET_BACKGROUND_FOR_DAY(result.assets[0].uri));
         } else {
             Platform.OS === 'ios' 

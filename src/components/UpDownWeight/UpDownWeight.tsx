@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import { icon } from '@/source/icon/icon';
-import type { ExerciseDTO, TIsUp } from '@/SQLite/Exercise/DTO/Day.DTO'; 
+import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO'; 
 //* redux
 import { useAppDispatch } from '@/redux/store/hooks';
 //import { setSliceChangeExerciseInArray } from '@/redux/slice/sets.slice';
@@ -22,14 +22,14 @@ const UpDownWeight: FC<IUpDownWeight> = ({exercise}) => {
     /**
      * Изминение состояния к кнопки верх/низ или вопрос.
      */
-    const changeIsUp = (value: TIsUp) => {
-        //dispatsh(setSliceChangeExerciseInArray({day: exercise.day, exercise: exercise.exercise, isUp: value}));
-    }
+    // const changeIsUp = (value: TIsUp) => {
+    //     dispatsh(setSliceChangeExerciseInArray({day: exercise.day, exercise: exercise.exercise, isUp: value}));
+    // }
 
 	return (
 		<View style={styles.main} >
 
-            <Pressable onPress={() => changeIsUp('up')} style={[styles.pressable, {top: 5}]} >
+            {/* <Pressable onPress={() => changeIsUp('up')} style={[styles.pressable, {top: 5}]} >
                 <Image source={exercise.isUp === 'up' ? icon.up_active : icon.up} style={[styles.icon]} />
             </Pressable>
 
@@ -39,7 +39,7 @@ const UpDownWeight: FC<IUpDownWeight> = ({exercise}) => {
 
             <Pressable onPress={() => changeIsUp('down')} style={[styles.pressable, {top: 115}]} >
                 <Image source={exercise.isUp === 'down' ? icon.down_active : icon.down} style={[styles.icon]} />
-            </Pressable>
+            </Pressable> */}
 
 		</View>
 	);

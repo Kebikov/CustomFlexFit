@@ -58,7 +58,7 @@ const DayElement: FC<IDay> = ({
             >
                 <View style={style.shadow_view} >
                     <Pressable
-                        onPress={() => day ? appRouter.navigate({pathname: '/exercise/[id]', params: {dayExercise: day.day}}) : {}}
+                        //onPress={() => day ? appRouter.navigate({pathname: '/exercise/[id]', params: {dayExercise: day.day}}) : {}}
                         style={style.main}
                     >
                         <ImageBackground 

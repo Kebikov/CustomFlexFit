@@ -1,221 +1,85 @@
-import { ExerciseDTO } from "@/SQLite/Exercise/DTO/Day.DTO";
-import { EWeightNeck } from "@/SQLite/Exercise/DTO/Day.DTO";
+import { ExerciseDTO } from "@/SQLite/Exercise/DTO/ExerciseDTO";
 
 
 export const DATA_START_EXERCISE: Array<Omit<ExerciseDTO, 'id'>> = [
     //* DAY_1
     {
-        day: 1,
-        exercise: 1,
         title: 'Битепс, сидя с упором в скамью.',
         description: 'третий упор от сиденья',
-        weightNeck: EWeightNeck.dumbbell,
-        weightOne: '4+3',
-        weightTwo: '4+3+0',
-        amount: 12,
-        amountExercise: 6,
-        isUp: '?',
-        img: require('@/source/img/days/day-1/1.jpg'),
-        burpee: 18
+        img: require('@/source/img/days/day-1/1.jpg')
     },
     {
-        day: 1,
-        exercise: 2,
         title: 'Присидания со штангой.',
         description: 'крепление в 9 отверстие',
-        weightNeck: EWeightNeck.big,
-        weightOne: '20+4',
-        weightTwo: '-',
-        amount: 20,
-        amountExercise: 1,
-        isUp: 'not',
-        img: require('@/source/img/days/day-1/2.jpg'),
-        burpee: 16
+        img: require('@/source/img/days/day-1/2.jpg')
     },
     {
-        day: 1,
-        exercise: 3,
         title: 'Жим лежа со штангой.',
         description: 'крепление в 3 отверстие',
-        weightNeck: EWeightNeck.big,
-        weightOne: '20+10+5+4',
-        weightTwo: '-',
-        amount: 12,
-        amountExercise: 2,
-        isUp: 'not',
-        img: require('@/source/img/days/day-1/3.jpg'),
-        burpee: 0
+        img: require('@/source/img/days/day-1/3.jpg')
     },
     //* DAY_2
     {
-        day: 2,
-        exercise: 1,
         title: 'Отжимание от брусьев.',
         description: 'крепление в 6 отверстие',
-        weightNeck: EWeightNeck.zero,
-        weightOne: '',
-        weightTwo: '',
-        amount: 19,
-        amountExercise: 2,
-        isUp: '?',
-        img: require('@/source/img/days/day-2/1.jpg'),
-        burpee: 18
+        img: require('@/source/img/days/day-2/1.jpg')
     },
     {
-        day: 2,
-        exercise: 2,
         title: 'Битепс, стоя со штангой.',
         description: 'штанга WZ',
-        weightNeck: EWeightNeck.w,
-        weightOne: '10+5+1+0',
-        weightTwo: '-',
-        amount: 12,
-        amountExercise: 4,
-        isUp: 'not',
-        img: require('@/source/img/days/day-2/2.jpg'),
-        burpee: 16
+        img: require('@/source/img/days/day-2/2.jpg')
     },
     {
-        day: 2,
-        exercise: 3,
         title: 'Разводка гантелей в стораны.',
         description: 'с двумя гантелями',
-        weightNeck: EWeightNeck.dumbbell,
-        weightOne: '2',
-        weightTwo: '1+0',
-        amount: 20,
-        amountExercise: 7,
-        isUp: 'not',
-        img: require('@/source/img/days/day-2/3.jpg'),
-        burpee: 0
+        img: require('@/source/img/days/day-2/3.jpg')
     },
     //* DAY_3
     {
-        day: 3,
-        exercise: 1,
         title: 'Битепс, стоя со штангой.',
         description: 'штанга WZ',
-        weightNeck: EWeightNeck.w,
-        weightOne: '10+1+1',
-        weightTwo: '-',
-        amount: 20,
-        amountExercise: 3,
-        isUp: 'not',
-        img: require('@/source/img/days/day-3/1.jpg'),
-        burpee: 18
+        img: require('@/source/img/days/day-3/1.jpg')
     },
     {
-        day: 3,
-        exercise: 2,
         title: 'Жим лежа под наклоном.',
         description: 'крепление в 4 отверстие',
-        weightNeck: EWeightNeck.big,
-        weightOne: '20+10+2',
-        weightTwo: '-',
-        amount: 12,
-        amountExercise: 2,
-        isUp: 'not',
-        img: require('@/source/img/days/day-3/2.jpg'),
-        burpee: 16
+        img: require('@/source/img/days/day-3/2.jpg')
     },
     {
-        day: 3,
-        exercise: 3,
         title: 'Подъемы на скамью с гантелями.',
         description: 'с двумя гантелями',
-        weightNeck: EWeightNeck.dumbbell,
-        weightOne: '4+1',
-        weightTwo: '4',
-        amount: 12,
-        amountExercise: 6,
-        isUp: 'not',
-        img: require('@/source/img/days/day-3/3.jpg'),
-        burpee: 0
+        img: require('@/source/img/days/day-3/3.jpg')
     },
     //* DAY_4
     {
-        day: 4,
-        exercise: 1,
         title: 'Разводка гантелей в стораны.',
         description: 'с двумя гантелями',
-        weightNeck: EWeightNeck.dumbbell,
-        weightOne: '4+1',
-        weightTwo: '4+0',
-        amount: 12,
-        amountExercise: 8,
-        isUp: 'not',
-        img: require('@/source/img/days/day-4/1.jpg'),
-        burpee: 18
+        img: require('@/source/img/days/day-4/1.jpg')
     },
     {
-        day: 4,
-        exercise: 2,
         title: 'Жим гантелей лежа.',
         description: 'скамья в нетральном положении',
-        weightNeck: EWeightNeck.dumbbell,
-        weightOne: '4+3+2+0',
-        weightTwo: '-',
-        amount: 20,
-        amountExercise: 8,
-        isUp: 'not',
-        img: require('@/source/img/days/day-4/2.jpg'),
-        burpee: 16
+        img: require('@/source/img/days/day-4/2.jpg')
     },
     {
-        day: 4,
-        exercise: 3,
         title: 'Битепс, упражнение молоток.',
         description: 'с двумя гантелями',
-        weightNeck: EWeightNeck.dumbbell,
-        weightOne: '2+1+0',
-        weightTwo: '-',
-        amount: 20,
-        amountExercise: 2,
-        isUp: 'not',
-        img: require('@/source/img/days/day-4/3.jpg'),
-        burpee: 0
+        img: require('@/source/img/days/day-4/3.jpg')
     },
     //* DAY_5
     {
-        day: 5,
-        exercise: 1,
         title: 'Грудь, свидение гантелей.',
         description: 'нетральное положение скамьи',
-        weightNeck: EWeightNeck.dumbbell,
-        weightOne: '4+3+2+1',
-        weightTwo: '-',
-        amount: 12,
-        amountExercise: 1,
-        isUp: 'not',
-        img: require('@/source/img/days/day-5/1.jpg'),
-        burpee: 18
+        img: require('@/source/img/days/day-5/1.jpg')
     },
     {
-        day: 5,
-        exercise: 2,
         title: 'Плечи, подьем штанги сидя.',
         description: 'крепление в 4 отверстие',
-        weightNeck: EWeightNeck.big,
-        weightOne: '20+4',
-        weightTwo: '-',
-        amount: 12,
-        amountExercise: 2,
-        isUp: 'not',
-        img: require('@/source/img/days/day-5/2.jpg'),
-        burpee: 16
+        img: require('@/source/img/days/day-5/2.jpg')
     },
     {
-        day: 5,
-        exercise: 3,
         title: 'Спина, тяги штанги в наклоне.',
         description: 'внешний хват',
-        weightNeck: EWeightNeck.big,
-        weightOne: '20+5',
-        weightTwo: '-',
-        amount: 20,
-        amountExercise: 2,
-        isUp: 'not',
-        img: require('@/source/img/days/day-5/3.jpg'),
-        burpee: 0
+        img: require('@/source/img/days/day-5/3.jpg')
     }
 ];

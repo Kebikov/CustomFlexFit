@@ -52,7 +52,7 @@ export const MainLayout: FC<IMainLayout> = ({children}) => {
 	return (
         <GestureHandlerRootView style={{flex: 1, backgroundColor: COLOR_ROOT.BACKGROUND}} >
             <PortalProvider>
-                <SQLiteProvider databaseName={CONFIGURATION.DB_NAME} onInit={migrateDbIfNeeded} >
+                <SQLiteProvider databaseName={CONFIGURATION.DB_Name} onInit={migrateDbIfNeeded} >
                     <Provider store={store} >
                             <>
                                 {children}

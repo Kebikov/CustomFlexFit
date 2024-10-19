@@ -11,7 +11,7 @@
  */
 export interface DayDTO {
     id: number;
-    dayQueue: number;
+    queue: number;
     img: number;
     date: string;
     title: string;

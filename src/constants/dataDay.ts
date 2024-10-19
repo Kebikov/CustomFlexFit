@@ -6,7 +6,7 @@ import { DayDTO } from "@/SQLite/Day/DTO/DayDTO";
  */
 export const DATA_DAY: Array<Omit<DayDTO, 'id'>> = [
     {
-        day: 1,
+        queue: 1,
         img: require(`@/source/img/daysScreen/1.jpg`),
         date: '16.01.2024',
         title: 'Day One',
@@ -14,7 +14,7 @@ export const DATA_DAY: Array<Omit<DayDTO, 'id'>> = [
         lastExercise: 0
     },
     {
-        day: 2,
+        queue: 2,
         img: require(`@/source/img/daysScreen/2.jpg`),
         date: '17.01.2024',
         title: 'Day Two',
@@ -22,7 +22,7 @@ export const DATA_DAY: Array<Omit<DayDTO, 'id'>> = [
         lastExercise: 0
     },
     {
-        day: 3,
+        queue: 3,
         img: require(`@/source/img/daysScreen/3.jpg`),
         date: '19.01.2024',
         title: 'Day Three',
@@ -30,7 +30,7 @@ export const DATA_DAY: Array<Omit<DayDTO, 'id'>> = [
         lastExercise: 0
     },
     {
-        day: 4,
+        queue: 4,
         img: require(`@/source/img/daysScreen/4.jpg`),
         date: '21.01.2024',
         title: 'Day Four',
@@ -38,7 +38,7 @@ export const DATA_DAY: Array<Omit<DayDTO, 'id'>> = [
         lastExercise: 0
     },
     {
-        day: 5,
+        queue: 5,
         img: require(`@/source/img/daysScreen/5.jpg`),
         date: '23.01.2024',
         title: 'Day Five',
