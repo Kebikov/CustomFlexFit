@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Modal, Button } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import { useAppDispatch } from '@/redux/store/hooks';
-import type { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
+import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/Day.DTO';
 
 export interface IModalForAmountExercise {
 	/**

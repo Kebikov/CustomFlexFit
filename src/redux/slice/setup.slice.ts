@@ -16,11 +16,11 @@ const initialState: IinitialDay = {
 
 //* setsSlice 
 const setupSlice = createSlice({
-    name: 'setup',
+    name: 'SETUP',
     initialState,
     reducers: {
 
-        setSelectedBackground: (state, action) => {
+        SET_BACKGROUND_FOR_DAY: (state, action) => {
             state.selectedBackground = action.payload;
         }
 
@@ -31,5 +31,5 @@ const setupSlice = createSlice({
 export default setupSlice.reducer;
 
 export const {
-    setSelectedBackground
+    SET_BACKGROUND_FOR_DAY
 } = setupSlice.actions;

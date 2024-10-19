@@ -8,9 +8,9 @@ import { PortalProvider } from '@gorhom/portal';
 import CONFIGURATION from '@/constants/сonfiguration';
 import { useFonts } from 'expo-font';
 
-import dayService from '@/SQLite/day/service/day.service';
-import exerciseService from '@/SQLite/exercise/service/exercise.service';
-import databaseService from '@/SQLite/database/service/DatabaseService';
+import dayService from '@/SQLite/Day/service/DayService';
+import exerciseService from '@/SQLite/Exercise/service/ExerciseService';
+import databaseService from '@/SQLite/Database/service/DatabaseService';
 import { COLOR_ROOT } from '@/constants/colors';
 import ExerciseLayout from './exercise/_layout';
 import '@/localization/i18n';
@@ -97,8 +97,8 @@ async function migrateDbIfNeeded(db: SQLiteDatabase) {
                 await databaseService.connectionModeWal(db);
                 await dayService.createTable(db);
                 await exerciseService.createTable(db);
-                await dayService.addDataStartInTableDay(db);
-                await exerciseService.addDataStartInTableExercise(db);
+                //await dayService.addDataStartInTableDay(db);
+                //await exerciseService.addDataStartInTableExercise(db);
             });
         }
         //* меняем версию базы данных

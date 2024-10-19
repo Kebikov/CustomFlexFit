@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
 import { SQLiteDatabase } from 'expo-sqlite';
-import type { DayDTOomitId } from '@/SQLite/day/DTO/day.dto';
+import type { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
 import { useHookRouter } from '@/router/useHookRouter';
-import dayService from '@/SQLite/day/service/day.service';
+import dayService from '@/SQLite/Day/service/DayService';
 import Gradient from '@/components/Gradient/Gradient';
 import DayElement from '@/components/DayElement/DayElement';
 import { icon } from '@/source/icon/icon';

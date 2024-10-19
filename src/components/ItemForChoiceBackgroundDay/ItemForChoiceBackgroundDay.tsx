@@ -2,7 +2,7 @@ import { StyleSheet, Image, Pressable } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import { useAppDispatch } from '@/redux/store/hooks';
-import { setSelectedBackground } from '@/redux/slice/setup.slice';
+import { SET_BACKGROUND_FOR_DAY } from '@/redux/slice/setup.slice';
 import { Shadow } from 'react-native-shadow-2';
 
 
@@ -33,7 +33,7 @@ const ItemForChoiceBackgroundDay: FC<IItemForChoiceBackgroundDay> = ({
                 style={[styles.img_boxImgBackground, selectImg === img ? stylesSelect : null]} 
                 onPress={() => {
                     setSelectImg(img);
-                    dispatch(setSelectedBackground(img));
+                    dispatch(SET_BACKGROUND_FOR_DAY(img));
                 }}
             >
                 <Image source={img} style={styles.img_ImgBackground} />

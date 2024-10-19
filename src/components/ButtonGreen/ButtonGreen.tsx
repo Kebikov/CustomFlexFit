@@ -18,6 +18,8 @@ interface IButtonGreen {
     fontSize?: number;
     backgroundColor?: string;
     widthFlex?: number;
+    shadowDistance?: number;
+    sadowColor?: string;
 }
 
 
@@ -34,6 +36,8 @@ const DURATION = 0;
  * @param fontSize ? Размер шрифта. [default - 19]
  * @param backgroundColor ? Цвет фона кнопки. [default - COLOR_ROOT.LIME]
  * @param widthFlex ? Ширина как Flex. [default - .9]
+ * @param shadowDistance ? Размер тени. [default - 0]
+ * @param sadowColor ? Цвет тени. [default - '#fff']
  */
 const ButtonGreen: FC<IButtonGreen> = ({
     text,
@@ -42,7 +46,9 @@ const ButtonGreen: FC<IButtonGreen> = ({
     marginBottom = 0,
     fontSize = 19,
     backgroundColor = COLOR_ROOT.LIME,
-    widthFlex = .9
+    widthFlex = .9,
+    shadowDistance = 0,
+    sadowColor = '#fff'
 }) => {
 
     const scale = useSharedValue(1);
@@ -56,12 +62,12 @@ const ButtonGreen: FC<IButtonGreen> = ({
 
     return (
         
-        <ButtonAnimated style={[styles.box_button, animatedStyle, {marginBottom, marginTop}]} >
+        <ButtonAnimated style={[styles.box_button, animatedStyle, {marginBottom, marginTop, paddingHorizontal: shadowDistance}]} >
             <Shadow
                 containerStyle={{flex: widthFlex}}
                 style={[styles.shadow_style, {alignSelf: 'stretch', backgroundColor}]}
-                distance={10}
-                startColor='#fff'
+                distance={shadowDistance}
+                startColor={sadowColor}
             >
                 <View style={styles.shadow_view} >
                     <Pressable
@@ -89,7 +95,6 @@ const ButtonGreen: FC<IButtonGreen> = ({
 
 const styles = StyleSheet.create({
     box_button: {
-        paddingHorizontal: 10,
         justifyContent: 'center',
         flexDirection: 'row'
     },

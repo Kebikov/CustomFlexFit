@@ -3,12 +3,12 @@ import React, { FC } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
 import ButtonPress from '../ButtonPress/ButtonPress';
-import Days from '@/SQLite/day/modules/Day';
-import Exercise from '@/SQLite/exercise/modules/Exercise';
+import Days from '@/SQLite/Day/modules/Day';
+import Exercise from '@/SQLite/Exercise/modules/Exercise';
 
-import dayService from '@/SQLite/day/service/day.service';
-import exerciseService from '@/SQLite/exercise/service/exercise.service';
-import databaseService from '@/SQLite/database/service/DatabaseService';
+import dayService from '@/SQLite/Day/service/DayService';
+import exerciseService from '@/SQLite/Exercise/service/ExerciseService';
+import databaseService from '@/SQLite/Database/service/DatabaseService';
 import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
 
 

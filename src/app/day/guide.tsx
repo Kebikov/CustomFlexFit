@@ -40,7 +40,7 @@ const Guide: FC = () => {
                         text={t('folder.day.guide.button')}
                         handlePess={() => appRouter.push('/day/addDay')}
                         marginBottom={20}
-                        widthFlex={.4}
+                        widthFlex={1}
                     />
 
                 </WrapperScroll>

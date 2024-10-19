@@ -1,8 +1,8 @@
 import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
-import { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
+import { ExerciseDTO } from '@/SQLite/Exercise/DTO/Day.DTO';
 import { FlatList } from 'react-native-gesture-handler';
-import exerciseService from '@/SQLite/exercise/service/exercise.service';
+import exerciseService from '@/SQLite/Exercise/service/ExerciseService';
 //* redux
 import { useLocalSearchParams } from 'expo-router';
 //* component

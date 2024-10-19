@@ -1,5 +1,5 @@
-import { ExerciseDTO } from "@/SQLite/exercise/DTO/exercise.dto";
-import { EWeightNeck } from "@/SQLite/exercise/DTO/exercise.dto";
+import { ExerciseDTO } from "@/SQLite/Exercise/DTO/Day.DTO";
+import { EWeightNeck } from "@/SQLite/Exercise/DTO/Day.DTO";
 
 
 export const DATA_START_EXERCISE: Array<Omit<ExerciseDTO, 'id'>> = [

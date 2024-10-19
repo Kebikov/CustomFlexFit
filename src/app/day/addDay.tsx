@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, ImageBackground, KeyboardAvoidingView, Platform
 import React, { FC, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Title from '@/components/Title/Title';
-import Day from '@/SQLite/day/modules/Day';
+import Day from '@/SQLite/Day/modules/Day';
 import DayElement from '@/components/DayElement/DayElement';
 import { COLOR_ROOT } from '@/constants/colors';
 import useConvertFont from '@/hook/useConvertFont';
@@ -13,6 +13,9 @@ import PickBackgroundForDay from '@/components/PickBackgroundForDay/PickBackgrou
 import Description from '@/components/Description/Description';
 import InputForAddDay from '@/components/InputForAddDay/InputForAddDay';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
+import { useAppDispatch } from '@/redux/store/hooks';
+import { SET_BACKGROUND_FOR_DAY } from '@/redux/slice/setup.slice';
+import Menu from '@/components/Menu/Menu';
 
 
 export interface IdayState {
@@ -31,6 +34,7 @@ const AddDay: FC = () => {
     const {t} = useTranslation();
     const {convertFont} = useConvertFont();
     const {appRouter} = useHookRouter();
+    const dispatch = useAppDispatch();
 
     const [dayState, setDayState] = useState<IdayState>({
         img: undefined,
@@ -39,10 +43,13 @@ const AddDay: FC = () => {
     });
 
     const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
-
+    console.log('selectedBackground >>> ', selectedBackground);
 
     useEffect(() => {
         selectedBackground ? setDayState(state => ({...state, img: selectedBackground})) : null;
+        return() => {
+            dispatch(SET_BACKGROUND_FOR_DAY(''));
+        }
     }, [selectedBackground]);
 
     return (
@@ -51,6 +58,7 @@ const AddDay: FC = () => {
             source={require('@/source/img/imgForScreen/4.jpg')}
             style={[styles.imageBackground]}
         >
+            <Menu/>
             <View style={styles.overlay} >
                 <WrapperScroll>
                     <View style={styles.containerWrapperScroll} >
@@ -83,6 +91,13 @@ const AddDay: FC = () => {
                             maxLength={35}
                             marginTop={10}
                         />
+
+                        <ButtonGreen
+                            text='create'
+                            handlePess={() => {}}
+                            marginTop={40}
+                        />
+
                     </View>
                 </WrapperScroll>
             </View>

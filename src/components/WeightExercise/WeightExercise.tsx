@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import React, { FC, useState } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import type { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
+import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/Day.DTO';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 //* helpers
 import calculationTotalWeight from '@/helpers/calculationTotalWeight';

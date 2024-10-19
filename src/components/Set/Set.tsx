@@ -5,7 +5,7 @@ import { Audio } from 'expo-av';
 //* redux
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import { useDispatch } from 'react-redux';
-import type { ExerciseDTO } from '@/SQLite/exercise/DTO/exercise.dto';
+import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/Day.DTO';
 import ModalForAmount from '@/components/ModalForAmount/ModalForAmount';
 
 export type TId = '0' | '1' | '2' | 'burpee';

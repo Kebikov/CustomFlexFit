@@ -4,7 +4,7 @@ import { useHookRouter } from '@/router/useHookRouter';
 import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
 import { LocalStorageDTO } from '@/LocalStorage/model/LocalStorage';
 import { COLOR_ROOT } from '@/constants/colors';
-import DatabaseService from '../SQLite/database/service/DatabaseService';
+import DatabaseService from '../SQLite/Database/service/DatabaseService';
 import { useSQLiteContext } from 'expo-sqlite';
 import VibrationApp from '../helpers/VibrationApp';
 

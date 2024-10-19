@@ -16,7 +16,7 @@ class Database {
      * `//* Удаление базы даннных.`
      */
     async remove() {
-        await SQLite.deleteDatabaseAsync(CONFIGURATION.DB_NAME);
+        await SQLite.deleteDatabaseAsync(CONFIGURATION.DB_Name);
     }
 
     /**

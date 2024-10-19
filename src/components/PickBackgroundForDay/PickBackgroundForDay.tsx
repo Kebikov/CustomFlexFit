@@ -7,6 +7,8 @@ import { useHookRouter } from '@/router/useHookRouter';
 import ButtonGreen from '../ButtonGreen/ButtonGreen';
 import * as ImagePicker from 'expo-image-picker';
 import { IdayState } from '@/app/day/addDay';
+import { useAppDispatch } from '@/redux/store/hooks';
+import { SET_BACKGROUND_FOR_DAY } from '@/redux/slice/setup.slice';
 
 
 interface IPickBackgroundForDay {
@@ -25,6 +27,7 @@ const PickBackgroundForDay: FC<IPickBackgroundForDay> = ({
     const {t} = useTranslation();
     const {appRouter} = useHookRouter();
     const {convertFont} = useConvertFont();
+    const dispatch = useAppDispatch();
 
     const pickImageAsync = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -36,6 +39,7 @@ const PickBackgroundForDay: FC<IPickBackgroundForDay> = ({
     
         if (!result.canceled) {
             setDayState(state => ({...state, img: result.assets[0].uri}));
+            dispatch(SET_BACKGROUND_FOR_DAY(result.assets[0].uri));
         } else {
             Platform.OS === 'ios' 
             ?
@@ -67,7 +71,6 @@ const PickBackgroundForDay: FC<IPickBackgroundForDay> = ({
                 handlePess={() => pickImageAsync()}
                 fontSize={15}
                 backgroundColor={COLOR_ROOT.LIME_70}
-                widthProcent={85}
             />
         </>
 

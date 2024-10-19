@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import { icon } from '@/source/icon/icon';
-import type { ExerciseDTO, TIsUp } from '@/SQLite/exercise/DTO/exercise.dto'; 
+import type { ExerciseDTO, TIsUp } from '@/SQLite/Exercise/DTO/Day.DTO'; 
 //* redux
 import { useAppDispatch } from '@/redux/store/hooks';
 //import { setSliceChangeExerciseInArray } from '@/redux/slice/sets.slice';

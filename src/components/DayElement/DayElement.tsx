@@ -4,7 +4,7 @@ import { COLOR_ROOT } from '@/constants/colors';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { useHookRouter } from '@/router/useHookRouter';
-import type { DayDTOomitId } from '@/SQLite/day/DTO/day.dto';
+import type { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
 import { styleFontConvertForTitle } from '@/styles/font';
 import useConvertFont from '@/hook/useConvertFont';
@@ -39,7 +39,7 @@ const DayElement: FC<IDay> = ({
     img,
     isShowShadow = true
 }) => {
-    console.log(day);
+    console.log('day >>> ', isShowShadow);
     const {textCurrentDay} = getCurrentDateInFormatArray();
     const {convertFont} = useConvertFont();
     const dispatch = useAppDispatch();
@@ -50,44 +50,51 @@ const DayElement: FC<IDay> = ({
 
 	return (
         <View style={style.box} >
-            <Shadow style={style.shadowContainer} distance={isShowShadow ? 12 : 0} startColor='rgba(255, 255, 255, .3)' >
-                <Pressable
-                    onPress={() => day ? appRouter.navigate({pathname: '/exercise/[id]', params: {dayExercise: day.day}}) : {}}
-                    style={style.main}
-                >
-                    <ImageBackground 
-                        source={
-                            day ? day.img 
-                            : 
-                            img ? img 
-                            : 
-                            backgroundZero ? require('@/source/img/imgForScreen/zeroFon.jpg') 
-                            : 
-                            undefined
-                        } 
-                        style={[style.imageBackground]}
+            <Shadow 
+                containerStyle={{flex: 1}}
+                style={[style.shadow_style, {alignSelf: 'stretch'}]} 
+                distance={isShowShadow ? 12 : 0} 
+                startColor='rgba(255, 255, 255, .3)' 
+            >
+                <View style={style.shadow_view} >
+                    <Pressable
+                        onPress={() => day ? appRouter.navigate({pathname: '/exercise/[id]', params: {dayExercise: day.day}}) : {}}
+                        style={style.main}
                     >
-                        <View style={style.overlay} />
-                        <Image source={day && day.lastExercise ? require('@/source/img/dumbbell-orange.png') : require('@/source/img/dumbbell-white.png')} style={style.dumbbell} />
-                        
-                        <View style={[style.textDateBox]}>
-                            <Text style={[style.textDate, {fontSize: convertFont(Platform.OS === 'ios' ? 14 : 13)}]}>{day ? day.date : textCurrentDay}</Text>
-                        </View>
-
-                        <View>
+                        <ImageBackground 
+                            source={
+                                day ? day.img 
+                                : 
+                                img ? img 
+                                : 
+                                backgroundZero ? require('@/source/img/imgForScreen/zeroFon.jpg') 
+                                : 
+                                undefined
+                            } 
+                            style={[style.imageBackground]}
+                        >
+                            <View style={style.overlay} />
+                            <Image source={day && day.lastExercise ? require('@/source/img/dumbbell-orange.png') : require('@/source/img/dumbbell-white.png')} style={style.dumbbell} />
                             
-                            <View style={style.titleBox}>
-                                <Text style={[style.title, styleFontConvertForTitle.sport, {fontSize: convertFont(Platform.OS === 'ios' ? 16 : 15)}]} >
-                                    {title ? title : day ? day.title : null}
+                            <View style={[style.textDateBox]}>
+                                <Text style={[style.textDate, {fontSize: convertFont(Platform.OS === 'ios' ? 14 : 13)}]}>{day ? day.date : textCurrentDay}</Text>
+                            </View>
+
+                            <View>
+                                
+                                <View style={style.titleBox}>
+                                    <Text style={[style.title, styleFontConvertForTitle.sport, {fontSize: convertFont(Platform.OS === 'ios' ? 16 : 15)}]} >
+                                        {title ? title : day ? day.title : null}
+                                    </Text>
+                                </View>
+                                
+                                <Text style={[style.textPart, {fontSize: convertFont(Platform.OS === 'ios' ? 15 : 14)}]} >
+                                    {description ? description : day ? day.description : null}
                                 </Text>
                             </View>
-                            
-                            <Text style={[style.textPart, {fontSize: convertFont(Platform.OS === 'ios' ? 15 : 14)}]} >
-                                {description ? description : day ? day.description : null}
-                            </Text>
-                        </View>
-                    </ImageBackground>
-                </Pressable>
+                        </ImageBackground>
+                    </Pressable>
+                </View>
             </Shadow>
         </View>
 	);
@@ -99,14 +106,17 @@ const style = StyleSheet.create({
         width: '85%',
 		height: 132,
     },
-    shadowContainer: {
-        width: '100%',
-        height: '100%'
+    shadow_style: {
+        flex: 1,
+        borderRadius: 10,
+        overflow: 'hidden'
+    },
+    shadow_view: {
+        flex: 1
     },
 	main: {
 		width: '100%',
 		height: '100%',
-		borderRadius: 10,
 		overflow: 'hidden',
 	},
 	dumbbell: {
