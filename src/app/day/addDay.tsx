@@ -16,6 +16,7 @@ import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_BACKGROUND_FOR_DAY } from '@/redux/slice/setup.slice';
 import Menu from '@/components/Menu/Menu';
+import Database from '@/SQLite/Database/model/Database';
 
 
 export interface IdayState {
@@ -44,6 +45,12 @@ const AddDay: FC = () => {
 
     const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
     console.log('selectedBackground >>> ', selectedBackground);
+
+    const createDay = async () => {
+        console.log(dayState);
+        if(typeof dayState.img === 'string') await Database.rootFolder(dayState.img);
+
+    }
 
     useEffect(() => {
         selectedBackground ? setDayState(state => ({...state, img: selectedBackground})) : null;
@@ -94,7 +101,7 @@ const AddDay: FC = () => {
 
                         <ButtonGreen
                             text='create'
-                            handlePess={() => {}}
+                            handlePess={createDay}
                             marginTop={40}
                         />
 

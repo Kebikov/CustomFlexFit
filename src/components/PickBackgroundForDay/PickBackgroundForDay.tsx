@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { IdayState } from '@/app/day/addDay';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_BACKGROUND_FOR_DAY } from '@/redux/slice/setup.slice';
+import * as MediaLibrary from 'expo-media-library';
 
 
 interface IPickBackgroundForDay {
@@ -24,12 +25,16 @@ const PickBackgroundForDay: FC<IPickBackgroundForDay> = ({
     setDayState
 }) => {
 
+    const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
     const {t} = useTranslation();
     const {appRouter} = useHookRouter();
     const {convertFont} = useConvertFont();
     const dispatch = useAppDispatch();
 
+
+
     const pickImageAsync = async () => {
+
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,

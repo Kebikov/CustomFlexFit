@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { TLanguage } from '../LocalStorage/model/LocalStorage';
 import { AppRouterTypes } from '../router/app.router.types';
 import VibrationApp from '../helpers/VibrationApp';
+import Menu from '@/components/Menu/Menu';
 
 
 /**
@@ -25,6 +26,7 @@ const ChoiceLanguage: FC = () => {
 
     return (
         <View style={styles.container}>
+            <Menu/>
             <Text style={styles.text} >What is your {"\n"}language ?</Text>
 
             <Pressable 

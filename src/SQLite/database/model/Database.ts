@@ -1,6 +1,7 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import * as SQLite from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
+import * as FileSystem from 'expo-file-system';
 
 
 class Database {
@@ -73,6 +74,68 @@ class Database {
         await db.runAsync(`PRAGMA journal_mode = 'wal'`);
     }
 
+    /**
+     * `//* Root folder`
+     */
+    async rootFolder(path: string) {
+        try{
+            const root = await FileSystem.documentDirectory;
+            if(!root) return;
+            const pathForfolder = root + 'myFolder/';
+            const isExistingFolder = await FileSystem.getInfoAsync(pathForfolder);
+            if(!isExistingFolder.exists) {
+                await FileSystem.makeDirectoryAsync(pathForfolder, {intermediates: true});
+            }
+            console.log('path >>> ', path);
+            //
+            await FileSystem.copyAsync({from: path, to: pathForfolder + 'dfc052e5bfba.jpeg'});
+            const files = await FileSystem.readDirectoryAsync(pathForfolder);
+            console.log(JSON.stringify(files, null, 2));
+        } catch(error) {
+            console.log('Error in rootFolder >>> ', error);
+        }
+    }
+
+    /**
+     * `Просмотреть папку.`
+     */
+    async showFolder() {
+        try {
+            const root = await FileSystem.documentDirectory;
+            if(!root) return;
+            console.log('root >>> ', root);
+            const pathForfolder = root + 'myFolder/';
+            const isExist = await FileSystem.getInfoAsync(pathForfolder);
+            if(!isExist.exists) {
+                await FileSystem.makeDirectoryAsync(pathForfolder, {intermediates: true});
+                console.log('Папка создана !!!');
+            }
+
+            const isExistNew = await FileSystem.getInfoAsync(pathForfolder);
+            console.log(isExistNew);
+            // const files = await FileSystem.readDirectoryAsync(pathForfolder);
+            // console.log(JSON.stringify( files, null, 2));
+        } catch (error) {
+            console.error('Error in  >>>', error);
+        }
+    }
+
+
+    async deleteFolder() {
+        try {
+            const root = await FileSystem.documentDirectory;
+            if(!root) return;
+            const pathForfolder = root + 'myFolder/';
+            const isExist = await FileSystem.getInfoAsync(pathForfolder);
+            if(isExist.exists) {
+                await FileSystem.deleteAsync(pathForfolder);
+                console.log('Папка удалена !!!');
+            }
+
+        } catch (error) {
+            console.error('Error in  >>>', error);
+        }
+    }
 }
 
 export default new Database();

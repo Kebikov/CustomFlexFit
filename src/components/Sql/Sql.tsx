@@ -11,6 +11,7 @@ import exerciseService from '@/SQLite/Exercise/service/ExerciseService';
 import databaseService from '@/SQLite/Database/service/DatabaseService';
 import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
 import List_Equipment_Service from '@/SQLite/REFERENCES/List_Equipment/service/List_Equipment_Service';
+import Database from '@/SQLite/Database/model/Database';
 
 
 const colorBlue = '#007aeb';
@@ -45,16 +46,16 @@ const Sql: FC = () => {
     }
 
 
-    const pressSet = async () => {
-        await LocalStorageService.setChoiceLanguage('English');
+    const pressRoot = async () => {
+        await Database.rootFolder('j');
     }
 
     const pressGet = async () => {
-        console.log(await LocalStorageService.getChoiceLanguage());
+        await Database.showFolder();
     }
 
     const pressDel = async () => {
-        await LocalStorageService.removeChoiceLanguage();
+        await Database.deleteFolder();
     }
 
     const pressList_Equipment = async () => {
@@ -71,9 +72,9 @@ const Sql: FC = () => {
             <ButtonPress title='Tables Exercise' onPress={pressShowTableExercise} />
             <ButtonPress title='Tables List_Equipment' onPress={pressList_Equipment} />
             <ButtonPress title='all delete' onPress={del} type='dangerous' />
-            <ButtonPress title='set' onPress={pressSet} />
-            <ButtonPress title='get' onPress={pressGet} />
-            <ButtonPress title='remove' onPress={pressDel} />
+            <ButtonPress title='ROOT' onPress={pressRoot} />
+            <ButtonPress title='SHOW FOLDER' onPress={pressGet} />
+            <ButtonPress title='remove folder' onPress={pressDel} type='dangerous' />
         </View>
     );
 };

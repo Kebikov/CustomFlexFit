@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     settingsBox: {
         position: 'absolute',
         zIndex: 1,
-        top: 5,
+        top: 40,
         left: 20,
         width: 45,
         height: 45,
