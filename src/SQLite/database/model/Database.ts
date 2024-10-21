@@ -2,6 +2,21 @@ import { SQLiteDatabase } from 'expo-sqlite';
 import * as SQLite from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
 import * as FileSystem from 'expo-file-system';
+import { TTables } from '@/constants/сonfiguration';
+
+
+export type TExistingFolders = 'myImage';
+
+/**
+ * @param folderForSave Папка в которую сохраняем файл. Без '/' в конце. [example - 'someFolderName']
+ * @param pathToFile Путь к копируемому файлу из памяти телефона в память приложения.
+ * @param saveFileName Имя сохроняемого файла. [example - '123.jpg']
+ */
+export interface ISave {
+    folderForSave: TExistingFolders;
+    pathToFile: string;
+    saveFileName: string;
+}
 
 
 class Database {
@@ -23,7 +38,7 @@ class Database {
     /**
      * `//* Возврат количества записей в таблице.`
      */
-    async findCountTable(db: SQLiteDatabase, table: string): Promise<number | null> {
+    async findCountTable(db: SQLiteDatabase, table: TTables): Promise<number | null> {
         const result: {"COUNT(*)": number} | null = await db.getFirstAsync(`SELECT COUNT(*) FROM ${table}`);
         console.log('findCountTable = ', result);
         if(result !== null) {
@@ -75,65 +90,79 @@ class Database {
     }
 
     /**
-     * `//* Root folder`
+     * `//* Запись изображения в память приложения.`
+     * @param folderForSave Папка в которую сохраняем файл. Без '/' в конце. [example - 'someFolderName']
+     * @param pathToFile Путь к копируемому файлу из памяти телефона в память приложения.
+     * @param saveFileName Имя сохроняемого файла. [example - '123.jpg']
      */
-    async rootFolder(path: string) {
+    async save(options: ISave): Promise<boolean> {
         try{
-            const root = await FileSystem.documentDirectory;
-            if(!root) return;
-            const pathForfolder = root + 'myFolder/';
-            const isExistingFolder = await FileSystem.getInfoAsync(pathForfolder);
+            const root = FileSystem.documentDirectory;
+            if(!root) return false;
+
+            const pathToFolder = root + options.folderForSave + '/';
+
+            const isExistingFolder = await FileSystem.getInfoAsync(pathToFolder);
+
             if(!isExistingFolder.exists) {
-                await FileSystem.makeDirectoryAsync(pathForfolder, {intermediates: true});
+                await FileSystem.makeDirectoryAsync(pathToFolder, {intermediates: true});
             }
-            console.log('path >>> ', path);
-            //
-            await FileSystem.copyAsync({from: path, to: pathForfolder + 'dfc052e5bfba.jpeg'});
-            const files = await FileSystem.readDirectoryAsync(pathForfolder);
-            console.log(JSON.stringify(files, null, 2));
+
+            await FileSystem.copyAsync({from: options.pathToFile, to: pathToFolder + options.saveFileName});
+
+            console.info('File saved!');
+            return true;
         } catch(error) {
-            console.log('Error in rootFolder >>> ', error);
+            console.error('Error in Database.saveImage() >>> ', error);
+            return false;
         }
     }
 
     /**
-     * `Просмотреть папку.`
+     * `Просмотреть содержимое папки.`
+     * @param folderName Имя папки в которой необходимо просмотреть файлы.
      */
-    async showFolder() {
+    async showFolder(folderName: TExistingFolders): Promise<void> {
         try {
             const root = await FileSystem.documentDirectory;
             if(!root) return;
-            console.log('root >>> ', root);
-            const pathForfolder = root + 'myFolder/';
-            const isExist = await FileSystem.getInfoAsync(pathForfolder);
-            if(!isExist.exists) {
-                await FileSystem.makeDirectoryAsync(pathForfolder, {intermediates: true});
-                console.log('Папка создана !!!');
-            }
 
-            const isExistNew = await FileSystem.getInfoAsync(pathForfolder);
-            console.log(isExistNew);
-            // const files = await FileSystem.readDirectoryAsync(pathForfolder);
-            // console.log(JSON.stringify( files, null, 2));
+            const pathForShow = root + folderName;
+
+            const isExist = await FileSystem.getInfoAsync(pathForShow);
+
+            if(!isExist.exists) return console.info(`Папки с именем "${folderName}" не сушествует.`);
+
+            const files = await FileSystem.readDirectoryAsync(pathForShow);
+
+            console.info(`Файлы в папке "${folderName}:"`, files);
         } catch (error) {
-            console.error('Error in  >>>', error);
+            console.error('Error in Database.showFolder() >>>', error);
         }
     }
 
-
-    async deleteFolder() {
+    /**
+     * `Удаление папки.`
+     * @param folderName Имя папки которую необходимо удалить. 
+     */
+    async removeFolder(folderName: TExistingFolders): Promise<void> {
         try {
             const root = await FileSystem.documentDirectory;
             if(!root) return;
-            const pathForfolder = root + 'myFolder/';
-            const isExist = await FileSystem.getInfoAsync(pathForfolder);
+
+            const pathForRemove = root + folderName;
+
+            const isExist = await FileSystem.getInfoAsync(pathForRemove);
+
             if(isExist.exists) {
-                await FileSystem.deleteAsync(pathForfolder);
-                console.log('Папка удалена !!!');
+                await FileSystem.deleteAsync(pathForRemove);
+                console.info(`Папка "${folderName}" успешно удалена.`);
+            } else {
+                console.info(`Папки с именем "${folderName}" не сушествует.`);
             }
 
         } catch (error) {
-            console.error('Error in  >>>', error);
+            console.error('Error in Database.removeFolder() >>>', error);
         }
     }
 }

@@ -1,8 +1,9 @@
 import { SQLiteDatabase } from "expo-sqlite";
 import CONFIGURATION from '@/constants/сonfiguration';
 import * as FileSystem from 'expo-file-system';
-import Database from "../model/Database";
+import Database, { ISave, TExistingFolders } from "../model/Database";
 import * as SQLite from 'expo-sqlite';
+import { TTables } from "@/constants/сonfiguration";
 
 
 class DatabaseService {
@@ -43,7 +44,7 @@ class DatabaseService {
     /**`
      * `//* Проверка таблицы на наличие данных в ней.`
      */
-    async checkDataExistenceInTable(db: SQLiteDatabase, table: string) {
+    async checkDataExistenceInTable(db: SQLiteDatabase, table: TTables) {
         const result = await Database.findCountTable(db, table);
 
         if(result === null || result === 0) {
@@ -86,6 +87,50 @@ class DatabaseService {
      */
     async connectionModeWal(db: SQLiteDatabase) {
         await Database.modeWal(db);
+    }
+
+    /**
+     * `Сохранение изображения.`
+     * @object {
+     * @param folderForSave Папка в которую сохраняем файл. Без '/' в конце. [example - 'someFolderName']
+     * @param pathToFile Путь к копируемому файлу из памяти телефона в память приложения.
+     * @}
+     */
+    async saveImage(options: Omit<ISave, 'saveFileName'>): Promise<string | boolean> {
+        try {
+            const nameForSaveImage = new Date().getTime() + '.' + options.pathToFile.split('.').at(-1);
+
+            const result = await Database.save({...options, saveFileName: nameForSaveImage});
+
+            return result ? nameForSaveImage : false;
+        } catch (error) {
+            console.error('Error in DatabaseService.saveImage() >>>', error);
+            return false;
+        }
+    }
+
+    /**
+     * `Удаление папки.` 
+     * @param folderName Имя папки которую необходимо удалить.
+     */
+    async removeFolder(folder: TExistingFolders) {
+        try {
+            await Database.removeFolder(folder);
+        } catch (error) {
+            console.error('Error in DatabaseService.removeFolder() >>>', error);
+        }
+    }
+
+    /**
+     * `Просмотреть содержимое папки.`
+     * @param folderName Имя папки в которой необходимо просмотреть файлы.
+     */
+    async showFolder(folderName: TExistingFolders) {
+        try {
+            await Database.showFolder(folderName);
+        } catch (error) {
+            console.error('Error in DatabaseService.showFolder() >>>', error);
+        }
     }
 
 }

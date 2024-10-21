@@ -9,6 +9,7 @@ interface IButton {
     color?: string;
     type?: 'default' | 'dangerous';
     fontSize?: number; 
+    marginTop?: number;
 }
 
 const colorBlue = '#007aeb';
@@ -30,7 +31,8 @@ const ButtonPress: FC<IButton> = ({
     backgroundColor = '',
     color = 'white',
     type = 'default',
-    fontSize = 14
+    fontSize = 14,
+    marginTop = 3
 }) => {
 
     if(backgroundColor === '') {
@@ -50,7 +52,7 @@ const ButtonPress: FC<IButton> = ({
 
     return (
         <Pressable 
-            style={[styles.container, {backgroundColor}]} 
+            style={[styles.container, {backgroundColor, marginTop}]} 
             onPress={() => onPress()}
         >
             <Text style={[styles.text, {color, fontSize: Platform.OS === 'ios' ? fontSize + 3 : fontSize}]} >{title}</Text>

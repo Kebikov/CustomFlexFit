@@ -1,3 +1,5 @@
+export type TTables = 'Day' | 'Exercise' | 'List' | 'Equipment' | 'RepsRest' | 'List_Equipment';
+
 /**
  * @constant Таблицы в BD.
  * @param DB_Name Имя BD.
@@ -9,12 +11,12 @@
  */
 export interface IConfiguration {
     DB_Name: string;
-    TABLE_Day: string;
-    TABLE_Exercise: string;
-    TABLE_List: string;
-    TABLE_Equipment: string;
-    TABLE_RepsRest: string;
-    TABLE_RELATION_List_Equipment: string;
+    TABLE_Day: TTables;
+    TABLE_Exercise: TTables;
+    TABLE_List: TTables;
+    TABLE_Equipment: TTables;
+    TABLE_RepsRest: TTables;
+    TABLE_RELATION_List_Equipment: TTables;
 }
 
 

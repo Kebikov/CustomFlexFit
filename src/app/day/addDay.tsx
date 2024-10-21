@@ -17,6 +17,7 @@ import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_BACKGROUND_FOR_DAY } from '@/redux/slice/setup.slice';
 import Menu from '@/components/Menu/Menu';
 import Database from '@/SQLite/Database/model/Database';
+import DatabaseService from '@/SQLite/Database/service/DatabaseService';
 
 
 export interface IdayState {
@@ -48,7 +49,9 @@ const AddDay: FC = () => {
 
     const createDay = async () => {
         console.log(dayState);
-        if(typeof dayState.img === 'string') await Database.rootFolder(dayState.img);
+        if(typeof dayState.img === 'string') {
+            const nameImageAfterSave = await DatabaseService.saveImage({folderForSave: 'myImage', pathToFile: dayState.img});
+        }
 
     }
 

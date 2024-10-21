@@ -12,6 +12,7 @@ import databaseService from '@/SQLite/Database/service/DatabaseService';
 import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
 import List_Equipment_Service from '@/SQLite/REFERENCES/List_Equipment/service/List_Equipment_Service';
 import Database from '@/SQLite/Database/model/Database';
+import DatabaseService from '@/SQLite/Database/service/DatabaseService';
 
 
 const colorBlue = '#007aeb';
@@ -46,22 +47,17 @@ const Sql: FC = () => {
     }
 
 
-    const pressRoot = async () => {
-        await Database.rootFolder('j');
-    }
-
     const pressGet = async () => {
-        await Database.showFolder();
+        await Database.showFolder('myImage');
     }
 
     const pressDel = async () => {
-        await Database.deleteFolder();
+        await DatabaseService.removeFolder('myImage');
     }
 
     const pressList_Equipment = async () => {
         await List_Equipment_Service.showTableInConsole(db);
     }
-
 
 
     return (
@@ -72,9 +68,8 @@ const Sql: FC = () => {
             <ButtonPress title='Tables Exercise' onPress={pressShowTableExercise} />
             <ButtonPress title='Tables List_Equipment' onPress={pressList_Equipment} />
             <ButtonPress title='all delete' onPress={del} type='dangerous' />
-            <ButtonPress title='ROOT' onPress={pressRoot} />
-            <ButtonPress title='SHOW FOLDER' onPress={pressGet} />
-            <ButtonPress title='remove folder' onPress={pressDel} type='dangerous' />
+            <ButtonPress title='SHOW FOLDER IMG' onPress={pressGet} marginTop={20} />
+            <ButtonPress title='remove folder img' onPress={pressDel} type='dangerous' />
         </View>
     );
 };
