@@ -91,18 +91,18 @@ class DatabaseService {
 
     /**
      * `Сохранение изображения.`
+     * @accept
      * @object {
      * @param folderForSave Папка в которую сохраняем файл. Без '/' в конце. [example - 'someFolderName']
      * @param pathToFile Путь к копируемому файлу из памяти телефона в память приложения.
+     * @param saveFileName Имя сохроняемого файла. [example - '123.jpg']
      * @}
+     * @return nameForSaveImage || false 
      */
-    async saveImage(options: Omit<ISave, 'saveFileName'>): Promise<string | boolean> {
+    async saveImage(options: ISave): Promise<boolean> {
         try {
-            const nameForSaveImage = new Date().getTime() + '.' + options.pathToFile.split('.').at(-1);
-
-            const result = await Database.save({...options, saveFileName: nameForSaveImage});
-
-            return result ? nameForSaveImage : false;
+            const result = await Database.save({...options});
+            return result;
         } catch (error) {
             console.error('Error in DatabaseService.saveImage() >>>', error);
             return false;

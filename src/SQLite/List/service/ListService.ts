@@ -1,6 +1,6 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import List from '../model/List';
-import displayError from '@/helpers/displayError';
+import showMessage from '@/helpers/showMessage';
 import { ListDTO } from '../DTO/ListDTO';
 
 
@@ -18,7 +18,7 @@ class ListService {
      */
     async showTableInConsole(db: SQLiteDatabase): Promise<void> {
         const result = await List.find(db); 
-        if(!result) return displayError('in List.find');
+        if(!result) return showMessage('in List.find');
         console.info(JSON.stringify( result, null, 2));
     }
 

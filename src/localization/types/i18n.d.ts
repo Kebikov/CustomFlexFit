@@ -42,6 +42,11 @@ declare module 'i18next' {
                 },
                 alert_and_toast: {
                     imgNotSelect: string;
+                    notTitle: string;
+                    notDescription: string;
+                },
+                button: {
+                    create: string;
                 }
             }
         }

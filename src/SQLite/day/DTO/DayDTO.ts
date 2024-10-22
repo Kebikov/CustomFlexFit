@@ -11,11 +11,11 @@
 export interface DayDTO {
     id: number;
     queue: number;
-    img: number;
+    img: string | number; // in BD type string
     date: string;
     title: string;
     description: string;
     lastExercise: number;
 }
 
-export interface DayDTOomitId extends DayDTO {}
+export interface DayDTOomitId extends Omit<DayDTO, 'id'> {}

@@ -1,23 +1,23 @@
-import { View, Text, StyleSheet, ImageBackground, KeyboardAvoidingView, Platform, ToastAndroid, TextInput, NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
-import React, { FC, useState, useEffect } from 'react';
+import { StyleSheet, ImageBackground, View } from 'react-native';
+import { FC, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import Title from '@/components/Title/Title';
-import Day from '@/SQLite/Day/modules/Day';
-import DayElement from '@/components/DayElement/DayElement';
-import { COLOR_ROOT } from '@/constants/colors';
 import useConvertFont from '@/hook/useConvertFont';
 import { useHookRouter } from '@/router/useHookRouter';
 import { useAppSelector } from '@/redux/store/hooks';
-import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
-import PickBackgroundForDay from '@/components/PickBackgroundForDay/PickBackgroundForDay';
-import Description from '@/components/Description/Description';
-import InputForAddDay from '@/components/InputForAddDay/InputForAddDay';
-import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_BACKGROUND_FOR_DAY } from '@/redux/slice/setup.slice';
-import Menu from '@/components/Menu/Menu';
-import Database from '@/SQLite/Database/model/Database';
 import DatabaseService from '@/SQLite/Database/service/DatabaseService';
+import DayService from '@/SQLite/Day/service/DayService';
+import { useSQLiteContext } from 'expo-sqlite';
+import Menu from '@/components/Menu/Menu';
+import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
+import PickBackgroundForDay from '@/components/PickBackgroundForDay/PickBackgroundForDay';
+import DayElement from '@/components/DayElement/DayElement';
+import Title from '@/components/Title/Title';
+import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
+import InputForAddDay from '@/components/InputForAddDay/InputForAddDay';
+import type { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
+import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
 
 
 export interface IdayState {
@@ -33,8 +33,8 @@ export interface IdayState {
 const AddDay: FC = () => {
     console.log('page > AddDay');
 
+    const db = useSQLiteContext();
     const {t} = useTranslation();
-    const {convertFont} = useConvertFont();
     const {appRouter} = useHookRouter();
     const dispatch = useAppDispatch();
 
@@ -45,92 +45,106 @@ const AddDay: FC = () => {
     });
 
     const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
-    console.log('selectedBackground >>> ', selectedBackground);
 
+    /**
+     * `Создание дня тренировки.`
+     */
     const createDay = async () => {
-        console.log(dayState);
+        // Задаем имя для изображения.
+        let nameForSaveImage: string;
         if(typeof dayState.img === 'string') {
-            const nameImageAfterSave = await DatabaseService.saveImage({folderForSave: 'myImage', pathToFile: dayState.img});
+            nameForSaveImage = new Date().getTime() + '.' + dayState.img.split('.').at(-1);
+        } else if(typeof dayState.img === 'number'){
+            nameForSaveImage = String(dayState.img);
+        } else {
+            nameForSaveImage = '';
         }
 
+        // Формируем обьект сушности для записи в таблицу Day.
+        const entity: DayDTOomitId = {
+            queue: 0,
+            img: nameForSaveImage,
+            date: '',
+            title: dayState.title === t('folder.day.addDay.title') ? '' : dayState.title,
+            description: dayState.description === t('folder.day.addDay.description') ? '' : dayState.description,
+            lastExercise: 0
+        }
+
+        const result = await DayService.insertOne(db, entity);
+
+        // Сохраняем изображение при удачной записи в BD.
+        if(result && typeof dayState.img === 'string') {
+            const resultSaveImage = await DatabaseService.saveImage({
+                folderForSave: 'myImage', 
+                pathToFile: dayState.img, 
+                saveFileName: nameForSaveImage
+            });
+        }
+        if(result) appRouter.replace('/exercise/addExercise');
     }
 
     useEffect(() => {
         selectedBackground ? setDayState(state => ({...state, img: selectedBackground})) : null;
         return() => {
+            console.log('Page the AddDay unmount');
             dispatch(SET_BACKGROUND_FOR_DAY(''));
         }
     }, [selectedBackground]);
 
     return (
-        
-        <ImageBackground
-            source={require('@/source/img/imgForScreen/4.jpg')}
-            style={[styles.imageBackground]}
+        <WrapperImageBackground
+            imageBackground={require('@/source/img/imgForScreen/4.jpg')}
+            overlayColor={'rgba(0, 0, 0, 0.5)'}
         >
-            <Menu/>
-            <View style={styles.overlay} >
-                <WrapperScroll>
-                    <View style={styles.containerWrapperScroll} >
-                        <Title text={t('folder.day.addDay.pageTitle')} />
+            <View style={styles.containerWrapperScroll} >
+                <Title text={t('folder.day.addDay.pageTitle')} />
 
-                        <DayElement
-                            title={dayState.title}
-                            description={dayState.description}
-                            backgroundZero={true} 
-                            img={dayState?.img}
-                            isShowShadow={selectedBackground ? true : false}
-                        />
+                <DayElement
+                    title={dayState.title}
+                    description={dayState.description}
+                    backgroundZero={true} 
+                    img={dayState?.img}
+                    isShowShadow={selectedBackground ? true : false}
+                />
 
-                        <PickBackgroundForDay setDayState={setDayState} />
+                <PickBackgroundForDay setDayState={setDayState} />
 
-                        <InputForAddDay
-                            keyForState='title'
-                            title={t('general.title')}
-                            setDayState={setDayState} 
-                            placeholder={t('folder.day.addDay.placeholderInputTitle')}
-                            maxLength={27}
-                            marginTop={10}
-                        />
+                <InputForAddDay
+                    keyForState='title'
+                    title={t('general.title')}
+                    setDayState={setDayState} 
+                    placeholder={t('folder.day.addDay.placeholderInputTitle')}
+                    maxLength={27}
+                    marginTop={10}
+                />
 
-                        <InputForAddDay
-                            keyForState='description'
-                            title={t('general.description')}
-                            setDayState={setDayState} 
-                            placeholder={t('folder.day.addDay.placeholderInputDescription')}
-                            maxLength={35}
-                            marginTop={10}
-                        />
+                <InputForAddDay
+                    keyForState='description'
+                    title={t('general.description')}
+                    setDayState={setDayState} 
+                    placeholder={t('folder.day.addDay.placeholderInputDescription')}
+                    maxLength={35}
+                    marginTop={10}
+                />
 
-                        <ButtonGreen
-                            text='create'
-                            handlePess={createDay}
-                            marginTop={40}
-                        />
-
-                    </View>
-                </WrapperScroll>
+                <ButtonGreen
+                    text={t('button.create')}
+                    handlePess={createDay}
+                    marginTop={40}
+                />
             </View>
-        </ImageBackground>
-        
+        </WrapperImageBackground>
     );
 };
 
 
 const styles = StyleSheet.create({
-    imageBackground: {
-        flex: 1
-    },
-        overlay: {
-            flex: 1,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)'
-        },
-        containerWrapperScroll: {
-            flex: 1,
-            width: '100%',
-            justifyContent: 'center',
-            alignItems: 'center'
-        }
+    containerWrapperScroll: {
+        flex: 1,
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 });
 
 

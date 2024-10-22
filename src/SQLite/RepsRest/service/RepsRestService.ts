@@ -1,6 +1,6 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import RepsRest from '../model/RepsRest';
-import displayError from '@/helpers/displayError';
+import showMessage from '@/helpers/showMessage';
 import { RepsRestDTO } from '../DTO/RepsRestDTO';
 
 
@@ -18,7 +18,7 @@ class RepsRestServise {
      */
     async showTableInConsole(db: SQLiteDatabase): Promise<void> {
         const result = await RepsRest.find(db); 
-        if(!result) return displayError('in Days.find');
+        if(!result) return showMessage('in Days.find');
         console.info(JSON.stringify( result, null, 2));
     }
 

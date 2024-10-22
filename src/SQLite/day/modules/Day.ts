@@ -1,6 +1,6 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
-import { DayDTO } from '@/SQLite/Day/DTO/DayDTO';
+import { DayDTO, DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
 
 
 class Day {
@@ -15,7 +15,7 @@ class Day {
                 (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     queue INT UNIQUE,
-                    img INT,
+                    img TEXT,
                     date TEXT,
                     title TEXT,
                     description TEXT,
@@ -23,7 +23,7 @@ class Day {
                 )
             `);
         } catch (error) {
-            console.error('Error in  >>>', error);
+            console.error('Error in Day.create() >>>', error);
         }
     }
 
@@ -35,7 +35,23 @@ class Day {
             const result: DayDTO[] = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_Day}`);
             return result;
         } catch(error) {
-            console.error('Error in Days.find >>> ', error);
+            console.error('Error in Day.find >>> ', error);
+        }
+    }
+
+    /**
+     * `//* Добавление одной записи в таблицу.`
+     */
+    async insertOne(db: SQLiteDatabase, entity: DayDTOomitId) {
+        try {
+            const result = await db.runAsync(`
+                INSERT INTO ${CONFIGURATION.TABLE_Day}
+                ('queue', 'img', 'date', 'title', 'description', 'lastExercise')
+                VALUES
+                (?, ?, ?, ?, ?, ?)    
+            `,[entity.queue, entity.img, entity.date, entity.title, entity.description, entity.lastExercise]);
+        } catch (error) {
+            console.error('Error in Day.insertOne() >>>', error);
         }
     }
 

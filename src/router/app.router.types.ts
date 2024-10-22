@@ -8,6 +8,7 @@ export type AppRouterTypes = {
     '/modal': undefined;
 
     //: exercise 
+    '/exercise/addExercise': undefined;
     '/exercise/[id]': {dayExercise: number}; 
     '/exercise/modal': undefined;
 

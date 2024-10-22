@@ -1,6 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { Vibration, Platform } from 'react-native';
 
+
 class VibrationApp {
 
     /**

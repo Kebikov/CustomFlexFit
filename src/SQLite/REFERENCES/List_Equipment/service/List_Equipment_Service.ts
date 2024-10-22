@@ -1,6 +1,6 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import List_Equipment from '../model/List_Equipment';
-import displayError from '@/helpers/displayError';
+import showMessage from '@/helpers/showMessage';
 import { List_Equipment_DTO } from '../DTO/List_EquipmentDTO';
 import CONFIGURATION from '@/constants/сonfiguration';
 

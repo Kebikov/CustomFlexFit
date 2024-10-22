@@ -1,5 +1,5 @@
 import { SQLiteDatabase } from 'expo-sqlite';
-import displayError from '@/helpers/displayError';
+import showMessage from '@/helpers/showMessage';
 import Equipment from '../model/Equipment';
 import { EquipmentDTO } from '../DTO/EquipmentDTO';
 import CONFIGURATION from '@/constants/сonfiguration';
@@ -20,7 +20,7 @@ class EquipmentServise {
      */
     async showTableInConsole(db: SQLiteDatabase): Promise<void> {
         const result = await Equipment.find(db); 
-        if(!result) return displayError('in Days.find');
+        if(!result) return showMessage('in Days.find');
         console.info(JSON.stringify( result, null, 2));
     }
 

@@ -36,6 +36,11 @@
         }
     },
     "alert_and_toast": {
-        "imgNotSelect" : "You haven’t selected any photo."
+        "imgNotSelect" : "You haven’t selected any images.",
+        "notTitle": "There is no title.",
+        "notDescription": "There is no description."
+    },
+    "button": {
+        "create": "create"
     }
 }
