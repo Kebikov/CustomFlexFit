@@ -35,7 +35,7 @@ const PickBackgroundForDay = <I extends {img: number | string | undefined}>({
     modalPath
 }: IPickBackgroundForDay<I>) => {
 
-    const {t} = useTranslation();
+    const {t} = useTranslation(['alert_and_toast', '[day]']);
     const {appRouter} = useHookRouter();
     const {convertFont} = useConvertFont();
     const dispatch = useAppDispatch();
@@ -59,9 +59,9 @@ const PickBackgroundForDay = <I extends {img: number | string | undefined}>({
         } else {
             Platform.OS === 'ios' 
             ?
-            Alert.alert(t('alert_and_toast.imgNotSelect')) 
+            Alert.alert(t('alert_and_toast:imgNotSelect')) 
             : 
-            ToastAndroid.show(t('alert_and_toast.imgNotSelect'), ToastAndroid.SHORT);
+            ToastAndroid.show(t('alert_and_toast:imgNotSelect'), ToastAndroid.SHORT);
         }
     };
 
@@ -70,7 +70,7 @@ const PickBackgroundForDay = <I extends {img: number | string | undefined}>({
             <View style={styles.addExistingnBackground} >
                 <View style={styles.boxText} >
                     <Text style={[styles.text, {fontSize: convertFont(Platform.OS === 'ios' ? 16 : 16)}]} >
-                        {t('folder.day.addDay.addExistingnBackground')}
+                        {t('[day]:addDay.addExistingnBackground')}
                     </Text>
                 </View>
                 <Pressable 
@@ -83,7 +83,7 @@ const PickBackgroundForDay = <I extends {img: number | string | undefined}>({
 
             <ButtonGreen
                 marginTop={20}
-                text={t('folder.day.addDay.buttonChoiceBackground')}
+                text={t('[day]:addDay.buttonChoiceBackground')}
                 handlePess={() => pickImageAsync()}
                 fontSize={15}
                 backgroundColor={COLOR_ROOT.LIME_70}

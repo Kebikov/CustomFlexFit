@@ -28,7 +28,7 @@ const ScreenAddBackground: FC<IScreenAddBackground> = ({
     SET_ACTIONS
 }) => {
     
-    const {t} = useTranslation();
+    const {t} = useTranslation(['[day]']);
     const [selectImg, setSelectImg] = useState<number | undefined>(undefined);
     console.log(selectImg);
     return (
@@ -45,7 +45,7 @@ const ScreenAddBackground: FC<IScreenAddBackground> = ({
                 </Pressable>
                 
                 <View style={{alignItems: 'flex-start', width: '100%', marginTop: 10, paddingHorizontal: 20}} >
-                    <Description text={t('folder.day.modalAddDay.description')} />
+                    <Description text={t('[day]:modalAddDay.description')} />
                 </View>
                 
 

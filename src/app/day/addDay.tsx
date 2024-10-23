@@ -34,14 +34,14 @@ const AddDay: FC = () => {
     console.log('page > AddDay');
 
     const db = useSQLiteContext();
-    const {t} = useTranslation(['translation', 'button']);
+    const {t} = useTranslation(['common', 'button', '[day]']);
     const {appRouter} = useHookRouter();
     const dispatch = useAppDispatch();
 
     const [dayState, setDayState] = useState<IdayState>({
         img: undefined,
-        title: t('folder.exercise.addExercise.title'), 
-        description: t('folder.day.addDay.description')
+        title: t('[day]:addDay.title'), 
+        description: t('[day]:addDay.description')
     });
 
     const selectedBackgroundDay = useAppSelector(state => state.setupSlice.selectedBackgroundDay);
@@ -65,8 +65,8 @@ const AddDay: FC = () => {
             queue: 0,
             img: nameForSaveImage,
             date: '',
-            title: dayState.title === t('folder.day.addDay.title') ? '' : dayState.title,
-            description: dayState.description === t('folder.day.addDay.description') ? '' : dayState.description,
+            title: dayState.title === t('[day]:addDay.title') ? '' : dayState.title,
+            description: dayState.description === t('[day]:addDay.description') ? '' : dayState.description,
             lastExercise: 0
         }
 
@@ -97,7 +97,7 @@ const AddDay: FC = () => {
             overlayColor={'rgba(0, 0, 0, 0.5)'}
         >
             <View style={styles.containerWrapperScroll} >
-                <Title text={t('folder.day.addDay.pageTitle')} />
+                <Title text={t('[day]:addDay.pageTitle')} />
 
                 <DayElement
                     title={dayState.title}
@@ -116,18 +116,18 @@ const AddDay: FC = () => {
 
                 <InputForAddDay<IdayState>
                     keyForState='title'
-                    title={t('general.title')}
+                    title={t('common:title')}
                     setDayState={setDayState} 
-                    placeholder={t('folder.day.addDay.placeholderInputTitle')}
+                    placeholder={t('[day]:addDay.placeholderInputTitle')}
                     maxLength={27}
                     marginTop={10}
                 />
 
                 <InputForAddDay<IdayState>
                     keyForState='description'
-                    title={t('general.description')}
+                    title={t('common:description')}
                     setDayState={setDayState} 
-                    placeholder={t('folder.day.addDay.placeholderInputDescription')}
+                    placeholder={t('[day]:addDay.placeholderInputDescription')}
                     maxLength={35}
                     marginTop={10}
                 />

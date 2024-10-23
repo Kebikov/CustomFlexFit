@@ -25,9 +25,8 @@ interface IExerciseState {
 const AddExercise: FC = () => {
 
     const {appRouter} = useHookRouter();
-    const {t} = useTranslation(['translation', 'button', 'alert_and_toast']);
+    const {t} = useTranslation(['[exercise]', 'common', '[day]']);
 
-    console.log('test >>> ', t('folder.day.addDay.buttonChoiceBackground'));
 
     const [exerciseState, setExerciseState] = useState<IExerciseState>({
         img: undefined,
@@ -42,7 +41,7 @@ const AddExercise: FC = () => {
             backgroundColor={COLOR_ROOT.BACKGROUND}
         >
             <View style={styles.container} >
-                <Title text={t('folder.exercise.addExercise.title')} fontSize={22} marginTop={20} />
+                <Title text={t('[exercise]:addExercise.title')} fontSize={22} marginTop={20} />
 
                 <View style={styles.boxImageBackground} >
                     <Image source={
@@ -65,18 +64,18 @@ const AddExercise: FC = () => {
 
                 <InputForAddDay<IExerciseState>
                     keyForState='title'
-                    title={t('general.title')}
+                    title={t('common:title')}
                     setDayState={setExerciseState} 
-                    placeholder={t('folder.day.addDay.placeholderInputTitle')}
+                    placeholder={t('[day]:addDay.placeholderInputTitle')}
                     maxLength={27}
                     marginTop={10}
                 />
 
                 <InputForAddDay<IExerciseState>
                     keyForState='description'
-                    title={t('general.description')}
+                    title={t('common:title')}
                     setDayState={setExerciseState} 
-                    placeholder={t('folder.day.addDay.placeholderInputTitle')}
+                    placeholder={t('[day]:addDay.placeholderInputDescription')}
                     maxLength={27}
                     marginTop={10}
                 />

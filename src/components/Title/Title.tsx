@@ -8,6 +8,7 @@ interface ITitle {
     fontSize?: number;
     marginBottom?: number;
     marginTop?: number;
+    oneLineText?: boolean;
 }
 
 /**
@@ -17,18 +18,20 @@ interface ITitle {
  * @param fontSize ? Размер шрифта.
  * @param marginTop ? Отступ с верху.
  * @param marginBottom ? Отступ с низу.
+ * @param oneLineText ? Отображение текста в одну строку.
  */
 const Title: FC<ITitle> = ({
     text,
     fontSize = 25,
     marginTop = 0,
-    marginBottom = 0
+    marginBottom = 0,
+    oneLineText = false
 }) => {
 
     const {convertFont} = useConvertFont();
 
     return (
-        <Text style={[styles.title, styleFontConvertForTitle.sport, {fontSize: convertFont(fontSize), marginBottom, marginTop}]} numberOfLines={1} adjustsFontSizeToFit >{text}</Text>
+        <Text style={[styles.title, styleFontConvertForTitle.sport, {fontSize: convertFont(fontSize), marginBottom, marginTop}]} numberOfLines={oneLineText ? 1 : 0} adjustsFontSizeToFit={oneLineText} >{text}</Text>
     );
 };
 

@@ -4,6 +4,8 @@ import { common_en, common_ru } from "./translations/common";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { button_en, button_ru } from './translations/button';
 import { alert_and_toast_en, alert_and_toast_ru } from './translations/alert_and_toast';
+import { day_en, day_ru } from './translations/[day]';
+import { exercise_en, exercise_ru } from './translations/[exercise]';
 
 
 const STORE_LANGUAGE_KEY = "ChoiceLanguage";
@@ -41,18 +43,22 @@ const languageDetectorPlugin = {
 
 const resources = {
     English: {
-        translation: common_en,
-        button: button_en,
-        alert_and_toast: alert_and_toast_en
+        'common': common_en,
+        'button': button_en,
+        'alert_and_toast': alert_and_toast_en,
+        '[day]': day_en,
+        '[exercise]': exercise_en
     },
     Russian: {
-        translation: common_ru,
-        button: button_ru,
-        alert_and_toast: alert_and_toast_ru
-    },
+        'common': common_ru,
+        'button': button_ru,
+        'alert_and_toast': alert_and_toast_ru,
+        '[day]': day_ru,
+        '[exercise]': exercise_ru
+    }
 };
 
-const ns = ['translation', 'button', 'alert_and_toast'];
+const ns = ['common', 'button', 'alert_and_toast', '[day]', '[exercise]'];
 
 
 i18n.use(initReactI18next)
@@ -60,7 +66,7 @@ i18n.use(initReactI18next)
     .init({
             resources,
             ns,
-            defaultNS: 'translation',
+            defaultNS: 'common',
             compatibilityJSON: 'v3',
             // fallback language is set to english
             fallbackLng: "English",

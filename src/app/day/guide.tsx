@@ -17,7 +17,7 @@ const Guide: FC = () => {
     console.log('page > day.guide');
 
     const {appRouter} = useHookRouter();
-    const {t} = useTranslation();
+    const {t} = useTranslation(['[day]']);
 
 
     return (
@@ -29,15 +29,15 @@ const Guide: FC = () => {
                 <WrapperScroll> 
 
                     <View style={styles.boxHi} >
-                        <Title text={t('folder.day.guide.title')} />
-                        <Description text={t('folder.day.guide.description')} marginTop={40} />
-                        <Step numberStep={1} text={t('folder.day.guide.step1')} marginTop={40} />
-                        <Step numberStep={2} text={t('folder.day.guide.step2')} marginTop={20} />
-                        <Step numberStep={3} text={t('folder.day.guide.step3')} marginTop={20} />
+                        <Title text={t('[day]:guide.title')} />
+                        <Description text={t('[day]:guide.description')} marginTop={40} />
+                        <Step numberStep={1} text={t('[day]:guide.step1')} marginTop={40} />
+                        <Step numberStep={2} text={t('[day]:guide.step2')} marginTop={20} />
+                        <Step numberStep={3} text={t('[day]:guide.step3')} marginTop={20} />
                     </View>
 
                     <ButtonGreen
-                        text={t('folder.day.guide.button')}
+                        text={t('[day]:guide.button')}
                         handlePess={() => appRouter.push('/day/addDay')}
                         marginBottom={20}
                         widthFlex={1}
