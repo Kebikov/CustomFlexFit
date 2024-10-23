@@ -25,7 +25,9 @@ interface IExerciseState {
 const AddExercise: FC = () => {
 
     const {appRouter} = useHookRouter();
-    const {t} = useTranslation();
+    const {t} = useTranslation(['translation', 'button', 'alert_and_toast']);
+
+    console.log('test >>> ', t('folder.day.addDay.buttonChoiceBackground'));
 
     const [exerciseState, setExerciseState] = useState<IExerciseState>({
         img: undefined,
@@ -34,8 +36,6 @@ const AddExercise: FC = () => {
     });
 
     const selectedBackgroundExercise = useAppSelector(state => state.setupSlice.selectedBackgroundExercise);
-
-    console.log(exerciseState.img);
 
     return (
         <WrapperScroll

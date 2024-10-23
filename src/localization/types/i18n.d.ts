@@ -1,8 +1,13 @@
 import i18next from "i18next";
+import { ILng_alert_and_toast } from "../translations/alert_and_toast/types/alert_and_toast.type";
+import { ILng_Button } from "../translations/button/types/button.type";
+
 
 declare module 'i18next' {
     interface CustomTypeOptions {
         resources: {
+            button: ILng_Button,
+            alert_and_toast: ILng_alert_and_toast,
             translation: {
                 language: string;
                 general: {
@@ -44,14 +49,6 @@ declare module 'i18next' {
                             title: string;
                         }
                     }
-                },
-                alert_and_toast: {
-                    imgNotSelect: string;
-                    notTitle: string;
-                    notDescription: string;
-                },
-                button: {
-                    create: string;
                 }
             }
         }

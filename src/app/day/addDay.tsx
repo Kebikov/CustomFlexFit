@@ -34,13 +34,13 @@ const AddDay: FC = () => {
     console.log('page > AddDay');
 
     const db = useSQLiteContext();
-    const {t} = useTranslation();
+    const {t} = useTranslation(['translation', 'button']);
     const {appRouter} = useHookRouter();
     const dispatch = useAppDispatch();
 
     const [dayState, setDayState] = useState<IdayState>({
         img: undefined,
-        title: t('folder.day.addDay.title'), 
+        title: t('folder.exercise.addExercise.title'), 
         description: t('folder.day.addDay.description')
     });
 
@@ -133,7 +133,7 @@ const AddDay: FC = () => {
                 />
 
                 <ButtonGreen
-                    text={t('button.create')}
+                    text={t('button:create')}
                     handlePess={createDay}
                     marginTop={40}
                 />
