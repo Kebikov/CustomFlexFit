@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, TextInput, NativeSyntheticEvent, TextInputChangeEventData, Platform } from 'react-native';
 import React, { FC } from 'react';
 import Description from '@/components/Description/Description';
-import { useTranslation } from 'react-i18next';
 import { COLOR_ROOT } from '@/constants/colors';
 import { IdayState } from '@/app/day/addDay';
 
@@ -33,8 +32,6 @@ const InputForAddDay: FC<IInputForAddDay> = ({
     maxLength,
     marginTop
 }) => {
-
-    const {t} = useTranslation();
 
     const onChangeForm = (e: NativeSyntheticEvent<TextInputChangeEventData>, key: string) => {
         e.persist();

@@ -5,6 +5,7 @@ import { styleFontConvertForTitle } from '@/styles/font';
 
 interface ITitle {
     text: string;
+    fontSize?: number;
     marginBottom?: number;
     marginTop?: number;
 }
@@ -13,11 +14,13 @@ interface ITitle {
  * @component `Заголовок.`
  * @param text Отображаемый текст.
  * @optional
+ * @param fontSize ? Размер шрифта.
  * @param marginTop ? Отступ с верху.
  * @param marginBottom ? Отступ с низу.
  */
 const Title: FC<ITitle> = ({
     text,
+    fontSize = 25,
     marginTop = 0,
     marginBottom = 0
 }) => {
@@ -25,7 +28,7 @@ const Title: FC<ITitle> = ({
     const {convertFont} = useConvertFont();
 
     return (
-        <Text style={[styles.title, styleFontConvertForTitle.sport, {fontSize: convertFont(25), marginBottom, marginTop}]} numberOfLines={1} adjustsFontSizeToFit >{text}</Text>
+        <Text style={[styles.title, styleFontConvertForTitle.sport, {fontSize: convertFont(fontSize), marginBottom, marginTop}]} numberOfLines={1} adjustsFontSizeToFit >{text}</Text>
     );
 };
 

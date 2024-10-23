@@ -6,7 +6,7 @@ import { Shadow } from 'react-native-shadow-2';
 import { ActionCreatorWithPayload as ACP}  from '@reduxjs/toolkit';
 
 
-interface IItemForChoiceBackground {
+export interface IItemForChoiceBackground {
     img: number;
     setSelectImg: React.Dispatch<React.SetStateAction<number | undefined>>;
     selectImg: number | undefined;
