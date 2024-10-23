@@ -38,6 +38,11 @@ declare module 'i18next' {
                         modalAddDay: {
                             description: string;
                         }
+                    },
+                    exercise: {
+                        addExercise: {
+                            title: string;
+                        }
                     }
                 },
                 alert_and_toast: {

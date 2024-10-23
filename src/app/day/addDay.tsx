@@ -40,7 +40,7 @@ const AddDay: FC = () => {
 
     const [dayState, setDayState] = useState<IdayState>({
         img: undefined,
-        title: t('folder.day.addDay.title'),
+        title: t('folder.day.addDay.title'), 
         description: t('folder.day.addDay.description')
     });
 
@@ -109,7 +109,7 @@ const AddDay: FC = () => {
 
                 <PickBackgroundForDay setDayState={setDayState} />
 
-                <InputForAddDay
+                <InputForAddDay<IdayState>
                     keyForState='title'
                     title={t('general.title')}
                     setDayState={setDayState} 
@@ -118,7 +118,7 @@ const AddDay: FC = () => {
                     marginTop={10}
                 />
 
-                <InputForAddDay
+                <InputForAddDay<IdayState>
                     keyForState='description'
                     title={t('general.description')}
                     setDayState={setDayState} 

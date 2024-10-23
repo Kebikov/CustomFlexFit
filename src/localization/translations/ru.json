@@ -33,6 +33,11 @@
             "modalAddDay": {
                 "description": "Выберите фоновое изображение для дня тренировки."
             }
+        },
+        "exercise": {
+            "addExercise": {
+                "title": "Создай свое упражнение"
+            }
         }
     },
     "alert_and_toast": {

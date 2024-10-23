@@ -5,9 +5,9 @@ import { COLOR_ROOT } from '@/constants/colors';
 import { IdayState } from '@/app/day/addDay';
 
 
-interface IInputForAddDay {
-    keyForState: string;
-    setDayState: React.Dispatch<React.SetStateAction<IdayState>>;
+interface IInputForAddDay<I> {
+    keyForState: keyof I;
+    setDayState: React.Dispatch<React.SetStateAction<I>>;
     title: string;
     placeholder: string;
     maxLength: number;
@@ -24,14 +24,14 @@ interface IInputForAddDay {
  * @param maxLength Максимальная длинна вводимого текста.
  * @param marginTop ? Отступ с верху.
  */
-const InputForAddDay: FC<IInputForAddDay> = ({
+const InputForAddDay = <I,>({
     keyForState,
     setDayState,
     title,
     placeholder,
     maxLength,
     marginTop
-}) => {
+}: IInputForAddDay<I>) => {
 
     const onChangeForm = (e: NativeSyntheticEvent<TextInputChangeEventData>, key: string) => {
         e.persist();
@@ -47,7 +47,7 @@ const InputForAddDay: FC<IInputForAddDay> = ({
             <TextInput
                 style={styleTextInput.input}
                 placeholder={placeholder}
-                onChange={text => onChangeForm(text, keyForState)}
+                onChange={text => onChangeForm(text, keyForState as string)}
                 maxLength={maxLength}
                 placeholderTextColor={COLOR_ROOT.WHITE_40}
             />

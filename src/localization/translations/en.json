@@ -33,6 +33,11 @@
             "modalAddDay": {
                 "description": "Select a background image for the workout day."
             }
+        },
+        "exercise": {
+            "addExercise": {
+                "title": "Create your exercise"
+            }
         }
     },
     "alert_and_toast": {

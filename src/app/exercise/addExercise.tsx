@@ -7,10 +7,13 @@ import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { useHookRouter } from '@/router/useHookRouter';
 import InputForAddDay from '@/components/InputForAddDay/InputForAddDay';
 import { useTranslation } from 'react-i18next';
+import PickBackgroundForDay from '@/components/PickBackgroundForDay/PickBackgroundForDay';
 
 
 interface IExerciseState {
     img: number | string | undefined;
+    title: string;
+    description: string;
 }
 
 
@@ -23,7 +26,9 @@ const AddExercise: FC = () => {
     const {t} = useTranslation();
 
     const [exerciseState, setExerciseState] = useState<IExerciseState>({
-        img: undefined
+        img: undefined,
+        title: '',
+        description: ''
     });
 
     return (
@@ -31,15 +36,26 @@ const AddExercise: FC = () => {
             backgroundColor={COLOR_ROOT.BACKGROUND}
         >
             <View style={styles.container} >
-                <Title text={'Добавть свое упражнение.'} fontSize={22} marginTop={20}/>
+                <Title text={t('folder.exercise.addExercise.title')} fontSize={22} marginTop={20} />
 
                 <View style={styles.boxImageBackground} >
                     <Image source={exerciseState.img ? exerciseState.img : require('@/source/img/imgForScreen/zeroFon.jpg')} style={styles.imageBackground} />
                 </View>
 
-                <InputForAddDay
+                <PickBackgroundForDay setDayState={setExerciseState} />
+
+                <InputForAddDay<IExerciseState>
                     keyForState='title'
                     title={t('general.title')}
+                    setDayState={setExerciseState} 
+                    placeholder={t('folder.day.addDay.placeholderInputTitle')}
+                    maxLength={27}
+                    marginTop={10}
+                />
+
+                <InputForAddDay<IExerciseState>
+                    keyForState='description'
+                    title={t('general.description')}
                     setDayState={setExerciseState} 
                     placeholder={t('folder.day.addDay.placeholderInputTitle')}
                     maxLength={27}
