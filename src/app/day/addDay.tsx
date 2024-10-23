@@ -44,7 +44,7 @@ const AddDay: FC = () => {
         description: t('folder.day.addDay.description')
     });
 
-    const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
+    const selectedBackgroundDay = useAppSelector(state => state.setupSlice.selectedBackgroundDay);
 
     /**
      * `Создание дня тренировки.`
@@ -84,12 +84,12 @@ const AddDay: FC = () => {
     }
 
     useEffect(() => {
-        selectedBackground ? setDayState(state => ({...state, img: selectedBackground})) : null;
+        selectedBackgroundDay ? setDayState(state => ({...state, img: selectedBackgroundDay})) : null;
         return() => {
             console.log('Page the AddDay unmount');
             dispatch(SET_BACKGROUND_FOR_DAY(''));
         }
-    }, [selectedBackground]);
+    }, [selectedBackgroundDay]);
 
     return (
         <WrapperImageBackground
@@ -104,7 +104,7 @@ const AddDay: FC = () => {
                     description={dayState.description}
                     backgroundZero={true} 
                     img={dayState?.img}
-                    isShowShadow={selectedBackground ? true : false}
+                    isShowShadow={selectedBackgroundDay ? true : false}
                 />
 
                 <PickBackgroundForDay setDayState={setDayState} />

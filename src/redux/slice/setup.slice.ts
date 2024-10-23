@@ -2,15 +2,17 @@ import { createSlice } from '@reduxjs/toolkit'
 
 
 interface IinitialDay {
-    selectedBackground: number | undefined;
+    selectedBackgroundDay: number | undefined;
+    selectedBackgroundExercise: number | undefined;
 }
 
 /**
- * @param selectedBackground Выбраное изображение для фона дня.
+ * @param selectedBackgroundDay Выбраное изображение для фона дня.
  */
 //* initialState 
 const initialState: IinitialDay = {
-    selectedBackground: undefined
+    selectedBackgroundDay: undefined,
+    selectedBackgroundExercise: undefined
 }
 
 
@@ -21,7 +23,10 @@ const setupSlice = createSlice({
     reducers: {
 
         SET_BACKGROUND_FOR_DAY: (state, action) => {
-            state.selectedBackground = action.payload;
+            state.selectedBackgroundDay = action.payload;
+        },
+        SET_BACKGROUND_FOR_EXERCISE: (state, action) => {
+            state.selectedBackgroundExercise = action.payload;
         }
 
     }
@@ -31,5 +36,6 @@ const setupSlice = createSlice({
 export default setupSlice.reducer;
 
 export const {
-    SET_BACKGROUND_FOR_DAY
+    SET_BACKGROUND_FOR_DAY,
+    SET_BACKGROUND_FOR_EXERCISE
 } = setupSlice.actions;

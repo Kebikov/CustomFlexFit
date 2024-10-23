@@ -16,8 +16,6 @@ const Index: FC = () => {
     console.log('page > Index');
     const {appRouter} = useHookRouter();
 
-    const db = useSQLiteContext();
-
 
     useEffect(() => {
         (async () => {

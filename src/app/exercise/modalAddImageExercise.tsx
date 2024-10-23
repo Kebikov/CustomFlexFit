@@ -3,18 +3,19 @@ import React, { FC, useState } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { dayScreen } from '@/source/img/day';
+import { exerciseImage } from '@/source/img/exercise';
 import { FlatList } from 'react-native-gesture-handler';
 import Description from '@/components/Description/Description';
 import { useTranslation } from 'react-i18next';
 import ItemForChoiceBackground from '@/components/ItemForChoiceBackground/ItemForChoiceBackground';
-import { SET_BACKGROUND_FOR_DAY } from '@/redux/slice/setup.slice';
+import { SET_BACKGROUND_FOR_EXERCISE } from '@/redux/slice/setup.slice';
+
 
 
 /**
- * @modal `Модальное окно для выбора фона для дня занятий.`
+ * @modal `Модальное окно для выбора фона для занятий.`
  */
-const ModalAddDay: FC = () => {
+const ModalAddImageExercise: FC = () => {
     
     const {t} = useTranslation();
     const [selectImg, setSelectImg] = useState<number | undefined>(undefined);
@@ -43,8 +44,8 @@ const ModalAddDay: FC = () => {
                         style={{width: '100%', marginTop: 10}}
                         contentContainerStyle={{gap: 10, paddingBottom: 20, paddingHorizontal: 20}}
 
-                        data={dayScreen}
-                        renderItem={({item}) => <ItemForChoiceBackground img={item} selectImg={selectImg} setSelectImg={setSelectImg} height={132} SET_ACTIONS={SET_BACKGROUND_FOR_DAY} />}
+                        data={exerciseImage}
+                        renderItem={({item}) => <ItemForChoiceBackground img={item} selectImg={selectImg} setSelectImg={setSelectImg} height={200} SET_ACTIONS={SET_BACKGROUND_FOR_EXERCISE} />}
                         keyExtractor={item => String(item)}
 
                         ListEmptyComponent={<View><Text style={{color: 'white'}}>Нет элементов.</Text></View>}
@@ -95,4 +96,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ModalAddDay;
+export default ModalAddImageExercise;

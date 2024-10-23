@@ -21,7 +21,8 @@ const ChoiceLanguage: FC = () => {
     const setLanguage = (language: TLanguage, path: keyof AppRouterTypes) => {
         VibrationApp.pressButton();
         i18n.changeLanguage(language);
-        appRouter.replace(path);
+        //appRouter.replace(path);
+        appRouter.navigate('/exercise/addExercise');
     }
 
     return (
