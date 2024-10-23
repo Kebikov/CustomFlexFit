@@ -9,6 +9,7 @@ import InputForAddDay from '@/components/InputForAddDay/InputForAddDay';
 import { useTranslation } from 'react-i18next';
 import PickBackgroundForDay from '@/components/PickBackgroundForDay/PickBackgroundForDay';
 import { SET_BACKGROUND_FOR_EXERCISE } from '@/redux/slice/setup.slice';
+import { useAppSelector } from '@/redux/store/hooks';
 
 
 interface IExerciseState {
@@ -32,6 +33,10 @@ const AddExercise: FC = () => {
         description: ''
     });
 
+    const selectedBackgroundExercise = useAppSelector(state => state.setupSlice.selectedBackgroundExercise);
+
+    console.log(exerciseState.img);
+
     return (
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
@@ -40,11 +45,19 @@ const AddExercise: FC = () => {
                 <Title text={t('folder.exercise.addExercise.title')} fontSize={22} marginTop={20} />
 
                 <View style={styles.boxImageBackground} >
-                    <Image source={exerciseState.img ? exerciseState.img : require('@/source/img/imgForScreen/zeroFon.jpg')} style={styles.imageBackground} />
+                    <Image source={
+                            selectedBackgroundExercise && typeof selectedBackgroundExercise === 'string' ? {uri: selectedBackgroundExercise}
+                            :
+                            typeof selectedBackgroundExercise === 'number' ? selectedBackgroundExercise
+                            :
+                            require('@/source/img/imgForScreen/zeroFon.jpg')
+                        } 
+                        style={styles.imageBackground} 
+                    />
                 </View>
 
                 <PickBackgroundForDay 
-                    setDayState={setExerciseState}
+                    setState={setExerciseState}
                     SET_ACTIONS={SET_BACKGROUND_FOR_EXERCISE}
                     aspect={[8, 5]}
                     modalPath='/exercise/modalAddImageExercise'

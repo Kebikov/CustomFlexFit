@@ -42,15 +42,38 @@ const resources = {
     },
 };
 
-i18n.use(initReactI18next).use(languageDetectorPlugin as any).init({
-    resources,
-    compatibilityJSON: 'v3',
-    // fallback language is set to english
-    fallbackLng: "English",
-    interpolation: {
-        escapeValue: false,
-    },
-});
+i18n.use(initReactI18next)
+    .use(languageDetectorPlugin as any)
+    .init({
+            resources,
+            compatibilityJSON: 'v3',
+            // fallback language is set to english
+            fallbackLng: "English",
+            interpolation: {
+                escapeValue: false,
+            },
+        }
+    );
+
+// i18n.use(initReactI18next)
+//     .use(languageDetectorPlugin as any)
+//     .init({
+//             resources: {
+//                 ru: {
+
+//                 },
+//                 en: {
+
+//                 }
+//             },
+//             compatibilityJSON: 'v3',
+//             // fallback language is set to english
+//             fallbackLng: "English",
+//             interpolation: {
+//                 escapeValue: false,
+//             },
+//         }
+//     );
 
 
 export default i18n;

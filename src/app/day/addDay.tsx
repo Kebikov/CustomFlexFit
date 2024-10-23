@@ -108,7 +108,7 @@ const AddDay: FC = () => {
                 />
 
                 <PickBackgroundForDay 
-                    setDayState={setDayState} 
+                    setState={setDayState} 
                     SET_ACTIONS={SET_BACKGROUND_FOR_DAY}
                     aspect={[28, 10]}
                     modalPath='/day/modalAddDay'

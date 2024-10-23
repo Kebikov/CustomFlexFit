@@ -14,7 +14,7 @@ import { AppRouterTypes } from '@/router/app.router.types';
 
 
 interface IPickBackgroundForDay<I extends {img: number | string | undefined}> {
-    setDayState: React.Dispatch<React.SetStateAction<I>>;
+    setState: React.Dispatch<React.SetStateAction<I>>;
     SET_ACTIONS: ACP<any, "SETUP/SET_BACKGROUND_FOR_DAY"> | ACP<any, "SETUP/SET_BACKGROUND_FOR_EXERCISE">;
     aspect: [number, number];
     modalPath: keyof AppRouterTypes;
@@ -23,13 +23,13 @@ interface IPickBackgroundForDay<I extends {img: number | string | undefined}> {
 
 /**
  * @component `Выбор изображения для дня тренировок.`
- * @param setDayState SetStateAction для установки выбора изображения.
+ * @param setState SetStateAction для установки выбора изображения.
  * @param SET_ACTIONS Экшен для установки состояния выбраного изображения в redux.
  * @param aspect Соотношение сторон для выбираемого изображения, работает на Андроид. [example: [2, 4]].
  * @param modalPath Путь к модальному окну для выбора изображения из библиотеки приложения.
  */
 const PickBackgroundForDay = <I extends {img: number | string | undefined}>({
-    setDayState,
+    setState,
     SET_ACTIONS,
     aspect,
     modalPath
@@ -53,7 +53,7 @@ const PickBackgroundForDay = <I extends {img: number | string | undefined}>({
     
         if (!result.canceled)  {
             //@ts-ignore
-            setDayState(state => ({...state, img: result.assets[0].uri}));
+            setState(state => ({...state, img: result.assets[0].uri}));
             //@ts-ignore
             dispatch(SET_ACTIONS(result.assets[0].uri));
         } else {

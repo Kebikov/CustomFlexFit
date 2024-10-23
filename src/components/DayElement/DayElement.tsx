@@ -42,9 +42,6 @@ const DayElement: FC<IDay> = ({
     console.log('day >>> ', isShowShadow);
     const {textCurrentDay} = getCurrentDateInFormatArray();
     const {convertFont} = useConvertFont();
-    const dispatch = useAppDispatch();
-
-	const { appRouter } = useHookRouter();
 
     if(typeof img === 'string') img = {uri: img}
 

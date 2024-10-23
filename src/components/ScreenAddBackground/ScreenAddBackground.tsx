@@ -30,7 +30,7 @@ const ScreenAddBackground: FC<IScreenAddBackground> = ({
     
     const {t} = useTranslation();
     const [selectImg, setSelectImg] = useState<number | undefined>(undefined);
-
+    console.log(selectImg);
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.safeAreaView}>
