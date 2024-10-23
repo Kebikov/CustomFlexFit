@@ -8,6 +8,7 @@ import { useHookRouter } from '@/router/useHookRouter';
 import InputForAddDay from '@/components/InputForAddDay/InputForAddDay';
 import { useTranslation } from 'react-i18next';
 import PickBackgroundForDay from '@/components/PickBackgroundForDay/PickBackgroundForDay';
+import { SET_BACKGROUND_FOR_EXERCISE } from '@/redux/slice/setup.slice';
 
 
 interface IExerciseState {
@@ -42,7 +43,12 @@ const AddExercise: FC = () => {
                     <Image source={exerciseState.img ? exerciseState.img : require('@/source/img/imgForScreen/zeroFon.jpg')} style={styles.imageBackground} />
                 </View>
 
-                <PickBackgroundForDay setDayState={setExerciseState} />
+                <PickBackgroundForDay 
+                    setDayState={setExerciseState}
+                    SET_ACTIONS={SET_BACKGROUND_FOR_EXERCISE}
+                    aspect={[8, 5]}
+                    modalPath='/exercise/modalAddImageExercise'
+                />
 
                 <InputForAddDay<IExerciseState>
                     keyForState='title'

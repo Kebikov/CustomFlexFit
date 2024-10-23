@@ -9,23 +9,32 @@ import * as ImagePicker from 'expo-image-picker';
 import { IdayState } from '@/app/day/addDay';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_BACKGROUND_FOR_DAY } from '@/redux/slice/setup.slice';
-import * as MediaLibrary from 'expo-media-library';
+import { ActionCreatorWithPayload as ACP}  from '@reduxjs/toolkit';
+import { AppRouterTypes } from '@/router/app.router.types';
 
 
-interface IPickBackgroundForDay {
-    setDayState: React.Dispatch<React.SetStateAction<IdayState>>
+interface IPickBackgroundForDay<I extends {img: number | string | undefined}> {
+    setDayState: React.Dispatch<React.SetStateAction<I>>;
+    SET_ACTIONS: ACP<any, "SETUP/SET_BACKGROUND_FOR_DAY"> | ACP<any, "SETUP/SET_BACKGROUND_FOR_EXERCISE">;
+    aspect: [number, number];
+    modalPath: keyof AppRouterTypes;
 }
 
 
 /**
  * @component `Выбор изображения для дня тренировок.`
  * @param setDayState SetStateAction для установки выбора изображения.
+ * @param SET_ACTIONS Экшен для установки состояния выбраного изображения в redux.
+ * @param aspect Соотношение сторон для выбираемого изображения, работает на Андроид. [example: [2, 4]].
+ * @param modalPath Путь к модальному окну для выбора изображения из библиотеки приложения.
  */
-const PickBackgroundForDay: FC<IPickBackgroundForDay> = ({
-    setDayState
-}) => {
+const PickBackgroundForDay = <I extends {img: number | string | undefined}>({
+    setDayState,
+    SET_ACTIONS,
+    aspect,
+    modalPath
+}: IPickBackgroundForDay<I>) => {
 
-    const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
     const {t} = useTranslation();
     const {appRouter} = useHookRouter();
     const {convertFont} = useConvertFont();
@@ -39,14 +48,14 @@ const PickBackgroundForDay: FC<IPickBackgroundForDay> = ({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             quality: 1,
-            aspect: [28, 10]
+            aspect
         });
     
         if (!result.canceled)  {
             //@ts-ignore
             setDayState(state => ({...state, img: result.assets[0].uri}));
             //@ts-ignore
-            dispatch(SET_BACKGROUND_FOR_DAY(result.assets[0].uri));
+            dispatch(SET_ACTIONS(result.assets[0].uri));
         } else {
             Platform.OS === 'ios' 
             ?
@@ -66,7 +75,7 @@ const PickBackgroundForDay: FC<IPickBackgroundForDay> = ({
                 </View>
                 <Pressable 
                     style={styles.boxPlus} 
-                    onPress={() => appRouter.push('/day/modalAddDay')}
+                    onPress={() => appRouter.push(modalPath)}
                 >
                     <Image source={require('@/source/img/icon/plus.png')} style={styles.plusImg} />
                 </Pressable>

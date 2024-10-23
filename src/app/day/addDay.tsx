@@ -107,7 +107,12 @@ const AddDay: FC = () => {
                     isShowShadow={selectedBackgroundDay ? true : false}
                 />
 
-                <PickBackgroundForDay setDayState={setDayState} />
+                <PickBackgroundForDay 
+                    setDayState={setDayState} 
+                    SET_ACTIONS={SET_BACKGROUND_FOR_DAY}
+                    aspect={[28, 10]}
+                    modalPath='/day/modalAddDay'
+                />
 
                 <InputForAddDay<IdayState>
                     keyForState='title'
