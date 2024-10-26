@@ -6,7 +6,7 @@ import { useHookRouter } from '@/router/useHookRouter';
 import dayService from '@/SQLite/Day/service/DayService';
 import Gradient from '@/components/Gradient/Gradient';
 import DayElement from '@/components/DayElement/DayElement';
-import { icon } from '@/source/icon/icon';
+import { icon } from '@/source/icon';
 import WrapperScroll from '../../components/WrapperScroll/WrapperScroll';
 import { COLOR_ROOT } from '@/constants/colors';
 import { useSQLiteContext } from 'expo-sqlite';

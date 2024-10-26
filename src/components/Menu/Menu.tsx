@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
 import React, { FC } from 'react';
 import { useHookRouter } from '../../router/useHookRouter';
-import { icon } from '../../source/icon/icon';
+import ICON from '@/source/icon';
 
 /**
  * @component `Компонент меню.`
@@ -16,7 +16,7 @@ const Menu: FC = () => {
             //onPress={() => appRouter.navigate('/settingsScreen')}
             onPress={() => appRouter.navigate('/modal')}
         >
-            <Image source={icon.menu} style={styles.settingsImg} />
+            <Image source={ICON.MENU} style={styles.settingsImg} />
         </Pressable>
     );
 };

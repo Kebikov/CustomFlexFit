@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, TextInput, NativeSyntheticEvent, TextInputChang
 import React, { FC } from 'react';
 import Description from '@/components/Description/Description';
 import { COLOR_ROOT } from '@/constants/colors';
-import { IdayState } from '@/app/day/addDay';
 
 
 interface IInputForAddDay<I> {
@@ -40,7 +39,7 @@ const InputForAddDay = <I,>({
 
     return (
         <View style={{width: '100%', alignItems: 'center', marginTop}}>
-            <View style={{alignItems: 'flex-start', width: '85%'}}>
+            <View style={{alignItems: 'flex-start', width: '100%'}}>
                 <Description text={title} />
             </View>
             
@@ -58,12 +57,12 @@ const InputForAddDay = <I,>({
 const styleTextInput = StyleSheet.create({
     input: {
         backgroundColor: COLOR_ROOT.BACKGROUND_LIGHT,
-        width: '85%',
+        width: '100%',
         marginTop: 3,
         borderRadius: 12,
         paddingVertical: Platform.OS === 'ios' ? 7 : 4,
         paddingHorizontal: 10,
-        fontSize: Platform.OS === 'ios' ? 19 : 17,
+        fontSize: Platform.OS === 'ios' ? 18 : 16,
         color: 'white'
     }
 });

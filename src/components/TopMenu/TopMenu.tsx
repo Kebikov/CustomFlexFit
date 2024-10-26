@@ -1,6 +1,6 @@
 import { View, StyleSheet, Pressable, Image } from 'react-native';
 import React, { FC } from 'react';
-import { icon } from '@/source/icon/icon';
+import { icon } from '@/source/icon';
 import { COLOR_ROOT } from '@/constants/colors';
 import { useHookRouter } from '@/router/useHookRouter';
 

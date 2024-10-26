@@ -15,6 +15,8 @@ declare module 'i18next' {
             'common': {
                 title: string;
                 description: string;
+                placeholderTitle: string;
+                placeholderDescription: string;
             }
         }
     }

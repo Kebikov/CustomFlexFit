@@ -1,7 +1,6 @@
 {
-    "language": "English",
-    "general": {
-        "title": "Title",
-        "description": "Description"
-    }
+    "title": "Title",
+    "description": "Description",
+    "placeholderTitle": "enter a title",
+    "placeholderDescription": "enter a description"
 }

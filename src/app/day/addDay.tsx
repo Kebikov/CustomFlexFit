@@ -20,11 +20,7 @@ import type { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
 
 
-export interface IdayState {
-    img: number | string | undefined;
-    title: string;
-    description: string;
-}
+type TdayState = Pick<DayDTOomitId, 'title' | 'description'> & {img: string | number | undefined};
 
 
 /**
@@ -38,14 +34,14 @@ const AddDay: FC = () => {
     const {appRouter} = useHookRouter();
     const dispatch = useAppDispatch();
 
-    const [dayState, setDayState] = useState<IdayState>({
+    const [dayState, setDayState] = useState<TdayState>({
         img: undefined,
         title: t('[day]:addDay.title'), 
         description: t('[day]:addDay.description')
     });
 
     const selectedBackgroundDay = useAppSelector(state => state.setupSlice.selectedBackgroundDay);
-
+    console.log('selectedBackgroundDay >>> ',selectedBackgroundDay);
     /**
      * `Создание дня тренировки.`
      */
@@ -85,11 +81,14 @@ const AddDay: FC = () => {
 
     useEffect(() => {
         selectedBackgroundDay ? setDayState(state => ({...state, img: selectedBackgroundDay})) : null;
+    }, [selectedBackgroundDay]);
+
+    useEffect(() => {
         return() => {
             console.log('Page the AddDay unmount');
             dispatch(SET_BACKGROUND_FOR_DAY(''));
         }
-    }, [selectedBackgroundDay]);
+    },[])
 
     return (
         <WrapperImageBackground
@@ -98,45 +97,47 @@ const AddDay: FC = () => {
         >
             <View style={styles.containerWrapperScroll} >
                 <Title text={t('[day]:addDay.pageTitle')} />
+                <View style={styles.bodyForm} >
 
-                <DayElement
-                    title={dayState.title}
-                    description={dayState.description}
-                    backgroundZero={true} 
-                    img={dayState?.img}
-                    isShowShadow={selectedBackgroundDay ? true : false}
-                />
+                    <DayElement
+                        title={dayState.title}
+                        description={dayState.description}
+                        backgroundZero={true} 
+                        img={dayState?.img}
+                        isShowShadow={selectedBackgroundDay ? true : false}
+                    />
 
-                <PickBackgroundForDay 
-                    setState={setDayState} 
-                    SET_ACTIONS={SET_BACKGROUND_FOR_DAY}
-                    aspect={[28, 10]}
-                    modalPath='/day/modalAddDay'
-                />
+                    <PickBackgroundForDay 
+                        SET_ACTIONS={SET_BACKGROUND_FOR_DAY}
+                        aspect={[28, 10]}
+                        modalPath='/day/modalAddDay'
+                        marginTop={30}
+                    />
 
-                <InputForAddDay<IdayState>
-                    keyForState='title'
-                    title={t('common:title')}
-                    setDayState={setDayState} 
-                    placeholder={t('[day]:addDay.placeholderInputTitle')}
-                    maxLength={27}
-                    marginTop={10}
-                />
+                    <InputForAddDay<TdayState>
+                        keyForState='title'
+                        title={t('common:title')}
+                        setDayState={setDayState} 
+                        placeholder={t('[day]:addDay.placeholderInputTitle')}
+                        maxLength={27}
+                        marginTop={10}
+                    />
 
-                <InputForAddDay<IdayState>
-                    keyForState='description'
-                    title={t('common:description')}
-                    setDayState={setDayState} 
-                    placeholder={t('[day]:addDay.placeholderInputDescription')}
-                    maxLength={35}
-                    marginTop={10}
-                />
+                    <InputForAddDay<TdayState>
+                        keyForState='description'
+                        title={t('common:description')}
+                        setDayState={setDayState} 
+                        placeholder={t('[day]:addDay.placeholderInputDescription')}
+                        maxLength={35}
+                        marginTop={10}
+                    />
 
-                <ButtonGreen
-                    text={t('button:create')}
-                    handlePess={createDay}
-                    marginTop={40}
-                />
+                    <ButtonGreen
+                        text={t('button:create')}
+                        handlePess={createDay}
+                        marginTop={40}
+                    />
+                </View>
             </View>
         </WrapperImageBackground>
     );
@@ -149,6 +150,10 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    bodyForm: {
+        paddingHorizontal: 20,
+        width: '100%'
     }
 });
 

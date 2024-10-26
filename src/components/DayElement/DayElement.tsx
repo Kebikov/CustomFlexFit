@@ -16,8 +16,9 @@ interface IDay {
     title?: string;
     description?: string;
     backgroundZero?: boolean;
-    img?: number | string | object |undefined;
+    img?: number | string | object | undefined;
     isShowShadow?: boolean;
+    width?: number;
 }
 
 
@@ -30,6 +31,7 @@ interface IDay {
  * @param backgroundZero ? Цвет фона пока нет изображения.
  * @param img ? Выбраное изображение для фона дня.
  * @param isShowShadow ? Отображать ли тень. [default - true]
+ * @param width ? Ширина компонента в процентах. [example - 100]
  */
 const DayElement: FC<IDay> = ({ 
     day,
@@ -37,16 +39,17 @@ const DayElement: FC<IDay> = ({
     description,
     backgroundZero,
     img,
-    isShowShadow = true
+    isShowShadow = true,
+    width = 100
 }) => {
-    console.log('day >>> ', isShowShadow);
+    console.log('day >>> ', typeof img);
     const {textCurrentDay} = getCurrentDateInFormatArray();
     const {convertFont} = useConvertFont();
 
     if(typeof img === 'string') img = {uri: img}
 
 	return (
-        <View style={style.box} >
+        <View style={[style.container, {width: `${width}%`}]} >
             <Shadow 
                 containerStyle={{flex: 1}}
                 style={[style.shadow_style, {alignSelf: 'stretch'}]} 
@@ -98,9 +101,8 @@ const DayElement: FC<IDay> = ({
 };
 
 const style = StyleSheet.create({
-    box: {
+    container: {
         marginTop: 15,
-        width: '85%',
 		height: 132,
     },
     shadow_style: {

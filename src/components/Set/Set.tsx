@@ -13,7 +13,6 @@ export type TId = '0' | '1' | '2' | 'burpee';
 interface ISet {
     amount: number;
     exercise: ExerciseDTO;
-    id: TId;
 }
 
 /**
@@ -25,7 +24,10 @@ interface ISet {
  * @example <Set amount={#} title={#} descriptions={#} />
  * @returns {JSX.Element}
  */
-const Set: FC<ISet> = ({amount, exercise, id}) => {
+const Set: FC<ISet> = ({
+    amount, 
+    exercise
+}) => {
     /**
      * Формирование уникального id для подхода в упражнении.
      * @example "DAY_1#EXERCISE_1#0"
@@ -58,7 +60,7 @@ const Set: FC<ISet> = ({amount, exercise, id}) => {
     /**
      * Переменная с результатом, есть ли совпадения в массиве с нажатыми id, нашего текушего id.
      */
-    const isPush: boolean = true;
+    const isPush: boolean = false;
     /**
      * Добавление id в массив нажатых кнопок.
      */
@@ -68,7 +70,7 @@ const Set: FC<ISet> = ({amount, exercise, id}) => {
     
 	return (
         <>
-            <ModalForAmount modalVisible={modalVisible} setModalVisible={setModalVisible} exercise={exercise} id={id} />
+            <ModalForAmount modalVisible={modalVisible} setModalVisible={setModalVisible} exercise={exercise} id={exercise.id} />
             <Pressable
                 style={[styles.container, isPush ? {borderColor: COLOR_ROOT.LIME_70, borderWidth: 3} : null]} 
                 onPress={() => {
@@ -76,22 +78,21 @@ const Set: FC<ISet> = ({amount, exercise, id}) => {
                     playSound();
                 }} 
                 onLongPress={() => {
-                    if(id === 'burpee' || id === '2') {
-                        setModalVisible(true);
-                    }
+                    setModalVisible(true);
                 }}
             >
                 <View style={styles.rapBox} >
                     <Text style={styles.textRap} >{amount}</Text>
                 </View>
                 <View style={styles.descriptionsBox} >
-                    <Text style={styles.textTitle} >{id === 'burpee' ? 'Burpee' : exercise.title}</Text>
-                    <Text style={styles.textDescriptions} >{id === 'burpee' ? 'с отжиманием и прыжком' : exercise.description}</Text>
+                    <Text style={styles.textTitle} >{exercise.title}</Text>
+                    <Text style={styles.textDescriptions} >{exercise.description}</Text>
                 </View>
             </Pressable>
         </>
 	);
 };
+
 
 const styles = StyleSheet.create({
     container: {
@@ -100,8 +101,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 60,
         backgroundColor: COLOR_ROOT.DARK_GREY,
-        borderRadius: 10,
-        marginTop: 15
+        borderRadius: 10
     },
     rapBox: {
         justifyContent: 'center',
@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
         lineHeight: 16
     }
 });
+
 
 export default Set;
 

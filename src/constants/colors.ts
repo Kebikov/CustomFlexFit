@@ -12,6 +12,9 @@ interface IColors {
     MEDIUM_GREY_50: string;
     ARCTIC: string;
     YELLOW: string;
+    BUTTON_COLOR_GREEN: string;
+    BUTTON_COLOR_YELLOW: string;
+    BUTTON_COLOR_RED: string;
 }
 
 export const COLOR_ROOT: IColors = {
@@ -28,5 +31,9 @@ export const COLOR_ROOT: IColors = {
     MEDIUM_GREY_50: 'rgba(111, 113, 115, .7)',
     ARCTIC: '#5be1ea',
     YELLOW: '#F0D82A',
+
+    BUTTON_COLOR_GREEN: 'rgba( 47, 168, 138, .7)',
+    BUTTON_COLOR_YELLOW: 'rgba( 243, 205, 68, .7)',
+    BUTTON_COLOR_RED: 'rgba( 241, 50, 43, .6)'
 };
 

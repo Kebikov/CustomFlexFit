@@ -1,5 +1,16 @@
 {
     "addExercise": {
-        "title": "Create your exercise"
+        "headerText": "Create your exercise",
+
+        "title": "exercise name",
+        "titleInput": "name",
+        "placeholderTitle": "enter name",
+
+        "description": "note for exercise",
+        "titleInputDescription": "note",
+        "placeholderDescription": "enter note",
+
+        "infoAddImage": "Select an image for the workout from your phone’s gallery or from those already available in the app.",
+        "infoCreateExercise": "To edit, add, or delete a set, simply swipe the exercise block to the left or tap on the exercise block."
     }
 }

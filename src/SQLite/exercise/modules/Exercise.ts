@@ -15,7 +15,7 @@ class Exercise {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT,
                 description TEXT,
-                img INTEGER
+                img TEXT
             )
         `);
     }

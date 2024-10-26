@@ -6,7 +6,7 @@ import { IModalForAmountExercise } from '../ModalForAmountExercise/ModalForAmoun
 import { TId } from '../Set/Set';
 
 interface IModalForAmount extends IModalForAmountExercise {
-    id: TId
+    id: number
 }
 
 /**

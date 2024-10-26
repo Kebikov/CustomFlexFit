@@ -9,7 +9,7 @@ export interface ExerciseDTO {
     id: number;
     title: string;
     description: string;
-    img: number;
+    img: string;
 }
 
 export interface ExerciseDTOomitId extends Omit<ExerciseDTO, 'id'> {}

@@ -46,7 +46,7 @@ const ButtonGreen: FC<IButtonGreen> = ({
     marginBottom = 0,
     fontSize = 19,
     backgroundColor = COLOR_ROOT.LIME,
-    widthFlex = .9,
+    widthFlex = 1,
     shadowDistance = 0,
     sadowColor = '#fff'
 }) => {
@@ -62,7 +62,13 @@ const ButtonGreen: FC<IButtonGreen> = ({
 
     return (
         
-        <ButtonAnimated style={[styles.box_button, animatedStyle, {marginBottom, marginTop, paddingHorizontal: shadowDistance}]} >
+        <ButtonAnimated 
+            style={[
+                styles.box_button, 
+                animatedStyle, 
+                {marginBottom, marginTop, paddingHorizontal: shadowDistance}
+            ]} 
+        >
             <Shadow
                 containerStyle={{flex: widthFlex}}
                 style={[styles.shadow_style, {alignSelf: 'stretch', backgroundColor}]}
@@ -71,7 +77,7 @@ const ButtonGreen: FC<IButtonGreen> = ({
             >
                 <View style={styles.shadow_view} >
                     <Pressable
-                        style={[styles.button]}
+                        style={styles.button}
                         onPress={() => {
                             VibrationApp.pressButton();
                             setTimeout(() => {
@@ -95,28 +101,29 @@ const ButtonGreen: FC<IButtonGreen> = ({
 
 const styles = StyleSheet.create({
     box_button: {
+        //props: marginBottom, marginTop, paddingHorizontal
         justifyContent: 'center',
         flexDirection: 'row'
     },
-            shadow_style: {
-                borderRadius: 40,
-                height: 50,
-            },
-                shadow_view: {
-                    flex: 1
-                },
-                button: {
-                    // backgroundColor: props
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                },
-                    text_button: {
-                        textAlign: 'center',
-                        textAlignVertical: 'center',
-                        fontFamily: 'Sport600',
-                        textTransform: 'uppercase'
-                    },
+    shadow_style: {
+        //props: backgroundColor
+        borderRadius: 40,
+        height: 50,
+    },
+    shadow_view: {
+        flex: 1
+    },
+    button: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    text_button: {
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        fontFamily: 'Sport600',
+        textTransform: 'uppercase'
+    },
 });
 
 
