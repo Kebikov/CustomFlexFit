@@ -32,7 +32,6 @@ const AddExercise: FC = () => {
     const {appRouter} = useHookRouter();
     const {t} = useTranslation(['[exercise]', 'button']);
 
-
     const [exerciseState, setExerciseState] = useState<IExerciseState>({
         title: t('[exercise]:addExercise.title'),
         description: t('[exercise]:addExercise.description'),
@@ -72,7 +71,7 @@ const AddExercise: FC = () => {
 
                     <ButtonSwipeable
                         totalButton={3}
-                        onPressButton1={() => {}}
+                        onPressButton1={() => appRouter.navigate('/exercise/modalAddRepsRest')}
                         onPressButton2={() => {}}
                         onPressButton3={() => {}}
                         marginTop={10}
@@ -105,6 +104,7 @@ const AddExercise: FC = () => {
                     <ButtonGreen
                         text={t('button:create')}
                         handlePess={() => appRouter.navigate('/exercise/modalAddImageExercise')}
+                        marginTop={40}
                     />
                 </View>
             </View>

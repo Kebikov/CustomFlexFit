@@ -2,6 +2,8 @@ import { View, Text, StyleSheet, TextInput, NativeSyntheticEvent, TextInputChang
 import React, { FC } from 'react';
 import Description from '@/components/Description/Description';
 import { COLOR_ROOT } from '@/constants/colors';
+import showMessage from '@/helpers/showMessage';
+import { useTranslation } from 'react-i18next';
 
 
 interface IInputForAddDay<I> {
@@ -32,9 +34,14 @@ const InputForAddDay = <I,>({
     marginTop
 }: IInputForAddDay<I>) => {
 
+    const {t} = useTranslation(['alert_and_toast']);
+
     const onChangeForm = (e: NativeSyntheticEvent<TextInputChangeEventData>, key: string) => {
+        const text = e.nativeEvent.text;
+        if(text.length >= maxLength) showMessage(`${t('alert_and_toast:maxLength1')} ${maxLength} ${t('alert_and_toast:maxLength2')}`);
+        console.log(e.nativeEvent.text);
         e.persist();
-        setDayState( state => ({...state, [key]: e.nativeEvent.text}) );
+        setDayState( state => ({...state, [key]: text}) );
     }
 
     return (

@@ -8,6 +8,8 @@ import Description from '@/components/Description/Description';
 import { useTranslation } from 'react-i18next';
 import ItemForChoiceBackground from '@/components/ItemForChoiceBackground/ItemForChoiceBackground';
 import { ActionCreatorWithPayload as ACP}  from '@reduxjs/toolkit';
+import HeaderGoBack from '../HeaderGoBack/HeaderGoBack';
+
 
 interface IScreenAddBackground {
     imagesForChoice: number[];
@@ -30,11 +32,11 @@ const ScreenAddBackground: FC<IScreenAddBackground> = ({
     
     const {t} = useTranslation(['[day]']);
     const [selectImg, setSelectImg] = useState<number | undefined>(undefined);
-    console.log(selectImg);
+    
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.safeAreaView}>
-                <Pressable 
+                {/* <Pressable 
                     style={styles.header}
                     onPress={() => router.back()}
                 >
@@ -42,7 +44,8 @@ const ScreenAddBackground: FC<IScreenAddBackground> = ({
                         <Image source={require('@/source/icon/files/arrow_back.png')} style={styles.img} />
                     </View>
                     <Text style={styles.textHeader} >GO BACK</Text>
-                </Pressable>
+                </Pressable> */}
+                <HeaderGoBack/>
                 
                 <View style={{alignItems: 'flex-start', width: '100%', marginTop: 10, paddingHorizontal: 20}} >
                     <Description text={t('[day]:modalAddDay.description')} />
@@ -81,29 +84,6 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
-        height: 30,
-        marginTop: 10
-    },
-    imgBox: {
-        width: 24,
-        height: 24,
-        marginLeft: 10
-    },
-    img: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'contain'
-    },
-    textHeader: {
-        color: 'white',
-        fontFamily: 'Sport',
-        fontSize: 20,
-        marginLeft: 10
     }
 });
 

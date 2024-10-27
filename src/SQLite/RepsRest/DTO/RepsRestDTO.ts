@@ -3,12 +3,14 @@
  * @param id ID.
  * @param reps Количество повторений.
  * @param rest Время отдыха в сек. после упражнения.
+ * @param duration Продолжительность выполнения упражнения.
  * @param id_List `REFERENCES > List` Подход в дне занятий.
  */
 export interface RepsRestDTO {
     id: number;
     reps: number;
     rest: number;
+    duration: number;
     id_List: number;
 }
 

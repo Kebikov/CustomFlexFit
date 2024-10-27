@@ -1,5 +1,8 @@
 {
     "imgNotSelect" : "You haven’t selected any images.",
     "notTitle": "There is no title.",
-    "notDescription": "There is no description."
+    "notDescription": "There is no description.",
+
+    "maxLength1": "The maximum text length of",
+    "maxLength2": "characters has been reached."
 }

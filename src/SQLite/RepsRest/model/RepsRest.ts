@@ -16,6 +16,7 @@ class RepsRest {
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     reps INT,
                     rest INT,
+                    duration INT,
                     id_List INT NOT NULL,
 
                     CONSTRAINT FK_RepsRest

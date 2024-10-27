@@ -46,7 +46,7 @@ const WrapperScroll: FC<IWrapper> = ({
                     keyboardVerticalOffset={
                         Platform.OS === 'ios' ? 47 
                         : 
-                        StatusBar.currentHeight !== undefined ? StatusBar.currentHeight + 20 
+                        StatusBar.currentHeight !== undefined ? StatusBar.currentHeight 
                         : 
                         undefined
                     }

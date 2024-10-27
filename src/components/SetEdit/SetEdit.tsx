@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO';
@@ -69,13 +69,12 @@ const styles = StyleSheet.create({
         color: COLOR_ROOT.LIGHT_GREY
     },
     textTitle: {
-        fontSize: 16,
+        fontSize: Platform.OS === 'ios' ? 16 : 14,
         fontWeight: '500',
-        color: '#fff',
-        lineHeight: 18
+        color: '#fff'
     },
     textDescriptions: {
-        fontSize: 14,
+        fontSize: Platform.OS === 'ios' ? 14 : 12,
         fontWeight: '500',
         color: COLOR_ROOT.MEDIUM_GREY,
         lineHeight: 16

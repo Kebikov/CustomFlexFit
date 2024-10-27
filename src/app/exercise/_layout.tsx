@@ -9,6 +9,7 @@ const ExerciseLayout = () => {
             
             <Stack.Screen name="modal" options={{presentation: 'modal'}} />
             <Stack.Screen name="modalAddImageExercise" options={{presentation: 'modal'}} />
+            <Stack.Screen name="modalAddRepsRest" options={{presentation: 'modal'}} />
         </Stack>
     )
 }
