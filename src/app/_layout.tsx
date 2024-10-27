@@ -4,10 +4,10 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
 import store from '@/redux/store/store';
 import { Stack, SplashScreen } from 'expo-router';
-import { PortalProvider } from '@gorhom/portal';
 import CONFIGURATION from '@/constants/сonfiguration';
 import { useFonts } from 'expo-font';
 import { COLOR_ROOT } from '@/constants/colors';
+import { PortalProvider, PortalHost } from '@gorhom/portal';
 import '@/localization/i18n';
 //* SQLite
 import DayService from '@/SQLite/Day/service/DayService';
@@ -58,6 +58,7 @@ export const MainLayout: FC<IMainLayout> = ({children}) => {
             <PortalProvider>
                 <SQLiteProvider databaseName={CONFIGURATION.DB_Name} onInit={migrateDbIfNeeded} >
                     <Provider store={store} >
+                            <PortalHost name='clock' />
                             <>
                                 {children}
                             </>

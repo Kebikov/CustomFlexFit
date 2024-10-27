@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image, Platform } from 'react-native';
 import React, { FC } from 'react';
 import { useHookRouter } from '@/router/useHookRouter';
 
@@ -30,12 +30,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: 30,
-        marginTop: 10
+        marginTop: 10,
+        marginLeft: 10
     },
     imgBox: {
         width: 24,
-        height: 24,
-        marginLeft: 10
+        height: 24
     },
     img: {
         width: '100%',
@@ -45,8 +45,9 @@ const styles = StyleSheet.create({
     textHeader: {
         color: 'white',
         fontFamily: 'Sport',
-        fontSize: 20,
-        marginLeft: 10
+        fontSize: Platform.OS === 'ios' ? 20 : 18,
+        marginLeft: 10,
+        paddingTop: Platform.OS === 'ios' ? 2 : 0
     }
 });
 

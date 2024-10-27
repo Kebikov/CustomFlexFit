@@ -1,5 +1,13 @@
-// export const startHours1 = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
-// export const startMinutes1 = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
+export interface IArraysForClock {
+    one: {
+        total: number;
+        step: number;
+    };
+    two: {
+        total: number;
+        step: number;
+    };
+}
 
 /**
  * `Вернет массивы: часов и минут.`
@@ -8,13 +16,9 @@
  * @param total Значение последнего элемента.
  * @param step Шиг элемента.
  * @example  
- * arraysForClock(24, 1); // для часов от 00 до 23, с шагом в 1
- * arraysForClock(60, 5); // для минут от 00 до 55, с шагом в 5
+ * arraysForClock({one: {total: 24, step: 1}, two: {total: 60, step: 5}}) // для часов и минут
  */
-const arraysForClock = (value = {
-    numberOne: {total, step},
-    numberTwo: {total, step}
-}) => {
+export const arraysForClock = (value: IArraysForClock) => {
 
     /**
      * `Массив часов.`
@@ -48,7 +52,10 @@ const arraysForClock = (value = {
     }
 }
 
-console.log(arraysForClock({one: {total: 24, step: 1}, two: {total: 60, step: 5}}));
+
+
+
+
 
 
 
