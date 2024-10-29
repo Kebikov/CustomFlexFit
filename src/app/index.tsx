@@ -9,13 +9,12 @@ import { COLOR_ROOT } from '@/constants/colors';
  * @page Стартовая страница приложения. 
  */
 const Index: FC = () => {
-    console.log('page > Index');
+    console.debug('page > Index');
     const {appRouter} = useHookRouter();
 
     useEffect(() => {
         (async () => {
             const result = await LocalStorageService.getChoiceLanguage();
-            console.log(result);
             //await DatabaseService.removeDataBase(db);
 
             if(!result) {
@@ -23,7 +22,7 @@ const Index: FC = () => {
             } else if(result) {
                 appRouter.replace('/day/guide');
             } 
-
+            
         })();
     }, []);
 

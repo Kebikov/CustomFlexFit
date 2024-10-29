@@ -29,7 +29,7 @@ const languageDetectorPlugin = {
                 }
             });
         } catch (error) {
-            console.log("Error reading language", error);
+            console.error("Error reading language", error);
         }
     },
     cacheUserLanguage: async function (language: string) {

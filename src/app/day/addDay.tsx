@@ -27,7 +27,7 @@ type TdayState = Pick<DayDTOomitId, 'title' | 'description'> & {img: string | nu
  * @page `Добавление тренировачного дня.`
  */
 const AddDay: FC = () => {
-    console.log('page > AddDay');
+    console.debug('page > AddDay');
 
     const db = useSQLiteContext();
     const {t} = useTranslation(['common', 'button', '[day]']);
@@ -41,7 +41,6 @@ const AddDay: FC = () => {
     });
 
     const selectedBackgroundDay = useAppSelector(state => state.setupSlice.selectedBackgroundDay);
-    console.log('selectedBackgroundDay >>> ',selectedBackgroundDay);
     /**
      * `Создание дня тренировки.`
      */
@@ -85,7 +84,6 @@ const AddDay: FC = () => {
 
     useEffect(() => {
         return() => {
-            console.log('Page the AddDay unmount');
             dispatch(SET_BACKGROUND_FOR_DAY(''));
         }
     },[])

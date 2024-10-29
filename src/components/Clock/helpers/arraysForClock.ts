@@ -23,7 +23,6 @@ export interface IArraysForClock {
  * @param step Шиг элемента.  
  */
 export const arraysForClock = (value: IArraysForClock) => {
-
     /**
      * `Массив "Первых чисел".`
      */
@@ -42,7 +41,6 @@ export const arraysForClock = (value: IArraysForClock) => {
         const pad = String(i).padStart(2, '0');
         secondNumberArray.push(pad);
     }
-
 
     return {
         /**

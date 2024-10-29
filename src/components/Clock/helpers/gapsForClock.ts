@@ -1,44 +1,44 @@
 interface IgapsForClock  {
-    fullRotation: number;
-    fullRotationMinutes: number;
+    fullRotationFirstNumber: number;
+    fullRotationSecondNumber: number;
     itemHeight: number;
 }
 
 
 /**
- * `Промежутки для часов и минут, для определения в какой промежежуток попадает выбраная цыфра и установить ее номинал на основании промежутка.`
+ * `Промежутки для первого и второго числа, для определения в какой промежежуток попадает выбраная цыфра и установить ее номинал на основании промежутка.`
  */
 export const gapsForClock = ({
-    fullRotation,
-    fullRotationMinutes,
+    fullRotationFirstNumber,
+    fullRotationSecondNumber,
     itemHeight
 }: IgapsForClock) => {
 
-    /**
-     * `Массив промежутков для часов.`
-     */
-    const gaps: number[] = [];
-    for(let i = 0; i <= fullRotation; i += itemHeight) gaps.push(i);
+    const pushInArray = (array: Array<number>, fullRotation: number): void => {
+        for(let i = 0; i <= fullRotation; i += itemHeight) array.push(i);
+    }
 
     /**
-     * `Массив промежутков для минут.`
+     * `Массив промежутков для первого числа.`
      */
-    const gapsMinutes: number[] = [];
-    for(let i = 0; i <= fullRotationMinutes; i += itemHeight) gapsMinutes.push(i);
-    for(let i = 0; i <= fullRotationMinutes; i += itemHeight) {
-        if(i === fullRotationMinutes) continue;
-        gapsMinutes.push(i === 0 ? 0 : i * -1);
-    }
-    gapsMinutes.push(fullRotationMinutes * -1);
+    const gapsFirstNumber: number[] = [];
+    pushInArray(gapsFirstNumber, fullRotationFirstNumber);
+    
+    /**
+     * `Массив промежутков для второго числа.`
+     */
+    const gapsSecondNumber: number[] = [];
+    pushInArray(gapsSecondNumber, fullRotationSecondNumber);
+
 
     return {
         /**
-         * `Массив промежутков для часов.`
+         * `Массив промежутков для первого числа.`
          */
-        gaps,
+        gapsFirstNumber,
         /**
-         * `Массив промежутков для минут.`
+         * `Массив промежутков для второго числа.`
          */
-        gapsMinutes
+        gapsSecondNumber
     }
 }

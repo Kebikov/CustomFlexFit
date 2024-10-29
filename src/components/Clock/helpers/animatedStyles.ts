@@ -2,54 +2,54 @@ import { useAnimatedStyle, interpolate, SharedValue } from "react-native-reanima
 
 
 interface IanimatedStyles {
-    hoursPosition: SharedValue<number>;
+    firstNumberPosition: SharedValue<number>;
     itemHeight: number;
     fullRotation: number;
     height: number;
-    fullRotationMinutes: number;
-    minutesPosition: SharedValue<number>;
+    fullRotationSecondNumber: number;
+    secondNumberPosition: SharedValue<number>;
     lengthArrayOne: number;
     lengthArrayTwo: number;
 }
 
 /**
  * `Анимированые стили для часов и минут.`
- * @param hoursPosition  sv Позиция часа.
- * @param minutesPosition sv Позиция минут.
+ * @param firstNumberPosition  sv Позиция первого числа.
+ * @param secondNumberPosition sv Позиция второго числа.
  * 
  * @param itemHeight Высота одного элемента.
  * @param fullRotation Диаметр полного оборота часов.
  * @param height Высота окна с цыфрами.
- * @param fullRotationMinutes Диаметр полного оборота минут.
+ * @param fullRotationSecondNumber Диаметр полного оборота минут.
  * @param lengthArrayOne Длинна массива первых чисел в часах. 
  * @param lengthArrayTwo Длинна массива вторых чисел в часах.
  */
 export const animatedStyles = ({
-    hoursPosition,
-    minutesPosition,
+    firstNumberPosition,
+    secondNumberPosition,
     itemHeight,
     fullRotation,
     height,
-    fullRotationMinutes,
+    fullRotationSecondNumber,
     lengthArrayOne,
     lengthArrayTwo
 }: IanimatedStyles) => {
 
-    const animatedHours = (i: number) => {
+    const animatedFirstNumber = (i: number) => {
         return useAnimatedStyle(() => {
 
-            const elementPositionBefore = hoursPosition.value + i * itemHeight;
+            const elementPositionBefore = firstNumberPosition.value + i * itemHeight;
             let iAfter = i;
 
             if(elementPositionBefore > fullRotation / 2) {
                 iAfter = (lengthArrayOne - i) * -1;
             }
 
-            let elementPositionAfter = hoursPosition.value + iAfter * itemHeight;
+            let elementPositionAfter = firstNumberPosition.value + iAfter * itemHeight;
 
             if(elementPositionAfter < (fullRotation - height + itemHeight) * -1) {
                 iAfter = lengthArrayOne + i;
-                elementPositionAfter = hoursPosition.value + iAfter * itemHeight;
+                elementPositionAfter = firstNumberPosition.value + iAfter * itemHeight;
             }
 
             const inboundData = [0, itemHeight * 3, itemHeight * 6];
@@ -69,21 +69,21 @@ export const animatedStyles = ({
         })
     }
 
-    const animatedMinutes = (i: number) => {
+    const animatedSecondNumber = (i: number) => {
         return useAnimatedStyle(() => {
 
-            const elementPositionBefore = minutesPosition.value + i * itemHeight;
+            const elementPositionBefore = secondNumberPosition.value + i * itemHeight;
             let iAfter = i;
 
-            if(elementPositionBefore > fullRotationMinutes / 2) { // 216
+            if(elementPositionBefore > fullRotationSecondNumber / 2) { // 216
                 iAfter = (lengthArrayTwo - i) * -1;
             }
 
-            let elementPositionAfter = minutesPosition.value + iAfter * itemHeight; 
+            let elementPositionAfter = secondNumberPosition.value + iAfter * itemHeight; 
 
-            if(elementPositionAfter < (fullRotationMinutes - height + itemHeight) * -1) {
+            if(elementPositionAfter < (fullRotationSecondNumber - height + itemHeight) * -1) {
                 iAfter = lengthArrayTwo + i;
-                elementPositionAfter = minutesPosition.value + iAfter * itemHeight;
+                elementPositionAfter = secondNumberPosition.value + iAfter * itemHeight;
             }
 
             const inboundData = [0, itemHeight * 3, itemHeight * 6];
@@ -104,7 +104,7 @@ export const animatedStyles = ({
     }
 
     return {
-        animatedHours,
-        animatedMinutes
+        animatedFirstNumber,
+        animatedSecondNumber
     }
 }

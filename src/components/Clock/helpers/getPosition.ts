@@ -8,8 +8,7 @@
  */
 export const getPosition = (value: number, heightItem: number, arrayStr: string[]): number => {
     const index = arrayStr.indexOf(String(value).padStart(2, '0'));
-    console.log('arrayStr >>> ', arrayStr);
-    console.log('index >>> ', index);
+
     if(index === 0) {
         const offsetNumber = 3;
         return offsetNumber * heightItem;

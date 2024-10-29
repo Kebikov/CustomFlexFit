@@ -40,7 +40,6 @@ class Database {
      */
     async findCountTable(db: SQLiteDatabase, table: TTables): Promise<number | null> {
         const result: {"COUNT(*)": number} | null = await db.getFirstAsync(`SELECT COUNT(*) FROM ${table}`);
-        console.log('findCountTable = ', result);
         if(result !== null) {
             return result['COUNT(*)'];
         } else {
@@ -74,7 +73,6 @@ class Database {
      */
     async getVersion(db: SQLiteDatabase) {
         let version = await db.getFirstAsync<{ user_version: number } | null>('PRAGMA user_version');
-        console.log('version DB = ', version);
         if(version && version.user_version) {
             return version.user_version;
         } else {

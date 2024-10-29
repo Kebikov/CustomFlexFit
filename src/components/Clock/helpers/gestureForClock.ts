@@ -4,14 +4,14 @@ import { Vibration, Platform } from "react-native";
 import * as Haptics from 'expo-haptics';
 
 
-interface IgestureHoursForClock {
-    hoursPosition: SharedValue<number>;
-    lastHoursPosition: SharedValue<number>;
-    selectedHour: SharedValue<number>;
+interface IgestureForClock {
+    svPosition: SharedValue<number>;
+    svLastPosition: SharedValue<number>;
+    svSelectedNumber: SharedValue<number>;
     fullRotation: number;
     gaps: number[];
     itemHeight: number;
-    lastVibrationPositionHour: SharedValue<number>;
+    svLastVibrationPosition: SharedValue<number>;
     maxValue: number;
     step: number;
 }
@@ -19,27 +19,27 @@ interface IgestureHoursForClock {
 
 /**
  * `Вернет обработчик жестов для числа.` 
- * @param hoursPosition Позиция числа.
- * @param lastHoursPosition Последняя позиция числа.
- * @param selectedHour sv Выбранное пользователем число.
+ * @param svPosition Позиция числа.
+ * @param svLastPosition Последняя позиция числа.
+ * @param svSelectedNumber sv Выбранное пользователем число.
  * @param fullRotation Диаметр полного оборота числа.
  * @param gaps Массив промежутков для установленых чисел, для определения в какой промежежуток попадает выбраная цыфра и установить ее номинал на основании промежутка.
  * @param itemHeight Высота одного элемента.
- * @param lastVibrationPositionHour sv Последняя позиция вибрации числа.
+ * @param svLastVibrationPosition sv Последняя позиция вибрации числа.
  * @param maxValue Максимальное значение числа.
  * @param step Шаг увеличения числа.
  */
-export const gestureHoursForClock = ({
-    hoursPosition,
-    lastHoursPosition,
-    selectedHour,
+export const gestureForClock = ({
+    svPosition,
+    svLastPosition,
+    svSelectedNumber,
     fullRotation,
     gaps,
     itemHeight,
-    lastVibrationPositionHour,
+    svLastVibrationPosition,
     maxValue,
     step
-}: IgestureHoursForClock) => {
+}: IgestureForClock) => {
 
     /**
      * `Определение номинала первого отображаемого числа.`
@@ -54,42 +54,45 @@ export const gestureHoursForClock = ({
     //* Состовление массива со значениями при положительной позиции.
     let valuePlusArray: number[] = [];
     let startPlus = firstNumber(step);
-    for(let i = 0; i <= gaps.length - step; i++) { 
+    for(let i = 0; i <= gaps.length; i++) { 
         valuePlusArray.push(startPlus);
         startPlus = startPlus - step;
         if(startPlus < 0) startPlus = maxValue - step;     
     }
-    //console.log(valuePlusArray);
 
     //* Состовление массива со значениями при отрицательной позиции.
     let valueMinusArray: number[] = [];
     let startMinus = firstNumber(step);
-    for(let i = 0; i <= gaps.length - step; i++) {
+    for(let i = 0; i <= gaps.length; i++) {
         valueMinusArray.push(startMinus);
         startMinus = startMinus + step;
         if(startMinus >= maxValue) startMinus = 0;
     }
-    //console.log(valueMinusArray);
+
+    const vibro = () => {
+        'worklet';
+        if(Platform.OS === 'ios') {
+            runOnJS(Haptics.selectionAsync)();
+        } else {
+            runOnJS(Vibration.vibrate)(7);
+        }
+    }
 
     //* Обработчик событий жестов.
-    const gesturePanHours = Gesture.Pan()
+    const gesturePan = Gesture.Pan()
         .onUpdate((e) => {
-            hoursPosition.value = (lastHoursPosition.value + e.translationY) % fullRotation;
-            const position = e.translationY - lastVibrationPositionHour.value;
+            svPosition.value = (svLastPosition.value + e.translationY) % fullRotation;
+            const delta = Math.abs(e.translationY - svLastVibrationPosition.value);
 
-            const delta = Math.abs(position);
             if (delta >= itemHeight) {
-                if(Platform.OS === 'ios') {
-                    runOnJS(Haptics.selectionAsync)();
-                } else {
-                    runOnJS(Vibration.vibrate)(7);
-                }
-                lastVibrationPositionHour.value = e.translationY;
+                vibro();
+                svLastVibrationPosition.value = e.translationY;
             }
         })
-        .onEnd(() => {
+        .onEnd((e) => {
+
             let point: undefined | {value: number, i: number};
-            const position = hoursPosition.value === fullRotation * -1 ? 0 : hoursPosition.value;
+            const position = svPosition.value === fullRotation * -1 ? 0 : svPosition.value;
 
             for(let i = 0; i < gaps.length; i++) {
                 if(0 <= position) {
@@ -104,21 +107,20 @@ export const gestureHoursForClock = ({
             }
             
             if(point !== undefined) {
-                hoursPosition.value = withTiming(point.value, {duration: 200});
-                lastHoursPosition.value = point.value;
+                svPosition.value = withTiming(point.value, {duration: 200}, () => vibro());
+                svLastPosition.value = point.value;
+
                 if(point.i > 0) {
-                    console.log('sing += ', valuePlusArray[point.i]);
-                    selectedHour.value = valuePlusArray[point.i];
+                    svSelectedNumber.value = valuePlusArray[point.i];
                 } else {
-                    console.log('sing -= ', valueMinusArray[point.i * -1]);
-                    selectedHour.value = valueMinusArray[point.i * -1];
+                    svSelectedNumber.value = valueMinusArray[point.i * -1];
                 }
             } else {
-                lastHoursPosition.value = hoursPosition.value;
+                svLastPosition.value = svPosition.value;
             }
         });
 
     return {
-        gesturePanHours
+        gesturePan
     }
 }

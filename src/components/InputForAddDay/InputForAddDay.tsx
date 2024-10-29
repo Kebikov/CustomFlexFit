@@ -39,7 +39,6 @@ const InputForAddDay = <I,>({
     const onChangeForm = (e: NativeSyntheticEvent<TextInputChangeEventData>, key: string) => {
         const text = e.nativeEvent.text;
         if(text.length >= maxLength) showMessage(`${t('alert_and_toast:maxLength1')} ${maxLength} ${t('alert_and_toast:maxLength2')}`);
-        console.log(e.nativeEvent.text);
         e.persist();
         setDayState( state => ({...state, [key]: text}) );
     }

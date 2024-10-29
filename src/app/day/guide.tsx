@@ -14,7 +14,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
  * @page `Добавление тренировачного дня.`
  */
 const Guide: FC = () => {
-    console.log('page > day.guide');
+    console.debug('page > day.guide');
 
     const {appRouter} = useHookRouter();
     const {t} = useTranslation(['[day]']);

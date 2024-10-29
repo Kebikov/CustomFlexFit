@@ -14,7 +14,8 @@ import Menu from '@/components/Menu/Menu';
  * @page `Страница с выбором языка.`
  */
 const ChoiceLanguage: FC = () => {
-    console.log('page > ChoiceLanguage');
+    console.debug('page > ChoiceLanguage');
+    
     const {appRouter} = useHookRouter();
     const {i18n} = useTranslation();
 

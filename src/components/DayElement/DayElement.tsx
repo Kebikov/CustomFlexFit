@@ -42,7 +42,7 @@ const DayElement: FC<IDay> = ({
     isShowShadow = true,
     width = 100
 }) => {
-    console.log('day >>> ', typeof img);
+    console.debug('day >>> ', typeof img);
     const {textCurrentDay} = getCurrentDateInFormatArray();
     const {convertFont} = useConvertFont();
 

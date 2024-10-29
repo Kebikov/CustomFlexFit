@@ -76,7 +76,6 @@
 
             // Удаление зарпятой в конце команды.
             let command = commandStart.slice(0, -1);
-            console.log(command);
             const isExistTable = await DatabaseService.checkExistenceDataBase();
             if (!isExistTable) {
                 console.info(`База данных ${CONFIGURATION.DB_NAME} не сушествует.`);
