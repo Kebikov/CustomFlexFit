@@ -10,45 +10,49 @@ export interface IArraysForClock {
 }
 
 /**
- * `Вернет массивы: часов и минут.`
+ * `Вернет массивы: первых и вторых чисел.`
+ * @example
+ * arraysForClock({one: {total: 24, step: 1}, two: {total: 60, step: 5}}) // для первых и вторых чисел
+ * @return {
+ *  firstNumberArray, 
+ *  secondNumberArray
+ * }
  * @param one Первое число в установке времени.
  * @param two Второе число в установке времени.
  * @param total Значение последнего элемента.
- * @param step Шиг элемента.
- * @example  
- * arraysForClock({one: {total: 24, step: 1}, two: {total: 60, step: 5}}) // для часов и минут
+ * @param step Шиг элемента.  
  */
 export const arraysForClock = (value: IArraysForClock) => {
 
     /**
-     * `Массив часов.`
+     * `Массив "Первых чисел".`
      */
-    const hoursArray = [];
+    const firstNumberArray = [];
     /**
-     * `Массив минут.`
+     * `Массив "Вторых чисел".`
      */
-    const minutesArray = [];
+    const secondNumberArray = [];
     
     for(let i = 0; i < value.one.total; i = i + value.one.step) {
         const pad = String(i).padStart(2, '0');
-        hoursArray.push(pad);
+        firstNumberArray.push(pad);
     }
 
     for(let i = 0; i < value.two.total; i = i + value.two.step) {
         const pad = String(i).padStart(2, '0');
-        minutesArray.push(pad);
+        secondNumberArray.push(pad);
     }
 
 
     return {
         /**
-         * `Массив часов.`
+         * `Массив "Первых чисел".`
          */
-        hoursArray,
+        firstNumberArray,
         /**
-         * `Массив минут.`
+         * `Массив "Вторых чисел".`
          */
-        minutesArray
+        secondNumberArray
     }
 }
 

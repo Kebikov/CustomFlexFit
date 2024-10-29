@@ -10,7 +10,7 @@ interface IgestureMinutesForClock {
     selectedMinute: SharedValue<number>;
     fullRotationMinutes: number;
     gapsMinutes: number[];
-    minutesArray: string[];
+    secondNumberArray: string[];
     itemHeight: number;
     lastVibrationPositionMinutes: SharedValue<number>;
 }
@@ -22,7 +22,7 @@ export const gestureMinutesForClock = ({
     fullRotationMinutes,
     gapsMinutes,
     itemHeight,
-    minutesArray,
+    secondNumberArray,
     lastVibrationPositionMinutes
 }: IgestureMinutesForClock) => {
     const gesturePanMinutes = Gesture.Pan()
@@ -52,11 +52,11 @@ export const gestureMinutesForClock = ({
 
                     if(1 <= point.i && point.i <= 3) {
                         let x = 3 - point.i;
-                        selectedMinute.value = Number(minutesArray[x]);
+                        selectedMinute.value = Number(secondNumberArray[x]);
                     } else {
-                        let x = minutesArray.length + 3 - point.i;
+                        let x = secondNumberArray.length + 3 - point.i;
                         
-                        selectedMinute.value = Number(minutesArray[x]);
+                        selectedMinute.value = Number(secondNumberArray[x]);
                     }
                     
                 }
@@ -66,10 +66,10 @@ export const gestureMinutesForClock = ({
 
                     if(22 <= point.i && point.i <= 24) {
                         let x = point.i - 22;
-                        selectedMinute.value = Number(minutesArray[x]);
+                        selectedMinute.value = Number(secondNumberArray[x]);
                     } else {
                         let x = point.i - 10;
-                        selectedMinute.value = Number(minutesArray[x]);
+                        selectedMinute.value = Number(secondNumberArray[x]);
                     }
 
                 }

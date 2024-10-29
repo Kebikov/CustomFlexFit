@@ -15,12 +15,12 @@ const modalAddRepsRest: FC = () => {
     /**
      * @param runtime Длительность выполнения упражнения.
      */
-    const [runtime, setRuntime] = useState<ITimeClock>({one: 30, two: 0});
-    console.log('runtime >>> ', runtime);
+    // const [runtime, setRuntime] = useState<ITimeClock>({one: 30, two: 0});
+    // console.log('runtime >>> ', runtime);
     /**
      * @param restAfter Время отдыха после упражнения.
      */
-    const [restAfter, setRestAfter] = useState<ITimeClock>({one: 30, two: 0});
+    const [restAfter, setRestAfter] = useState<ITimeClock>({one: 8, two: 0}); //*! Передаем число которое должно быть в массиве, допустим у нас "one: {total: 30, step: 2}", мы хотим вывести в часах числа от 0 до 30 с шигом 2, у нас будет массив в итоге: [0, 2, 4, 6, ...] начальное значение должно быть одним из чисел полученого массива. 
     console.log('restAfter >>> ', restAfter);
 
     const refRestAfter = useRef<IClockRef>(null);
@@ -34,13 +34,13 @@ const modalAddRepsRest: FC = () => {
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
         >
-            <HeaderGoBack/>
+            <HeaderGoBack/> 
             <View style={{flex: 1, justifyContent: 'center'}} >
 
-                <View style={{width: '100%', marginTop: 20, backgroundColor: 'green'}} >
+                {/* <View style={{width: '100%', marginTop: 20, backgroundColor: 'green'}} >
                     <Button onPress={() => onRuntime()} title='runtime' color={'white'} />
                     <Text style={{color: 'white', fontSize: 18}} >{`${runtime.one} мин. ${runtime.two} сек.`}</Text>
-                </View>
+                </View> */}
                 <View style={{width: '100%', marginTop: 20, backgroundColor: 'blue'}} >
                     <Button onPress={() => onRestAfter()} title='restAfter' color={'white'} />
                     <Text style={{color: 'white', fontSize: 18}} >{`${restAfter.one} мин. ${restAfter.two} сек.`}</Text>
@@ -53,17 +53,18 @@ const modalAddRepsRest: FC = () => {
                     isUsePortal={false}
                     colorText={COLOR_ROOT.LIME_70}
                     typeClock='minutes_30/seconds'
+                    typeClockCustom={{one: {total: 30, step: 2}, two: {total: 60, step: 5}}}
                     ref={refRestAfter} 
                 />
 
-                <Clock 
+                {/* <Clock 
                     setSelectedTime={setRuntime} 
                     selectedTime={runtime} 
                     isUsePortal={false}
                     colorText={COLOR_ROOT.LIME_70}
                     typeClock='minutes_30/seconds'
                     ref={refRuntime} 
-                />      
+                />       */}
             </View>
         </WrapperScroll>
     );

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, useRef, useMemo } from 'react';
 import { Portal } from '@gorhom/portal'; 
 import { COLOR_ROOT } from '@/constants/colors';
 import { GestureDetector } from 'react-native-gesture-handler';
@@ -63,22 +63,26 @@ const Clock = forwardRef<IClockRef, IClock>(({
 
     // Установки для массива отображаемых чисел.
     let optionsClock: IArraysForClock;
-    if(typeClockCustom) {
+    if(typeof typeClockCustom === 'object') {
         optionsClock = typeClockCustom;
+        optionsClock.one.total = useMemo(() => optionsClock.one.total + optionsClock.one.step, [optionsClock.one.step]); 
+        console.log('optionsClock.one.total >>> ', optionsClock.one.total);
     } else {
+        console.log(222);
         switch(typeClock) {
             case 'hours/minutes':
-                optionsClock = {one: {total: 24 + 1, step: 1}, two: {total: 60, step: 5}};
+                optionsClock = {one: {total: 24, step: 1}, two: {total: 60, step: 5}};
                 break;
             case 'minutes_30/seconds':
-                optionsClock = {one: {total: 30 + 1, step: 1}, two: {total: 60, step: 5}};
+                optionsClock = {one: {total: 30, step: 1}, two: {total: 60, step: 5}};
                 break;
             default:
-                optionsClock = {one: {total: 24 + 1, step: 1}, two: {total: 60, step: 5}};
+                optionsClock = {one: {total: 24, step: 1}, two: {total: 60, step: 5}};
                 break;
         }
+        optionsClock.one.total = useMemo(() => optionsClock.one.total + optionsClock.one.total, [optionsClock.one.step]);
     }
-    
+
     /**
      * `Высота окна с цыфрами.`
      */
@@ -91,66 +95,59 @@ const Clock = forwardRef<IClockRef, IClock>(({
      * `Высота одного элемента.`
      */
     const itemHeight = height / totalElements; 
-    const {hoursArray, minutesArray} = arraysForClock(optionsClock);
+    const {firstNumberArray, secondNumberArray} = arraysForClock(optionsClock);
     /**
-     * `Диаметр полного оборота часов.`
+     * `Диаметр полного оборота "Первого числа".`
      */
-    const fullRotation = hoursArray.length * itemHeight;
+    const fullRotation = firstNumberArray.length * itemHeight;
     /**
      * `Диаметр полного оборота минут.`
      */
-    const fullRotationMinutes = minutesArray.length * itemHeight;
+    const fullRotationMinutes = secondNumberArray.length * itemHeight;
     /**
      * @param isShow Показать/скрыть часы.
      */
     const [isShow, setIsShow] = useState<boolean>(false);
-    const objHoursPosition = getPosition(selectedTime.one, itemHeight, hoursArray);
+    const position = getPosition(selectedTime.one, itemHeight, firstNumberArray);
     /**
-     * `Число используемое для смешения первого ряда цыфр.`
-     */
-    let offsetHours: number = objHoursPosition.offsetNumber;
-    /**
-     * `Позиция часа.`
+     * `Позиция "Первого числа".`
      */
     const hoursPosition = useSharedValue<number>(0); 
-    if(hoursPosition.value === 0) hoursPosition.value = objHoursPosition.position;
+    if(hoursPosition.value === 0) hoursPosition.value = position;
+    console.log('objHoursPosition >>> ', position); 
     /**
-     * `Последняя позиция часа.`
+     * `Последняя позиция "Первого числа".`
      */
     const lastHoursPosition = useSharedValue<number>(0);
-    if(lastHoursPosition.value === 0) lastHoursPosition.value = getPosition(selectedTime.one, itemHeight, hoursArray).position;
+    if(lastHoursPosition.value === 0) lastHoursPosition.value = getPosition(selectedTime.one, itemHeight, firstNumberArray);
+
     /**
-     * `Число используемое для смешения первого ряда цыфр.`
-     */
-    let offsetMinutes: number;
-    /**
-     * `Позиция минут.`
+     * `Позиция "Второго числа".`
      */
     const minutesPosition = useSharedValue<number>(0);
     if(minutesPosition.value === 0) {
-        const {offsetNumber, position} = getPosition(selectedTime.two, itemHeight, minutesArray)
+        const position = getPosition(selectedTime.two, itemHeight, secondNumberArray);
         minutesPosition.value = position;
-        offsetMinutes = offsetNumber;
     }
     /**
-     * `Последняя позиция минут.`
+     * `Последняя позиция "Второго числа".`
      */
     const lastMinutesPosition = useSharedValue<number>(0);
-    if(lastMinutesPosition.value === 0) lastMinutesPosition.value = getPosition(selectedTime.two, itemHeight, minutesArray).position;
+    if(lastMinutesPosition.value === 0) lastMinutesPosition.value = getPosition(selectedTime.two, itemHeight, secondNumberArray);
     /**
      * `Выбраный пользователем час.`
      */
     const selectedHour = useSharedValue<number>(selectedTime.one);
     /**
-     * `Выбраные пользователем минуты.`
+     * `Выбраное пользователем "Второе число".`
      */
     const selectedMinute = useSharedValue<number>(selectedTime.two);
     /**
-     * `Последняя позиция вибрации для часов.`
+     * `Последняя позиция вибрации для "Первого числа".`
      */
     const lastVibrationPositionHour = useSharedValue<number>(0);
     /**
-     * `Последняя позиция вибрации для минут.`
+     * `Последняя позиция вибрации для "Второго числа".`
      */
     const lastVibrationPositionMinutes = useSharedValue<number>(0);
 
@@ -161,8 +158,8 @@ const Clock = forwardRef<IClockRef, IClock>(({
         height, 
         fullRotationMinutes,
         minutesPosition,
-        lengthArrayOne: hoursArray.length,
-        lengthArrayTwo: minutesArray.length
+        lengthArrayOne: firstNumberArray.length,
+        lengthArrayTwo: secondNumberArray.length
     });
 
     const {gaps, gapsMinutes} = gapsForClock({fullRotation, itemHeight, fullRotationMinutes});
@@ -181,12 +178,12 @@ const Clock = forwardRef<IClockRef, IClock>(({
         gaps, 
         itemHeight, 
         lastVibrationPositionHour,
-        offsetHours,
-        maxValue: optionsClock.one.total
+        maxValue: optionsClock.one.total,
+        step: optionsClock.one.step
     });
-    const {gesturePanMinutes} = gestureMinutesForClock({minutesPosition, lastMinutesPosition, selectedMinute, fullRotationMinutes, gapsMinutes, itemHeight, minutesArray, lastVibrationPositionMinutes});
+    const {gesturePanMinutes} = gestureMinutesForClock({minutesPosition, lastMinutesPosition, selectedMinute, fullRotationMinutes, gapsMinutes, itemHeight, secondNumberArray, lastVibrationPositionMinutes});
 
-    const hours = hoursArray.map((item, i) => {
+    const hours = firstNumberArray.map((item, i) => {
             return(
                 <Animated.View style={[styles.timeBox, {height: itemHeight}, animatedHours(Number(i))]} key={i} >
                     <Text style={[styles.timeText, {color: colorText}]} >{item}</Text>
@@ -194,7 +191,7 @@ const Clock = forwardRef<IClockRef, IClock>(({
             )
     });
 
-    const minutes = minutesArray.map((item, i) => {
+    const minutes = secondNumberArray.map((item, i) => {
         return(
             <Animated.View style={[styles.timeBox, {height: itemHeight}, animatedMinutes(Number(i))]} key={i} >
                 <Text style={[styles.timeText, {color: colorText}]} >{item}</Text>
