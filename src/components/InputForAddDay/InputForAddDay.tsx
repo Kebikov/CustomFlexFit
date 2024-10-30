@@ -46,7 +46,8 @@ const InputForAddDay = <I,>({
     return (
         <View style={{width: '100%', alignItems: 'center', marginTop}}>
             <View style={{alignItems: 'flex-start', width: '100%'}}>
-                <Description text={title} />
+                {/* <Description text={title} /> */}
+                <Text style={styleTextInput.title} >{title}</Text>
             </View>
             
             <TextInput
@@ -70,6 +71,10 @@ const styleTextInput = StyleSheet.create({
         paddingHorizontal: 10,
         fontSize: Platform.OS === 'ios' ? 18 : 16,
         color: 'white'
+    },
+    title: {
+        color: COLOR_ROOT.WHITE_CUSTOM(.8),
+        fontSize: Platform.OS === 'ios' ? 17 : 15,
     }
 });
 

@@ -10,7 +10,13 @@ const ICON = {
     ADD_BTN: require('@/source/icon/files/add-btn.png'),
     EDIT_BTN: require('@/source/icon/files/edit-btn.png'),
     DEL_BTN: require('@/source/icon/files/del-btn.png'),
-    COPY: require('@/source/icon/files/copy.png')
+    COPY: require('@/source/icon/files/copy.png'),
+    WEIGHT: require('@/source/icon/files/weight.png'),
+    TIME_EXERCISE: require('@/source/icon/files/time_exercise.png'),
+    TIME_EXERCISE_2: require('@/source/icon/files/time_exercise_2.png'),
+    TIME_REST: require('@/source/icon/files/time_rest.png'),
+    TIME_REST_2: require('@/source/icon/files/time_rest_2.png'),
+    REPS: require('@/source/icon/files/reps.png')
 };
 
 export default ICON;

@@ -1,39 +1,51 @@
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, Text, StyleSheet, Platform, Image } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO';
-
+import type { IExerciseState } from '@/redux/slice/sets.slice';
+import ICON from '@/source/icon';
 
 
 interface ISet {
-    amount: number;
-    exercise: ExerciseDTO;
+    exerciseState: IExerciseState
 }
 
+
 /**
- * @component
- * `Блок с одним повтором упражнения.`
- * @param amount - Количество повторов в подходе.
- * @param title - Титульный текст.
- * @param descriptions - Описание под титульным текстом.
- * @example <Set amount={#} title={#} descriptions={#} />
- * @returns {JSX.Element}
+ * @component `Блок с одним повтором упражнения.`
  */
 const SetEdit: FC<ISet> = ({
-    amount, 
-    exercise
+    exerciseState
 }) => {
-
+    console.log('exerciseState >>> ');
+    console.log(JSON.stringify( exerciseState, null, 2));
 	return (
         <View
             style={[styles.container]} 
         >
             <View style={styles.rapBox} >
-                <Text style={styles.textRap} >{amount}</Text>
+                <Text style={styles.textRap} >{exerciseState.reps.one}</Text>
             </View>
             <View style={styles.descriptionsBox} >
-                <Text style={styles.textTitle} >{exercise.title}</Text>
-                <Text style={styles.textDescriptions} >{exercise.description}</Text>
+                <Text style={styles.textTitle} >{exerciseState.name}</Text>
+                <Text style={styles.textDescriptions} >{exerciseState.note}</Text>
+                <View style={styles.time} >
+
+                    <View style={styles.rest} >
+                        <View style={styles.rest_icon_box} >
+                            <Image source={ICON.TIME_REST_2} style={styles.rest_icon} />
+                        </View>
+                        <Text style={styles.rest_text} >{`${exerciseState.restAfter.one} m. ${exerciseState.restAfter.two} s.`}</Text>
+                    </View>
+
+                    <View style={[styles.rest, {marginLeft: 10}]} >
+                        <View style={styles.rest_icon_box} >
+                            <Image source={ICON.TIME_EXERCISE_2} style={styles.rest_icon} />
+                        </View>
+                        <Text style={styles.rest_text} >{`${exerciseState.runtime.one} m. ${exerciseState.runtime.two} s.`}</Text>
+                    </View>
+
+                </View>
             </View>
         </View>
 	);
@@ -45,15 +57,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         width: '100%',
-        height: 60,
+        height: 65,
         backgroundColor: COLOR_ROOT.DARK_GREY,
         borderRadius: 10
     },
     rapBox: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: 40,
-        height: 40,
+        width: 50,
+        height: 50,
         borderRadius: 5,
         backgroundColor: COLOR_ROOT.GREY,
         marginLeft: 10
@@ -65,7 +77,7 @@ const styles = StyleSheet.create({
     },
     textRap: {
         fontFamily: 'Sport',
-        fontSize: 30,
+        fontSize: 32,
         color: COLOR_ROOT.LIGHT_GREY
     },
     textTitle: {
@@ -78,6 +90,30 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: COLOR_ROOT.MEDIUM_GREY,
         lineHeight: 16
+    },
+    time: {
+        flexDirection: 'row',
+        paddingBottom: 2
+    },
+    rest: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 3
+    },
+    rest_icon_box: {
+        width: 12,
+        height: 12
+    },
+    rest_icon: {
+        width: '100%',
+        height: '100%',
+        objectFit: 'contain'
+    },
+    rest_text: {
+        color: 'white',
+        fontSize: 10,
+        fontWeight: '300',
+        marginLeft: 5
     }
 });
 

@@ -3,16 +3,30 @@
         "headerText": "Create your exercise",
 
         "title": "exercise name",
-        "titleInput": "name",
+        "titleInput": "Name",
         "placeholderTitle": "enter name",
 
         "description": "note for exercise",
-        "titleInputDescription": "note",
+        "titleInputDescription": "Note",
         "placeholderDescription": "enter note",
 
         "infoAddImage": "Select an image for the workout from your phone’s gallery or from those already available in the app.",
-        "infoCreateExercise": "To edit, add, or delete a set, simply swipe the exercise block to the left or tap on the exercise block.",
+        "infoCreateExercise": "To edit, add, or delete a set, simply swipe the exercise block to the left or tap on the exercise block."
+    },
+    "modalAddRepsRest": {
+        "titleModalAddRepsRest": "Reps & Time",
+        "nameAndNote": "Name & Note",
 
-        
+        "titleReps": "Reps",
+        "titleRest": "Rest",
+        "titleExerciseTime": "Exercise Time",
+
+        "unitsReps": "reps",
+        "unitsMimutes": "m.",
+        "unitsSeconds": "s.",
+
+        "helpTextReps": "Specify the number of repetitions in the exercise.",
+        "helpTextRest": "Set the rest time after completing the exercise.",
+        "helpTextExerciseTime": "Set the exercise duration; if not needed, leave the values at zero."
     }
 }

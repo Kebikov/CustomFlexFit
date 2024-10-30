@@ -12,5 +12,21 @@ export interface ILng_Exercise {
 
         infoAddImage: string;
         infoCreateExercise: string;
+    },
+    modalAddRepsRest: {
+        titleModalAddRepsRest: string;
+        nameAndNote: string;
+
+        titleReps: string;
+        titleRest: string;
+        titleExerciseTime: string;
+
+        unitsReps: string;
+        unitsMimutes: string;
+        unitsSeconds: string;
+
+        helpTextReps: string;
+        helpTextRest: string;
+        helpTextExerciseTime: string;
     }
 }

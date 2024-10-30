@@ -1,27 +1,16 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
-import React, { FC, useState } from 'react';
+import { View, StyleSheet, Image } from 'react-native';
+import React, { FC, useEffect } from 'react';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { useHookRouter } from '@/router/useHookRouter';
-import InputForAddDay from '@/components/InputForAddDay/InputForAddDay';
 import { useTranslation } from 'react-i18next';
 import PickBackgroundForDay from '@/components/PickBackgroundForDay/PickBackgroundForDay';
 import { SET_BACKGROUND_FOR_EXERCISE } from '@/redux/slice/setup.slice';
-import { useAppSelector } from '@/redux/store/hooks';
-import Set from '@/components/Set/Set';
-import Description from '@/components/Description/Description';
+import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import HelpText from '@/components/HelpText/HelpText';
-import ButtonSwipeable from '@/components/ButtonSwipeable/ButtonSwipeable';
-import SetEdit from '@/components/SetEdit/SetEdit';
-
-
-interface IExerciseState {
-    img: string;
-    title: string;
-    description: string;
-}
+import SetEditSwipeable from '@/components/SetEditSwipeable/SetEditSwipeable';
 
 
 /**
@@ -31,14 +20,17 @@ const AddExercise: FC = () => {
 
     const {appRouter} = useHookRouter();
     const {t} = useTranslation(['[exercise]', 'button']);
+    const DISPATCH = useAppDispatch();
 
-    const [exerciseState, setExerciseState] = useState<IExerciseState>({
-        title: t('[exercise]:addExercise.title'),
-        description: t('[exercise]:addExercise.description'),
-        img: '',
-    });
+    const exerciseStateArray = useAppSelector(state => state.setsSlice.exerciseStateArray);
 
     const selectedBackgroundExercise = useAppSelector(state => state.setupSlice.selectedBackgroundExercise);
+
+    useEffect(() => {
+        return () => {
+            console.log('Размонтирование AddExercise !');
+        }
+    }, []);
 
     return (
         <WrapperScroll
@@ -69,37 +61,11 @@ const AddExercise: FC = () => {
                     />
                     <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
 
-                    <ButtonSwipeable
-                        totalButton={3}
-                        onPressButton1={() => appRouter.navigate('/exercise/modalAddRepsRest')}
-                        onPressButton2={() => {}}
-                        onPressButton3={() => {}}
-                        marginTop={10}
-                        paddingForButton={20}
-                    >
-                        <SetEdit exercise={{...exerciseState, id: 0}} amount={0} />
-                    </ButtonSwipeable>
+                    {
+                        exerciseStateArray.map(state => <SetEditSwipeable id={state.id}  key={state.id} />)
+                    }
 
-                    
                     <HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />
-
-                    <InputForAddDay<IExerciseState>
-                        keyForState='title'
-                        title={t('[exercise]:addExercise.titleInput')}
-                        setDayState={setExerciseState} 
-                        placeholder={t('[exercise]:addExercise.placeholderTitle')}
-                        maxLength={27}
-                        marginTop={10}
-                    />
-
-                    <InputForAddDay<IExerciseState>
-                        keyForState='description'
-                        title={t('[exercise]:addExercise.titleInputDescription')}
-                        setDayState={setExerciseState} 
-                        placeholder={t('[exercise]:addExercise.placeholderDescription')}
-                        maxLength={27}
-                        marginTop={10}
-                    />
                     
                     <ButtonGreen
                         text={t('button:create')}
@@ -123,7 +89,7 @@ const styles = StyleSheet.create({
     },
     boxImageBackground: {
         width: '100%',
-        height: 170,
+        height: 230,
         marginTop: 20,
     },
     imageBackground: {

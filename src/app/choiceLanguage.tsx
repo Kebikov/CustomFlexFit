@@ -8,6 +8,9 @@ import { TLanguage } from '../LocalStorage/model/LocalStorage';
 import { AppRouterTypes } from '../router/app.router.types';
 import VibrationApp from '../helpers/VibrationApp';
 import Menu from '@/components/Menu/Menu';
+import ModalAddRepsRest from './exercise/modalAddRepsRest';
+import { useAppDispatch } from '@/redux/store/hooks';
+import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
 
 
 /**
@@ -18,45 +21,54 @@ const ChoiceLanguage: FC = () => {
     
     const {appRouter} = useHookRouter();
     const {i18n} = useTranslation();
+    const DISPATCH = useAppDispatch();
 
-    const setLanguage = (language: TLanguage, path: keyof AppRouterTypes) => {
+    const setLanguage = async (language: TLanguage, path: keyof AppRouterTypes) => {
         VibrationApp.pressButton();
-        i18n.changeLanguage(language);
+        await i18n.changeLanguage(language);
         //appRouter.replace(path);
+        DISPATCH(SET_EXERCISE_STATE('RESET'));
         appRouter.navigate('/exercise/addExercise');
     }
 
     return (
-        <View style={styles.container}>
-            <Menu/>
-            <Text style={styles.text} >What is your {"\n"}language ?</Text>
+        <>
+            {
+                0 ? 
+                <ModalAddRepsRest/>
+                :
+                <View style={styles.container}>
+                    <Menu/>
+                    <Text style={styles.text} >What is your {"\n"}language ?</Text>
 
-            <Pressable 
-                style={styles.language} 
-                onPress={async () => {
-                    setLanguage('English', '/day/guide');
-                }}
-            >
-                <View style={styles.imgBox} >
-                    <Image source={require('@/source/img/flags/States.svg.jpg')} style={styles.img} />
-                </View>
-                <Text style={styles.textLanguage} >English</Text>
-            </Pressable>
+                    <Pressable 
+                        style={styles.language} 
+                        onPress={async () => {
+                            await setLanguage('English', '/day/guide');
+                        }}
+                    >
+                        <View style={styles.imgBox} >
+                            <Image source={require('@/source/img/flags/States.svg.jpg')} style={styles.img} />
+                        </View>
+                        <Text style={styles.textLanguage} >English</Text>
+                    </Pressable>
 
-            <View style={styles.line}></View>
-            
-            <Pressable 
-                style={styles.language} 
-                onPress={async () => {
-                    setLanguage('Russian', '/day/guide');
-                }}
-            >
-                <View style={styles.imgBox} >
-                    <Image source={require('@/source/img/flags/rus.jpg')} style={styles.img} />
+                    <View style={styles.line}></View>
+                    
+                    <Pressable 
+                        style={styles.language} 
+                        onPress={async () => {
+                            setLanguage('Russian', '/day/guide');
+                        }}
+                    >
+                        <View style={styles.imgBox} >
+                            <Image source={require('@/source/img/flags/rus.jpg')} style={styles.img} />
+                        </View>
+                        <Text style={styles.textLanguage} >Russian</Text>
+                    </Pressable>
                 </View>
-                <Text style={styles.textLanguage} >Russian</Text>
-            </Pressable>
-        </View>
+            }
+        </>
     );
 };
 
