@@ -44,8 +44,8 @@ export const COLOR_ROOT: IColors = {
     ARCTIC: '#5be1ea',
     YELLOW: '#F0D82A',
 
-    BUTTON_COLOR_GREEN: 'rgba( 47, 168, 138, .7)',
-    BUTTON_COLOR_YELLOW: 'rgba( 243, 205, 68, .7)',
-    BUTTON_COLOR_RED: 'rgba( 241, 50, 43, .6)'
+    BUTTON_COLOR_GREEN: 'rgba( 47, 168, 138, .6)',
+    BUTTON_COLOR_YELLOW: 'rgba( 243, 205, 68, .6)',
+    BUTTON_COLOR_RED: 'rgba( 241, 50, 43, .5)'
 };
 

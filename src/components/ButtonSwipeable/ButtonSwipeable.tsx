@@ -24,6 +24,7 @@ interface IButtonSwipeable {
     colorButton2?: string;
     colorButton3?: string;
     marginTop?: number;
+    iconColor?: string;
 }
 
 /**
@@ -43,6 +44,7 @@ interface IButtonSwipeable {
  * @param colorButton3 ? Цвет кнопки 3.
  * @param isScrollActiveSv ? SharedValue устанавливаюшее активность внешнего скрола.
  * @param marginTop ? Отступ с верху.
+ * @param iconColor ? Цвет эконки.
  */
 const ButtonSwipeable: FC<IButtonSwipeable> = ({ 
     children, 
@@ -57,7 +59,8 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     colorButton1 = COLOR_ROOT.BUTTON_COLOR_GREEN,
     colorButton2 = COLOR_ROOT.BUTTON_COLOR_YELLOW,
     colorButton3 = COLOR_ROOT.BUTTON_COLOR_RED,
-    marginTop
+    marginTop,
+    iconColor
 }) => {
     /**
      * @param isActiveButton Состояние кнопки, в открытом или закрытом состоянии находится кнопка.
@@ -185,7 +188,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
                             null
                         }
                     >
-                        <Image source={iconForButton1} style={styles.img}/>
+                        <Image source={iconForButton1} style={[styles.img, {tintColor: iconColor}]} />
                     </Pressable>
                 </Animated.View>
                 {
@@ -214,7 +217,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
                                 null
                             }
                         >
-                            <Image source={iconForButton2} style={styles.img}/>
+                            <Image source={iconForButton2} style={[styles.img, {tintColor: iconColor}]} />
                         </Pressable>
                     </Animated.View>
                     :
@@ -246,7 +249,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
                                 null
                             }
                         >
-                            <Image source={iconForButton3} style={styles.img} />
+                            <Image source={iconForButton3} style={[styles.img, {tintColor: iconColor}]} />
                         </Pressable>
                     </Animated.View>
                     : 

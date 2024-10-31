@@ -12,7 +12,9 @@ interface IInputForAddDay<I> {
     title: string;
     placeholder: string;
     maxLength: number;
+    value?: string;
     marginTop?: number;
+    isNullValue?: string;
 }
 
 
@@ -23,7 +25,10 @@ interface IInputForAddDay<I> {
  * @param title Заголовок для Input.
  * @param placeholder placeholder for input
  * @param maxLength Максимальная длинна вводимого текста.
+ * @param value Значение поля ввода.
+ * @optional
  * @param marginTop ? Отступ с верху.
+ * @param isNullValue ? Значение которое примет поле, если значение не передано и равно пустой строке.
  */
 const InputForAddDay = <I,>({
     keyForState,
@@ -31,10 +36,12 @@ const InputForAddDay = <I,>({
     title,
     placeholder,
     maxLength,
-    marginTop
+    marginTop,
+    value,
+    isNullValue
 }: IInputForAddDay<I>) => {
-
-    const {t} = useTranslation(['alert_and_toast']);
+    console.log('VALUE >>> ', value);
+    const {t} = useTranslation(['alert_and_toast', '[exercise]']);
 
     const onChangeForm = (e: NativeSyntheticEvent<TextInputChangeEventData>, key: string) => {
         const text = e.nativeEvent.text;
@@ -53,9 +60,13 @@ const InputForAddDay = <I,>({
             <TextInput
                 style={styleTextInput.input}
                 placeholder={placeholder}
-                onChange={text => onChangeForm(text, keyForState as string)}
+                onChange={text => {
+                    if(text.nativeEvent.text === '' && isNullValue) text.nativeEvent.text = isNullValue;
+                    onChangeForm(text, keyForState as string);
+                }}
                 maxLength={maxLength}
                 placeholderTextColor={COLOR_ROOT.WHITE_40}
+                value={value}
             />
         </View>
     );
@@ -67,14 +78,14 @@ const styleTextInput = StyleSheet.create({
         width: '100%',
         marginTop: 3,
         borderRadius: 12,
-        paddingVertical: Platform.OS === 'ios' ? 7 : 4,
+        paddingVertical: Platform.OS === 'ios' ? 7 : 3,
         paddingHorizontal: 10,
-        fontSize: Platform.OS === 'ios' ? 18 : 16,
+        fontSize: Platform.OS === 'ios' ? 17 : 14,
         color: 'white'
     },
     title: {
         color: COLOR_ROOT.WHITE_CUSTOM(.8),
-        fontSize: Platform.OS === 'ios' ? 17 : 15,
+        fontSize: Platform.OS === 'ios' ? 17 : 14,
     }
 });
 

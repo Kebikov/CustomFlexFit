@@ -4,6 +4,7 @@ import { COLOR_ROOT } from '@/constants/colors';
 import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO';
 import type { IExerciseState } from '@/redux/slice/sets.slice';
 import ICON from '@/source/icon';
+import { useTranslation } from 'react-i18next';
 
 
 interface ISet {
@@ -17,8 +18,9 @@ interface ISet {
 const SetEdit: FC<ISet> = ({
     exerciseState
 }) => {
-    console.log('exerciseState >>> ');
-    console.log(JSON.stringify( exerciseState, null, 2));
+
+    const {t} = useTranslation(['[exercise]']);
+
 	return (
         <View
             style={[styles.container]} 
@@ -35,14 +37,14 @@ const SetEdit: FC<ISet> = ({
                         <View style={styles.rest_icon_box} >
                             <Image source={ICON.TIME_REST_2} style={styles.rest_icon} />
                         </View>
-                        <Text style={styles.rest_text} >{`${exerciseState.restAfter.one} m. ${exerciseState.restAfter.two} s.`}</Text>
+                        <Text style={styles.rest_text} >{`${exerciseState.restAfter.one} ${t('[exercise]:modalAddRepsRest.unitsMimutes')} ${exerciseState.restAfter.two} ${t('[exercise]:modalAddRepsRest.unitsSeconds')}`}</Text>
                     </View>
 
                     <View style={[styles.rest, {marginLeft: 10}]} >
                         <View style={styles.rest_icon_box} >
                             <Image source={ICON.TIME_EXERCISE_2} style={styles.rest_icon} />
                         </View>
-                        <Text style={styles.rest_text} >{`${exerciseState.runtime.one} m. ${exerciseState.runtime.two} s.`}</Text>
+                        <Text style={styles.rest_text} >{`${exerciseState.runtime.one} ${t('[exercise]:modalAddRepsRest.unitsMimutes')} ${exerciseState.runtime.two} ${t('[exercise]:modalAddRepsRest.unitsSeconds')}`}</Text>
                     </View>
 
                 </View>

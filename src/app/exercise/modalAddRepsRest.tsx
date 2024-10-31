@@ -66,10 +66,9 @@ const ModalAddRepsRest: FC = () => {
 
     useEffect(() => {
         return () => {
-            console.log('Размонтирование !');
             // Находим упражнение для изминения данных.
             console.log('restAfter >>> ', restAfter);
-            const chance = {
+            const exerciseOfChanged = {
                 id: Number(id),
                 name: nameAndNote.name,
                 note: nameAndNote.note,
@@ -77,7 +76,7 @@ const ModalAddRepsRest: FC = () => {
                 runtime,
                 restAfter
             };
-            DISPATCH(SET_EXERCISE_STATE(chance));
+            DISPATCH(SET_EXERCISE_STATE(exerciseOfChanged));
         }
     }, [nameAndNote, reps, runtime, restAfter]);
 
@@ -96,6 +95,8 @@ const ModalAddRepsRest: FC = () => {
                         setDayState={setNameAndNote} 
                         placeholder={t('[exercise]:addExercise.placeholderTitle')}
                         maxLength={27}
+                        value={nameAndNote.name === t('[exercise]:addExercise.title') ? undefined : nameAndNote.name}
+                        isNullValue={t('[exercise]:addExercise.title')}
                     />
 
                     <InputForAddDay<INameAndNote>
@@ -105,6 +106,8 @@ const ModalAddRepsRest: FC = () => {
                         placeholder={t('[exercise]:addExercise.placeholderDescription')}
                         maxLength={27}
                         marginTop={10}
+                        value={nameAndNote.note === t('[exercise]:addExercise.description') ? undefined : nameAndNote.note}
+                        isNullValue={t('[exercise]:addExercise.description')}
                     />
                 </View>
 

@@ -57,6 +57,9 @@ const setsSlice = createSlice({
     name: 'sets',
     initialState: initialStateSets,
     reducers: {
+        /**
+         * `//--Установка состояния при создании нового упражнения.`
+         */
         SET_EXERCISE_STATE: (state, action: PayloadAction<IExerciseState[] | IExerciseState | 'RESET'>) => {
             if(action.payload === 'RESET') {
                 // Сброс состояния в ночальное, используется при изминении языка.

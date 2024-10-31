@@ -62,7 +62,7 @@ const AddExercise: FC = () => {
                     <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
 
                     {
-                        exerciseStateArray.map(state => <SetEditSwipeable id={state.id}  key={state.id} />)
+                        exerciseStateArray.map((state, i) => <SetEditSwipeable id={state.id} index={i}  key={state.id} />)
                     }
 
                     <HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />
