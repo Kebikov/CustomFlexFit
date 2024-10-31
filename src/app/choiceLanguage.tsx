@@ -11,6 +11,7 @@ import Menu from '@/components/Menu/Menu';
 import ModalAddRepsRest from './exercise/modalAddRepsRest';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
+import Test from '@/components/Test/Test';
 
 
 /**
@@ -35,7 +36,8 @@ const ChoiceLanguage: FC = () => {
         <>
             {
                 0 ? 
-                <ModalAddRepsRest/>
+                // <ModalAddRepsRest/>
+                <Test/>
                 :
                 <View style={styles.container}>
                     <Menu/>

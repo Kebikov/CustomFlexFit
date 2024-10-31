@@ -61,6 +61,7 @@ const setsSlice = createSlice({
          * `//--Установка состояния при создании нового упражнения.`
          */
         SET_EXERCISE_STATE: (state, action: PayloadAction<IExerciseState[] | IExerciseState | 'RESET'>) => {
+            console.info('work > SET_EXERCISE_STATE');
             if(action.payload === 'RESET') {
                 // Сброс состояния в ночальное, используется при изминении языка.
                 state.exerciseStateArray = exerciseStateInitial();

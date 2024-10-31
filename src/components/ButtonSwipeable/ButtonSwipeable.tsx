@@ -7,9 +7,10 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import VibrationApp from '@/helpers/VibrationApp';
 import ICON from '@/source/icon';
+import type { RenderItemParams } from 'react-native-draggable-flatlist';
 
 
-interface IButtonSwipeable {
+interface IButtonSwipeable<I> {
     children: JSX.Element | JSX.Element[];
     totalButton: 1 | 2 | 3;
     onPressButton1: Function;
@@ -25,6 +26,8 @@ interface IButtonSwipeable {
     colorButton3?: string;
     marginTop?: number;
     iconColor?: string;
+    drag?: () => void;
+    isActive?: boolean;
 }
 
 /**
@@ -45,8 +48,10 @@ interface IButtonSwipeable {
  * @param isScrollActiveSv ? SharedValue устанавливаюшее активность внешнего скрола.
  * @param marginTop ? Отступ с верху.
  * @param iconColor ? Цвет эконки.
+ * @param drag ? Используется при FlatlistDrag, действие при длительном нажатии.
+ * @param isActive ? Используется при FlatlistDrag, флаг когда происходит перемешение элемента.
  */
-const ButtonSwipeable: FC<IButtonSwipeable> = ({ 
+const ButtonSwipeable = <I,>({ 
     children, 
     totalButton, 
     onPressButton1, 
@@ -60,8 +65,10 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     colorButton2 = COLOR_ROOT.BUTTON_COLOR_YELLOW,
     colorButton3 = COLOR_ROOT.BUTTON_COLOR_RED,
     marginTop,
-    iconColor
-}) => {
+    iconColor,
+    drag,
+    isActive
+}: IButtonSwipeable<I>) => {
     /**
      * @param isActiveButton Состояние кнопки, в открытом или закрытом состоянии находится кнопка.
      */
@@ -156,6 +163,8 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
             <GestureDetector gesture={panGesture} >
                 <Animated.View style={[styles.button, animatedStyleButton]} >
                     <Pressable 
+                        onLongPress={drag}
+                        disabled={isActive} 
                         style={styles.button_press}
                         onPress={() => onHandlePress()}
                     >

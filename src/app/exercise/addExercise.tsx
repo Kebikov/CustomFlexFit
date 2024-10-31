@@ -1,5 +1,5 @@
 import { View, StyleSheet, Image } from 'react-native';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
@@ -11,6 +11,8 @@ import { SET_BACKGROUND_FOR_EXERCISE } from '@/redux/slice/setup.slice';
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import HelpText from '@/components/HelpText/HelpText';
 import SetEditSwipeable from '@/components/SetEditSwipeable/SetEditSwipeable';
+import DraggableFlatList, { ScaleDecorator, RenderItemParams } from 'react-native-draggable-flatlist';
+import { IExerciseState } from '@/redux/slice/sets.slice';
 
 
 /**
@@ -24,17 +26,22 @@ const AddExercise: FC = () => {
 
     const exerciseStateArray = useAppSelector(state => state.setsSlice.exerciseStateArray);
 
+    const [data, setData] = useState<IExerciseState[]>([]);
+    const [isScrollEnabled, setIsScrollEnabled] = useState<boolean>(true);
+
     const selectedBackgroundExercise = useAppSelector(state => state.setupSlice.selectedBackgroundExercise);
 
     useEffect(() => {
+        setData(exerciseStateArray);
         return () => {
             console.log('Размонтирование AddExercise !');
         }
-    }, []);
+    }, [exerciseStateArray]);
 
     return (
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
+            isScrollEnabled={true}
         >
             <View style={styles.container} >
                 <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={20} />
@@ -62,7 +69,14 @@ const AddExercise: FC = () => {
                     <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
 
                     {
-                        exerciseStateArray.map((state, i) => <SetEditSwipeable id={state.id} index={i}  key={state.id} />)
+                        // exerciseStateArray.map((state, i) => <SetEditSwipeable id={state.id} index={i}  key={state.id} />)
+                        <DraggableFlatList
+                            data={data}
+                            //onDragEnd={({date}: RenderItemParams<IExerciseState>) => DISPATCH(SET_BACKGROUND_FOR_EXERCISE(date))}
+                            onDragEnd={ ({ data }) => setData(data) } 
+                            keyExtractor={item => String(item.id)}
+                            renderItem={({item, drag, isActive}) => <SetEditSwipeable item={item} drag={drag} isActive={isActive} />}
+                        />
                     }
 
                     <HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />
