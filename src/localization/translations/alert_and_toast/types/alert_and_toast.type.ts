@@ -4,4 +4,5 @@ export interface ILng_alert_and_toast {
     notDescription: string;
     maxLength1: string;
     maxLength2: string;
+    itLastElement: string;
 }

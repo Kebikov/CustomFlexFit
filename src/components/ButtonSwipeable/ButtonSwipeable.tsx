@@ -1,13 +1,12 @@
 import { useHookButtonSwipeable } from './hooks/useHookButtonSwipeable';
 import { useHookAnimatedStyle } from './hooks/useHookAnimatedStyle';
 import { COLOR_ROOT } from '@/constants/colors';
-import React, { FC, useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { StyleSheet, View, Dimensions, Image, Pressable } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import VibrationApp from '@/helpers/VibrationApp';
 import ICON from '@/source/icon';
-import type { RenderItemParams } from 'react-native-draggable-flatlist';
 
 
 interface IButtonSwipeable<I> {
@@ -48,8 +47,8 @@ interface IButtonSwipeable<I> {
  * @param isScrollActiveSv ? SharedValue устанавливаюшее активность внешнего скрола.
  * @param marginTop ? Отступ с верху.
  * @param iconColor ? Цвет эконки.
- * @param drag ? Используется при FlatlistDrag, действие при длительном нажатии.
- * @param isActive ? Используется при FlatlistDrag, флаг когда происходит перемешение элемента.
+ * @param drag ? Функция из DraggableFlatList, для обработки перемешения элемента.
+ * @param isActive ? Булевое значение из DraggableFlatList, во время перемешения true.
  */
 const ButtonSwipeable = <I,>({ 
     children, 

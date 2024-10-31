@@ -16,7 +16,7 @@ import i18next from 'i18next';
  * @param restAfter Время отдыха после упражнения, минут и секунд.
  */
 export interface IExerciseState {
-    id: number;
+    id: string;
     name: string;
     note: string;
     reps: ITimeClock;
@@ -37,7 +37,7 @@ interface IInitialStateSets {
  * `Начальное состояние упражнения при добавлении нового.`
  */
 const exerciseStateInitial = (): IExerciseState[] => [{
-    id: 1,
+    id: 'startId',
     name: i18next.t('[exercise]:addExercise.title'),
     note: i18next.t('[exercise]:addExercise.description'),
     reps: {one: 10, two: 0},

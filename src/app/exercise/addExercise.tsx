@@ -1,6 +1,5 @@
 import { View, StyleSheet, Image } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
-import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
@@ -11,7 +10,7 @@ import { SET_BACKGROUND_FOR_EXERCISE } from '@/redux/slice/setup.slice';
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import HelpText from '@/components/HelpText/HelpText';
 import SetEditSwipeable from '@/components/SetEditSwipeable/SetEditSwipeable';
-import DraggableFlatList, { ScaleDecorator, RenderItemParams } from 'react-native-draggable-flatlist';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 import { IExerciseState } from '@/redux/slice/sets.slice';
 
 
@@ -27,7 +26,6 @@ const AddExercise: FC = () => {
     const exerciseStateArray = useAppSelector(state => state.setsSlice.exerciseStateArray);
 
     const [data, setData] = useState<IExerciseState[]>([]);
-    const [isScrollEnabled, setIsScrollEnabled] = useState<boolean>(true);
 
     const selectedBackgroundExercise = useAppSelector(state => state.setupSlice.selectedBackgroundExercise);
 
@@ -38,68 +36,75 @@ const AddExercise: FC = () => {
         }
     }, [exerciseStateArray]);
 
-    return (
-        <WrapperScroll
-            backgroundColor={COLOR_ROOT.BACKGROUND}
-            isScrollEnabled={true}
-        >
-            <View style={styles.container} >
-                <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={20} />
-                <View style={styles.bodyForm} >
-
-                    <View style={styles.boxImageBackground} >
-                        <Image source={
-                                selectedBackgroundExercise && typeof selectedBackgroundExercise === 'string' ? {uri: selectedBackgroundExercise}
-                                :
-                                typeof selectedBackgroundExercise === 'number' ? selectedBackgroundExercise
-                                :
-                                require('@/source/img/imgForScreen/zeroFon.jpg')
-                            } 
-                            style={styles.imageBackground} 
-                        />
-                        <View style={[styles.overlay, {backgroundColor: selectedBackgroundExercise ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
-                    </View>
-
-                    <PickBackgroundForDay 
-                        SET_ACTIONS={SET_BACKGROUND_FOR_EXERCISE}
-                        aspect={[8, 5]}
-                        modalPath='/exercise/modalAddImageExercise'
-                        marginTop={20}
-                    />
-                    <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
-
-                    {
-                        // exerciseStateArray.map((state, i) => <SetEditSwipeable id={state.id} index={i}  key={state.id} />)
-                        <DraggableFlatList
-                            data={data}
-                            //onDragEnd={({date}: RenderItemParams<IExerciseState>) => DISPATCH(SET_BACKGROUND_FOR_EXERCISE(date))}
-                            onDragEnd={ ({ data }) => setData(data) } 
-                            keyExtractor={item => String(item.id)}
-                            renderItem={({item, drag, isActive}) => <SetEditSwipeable item={item} drag={drag} isActive={isActive} />}
-                        />
-                    }
-
-                    <HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />
-                    
-                    <ButtonGreen
-                        text={t('button:create')}
-                        handlePess={() => appRouter.navigate('/exercise/modalAddImageExercise')}
-                        marginTop={40}
-                    />
-                </View>
+    const header = (
+        <View>
+            <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={20} />
+            <View style={styles.boxImageBackground} >
+                <Image source={
+                        selectedBackgroundExercise && typeof selectedBackgroundExercise === 'string' ? {uri: selectedBackgroundExercise}
+                        :
+                        typeof selectedBackgroundExercise === 'number' ? selectedBackgroundExercise
+                        :
+                        require('@/source/img/imgForScreen/zeroFon.jpg')
+                    } 
+                    style={styles.imageBackground} 
+                />
+                <View style={[styles.overlay, {backgroundColor: selectedBackgroundExercise ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
             </View>
-        </WrapperScroll>
+
+            <PickBackgroundForDay 
+                SET_ACTIONS={SET_BACKGROUND_FOR_EXERCISE}
+                aspect={[8, 5]}
+                modalPath='/exercise/modalAddImageExercise'
+                marginTop={20}
+            />
+            <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
+        </View>
+    );
+
+    const footer = (
+        <>
+            <HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />
+            <ButtonGreen
+                text={t('button:create')}
+                handlePess={() => appRouter.navigate('/exercise/modalAddImageExercise')}
+                marginTop={40}
+            />
+        </>
+    )
+
+    return (
+        <View style={styles.container} >
+            <View style={styles.bodyForm} >
+
+                <DraggableFlatList
+                    ListHeaderComponent={header}
+                    data={data}
+                    onDragEnd={ ({ data }) => setData(data) } 
+                    keyExtractor={item => String(item.id)}
+                    renderItem={({item, drag, isActive, getIndex}) => <SetEditSwipeable item={item} drag={drag} isActive={isActive} index={getIndex()} />}
+                    ListFooterComponent={footer}
+                    showsVerticalScrollIndicator={false}
+                />
+
+            </View>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: COLOR_ROOT.BACKGROUND
     },
     bodyForm: {
+        flex: 1,
         paddingHorizontal: 20,
-        width: '100%'
+        paddingVertical: 40,
+        width: '100%',
+        justifyContent: 'center'
     },
     boxImageBackground: {
         width: '100%',

@@ -4,5 +4,6 @@
     "notDescription": "There is no description.",
 
     "maxLength1": "The maximum text length of",
-    "maxLength2": "characters has been reached."
+    "maxLength2": "characters has been reached.",
+    "itLastElement": "The last item cannot be deleted."
 }

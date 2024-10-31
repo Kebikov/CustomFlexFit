@@ -8,11 +8,14 @@ import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store/hooks';
 import { COLOR_ROOT } from '@/constants/colors';
 import showMessage from '@/helpers/showMessage';
-import DraggableFlatList, { ScaleDecorator, RenderItemParams } from 'react-native-draggable-flatlist';
+import { ScaleDecorator } from 'react-native-draggable-flatlist';
+import useRandomId from '@/hook/useRandomId';
+import { useTranslation } from 'react-i18next';
 
 
 interface ISetEditSwipeable {
     item: IExerciseState;
+    index: number | undefined;
     drag?: () => void;
     isActive?: boolean;
 }
@@ -20,24 +23,31 @@ interface ISetEditSwipeable {
 
 /**
  * @component `Меню + Блок с одним повтором упражнения.`
- * @param item обьект 
+ * @param item Обьект с данными.
+ * @param index Индекс обьекта в массиве обьектов.
+ * @param drag Функция из DraggableFlatList, для обработки перемешения элемента.
+ * @param isActive Булевое значение, во время перемешения true.
  */
 const SetEditSwipeable: FC<ISetEditSwipeable> = ({
     item,
+    index,
     drag,
     isActive
 }) => {
 
     const {appRouter} = useHookRouter();
+    const {t} = useTranslation('alert_and_toast')
     const DISPATCH = useAppDispatch();
 
     const exerciseStateArray = useAppSelector(state => state.setsSlice.exerciseStateArray);
-
+    /**
+     * `Копирование элемента.`
+     */
     const copy = () => {
-        const idForCopy = exerciseStateArray.length + 1;
+        if(index === undefined) return console.error('not index');
 
         const set: IExerciseState = {
-            id: idForCopy,
+            id: useRandomId(),
             name: item.name,
             note: item.note,
             reps: item.reps,
@@ -45,13 +55,15 @@ const SetEditSwipeable: FC<ISetEditSwipeable> = ({
             restAfter: item.restAfter
         }
 
-        DISPATCH(SET_EXERCISE_STATE([...exerciseStateArray, set]));
+        DISPATCH(SET_EXERCISE_STATE([...exerciseStateArray.slice(0, index), set, ...exerciseStateArray.slice(index)]));
     }
-
+    /**
+     * `Удаление элемента.`
+     */
     const remove = () => {
-        if(exerciseStateArray.length <= 1) return showMessage('Это последий элемент.');
+        if(index === undefined) return console.error('not index');
+        if(exerciseStateArray.length <= 1) return showMessage(t('itLastElement'));
         const filterExercise = exerciseStateArray.filter(state => state.id !== item.id);
-        console.log(filterExercise);
         DISPATCH(SET_EXERCISE_STATE(filterExercise));
     }
 
@@ -59,7 +71,10 @@ const SetEditSwipeable: FC<ISetEditSwipeable> = ({
         <ScaleDecorator>
             <ButtonSwipeable
                 totalButton={3}
-                onPressButton1={() => appRouter.navigate({pathname: '/exercise/modalAddRepsRest', params: {id: item.id}})}
+                onPressButton1={() => {
+                    if(index === undefined) return;
+                    appRouter.navigate({pathname: '/exercise/modalAddRepsRest', params: {sendIndex: String(index)}});
+                }}
                 onPressButton2={() => copy()}
                 onPressButton3={() => remove()}
                 marginTop={10}
