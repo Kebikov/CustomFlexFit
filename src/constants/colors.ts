@@ -1,5 +1,6 @@
 interface IColors {
     BACKGROUND: string;
+    BACKGROUND_CUSTOM: (opasity: number) => string;
     BACKGROUND_LIGHT: string;
     LIME: string;
     LIME_70: string;
@@ -23,11 +24,13 @@ interface IColors {
 const LIME_CUSTOM = (opasity: number) => `rgba(217, 245, 17, ${opasity})`;
 const WHITE_CUSTOM = (opasity: number) => `rgba(255, 255, 255, ${opasity})`;
 const GREY_CUSTOM = (opasity: number) => `rgba(111, 113, 115, ${opasity})`;
+const BACKGROUND_CUSTOM = (opasity: number) => `rgba(19, 19, 19, ${opasity})`;
 
 
 
 export const COLOR_ROOT: IColors = {
     BACKGROUND: '#131313',
+    BACKGROUND_CUSTOM,
     BACKGROUND_LIGHT: '#777777',
     LIME: '#D9F511',
     LIME_70: 'rgba(217, 245, 17, 0.7)',

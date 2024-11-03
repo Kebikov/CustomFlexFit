@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { COLOR_ROOT } from '@/constants/colors';
 import { ScrollView } from 'react-native-gesture-handler';
+import HeaderGoBack from '../HeaderGoBack/HeaderGoBack';
 
 
 interface IWrapper {
@@ -10,28 +11,27 @@ interface IWrapper {
     isScrollEnabled?: boolean;
     barStyle?: StatusBarStyle;
     backgroundColor?: string;
+    isShowGoBack?: {
+        isShow: boolean;
+        paddingLeft?: number;
+    };
 }
 
 
 /**
- * @wrapper `Обертка для страниц с :` 
- * - SafeAreaView 
- * - StatusBar
- * - ScrollView 
+ * @wrapper `Обертка для страниц.` 
  * @optional 
- * @param scrollEnabled ? Если не нужен ScrollView, передаем false.
- * @param barStyle ? Стиль StatusBar.
- * @param backgroundColor ? Цвет фона StatusBar. [default - 'transparent']
- * @example 
- * <WrapperScroll>
-        {JSX.Element}
-    </WrapperScroll>
+ * @param scrollEnabled ? Если не нужен ScrollView, передаем false. `default = true`
+ * @param barStyle ? Стиль StatusBar. `default = 'light-content'`
+ * @param backgroundColor ? Цвет фона StatusBar. `default = 'transparent'`
+ * @param isShowGoBack ? Показывать ли header для возврата назад. `default = {isShow: false, paddingLeft: 0}`
  */
 const WrapperScroll: FC<IWrapper> = ({
     children, 
     isScrollEnabled = true,
     barStyle = 'light-content',
-    backgroundColor = 'transparent'
+    backgroundColor = 'transparent',
+    isShowGoBack = {isShow: false, paddingLeft: 0}
 }) => {
 
     return (
@@ -40,6 +40,13 @@ const WrapperScroll: FC<IWrapper> = ({
                 <StatusBar animated={true} barStyle={barStyle} backgroundColor={backgroundColor} />
             </View>
             <SafeAreaProvider>
+                {
+                    isShowGoBack.isShow ?
+                    <HeaderGoBack paddingLeft={isShowGoBack.paddingLeft}/>
+                    :
+                    null
+                }
+                
                 <KeyboardAvoidingView
                     style={{ flex: 1 }}
                     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

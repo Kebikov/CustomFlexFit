@@ -3,8 +3,7 @@ import React, { FC, useState } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-//* helpers
-import calculationTotalWeight from '@/helpers/calculationTotalWeight';
+
 //* component
 import ModalForAmountExercise from '../ModalForAmountExercise/ModalForAmountExercise';
 

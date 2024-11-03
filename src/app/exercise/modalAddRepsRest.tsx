@@ -1,4 +1,4 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Button, Platform } from 'react-native';
 import React, { FC, useState, useRef, useEffect } from 'react';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import HeaderGoBack from '@/components/HeaderGoBack/HeaderGoBack';
@@ -12,6 +12,9 @@ import InputForAddDay from '@/components/InputForAddDay/InputForAddDay';
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
 import { useLocalSearchParams } from 'expo-router';
+import { useHookRouter } from '@/router/useHookRouter';
+import ItemAddWeight from '@/components/ItemAddWeight/ItemAddWeight';
+import HelpText from '@/components/HelpText/HelpText';
 
 
 interface INameAndNote {
@@ -19,6 +22,9 @@ interface INameAndNote {
     note: string;
 }
 
+const fontSizeTitle = 21;
+const borderRadiusBody = 22;
+const paddingHorizontal = 25;
 
 /**
  * @modal `Модальное окно для добавления повторов и времени отдыха у упражнения.`
@@ -31,6 +37,7 @@ const ModalAddRepsRest: FC = () => {
     const refReps = useRef<IClockRef>(null);
     const {t} = useTranslation(['[exercise]']);
     const DISPATCH = useAppDispatch();
+    const {appRouter} = useHookRouter();
 
     const {sendIndex} = useLocalSearchParams<{sendIndex: string}>();
     const index = Number(sendIndex);
@@ -57,6 +64,10 @@ const ModalAddRepsRest: FC = () => {
      * @param restAfter Время отдыха после упражнения, минут и секунд.
      */
     const [restAfter, setRestAfter] = useState<ITimeClock>(exerciseStateArray[index].restAfter); //*! Передаем число которое должно быть в массиве, допустим у нас "one: {total: 30, step: 2}", мы хотим вывести в часах числа от 0 до 30 с шигом 2, у нас будет массив в итоге: [0, 2, 4, 6, ...] начальное значение должно быть одним из чисел полученого массива. 
+    /**
+     * @param buttonActiveWeight Какой пункт выбора веса активный.
+     */
+    const [buttonActiveWeight, setButtonActiveWeight] = useState<'left' | 'right'>();
 
     const onRestAfter = () => refRestAfter.current?.openClock();
     const onRuntime = () => refRuntime.current?.openClock();
@@ -80,7 +91,10 @@ const ModalAddRepsRest: FC = () => {
 
     const Inputs = (
         <>
-            <Title text={t('[exercise]:modalAddRepsRest.nameAndNote')} />
+            <Title text={t('[exercise]:modalAddRepsRest.nameAndNote')} 
+                fontSize={fontSizeTitle} 
+                marginTop={Platform.OS === 'ios' ? 10 : 0}
+            />
             <View style={styles.bodySetText} >
                 <InputForAddDay<INameAndNote>
                     keyForState='name'
@@ -103,12 +117,13 @@ const ModalAddRepsRest: FC = () => {
                     isNullValue={t('[exercise]:addExercise.description')}
                 />
             </View>
+            <HelpText text={t('[exercise]:modalAddRepsRest.helpTextNameNote')} />
         </>
     );
 
     const RepsRest = (
         <>
-            <Title text={t('[exercise]:modalAddRepsRest.titleModalAddRepsRest')} marginTop={20} />
+            <Title text={t('[exercise]:modalAddRepsRest.titleModalAddRepsRest')} marginTop={5} fontSize={fontSizeTitle} />
             <View style={styles.settings} >
                 <ItemRepsRest
                     icon={ICON.REPS}
@@ -138,6 +153,48 @@ const ModalAddRepsRest: FC = () => {
             </View>
         </>
     );
+
+    const Weight = (
+        <>
+            <Title text={t('[exercise]:modalAddRepsRest.titleWeight')} marginTop={5} fontSize={fontSizeTitle} />
+            <View style={styles.weight}>
+                <View style={styles.weight_body} >
+                    <ItemAddWeight 
+                        text={'total weight of \n the equipment'}
+                        isLeftRight='left' 
+                        icon={ICON.KETTLEBELL} 
+                        padding={3}
+                        setButtonActiveWeight={setButtonActiveWeight}
+                        opacity={
+                            buttonActiveWeight === undefined ?
+                            1
+                            :
+                            buttonActiveWeight === 'left' ?
+                            1
+                            :
+                            .5
+                        }
+                    />
+                    <ItemAddWeight 
+                        text={'Barbell and plate \n  weight'}
+                        isLeftRight='right' 
+                        icon={ICON.WEIGHT} 
+                        setButtonActiveWeight={setButtonActiveWeight}
+                        opacity={
+                            buttonActiveWeight === undefined ?
+                            1
+                            :
+                            buttonActiveWeight === 'right' ?
+                            1
+                            :
+                            .5
+                        }
+                    />
+                </View>
+            </View>
+            <HelpText text={t('[exercise]:modalAddRepsRest.helpTextWeight')} />
+        </>
+    )
 
     const Clocks = (
         <>
@@ -173,10 +230,11 @@ const ModalAddRepsRest: FC = () => {
     return (
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
+            isShowGoBack={{isShow: true}}
         >
-            <HeaderGoBack/> 
             <View style={styles.container} >
                 {Inputs}
+                {Weight}
                 {RepsRest}
             </View>
             {Clocks}
@@ -189,24 +247,35 @@ const styles = StyleSheet.create({
     container: {
         flex: 1, 
         justifyContent: 'center',
-        paddingHorizontal: 30,
+        paddingHorizontal: paddingHorizontal,
         //backgroundColor: 'red',
-        position: 'relative'
+        paddingTop: 60,
+        paddingBottom: 20
+    },
+    weight: {
+        height: 120,
+        borderRadius: borderRadiusBody,
+        marginTop: 10
+    },
+    weight_body: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     settings: {
         backgroundColor: COLOR_ROOT.GREY_CUSTOM(.25),
         padding: 20,
         paddingBottom: 25,
-        borderRadius: 20,
-        marginTop: 20
+        borderRadius: borderRadiusBody,
+        marginTop: 10
     },
     bodySetText: {
         backgroundColor: COLOR_ROOT.GREY_CUSTOM(.25),
-        padding: 20,
+        paddingHorizontal: 20,
         paddingBottom: 25,
         paddingTop: 15,
-        borderRadius: 20,
-        marginTop: 20
+        borderRadius: borderRadiusBody,
+        marginTop: 10
     }
 });
 

@@ -20,13 +20,16 @@ export interface ILng_Exercise {
         titleReps: string;
         titleRest: string;
         titleExerciseTime: string;
+        titleWeight: string;
 
         unitsReps: string;
         unitsMimutes: string;
         unitsSeconds: string;
 
+        helpTextNameNote: string;
         helpTextReps: string;
         helpTextRest: string;
         helpTextExerciseTime: string;
+        helpTextWeight: string;
     }
 }

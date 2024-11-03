@@ -3,8 +3,6 @@ import { SQLiteDatabase } from 'expo-sqlite';
 import Day from '@/SQLite/Day/modules/Day';
 import showMessage from '@/helpers/showMessage';
 import { DayDTO } from '@/SQLite/Day/DTO/DayDTO';
-import CONFIGURATION from '@/constants/сonfiguration';
-import DatabaseService from '@/SQLite/Database/service/DatabaseService';
 import { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
 

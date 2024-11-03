@@ -15,7 +15,7 @@ interface ITitle {
  * @component `Заголовок.`
  * @param text Отображаемый текст.
  * @optional
- * @param fontSize ? Размер шрифта.
+ * @param fontSize ? Размер шрифта. [default: 25]
  * @param marginTop ? Отступ с верху.
  * @param marginBottom ? Отступ с низу.
  * @param oneLineText ? Отображение текста в одну строку.

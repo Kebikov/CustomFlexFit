@@ -16,7 +16,8 @@ const ICON = {
     TIME_EXERCISE_2: require('@/source/icon/files/time_exercise_2.png'),
     TIME_REST: require('@/source/icon/files/time_rest.png'),
     TIME_REST_2: require('@/source/icon/files/time_rest_2.png'),
-    REPS: require('@/source/icon/files/reps.png')
+    REPS: require('@/source/icon/files/reps.png'),
+    KETTLEBELL: require('@/source/icon/files/kettlebell.png')
 };
 
 export default ICON;

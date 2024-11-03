@@ -1,9 +1,39 @@
-//. Test
-//-- Test
-//: Test
-//* Test
-//= Test
+class Boy {
 
-const arr = [0,1,2,3,4,5,6,7,8,9,0];
+    constructor(data = 5) {
+        this.data = data;
 
-console.log([...arr.slice(0, 6), 'hi', ...arr.slice(6)]);
+        return new Proxy(this, {
+
+            get(target, prop) {
+
+                if(typeof target[prop] === 'function') {
+                    return function (...args) {
+                        return target[prop].apply(target, args);
+                    };
+                }
+            }
+        });
+    }
+
+    multiply(num) {
+        this.data = this.data * num;
+        return this;
+    }
+
+    minus(num) {
+        this.data = this.data - num;
+        return this;
+    }
+
+}
+
+const boy = new Boy();
+
+const {data} = boy.minus(2).multiply(3); // 9
+const {data: data2} = boy.multiply(2); // 18
+
+
+
+
+
