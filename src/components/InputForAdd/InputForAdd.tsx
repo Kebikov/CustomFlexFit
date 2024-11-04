@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet, TextInput, NativeSyntheticEvent, TextInputChangeEventData, Platform } from 'react-native';
 import React, { FC } from 'react';
-import Description from '@/components/Description/Description';
 import { COLOR_ROOT } from '@/constants/colors';
 import showMessage from '@/helpers/showMessage';
 import { useTranslation } from 'react-i18next';
@@ -16,13 +15,14 @@ interface IInputForAdd<I extends object | number> {
     value?: string;
     marginTop?: number;
     isNullValue?: string;
-    keyboardType?: 'numeric' | 'default'
+    keyboardType?: 'numeric' | 'default';
+    onEnterOk?: Function;
 }
 
 
 /**
  * @component `Inpit для страницы добавления дня.`
- * @param setState SetStateAction для установки состояния.
+ * @param setState set useState для установки состояния.
  * @param title Заголовок для Input.
  * @param placeholder placeholder for input
  * @param maxLength Максимальная длинна вводимого текста.
@@ -32,6 +32,7 @@ interface IInputForAdd<I extends object | number> {
  * @param keyForState ? Ключ значение которого меняем в обьекте.
  * @param marginTop ? Отступ с верху.
  * @param isNullValue ? Значение которое примет поле, если значение не передано и равно пустой строке.
+ * @param onEnterOk ? Функция обработки нажатия на клавиатуре OK.
  */
 const InputForAdd = <I extends object | number>({
     keyForState,
@@ -42,7 +43,8 @@ const InputForAdd = <I extends object | number>({
     marginTop,
     value,
     isNullValue,
-    keyboardType = 'default'
+    keyboardType = 'default',
+    onEnterOk
 }: IInputForAdd<I>) => {
 
     const {t} = useTranslation(['alert_and_toast', '[exercise]']);
@@ -88,6 +90,7 @@ const InputForAdd = <I extends object | number>({
                 placeholderTextColor={COLOR_ROOT.WHITE_40}
                 value={value}
                 keyboardType={keyboardType}
+                onSubmitEditing={() => onEnterOk ? onEnterOk() : undefined}
             />
         </View>
     );

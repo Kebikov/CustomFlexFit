@@ -1,72 +1,81 @@
 import { View, StyleSheet } from 'react-native';
-import React, { FC, memo } from 'react';
+import React, { FC, memo, useState } from 'react';
 import Title from '@/components/Title/Title';
 import { useTranslation } from 'react-i18next';
 import ICON from '@/source/icon';
 import ItemAddWeight from '@/components/ItemAddWeight/ItemAddWeight';
 import HelpText from '@/components/HelpText/HelpText';
+import type { IWeightState } from '@/app/exercise/modalAddRepsRest';
+import InputOver from '@/components/InputOver/InputOver';
+import stylesValue from '@/styles/stylesValue';
 
 
 
 interface IWeight {
-    fontSizeTitle: number;
-    borderRadiusBody: number;
-    setButtonActiveWeight:  React.Dispatch<React.SetStateAction<"left" | "right" | undefined>>;
-    buttonActiveWeight?: "left" | "right";
+    value: number | IWeightState;
+    setSelectedWeight: React.Dispatch<React.SetStateAction<number | IWeightState>>;
 }
 
 
+export type TKeyItem = 'total weight' | 'barbell and plate' | 'active both';
+
+
 /**
- * @component ``
+ * @component `Компонент для установки используемого веса.`
  */
 const Weight: FC<IWeight> = ({
-    fontSizeTitle,
-    borderRadiusBody,
-    setButtonActiveWeight,
-    buttonActiveWeight
+    value,
+    setSelectedWeight
 }) => {
 
     const {t} = useTranslation(['[exercise]']);
 
+    /**
+     * @param isShowInputOver Показать/скрыть окно ввода веса.
+     */
+    const [isShowInputOver, setIsShowInputOver] = useState<boolean>(false);
+    /**
+     * @param buttonActiveWeight Какой пункт выбора веса активный.
+     */
+    const [buttonActiveWeight, setButtonActiveWeight] = useState<TKeyItem>('active both');
+
+    let currentWeight: number = 0;
+
+    if(typeof value === 'number') {
+        currentWeight = value;
+    }
+
     return (
         <>
-            <Title text={t('[exercise]:modalAddRepsRest.titleWeight')} marginTop={5} fontSize={fontSizeTitle} />
-            <View style={[styles.weight, {borderRadius: borderRadiusBody}]}>
+            <Title text={t('[exercise]:modalAddRepsRest.titleWeight')} marginTop={5} fontSize={stylesValue.folder.exercise.modalAddRepsRest.fontSizeTitle} />
+            <View style={[styles.weight, {borderRadius: stylesValue.folder.exercise.modalAddRepsRest.borderRadius}]}>
                 <View style={styles.weight_body} >
                     <ItemAddWeight 
-                        text={'total weight of \n the equipment'}
-                        isLeftRight='left' 
+                        keyItem='total weight'
+                        value={currentWeight}
+                        text={t('[exercise]:modalAddRepsRest.totalWeight')}
                         icon={ICON.KETTLEBELL} 
                         padding={3}
+                        buttonActiveWeight={buttonActiveWeight}
                         setButtonActiveWeight={setButtonActiveWeight}
-                        opacity={
-                            buttonActiveWeight === undefined ?
-                            1
-                            :
-                            buttonActiveWeight === 'left' ?
-                            1
-                            :
-                            .5
-                        }
+                        setIsShowInputOver={setIsShowInputOver}
                     />
                     <ItemAddWeight 
-                        text={'Barbell and plate \n  weight'}
-                        isLeftRight='right' 
+                        keyItem='barbell and plate'
+                        value={0}
+                        text={t('[exercise]:modalAddRepsRest.barbellAndPlateWeight')}
                         icon={ICON.WEIGHT} 
+                        buttonActiveWeight={buttonActiveWeight}
                         setButtonActiveWeight={setButtonActiveWeight}
-                        opacity={
-                            buttonActiveWeight === undefined ?
-                            1
-                            :
-                            buttonActiveWeight === 'right' ?
-                            1
-                            :
-                            .5
-                        }
                     />
                 </View>
             </View>
             <HelpText text={t('[exercise]:modalAddRepsRest.helpTextWeight')} />
+            <InputOver
+                isShowInputOver={isShowInputOver}
+                setIsShowInputOver={setIsShowInputOver}
+                setState={setSelectedWeight}
+            />
         </>
     );
 };

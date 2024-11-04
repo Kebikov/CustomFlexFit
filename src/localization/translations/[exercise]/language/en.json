@@ -30,6 +30,11 @@
         "helpTextReps": "Specify the number of repetitions in the exercise.",
         "helpTextRest": "Set the rest time after completing the exercise.",
         "helpTextExerciseTime": "Set the exercise duration; if not needed, leave the values at zero.",
-        "helpTextWeight": "Set the weight you will use for the exercise. You can specify the weight in kilograms or the weight of the equipment (such as the bar, plates, or discs for the barbell)."
+        "helpTextWeight": "Set the weight you will use for the exercise. You can specify the weight in kilograms or the weight of the equipment (such as the bar, plates, or discs for the barbell).",
+
+        "set": "set",
+        "weightPlaseholder": "enter the weight used",
+        "totalWeight": "total weight of \n the barbell",
+        "barbellAndPlateWeight": "Barbell and plate \n  weight"
     }
 }

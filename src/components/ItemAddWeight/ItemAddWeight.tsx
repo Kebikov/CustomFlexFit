@@ -1,48 +1,60 @@
 import { View, Text, StyleSheet, Image, Platform, Pressable } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
+import type { TKeyItem } from '../modalAddRepsRest/Weight/Weight';
 
 
 interface IItemAddWeight {
-    isLeftRight: 'left' | 'right';
+    keyItem: TKeyItem;
+    value: number;
     icon: number;
     text: string;
-    setButtonActiveWeight: React.Dispatch<React.SetStateAction<"left" | "right" | undefined>>;
-    padding?: number;
-    opacity?: number;
-}
+    buttonActiveWeight: TKeyItem;
+    setButtonActiveWeight: React.Dispatch<React.SetStateAction<TKeyItem>>;
 
-const weight = 48;
+    padding?: number;
+    setIsShowInputOver?: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 
 /**
  * @component `Элемент меню для добавления веса.`
+ * @param value Установленое значение веса.
  * @param icon Иконка для элемента.
- * @param isLeftRight Левый или правыый это блок.
+ * @param keyItem Ключ для блока.
  * @param text Текст для элемента.
- * @param setButtonActiveWeight Установка активного блока.
+ * @param setButtonActiveWeight set useState => установка активного блока.
  * @optional
  * @param padding ? Отступ для регулировки размера иконок.
- * @param opacity ? Прозрачность элемента, у активного равна 1 у не активного меньше.
+ * @param setIsShowInputOver set useState => установки видимости окна для ввода веса.
  */
 const ItemAddWeight: FC<IItemAddWeight> = ({
-    isLeftRight,
+    keyItem,
     icon,
     padding,
     text,
-    opacity,
-    setButtonActiveWeight
+    buttonActiveWeight,
+    setButtonActiveWeight,
+    value,
+    setIsShowInputOver
 }) => {
 
     return (
         <Pressable
-            onPress={() => setButtonActiveWeight(isLeftRight)} 
+            onPress={() => {
+                setButtonActiveWeight(keyItem);
+                if(setIsShowInputOver) setIsShowInputOver(true);
+            }} 
             style={[
                 styles.container, 
                 {
-                    marginLeft: isLeftRight === 'right' ? `${(50 - weight) / 2}%` : undefined,
-                    marginRight: isLeftRight === 'left' ? `${(50 - weight) / 2}%` : undefined,
-                    opacity
+                    opacity: buttonActiveWeight === 'active both' ?
+                    1
+                    :
+                    buttonActiveWeight === keyItem ?
+                    1
+                    : 
+                    0.5
                 }
             ]} 
         >
@@ -50,14 +62,14 @@ const ItemAddWeight: FC<IItemAddWeight> = ({
                 <Image source={icon} style={styles.img} />
             </View>
             <Text style={styles.title}>{text}</Text>
-            <Text style={styles.text_weight}>45 kg.</Text>
+            <Text style={styles.text_weight}>{`${value} kg.`}</Text>
         </Pressable>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        width: `${weight}%`,
+        width: '48%',
         height: '100%',
         backgroundColor: COLOR_ROOT.GREY_CUSTOM(.25),
         alignItems: 'center',

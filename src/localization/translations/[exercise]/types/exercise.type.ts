@@ -31,5 +31,10 @@ export interface ILng_Exercise {
         helpTextRest: string;
         helpTextExerciseTime: string;
         helpTextWeight: string;
+
+        set: string;
+        weightPlaseholder: string;
+        totalWeight: string;
+        barbellAndPlateWeight: string;
     }
 }

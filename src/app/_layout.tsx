@@ -59,6 +59,7 @@ export const MainLayout: FC<IMainLayout> = ({children}) => {
                 <SQLiteProvider databaseName={CONFIGURATION.DB_Name} onInit={migrateDbIfNeeded} >
                     <Provider store={store} >
                             <PortalHost name='clock' />
+                            <PortalHost name='InputOver' />
                             <>
                                 {children}
                             </>

@@ -1,7 +1,7 @@
 import { View, StyleSheet, Button, Platform } from 'react-native';
 import React, { FC, useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
-import ModalInput from '@/components/ModalInput/ModalInput';
+import InputOver from '@/components/InputOver/InputOver';
 import { COLOR_ROOT } from '@/constants/colors';
 import Clock, { ITimeClock, IClockRef } from '@/components/Clock/Clock';
 import Title from '@/components/Title/Title';
@@ -77,13 +77,9 @@ const ModalAddRepsRest: FC = () => {
      */
     const [restAfter, setRestAfter] = useState<ITimeClock>(exerciseStateArray[index].restAfter); //*! Передаем число которое должно быть в массиве, допустим у нас "one: {total: 30, step: 2}", мы хотим вывести в часах числа от 0 до 30 с шигом 2, у нас будет массив в итоге: [0, 2, 4, 6, ...] начальное значение должно быть одним из чисел полученого массива. 
     /**
-     * @param buttonActiveWeight Какой пункт выбора веса активный.
-     */
-    const [buttonActiveWeight, setButtonActiveWeight] = useState<'left' | 'right'>();
-    /**
      * @param selectedWeight
      */
-    const [selectedWeight, setSelectedWeight] = useState<number | IWeightState | undefined>();
+    const [selectedWeight, setSelectedWeight] = useState<number | IWeightState>(0);
 
     const onRestAfter = useCallback(() => refRestAfter.current?.openClock(), [refRestAfter]);
     const onRuntime = useCallback(() => refRuntime.current?.openClock(), [refRuntime]);
@@ -142,7 +138,6 @@ const ModalAddRepsRest: FC = () => {
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
             isShowGoBack={{isShow: true}}
-            //ListHeaderComponent={<ModalInput/>}
         >
             <View style={styles.container} >
                 <Inputs
@@ -150,6 +145,10 @@ const ModalAddRepsRest: FC = () => {
                     borderRadiusBody={borderRadiusBody}
                     nameAndNote={nameAndNote}
                     setNameAndNote={setNameAndNote}
+                />
+                <Weight
+                    value={selectedWeight}
+                    setSelectedWeight={setSelectedWeight}
                 />
                 <RepsRest
                     onReps={onReps}
@@ -160,12 +159,6 @@ const ModalAddRepsRest: FC = () => {
                     reps={reps}
                     runtime={runtime}
                     restAfter={restAfter}
-                />
-                <Weight
-                    fontSizeTitle={fontSizeTitle}
-                    borderRadiusBody={borderRadiusBody}
-                    setButtonActiveWeight={setButtonActiveWeight}
-                    buttonActiveWeight={buttonActiveWeight}
                 />
             </View>
             {Clocks}
