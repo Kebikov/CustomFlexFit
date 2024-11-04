@@ -73,7 +73,7 @@ const SetEditSwipeable: FC<ISetEditSwipeable> = ({
                 totalButton={3}
                 onPressButton1={() => {
                     if(index === undefined) return;
-                    appRouter.navigate({pathname: '/exercise/modalAddRepsRest', params: {sendIndex: String(index)}});
+                    appRouter.navigate({pathname: '/exercise/addRepsRest', params: {sendIndex: String(index)}});
                 }}
                 onPressButton2={() => copy()}
                 onPressButton3={() => remove()}

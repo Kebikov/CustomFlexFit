@@ -13,8 +13,8 @@ export interface ILng_Exercise {
         infoAddImage: string;
         infoCreateExercise: string;
     },
-    modalAddRepsRest: {
-        titleModalAddRepsRest: string;
+    addRepsRest: {
+        titleAddRepsRest: string;
         nameAndNote: string;
 
         titleReps: string;

@@ -14,9 +14,9 @@ import { useLocalSearchParams } from 'expo-router';
 import { useHookRouter } from '@/router/useHookRouter';
 import ItemAddWeight from '@/components/ItemAddWeight/ItemAddWeight';
 import HelpText from '@/components/HelpText/HelpText';
-import Inputs from '@/components/modalAddRepsRest/Inputs/Inputs';
-import RepsRest from '@/components/modalAddRepsRest/RepsRest/RepsRest';
-import Weight from '@/components/modalAddRepsRest/Weight/Weight';
+import Inputs from '@/components/itemsForAddRepsRest/Inputs/Inputs';
+import RepsRest from '@/components/itemsForAddRepsRest/RepsRest/RepsRest';
+import Weight from '@/components/itemsForAddRepsRest/Weight/Weight';
 
 
 export interface INameAndNote {
@@ -40,10 +40,10 @@ const borderRadiusBody = 22;
 const paddingHorizontal = 25;
 
 /**
- * @modal `Модальное окно для добавления повторов и времени отдыха у упражнения.`
+ * @page `Модальное окно для добавления повторов и времени отдыха у упражнения.`
  */
-const ModalAddRepsRest: FC = () => {
-    console.debug('modal > ModalAddRepsRest-----------------------------------------------------------');
+const AddRepsRest: FC = () => {
+    console.debug('modal > addRepsRest-----------------------------------------------------------');
 
     const refRestAfter = useRef<IClockRef>(null);
     const refRuntime = useRef<IClockRef>(null);
@@ -178,4 +178,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ModalAddRepsRest;
+export default AddRepsRest;

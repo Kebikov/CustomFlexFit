@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import ICON from '@/source/icon';
 import ItemAddWeight from '@/components/ItemAddWeight/ItemAddWeight';
 import HelpText from '@/components/HelpText/HelpText';
-import type { IWeightState } from '@/app/exercise/modalAddRepsRest';
+import type { IWeightState } from '@/app/exercise/addRepsRest';
 import InputOver from '@/components/InputOver/InputOver';
 import stylesValue from '@/styles/stylesValue';
 
@@ -47,13 +47,13 @@ const Weight: FC<IWeight> = ({
 
     return (
         <>
-            <Title text={t('[exercise]:modalAddRepsRest.titleWeight')} marginTop={5} fontSize={stylesValue.folder.exercise.modalAddRepsRest.fontSizeTitle} />
-            <View style={[styles.weight, {borderRadius: stylesValue.folder.exercise.modalAddRepsRest.borderRadius}]}>
+            <Title text={t('[exercise]:addRepsRest.titleWeight')} marginTop={5} fontSize={stylesValue.folder.exercise.addRepsRest.fontSizeTitle} />
+            <View style={[styles.weight, {borderRadius: stylesValue.folder.exercise.addRepsRest.borderRadius}]}>
                 <View style={styles.weight_body} >
                     <ItemAddWeight 
                         keyItem='total weight'
                         value={currentWeight}
-                        text={t('[exercise]:modalAddRepsRest.totalWeight')}
+                        text={t('[exercise]:addRepsRest.totalWeight')}
                         icon={ICON.KETTLEBELL} 
                         padding={3}
                         buttonActiveWeight={buttonActiveWeight}
@@ -63,14 +63,14 @@ const Weight: FC<IWeight> = ({
                     <ItemAddWeight 
                         keyItem='barbell and plate'
                         value={0}
-                        text={t('[exercise]:modalAddRepsRest.barbellAndPlateWeight')}
+                        text={t('[exercise]:addRepsRest.barbellAndPlateWeight')}
                         icon={ICON.WEIGHT} 
                         buttonActiveWeight={buttonActiveWeight}
                         setButtonActiveWeight={setButtonActiveWeight}
                     />
                 </View>
             </View>
-            <HelpText text={t('[exercise]:modalAddRepsRest.helpTextWeight')} />
+            <HelpText text={t('[exercise]:addRepsRest.helpTextWeight')} />
             <InputOver
                 isShowInputOver={isShowInputOver}
                 setIsShowInputOver={setIsShowInputOver}

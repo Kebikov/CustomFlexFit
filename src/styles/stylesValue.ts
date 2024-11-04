@@ -4,7 +4,7 @@ const stylesValue = {
     },
     folder: {
         exercise: {
-            modalAddRepsRest: {
+            addRepsRest: {
                 fontSizeTitle: 21,
                 borderRadius: 22
             }

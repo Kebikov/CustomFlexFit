@@ -40,30 +40,30 @@ const RepsRest: FC<IRepsRest> = ({
 
     return (
         <>
-            <Title text={t('[exercise]:modalAddRepsRest.titleModalAddRepsRest')} marginTop={5} fontSize={fontSizeTitle} />
+            <Title text={t('[exercise]:addRepsRest.titleAddRepsRest')} marginTop={5} fontSize={fontSizeTitle} />
             <View style={[styles.settings, {borderRadius: borderRadiusBody}]} >
                 <ItemRepsRest
                     icon={ICON.REPS}
-                    name={t('[exercise]:modalAddRepsRest.titleReps')}
-                    values={`${reps.one} ${t('[exercise]:modalAddRepsRest.unitsReps')}`}
-                    helpText={t('[exercise]:modalAddRepsRest.helpTextReps')}
+                    name={t('[exercise]:addRepsRest.titleReps')}
+                    values={`${reps.one} ${t('[exercise]:addRepsRest.unitsReps')}`}
+                    helpText={t('[exercise]:addRepsRest.helpTextReps')}
                     handlePress={onReps}
                 />
 
                 <ItemRepsRest
                     icon={ICON.TIME_REST_2}
-                    name={t('[exercise]:modalAddRepsRest.titleRest')}
-                    values={`${restAfter.one} ${t('[exercise]:modalAddRepsRest.unitsMimutes')} ${restAfter.two} ${t('[exercise]:modalAddRepsRest.unitsSeconds')}`}
-                    helpText={t('[exercise]:modalAddRepsRest.helpTextRest')}
+                    name={t('[exercise]:addRepsRest.titleRest')}
+                    values={`${restAfter.one} ${t('[exercise]:addRepsRest.unitsMimutes')} ${restAfter.two} ${t('[exercise]:addRepsRest.unitsSeconds')}`}
+                    helpText={t('[exercise]:addRepsRest.helpTextRest')}
                     marginTop={20}
                     handlePress={onRestAfter}
                 />
 
                 <ItemRepsRest
                     icon={ICON.TIME_EXERCISE_2}
-                    name={t('[exercise]:modalAddRepsRest.titleExerciseTime')}
-                    values={`${runtime.one} ${t('[exercise]:modalAddRepsRest.unitsMimutes')} ${runtime.two} ${t('[exercise]:modalAddRepsRest.unitsSeconds')}`}
-                    helpText={t('[exercise]:modalAddRepsRest.helpTextExerciseTime')}
+                    name={t('[exercise]:addRepsRest.titleExerciseTime')}
+                    values={`${runtime.one} ${t('[exercise]:addRepsRest.unitsMimutes')} ${runtime.two} ${t('[exercise]:addRepsRest.unitsSeconds')}`}
+                    helpText={t('[exercise]:addRepsRest.helpTextExerciseTime')}
                     marginTop={20}
                     handlePress={onRuntime}
                 />

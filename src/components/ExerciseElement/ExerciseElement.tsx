@@ -21,7 +21,10 @@ const ExerciseElement: FC<IExerciseElement> = ({exercise, width, order}) => {
 
     return (
         <View style={[styles.main, {width}]}>
-            <ImageBackground source={exercise.img} style={styles.header} >
+            <ImageBackground 
+                //source={exercise.img} 
+                style={styles.header} 
+            >
                 <DateExercise/>
                 <View style={styles.numberBox} >
                     {/* <Text style={styles.numberText} >{selectExercise + 1}</Text> */}

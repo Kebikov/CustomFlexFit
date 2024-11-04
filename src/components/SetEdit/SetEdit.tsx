@@ -37,14 +37,14 @@ const SetEdit: FC<ISet> = ({
                         <View style={styles.rest_icon_box} >
                             <Image source={ICON.TIME_REST_2} style={styles.rest_icon} />
                         </View>
-                        <Text style={styles.rest_text} >{`${exerciseState.restAfter.one} ${t('[exercise]:modalAddRepsRest.unitsMimutes')} ${exerciseState.restAfter.two} ${t('[exercise]:modalAddRepsRest.unitsSeconds')}`}</Text>
+                        <Text style={styles.rest_text} >{`${exerciseState.restAfter.one} ${t('[exercise]:addRepsRest.unitsMimutes')} ${exerciseState.restAfter.two} ${t('[exercise]:addRepsRest.unitsSeconds')}`}</Text>
                     </View>
 
                     <View style={[styles.rest, {marginLeft: 10}]} >
                         <View style={styles.rest_icon_box} >
                             <Image source={ICON.TIME_EXERCISE_2} style={styles.rest_icon} />
                         </View>
-                        <Text style={styles.rest_text} >{`${exerciseState.runtime.one} ${t('[exercise]:modalAddRepsRest.unitsMimutes')} ${exerciseState.runtime.two} ${t('[exercise]:modalAddRepsRest.unitsSeconds')}`}</Text>
+                        <Text style={styles.rest_text} >{`${exerciseState.runtime.one} ${t('[exercise]:addRepsRest.unitsMimutes')} ${exerciseState.runtime.two} ${t('[exercise]:addRepsRest.unitsSeconds')}`}</Text>
                     </View>
 
                 </View>

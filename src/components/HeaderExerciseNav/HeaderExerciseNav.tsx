@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import React, { FC } from 'react';
 import { useHookRouter } from '@/router/useHookRouter';
-import { icon } from '@/source/icon';
+
 
 interface IBottomMenu {
 
