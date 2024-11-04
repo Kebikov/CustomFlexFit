@@ -30,7 +30,7 @@ const Inputs: FC<IInputs> = ({
 
     return (
         <>
-            <Title text={t('[exercise]:modalAddRepsRest.nameAndNote')} 
+            <Title text={t('[exercise]:addRepsRest.nameAndNote')} 
                 fontSize={fontSizeTitle} 
                 marginTop={Platform.OS === 'ios' ? 10 : 0}
             />
@@ -56,7 +56,7 @@ const Inputs: FC<IInputs> = ({
                     isNullValue={t('[exercise]:addExercise.description')}
                 />
             </View>
-            <HelpText text={t('[exercise]:modalAddRepsRest.helpTextNameNote')} />
+            <HelpText text={t('[exercise]:addRepsRest.helpTextNameNote')} />
         </>
     );
 };

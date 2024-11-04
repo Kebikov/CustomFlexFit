@@ -19,6 +19,7 @@ interface IColors {
     BUTTON_COLOR_GREEN: string;
     BUTTON_COLOR_YELLOW: string;
     BUTTON_COLOR_RED: string;
+    FON_GREY: string;
 }
 
 const LIME_CUSTOM = (opasity: number) => `rgba(217, 245, 17, ${opasity})`;
@@ -42,6 +43,7 @@ export const COLOR_ROOT: IColors = {
     GREY_CUSTOM,
     DARK_GREY: '#28292c',
     LIGHT_GREY: '#ececec',
+    FON_GREY: '#404040',
     MEDIUM_GREY: '#6f7173',
     MEDIUM_GREY_50: 'rgba(111, 113, 115, .7)',
     ARCTIC: '#5be1ea',

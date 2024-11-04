@@ -11,6 +11,7 @@ import Menu from '@/components/Menu/Menu';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
 import Test from '@/components/Test/Test';
+import SelectEquipment from './exercise/selectEquipment';
 
 
 /**
@@ -34,8 +35,8 @@ const ChoiceLanguage: FC = () => {
     return (
         <>
             {
-                0 ? 
-                <Test/>
+                1 ? 
+                <SelectEquipment/>
                 :
                 <View style={styles.container}>
                     <Menu/>
