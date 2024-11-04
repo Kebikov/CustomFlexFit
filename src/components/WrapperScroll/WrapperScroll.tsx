@@ -15,6 +15,7 @@ interface IWrapper {
         isShow: boolean;
         paddingLeft?: number;
     };
+    ListHeaderComponent?: JSX.Element | JSX.Element[];
 }
 
 
@@ -25,14 +26,33 @@ interface IWrapper {
  * @param barStyle ? Стиль StatusBar. `default = 'light-content'`
  * @param backgroundColor ? Цвет фона StatusBar. `default = 'transparent'`
  * @param isShowGoBack ? Показывать ли header для возврата назад. `default = {isShow: false, paddingLeft: 0}`
+ * @param ListHeaderComponent ? Элементы для передачи в header, которые будут находится все ScrollView
  */
 const WrapperScroll: FC<IWrapper> = ({
     children, 
     isScrollEnabled = true,
     barStyle = 'light-content',
     backgroundColor = 'transparent',
-    isShowGoBack = {isShow: false, paddingLeft: 0}
+    isShowGoBack = {isShow: false, paddingLeft: 0},
+    ListHeaderComponent
 }) => {
+
+    const headerGoBack = (
+        <>
+            {
+                isShowGoBack.isShow ?
+                <HeaderGoBack paddingLeft={isShowGoBack.paddingLeft}/>
+                :
+                null
+            }
+        </>
+    );
+
+    const listHeaderComponent = (
+        <>
+            {ListHeaderComponent}
+        </>
+    );
 
     return (
         <>
@@ -40,13 +60,6 @@ const WrapperScroll: FC<IWrapper> = ({
                 <StatusBar animated={true} barStyle={barStyle} backgroundColor={backgroundColor} />
             </View>
             <SafeAreaProvider>
-                {
-                    isShowGoBack.isShow ?
-                    <HeaderGoBack paddingLeft={isShowGoBack.paddingLeft}/>
-                    :
-                    null
-                }
-                
                 <KeyboardAvoidingView
                     style={{ flex: 1 }}
                     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -59,6 +72,8 @@ const WrapperScroll: FC<IWrapper> = ({
                     }
                 >
                     <SafeAreaView style={{ flex: 1, backgroundColor }}>
+                        {headerGoBack}
+                        {listHeaderComponent}
                         {
                             isScrollEnabled
                             ?

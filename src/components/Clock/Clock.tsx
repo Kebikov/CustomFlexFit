@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
-import React, { useState, forwardRef, useImperativeHandle, useMemo } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, useMemo, memo } from 'react';
 import { Portal } from '@gorhom/portal'; 
 import { COLOR_ROOT } from '@/constants/colors';
 import { GestureDetector } from 'react-native-gesture-handler';
@@ -35,6 +35,7 @@ export interface ITimeClock {
     two: number;
 }
 
+
 /**
  * @widgets `Установка времени.`
  * @param selectedTime Обьект с выбранным временем.
@@ -61,7 +62,7 @@ const Clock = forwardRef<IClockRef, IClock>(({
     typeClockCustom,
     typeOfDisplay = 'clock'
 }, ref) => {
-
+    console.log('render clock');
     // Установки для массива отображаемых чисел.
     let optionsClock: IArraysForClock;
     if(typeof typeClockCustom === 'object') {
@@ -283,6 +284,7 @@ const Clock = forwardRef<IClockRef, IClock>(({
         )
     }
 
+    
     return (
         <>
             {
@@ -297,8 +299,10 @@ const Clock = forwardRef<IClockRef, IClock>(({
     );
 });
 
+
 const radiusClock = 14;
 const widthClock = '60%';
+
 
 const styles = StyleSheet.create({
 
@@ -378,4 +382,5 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Clock;
+
+export default memo(Clock);

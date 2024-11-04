@@ -6,48 +6,60 @@ import showMessage from '@/helpers/showMessage';
 import { useTranslation } from 'react-i18next';
 
 
-interface IInputForAddDay<I> {
-    keyForState: keyof I;
-    setDayState: React.Dispatch<React.SetStateAction<I>>;
+interface IInputForAdd<I extends object | number> {
+    setState: React.Dispatch<React.SetStateAction<I>>;
     title: string;
     placeholder: string;
     maxLength: number;
+
+    keyForState?: I extends object ? keyof I : never;
     value?: string;
     marginTop?: number;
     isNullValue?: string;
+    keyboardType?: 'numeric' | 'default'
 }
 
 
 /**
  * @component `Inpit для страницы добавления дня.`
- * @param keyForState Ключ значение которого меняем в обьекте.
- * @param setDayState SetStateAction для установки состояния.
+ * @param setState SetStateAction для установки состояния.
  * @param title Заголовок для Input.
  * @param placeholder placeholder for input
  * @param maxLength Максимальная длинна вводимого текста.
  * @param value Значение поля ввода.
  * @optional
+ * @param keyboardType ? Тип используемой клавиатуры для ввода. `default: 'default'`
+ * @param keyForState ? Ключ значение которого меняем в обьекте.
  * @param marginTop ? Отступ с верху.
  * @param isNullValue ? Значение которое примет поле, если значение не передано и равно пустой строке.
  */
-const InputForAddDay = <I,>({
+const InputForAdd = <I extends object | number>({
     keyForState,
-    setDayState,
+    setState,
     title,
     placeholder,
     maxLength,
     marginTop,
     value,
-    isNullValue
-}: IInputForAddDay<I>) => {
-    console.log('VALUE >>> ', value);
+    isNullValue,
+    keyboardType = 'default'
+}: IInputForAdd<I>) => {
+
     const {t} = useTranslation(['alert_and_toast', '[exercise]']);
 
-    const onChangeForm = (e: NativeSyntheticEvent<TextInputChangeEventData>, key: string) => {
+    const checkLength = (length: number): boolean => {
+        if(length >= maxLength) {
+            showMessage(`${t('alert_and_toast:maxLength1')} ${maxLength} ${t('alert_and_toast:maxLength2')}`);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    const onChangeForm = (e: NativeSyntheticEvent<TextInputChangeEventData>, key: keyof I) => {
         const text = e.nativeEvent.text;
-        if(text.length >= maxLength) showMessage(`${t('alert_and_toast:maxLength1')} ${maxLength} ${t('alert_and_toast:maxLength2')}`);
-        e.persist();
-        setDayState( state => ({...state, [key]: text}) );
+        e.persist()
+        setState( state => (typeof state === 'object' ? {...state, [key]: text} : state) )
     }
 
     return (
@@ -60,13 +72,22 @@ const InputForAddDay = <I,>({
             <TextInput
                 style={styleTextInput.input}
                 placeholder={placeholder}
-                onChange={text => {
-                    if(text.nativeEvent.text === '' && isNullValue) text.nativeEvent.text = isNullValue;
-                    onChangeForm(text, keyForState as string);
+                onChange={e => {
+                    let value = e.nativeEvent.text;
+                    if(!checkLength(value.length)) return;
+                    if(typeof keyForState === 'string') {
+                        if(value === '' && isNullValue) value = isNullValue;
+                        onChangeForm(e, keyForState);
+                    } else {
+                        if(isNaN(Number(value))) return;
+                        const num = Number(value) as I;
+                        setState(num);
+                    }
                 }}
                 maxLength={maxLength}
                 placeholderTextColor={COLOR_ROOT.WHITE_40}
                 value={value}
+                keyboardType={keyboardType}
             />
         </View>
     );
@@ -89,4 +110,4 @@ const styleTextInput = StyleSheet.create({
     }
 });
 
-export default InputForAddDay;
+export default InputForAdd;

@@ -15,7 +15,7 @@ import PickBackgroundForDay from '@/components/PickBackgroundForDay/PickBackgrou
 import DayElement from '@/components/DayElement/DayElement';
 import Title from '@/components/Title/Title';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
-import InputForAddDay from '@/components/InputForAddDay/InputForAddDay';
+import InputForAdd from '@/components/InputForAdd/InputForAdd';
 import type { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
 
@@ -112,19 +112,19 @@ const AddDay: FC = () => {
                         marginTop={30}
                     />
 
-                    <InputForAddDay<TdayState>
+                    <InputForAdd<TdayState>
                         keyForState='title'
                         title={t('common:title')}
-                        setDayState={setDayState} 
+                        setState={setDayState} 
                         placeholder={t('[day]:addDay.placeholderInputTitle')}
                         maxLength={27}
                         marginTop={10}
                     />
 
-                    <InputForAddDay<TdayState>
+                    <InputForAdd<TdayState>
                         keyForState='description'
                         title={t('common:description')}
-                        setDayState={setDayState} 
+                        setState={setDayState} 
                         placeholder={t('[day]:addDay.placeholderInputDescription')}
                         maxLength={35}
                         marginTop={10}
