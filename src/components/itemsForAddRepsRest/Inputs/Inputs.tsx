@@ -26,7 +26,7 @@ const Inputs: FC<IInputs> = ({
     borderRadiusBody
 }) => {
 
-    const {t} = useTranslation();
+    const {t} = useTranslation(['[exercise]']);
 
     return (
         <>

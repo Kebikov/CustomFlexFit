@@ -29,13 +29,14 @@ const ChoiceLanguage: FC = () => {
         await i18n.changeLanguage(language);
         //appRouter.replace(path);
         DISPATCH(SET_EXERCISE_STATE('RESET'));
-        appRouter.navigate('/exercise/addExercise');
+        //appRouter.navigate('/exercise/addExercise');
+        appRouter.navigate('/exercise/selectEquipment');
     }
 
     return (
         <>
             {
-                1 ? 
+                0 ? 
                 <SelectEquipment/>
                 :
                 <View style={styles.container}>

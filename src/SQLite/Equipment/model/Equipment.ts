@@ -3,6 +3,7 @@ import CONFIGURATION from '@/constants/сonfiguration';
 import { EquipmentDTO } from '../DTO/EquipmentDTO';
 
 
+
 class Equipment {
 
     /**
@@ -16,7 +17,8 @@ class Equipment {
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     title TEXT,
                     type TEXT,
-                    weight INTEGER
+                    weight INTEGER,
+                    img TEXT
                 )
             `);
         } catch (error) {
@@ -33,6 +35,19 @@ class Equipment {
             return result;
         } catch(error) {
             console.error('Error in Days.find >>> ', error);
+        }
+    }
+
+    async insertOne(db: SQLiteDatabase, data: Omit<EquipmentDTO, 'id'>) {
+        try {
+            await db.runAsync(
+                `INSERT INTO ${CONFIGURATION.TABLE_Equipment} 
+                (title, type, weight, img) 
+                VALUES (?, ?, ?, ?)`, 
+                [data.title, data.type, data.weight, data.img]
+            );
+        } catch (error) {
+            console.error('Error in  Equipment.insertOne >>>', error);
         }
     }
 

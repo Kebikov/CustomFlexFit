@@ -90,7 +90,7 @@ class DatabaseService {
     }
 
     /**
-     * `Сохранение изображения.`
+     * `//* Сохранение изображения.`
      * @accept
      * @object {
      * @param folderForSave Папка в которую сохраняем файл. Без '/' в конце. [example - 'someFolderName']
@@ -110,7 +110,7 @@ class DatabaseService {
     }
 
     /**
-     * `Удаление папки.` 
+     * `//* Удаление папки.` 
      * @param folderName Имя папки которую необходимо удалить.
      */
     async removeFolder(folder: TExistingFolders) {
@@ -122,7 +122,7 @@ class DatabaseService {
     }
 
     /**
-     * `Просмотреть содержимое папки.`
+     * `//* Просмотреть содержимое папки.`
      * @param folderName Имя папки в которой необходимо просмотреть файлы.
      */
     async showFolder(folderName: TExistingFolders) {

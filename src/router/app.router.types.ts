@@ -12,7 +12,9 @@ export type AppRouterTypes = {
     '/exercise/[id]': {dayExercise: number}; 
     '/exercise/modal': undefined;
     '/exercise/modalAddImageExercise': undefined;
+    '/exercise/modalAddEquipment': undefined;
     '/exercise/addRepsRest': {sendIndex: string};
+    '/exercise/selectEquipment': undefined;
 
     //: day 
     '/day/guide': undefined; // описание как создавать тренировочный день

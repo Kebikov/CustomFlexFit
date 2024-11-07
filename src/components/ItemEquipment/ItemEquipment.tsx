@@ -3,63 +3,94 @@ import React, { FC, useState } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import Switcher from '../Switcher/Switcher';
 import { interpolate, Extrapolation } from 'react-native-reanimated';
+import imgCheck from '@/helpers/imgCheck';
+import { EquipmentDTO } from '@/SQLite/Equipment/DTO/EquipmentDTO';
+import useAppTranslation from '@/localization/helpers/useAppTranslation';
+import ButtonSwipeable from '../ButtonSwipeable/ButtonSwipeable';
+import ICON from '@/source/icon';
 
 
 interface IItemEquipment {
+    item: EquipmentDTO;
     onPressing: (id: number) => void;
     isActive:  (id: number) => boolean;
-    img: number;
-    title: string;
-    weight: number;
-
     marginTop?: number;
 }
 
 
 /**
  * @component `Элемент со снарядом.`
+ * @param item Object EquipmentDTO
+ * @param onPressing 
+ * @param isActive
+ * @optional
+ * @param marginTop ? Отступ с верху.
  */
 const ItemEquipment: FC<IItemEquipment> = ({
-    img,
-    weight,
-    title,
+    item,
     onPressing,
     isActive,
     marginTop = 10
 }) => {
 
+    const {t, t$} = useAppTranslation(['[exercise]']);
+
     return (
-        <View style={[styles.container, {marginTop}]} >
-            <View style={styles.contaiber_body} >
-                <View 
-                    style={[styles.box_img, 
-                        {
-                            padding: title.split(' ')[0].toLocaleLowerCase() === 'диск' ? 
-                            interpolate(weight, [1, 5, 10, 20], [16, 8, 3, 0], Extrapolation.CLAMP)
-                            : 
-                            0
-                        }
-                    ]} >
-                    <Image style={styles.img} source={img} />
+        <View style={[styles.buttonSwipeable, {marginTop}]}>
+            <ButtonSwipeable
+                totalButton={2}
+                onPressButton1={() => {}}
+                onPressButton2={() => {}}
+                iconForButton2={ICON.DEL_BTN}
+                colorButton2={COLOR_ROOT.BUTTON_COLOR_RED}
+                borderRadiusButton={12}
+                paddingInsideButton={21}
+                paddingOutsideButtonHorizontal={4}
+                paddingOutsideButtonVertical={8}
+            >
+                <View style={[styles.container]} >
+                    <View style={styles.contaiber_body} >
+                        <View 
+                            style={[styles.box_img, 
+                                {
+                                    padding: item.type === 'plate' ? 
+                                    interpolate(item.weight, [1, 5, 10, 20], [16, 8, 3, 0], Extrapolation.CLAMP)
+                                    : 
+                                    0
+                                }
+                            ]} >
+                            <Image style={styles.img} source={imgCheck(item.img)} />
+                        </View>
+                        <View style={styles.box_text} >
+                            <Text style={styles.title} >
+                                {
+                                    item.type === 'plate' ?
+                                    `${t$(item.title)} ${item.weight}`
+                                    :
+                                    t$(item.title)
+                                }
+                            </Text>
+                            <Text style={styles.text_weight} >{`Вес: ${item.weight} ${t('[exercise]:equipment.kilograms')}`}</Text>
+                        </View>
+                        <View style={styles.box_switcher}>
+                            <Switcher
+                                id={item.id}
+                                onPressing={onPressing}
+                                isEnabled={isActive(item.id)}
+                            />
+                        </View>
+                    </View>
                 </View>
-                <View style={styles.box_text} >
-                    <Text style={styles.title} >{title}</Text>
-                    <Text style={styles.text_weight} >{`Вес: ${weight} кг.`}</Text>
-                </View>
-                <View style={styles.box_switcher}>
-                    <Switcher
-                        id={1}
-                        onPressing={onPressing}
-                        isEnabled={isActive(1)}
-                    />
-                </View>
-            </View>
+            </ButtonSwipeable>
         </View>
     );
 };
 
 
 const styles = StyleSheet.create({
+    buttonSwipeable: {
+
+    },
     container: {
         width: '100%',
         padding: 8,

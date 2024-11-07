@@ -1,9 +1,15 @@
 import { View, Text, StyleSheet } from 'react-native';
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
 import ItemEquipment from '@/components/ItemEquipment/ItemEquipment';
+import { EquipmentDTO } from '@/SQLite/Equipment/DTO/EquipmentDTO';
+import useAppTranslation from '@/localization/helpers/useAppTranslation';
+import EquipmentService from '@/SQLite/Equipment/service/EquipmentService';
+import { useSQLiteContext } from 'expo-sqlite';
+import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
+import { useHookRouter } from '@/router/useHookRouter';
 
 
 interface IselectEquipment {
@@ -15,6 +21,14 @@ interface IselectEquipment {
  */
 const SelectEquipment: FC = () => {
 
+    const {t, t$} = useAppTranslation(['[exercise]']);
+    const db = useSQLiteContext();
+    const {appRouter} = useHookRouter();
+
+    /**
+     * `Массив с инвентарем.`
+     */
+    const [dataEquipment, setDataEquipment] = useState<EquipmentDTO[]>([]);
     /**
      * @param activeEquipment Массив id которые выбраны.
      */
@@ -37,57 +51,40 @@ const SelectEquipment: FC = () => {
      */
     const isActive = (id: number) => activeEquipment.indexOf(id) === -1 ? false : true;
 
+    useEffect(() => {
+        (async () => {
+            const result = await EquipmentService.find(db);
+            setDataEquipment(result);
+        })(); 
+    }, []);
+
     return (
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
         >
             <View style={styles.container} >
-                <Title text={`твое оборудование ${"\n"}для занятий`} />
-                <Text style={styles.text}>Выберите оборудование которое вы будите использовать для занятий. При необходимости добавьте своё оборудование.</Text>
+                <Title text={t('[exercise]:equipment.yourEquipment')} />
+                <Text style={styles.text}>{t('[exercise]:equipment.yourEquipmentInfo')}</Text>
                 <View style={styles.contaiber_body} >
-                    <ItemEquipment
-                        title='Гриф гантели'
-                        weight={1.5}
-                        img={require('@/source/img/weight/dumbbell.jpg')}
-                        onPressing={onPressing}
-                        isActive={isActive}
-                    />
-                    <ItemEquipment
-                        title='Гриф штанги'
-                        weight={8}
-                        img={require('@/source/img/weight/barbell.jpg')}
-                        onPressing={onPressing}
-                        isActive={isActive}
-                    />
-                    <ItemEquipment
-                        title='Диск 20'
-                        weight={20}
-                        img={require('@/source/img/weight/plate.jpg')}
-                        onPressing={onPressing}
-                        isActive={isActive}
-                    />
-                    <ItemEquipment
-                        title='Диск 10'
-                        weight={10}
-                        img={require('@/source/img/weight/plate.jpg')}
-                        onPressing={onPressing}
-                        isActive={isActive}
-                    />
-                    <ItemEquipment
-                        title='Диск 5'
-                        weight={5}
-                        img={require('@/source/img/weight/plate.jpg')}
-                        onPressing={onPressing}
-                        isActive={isActive}
-                    />
-                    <ItemEquipment
-                        title='Диск 1.5'
-                        weight={1.5}
-                        img={require('@/source/img/weight/plate.jpg')}
-                        onPressing={onPressing}
-                        isActive={isActive}
-                    />
+                    {
+                        dataEquipment.map(item => (
+                            <ItemEquipment
+                                item={item}
+                                onPressing={onPressing}
+                                isActive={isActive}
+                                key={item.id}
+                            />
+                        ))
+                    }
                 </View>
+                <ButtonGreen 
+                    text='добавить инвентарь'
+                    handlePess={() => appRouter.navigate('/exercise/modalAddEquipment')}
+                    widthFlex={.8}
+                    fontSize={15}
+                    backgroundColor={COLOR_ROOT.LIME_70}
+                    marginTop={20}
+                />
             </View>
         </WrapperScroll>
     );
@@ -98,11 +95,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
+        paddingVertical: 20,
         paddingHorizontal: 20
     },
     contaiber_body: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 20
     },
     text: {
         marginTop: 20,

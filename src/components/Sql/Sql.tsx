@@ -14,6 +14,8 @@ import List_Equipment_Service from '@/SQLite/REFERENCES/List_Equipment/service/L
 import Database from '@/SQLite/Database/model/Database';
 import DatabaseService from '@/SQLite/Database/service/DatabaseService';
 
+import dataEquipment from '@/data/equipment/dataEquipment';
+import EquipmentService from '@/SQLite/Equipment/service/EquipmentService';
 
 const colorBlue = '#007aeb';
 const colorRed = 'rgba( 241, 50, 43, .9)';
@@ -59,6 +61,10 @@ const Sql: FC = () => {
         await List_Equipment_Service.showTableInConsole(db);
     }
 
+    const data_Equipment = async () => {
+        await EquipmentService.initializeDatabase(db, dataEquipment)
+    }
+
 
     return (
         <View style={styles.container}>
@@ -68,6 +74,9 @@ const Sql: FC = () => {
             <ButtonPress title='Tables Exercise' onPress={pressShowTableExercise} />
             <ButtonPress title='Tables List_Equipment' onPress={pressList_Equipment} />
             <ButtonPress title='all delete' onPress={del} type='dangerous' />
+
+            <ButtonPress title='Add Data Equipment' onPress={data_Equipment} />
+
             <ButtonPress title='SHOW FOLDER IMG' onPress={pressGet} marginTop={20} />
             <ButtonPress title='remove folder img' onPress={pressDel} type='dangerous' />
         </View>

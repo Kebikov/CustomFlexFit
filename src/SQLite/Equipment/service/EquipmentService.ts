@@ -31,6 +31,21 @@ class EquipmentServise {
         const result = await Equipment.find(db);
         return result === undefined ? [] : result;
     }
+
+    /**
+     * `//* Добавление начальных данных.`
+     */
+    async initializeDatabase(db: SQLiteDatabase, data: Omit<EquipmentDTO, 'id'>[]) {
+
+        for(const item of data) {
+            await Equipment.insertOne(db, {
+                title: item.title,
+                type: item.type,
+                weight: item.weight,
+                img: item.img
+            });
+        }
+    }
 }
 
 export default new EquipmentServise();

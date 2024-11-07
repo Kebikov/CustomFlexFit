@@ -36,5 +36,15 @@
         "weightPlaseholder": "enter the weight used",
         "totalWeight": "total weight of \n the barbell",
         "barbellAndPlateWeight": "Barbell and plate \n  weight"
+    },
+    "common": {
+        "barbell": "barbell bar",
+        "dumbbell": "dumbbell bar",
+        "plate": "plate"
+    },
+    "equipment": {
+        "yourEquipment": "Your workout equipment",
+        "yourEquipmentInfo": "Select the equipment you will use for your workouts. Add your own equipment if necessary.",
+        "kilograms": "kg."
     }
 }

@@ -18,6 +18,8 @@ import ListService from '@/SQLite/List/service/ListService';
 import List_Equipment_Service from '@/SQLite/REFERENCES/List_Equipment/service/List_Equipment_Service';
 import RepsRestService from '@/SQLite/RepsRest/service/RepsRestService';
 
+import dataEquipment from '@/data/equipment/dataEquipment';
+
 
 
 SplashScreen.preventAutoHideAsync();
@@ -108,6 +110,8 @@ async function migrateDbIfNeeded(db: SQLiteDatabase) {
                 await EquipmentService.createTable(db);
                 await List_Equipment_Service.createTable(db);
                 await RepsRestService.createTable(db);
+
+                await EquipmentService.initializeDatabase(db, dataEquipment);
 
                 //await dayService.addDataStartInTableDay(db);
                 //await exerciseService.addDataStartInTableExercise(db);

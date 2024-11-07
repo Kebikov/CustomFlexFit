@@ -36,5 +36,15 @@ export interface ILng_Exercise {
         weightPlaseholder: string;
         totalWeight: string;
         barbellAndPlateWeight: string;
+    },
+    common: {
+        barbell: string;
+        dumbbell: string;
+        plate: string;
+    },
+    equipment: {
+        yourEquipment: string;
+        yourEquipmentInfo: string;
+        kilograms: string;
     }
 }

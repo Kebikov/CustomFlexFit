@@ -4,13 +4,17 @@ import { useSharedValue, withTiming, interpolate, runOnJS } from "react-native-r
  * `Hook с основными функциями.`
  * @param activeWidthLeft Отсечка смешения.
  * @param widthButton Ширина одной кнопки.
+ * @param setIsActiveButton set useState Активна ли кнопка.
+ * @param shiftButton Смешение кнопки для ровномерного отступа при задании padding между кнопками.
  * @returns 
  */
 export const useHookButtonSwipeable = (
     activeWidthLeft: number, 
     widthButton: number,
-    setIsActiveButton: React.Dispatch<React.SetStateAction<boolean>>
+    setIsActiveButton: React.Dispatch<React.SetStateAction<boolean>>,
+    shiftButton: number
 ) => {
+
     /**
      * Смешение кнопки основной.
      */
@@ -61,7 +65,7 @@ export const useHookButtonSwipeable = (
     const openStateButton = (duration: number) => {
         'worklet';
         runOnJS(setIsActiveButton)(true);
-        translateButtonSv.value = withTiming(activeWidthLeft, {duration});
+        translateButtonSv.value = withTiming(activeWidthLeft - shiftButton, {duration});
         translateDownButton1Sv.value = withTiming(activeWidthLeft, {duration});
         translateDownButton2Sv.value = withTiming(activeWidthLeft + widthButton, {duration});
         translateDownButton3Sv.value = withTiming(activeWidthLeft + widthButton * 2, {duration});
