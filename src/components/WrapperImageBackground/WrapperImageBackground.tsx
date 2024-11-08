@@ -19,6 +19,7 @@ interface IWrapperImageBackground {
     overlayColor?: string;
     imageBackground?: number;
     linearGradient?: ILinearGradient;
+    isScrollEnabled?: boolean;
 }
 
 
@@ -28,19 +29,23 @@ interface IWrapperImageBackground {
  * @param overlayColor ? Цвет перекрытия фонового изображения.
  * @optional
  * @param linearGradient ? Установка в качестве фона гредиента, принимает обьект с начальными данными. `default = undefined`
+ * @param isScrollEnabled ? Если не нужен ScrollView, передаем false. `default = true`
  */
 const WrapperImageBackground: FC<IWrapperImageBackground> = ({
     children,
     overlayColor,
     imageBackground,
-    linearGradient
+    linearGradient,
+    isScrollEnabled = true
 }) => {
 
     const body = (
         <>
             {/* <Menu/> */}
             <View style={[styles.overlay, {backgroundColor: overlayColor}]} >
-                <WrapperScroll>
+                <WrapperScroll
+                    isScrollEnabled={isScrollEnabled}
+                >
                     {children}
                 </WrapperScroll>
             </View>

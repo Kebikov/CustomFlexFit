@@ -93,19 +93,10 @@ class Database {
      * @param pathToFile Путь к копируемому файлу из памяти телефона в память приложения.
      * @param saveFileName Имя сохроняемого файла. [example - '123.jpg']
      */
-    async save(options: ISave): Promise<boolean> {
+    async saveImg(options: ISave): Promise<boolean> {
         try{
-            const root = FileSystem.documentDirectory;
-            if(!root) return false;
-
-            const pathToFolder = root + options.folderForSave + '/';
-
-            const isExistingFolder = await FileSystem.getInfoAsync(pathToFolder);
-
-            if(!isExistingFolder.exists) {
-                await FileSystem.makeDirectoryAsync(pathToFolder, {intermediates: true});
-            }
-
+            const pathToFolder = await this.getPathToFolder('myImage');
+            // Копируем файл из "options.pathToFile" > в "pathToFolder + options.saveFileName"
             await FileSystem.copyAsync({from: options.pathToFile, to: pathToFolder + options.saveFileName});
 
             console.info('File saved!');
@@ -116,11 +107,30 @@ class Database {
         }
     }
 
+    async getPathToFolder(nameFolder: TExistingFolders): Promise<string | undefined> {
+        try {
+            const root = FileSystem.documentDirectory;
+            if(!root) return undefined;
+
+            const pathToFolder = root + nameFolder + '/';
+
+            const isExistingFolder = await FileSystem.getInfoAsync(pathToFolder);
+
+            if(!isExistingFolder.exists) {
+                await FileSystem.makeDirectoryAsync(pathToFolder, {intermediates: true});
+            }
+
+            return pathToFolder;
+        } catch (error) {
+            console.error('Error in Database.getPathToFolder >>>', error);
+        }
+    }
+
     /**
-     * `Просмотреть содержимое папки.`
+     * `Просмотреть содержимое папки и вернуть имена файлов в ней.`
      * @param folderName Имя папки в которой необходимо просмотреть файлы.
      */
-    async showFolder(folderName: TExistingFolders): Promise<void> {
+    async getFilesFromFolder(folderName: TExistingFolders): Promise<string[] | void> {
         try {
             const root = await FileSystem.documentDirectory;
             if(!root) return;
@@ -133,9 +143,10 @@ class Database {
 
             const files = await FileSystem.readDirectoryAsync(pathForShow);
 
-            console.info(`Файлы в папке "${folderName}:"`, files);
+            // console.info(`Файлы в папке "${folderName}:"`, files);
+            return files;
         } catch (error) {
-            console.error('Error in Database.showFolder() >>>', error);
+            console.error('Error in Database.getFilesFromFolder() >>>', error);
         }
     }
 

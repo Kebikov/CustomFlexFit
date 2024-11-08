@@ -33,6 +33,7 @@ class Day {
     async find(db: SQLiteDatabase): Promise<DayDTO[] | undefined> {
         try{
             const result: DayDTO[] = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_Day}`);
+            console.log(JSON.stringify( result, null, 2));
             return result;
         } catch(error) {
             console.error('Error in Day.find >>> ', error);
@@ -52,6 +53,40 @@ class Day {
             `,[entity.queue, entity.img, entity.date, entity.title, entity.description, entity.lastExercise]);
         } catch (error) {
             console.error('Error in Day.insertOne() >>>', error);
+        }
+    }
+
+    /**
+     * `Количество записей в таблице.`
+     */
+    async total(db: SQLiteDatabase): Promise<number> {
+        const result: {"COUNT(*)": number} | null = await db.getFirstAsync(`SELECT COUNT(*) FROM ${CONFIGURATION.TABLE_Day}`);
+
+        if(result === null || result["COUNT(*)"] === 0) {
+            return 0;
+        } else {
+            return result["COUNT(*)"];
+        }    
+    }
+
+    /**
+     * `Максимальное значение в колонке, если в колонке числа.`
+     */
+    async maxValueColumn(db: SQLiteDatabase, column: keyof DayDTO): Promise<number | undefined> {
+        try {
+            const result: {MAX: unknown} | null = await db.getFirstAsync(`
+                SELECT MAX(${column}) AS MAX
+                FROM ${CONFIGURATION.TABLE_Day}
+            `);
+
+            if(result && typeof result.MAX === 'number') {
+                return result.MAX;
+            } else {
+                return undefined;
+            }
+            
+        } catch (error) {
+            console.error('Error in Day.maxValue >>>', error);
         }
     }
 

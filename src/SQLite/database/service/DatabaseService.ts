@@ -90,26 +90,6 @@ class DatabaseService {
     }
 
     /**
-     * `//* Сохранение изображения.`
-     * @accept
-     * @object {
-     * @param folderForSave Папка в которую сохраняем файл. Без '/' в конце. [example - 'someFolderName']
-     * @param pathToFile Путь к копируемому файлу из памяти телефона в память приложения.
-     * @param saveFileName Имя сохроняемого файла. [example - '123.jpg']
-     * @}
-     * @return nameForSaveImage || false 
-     */
-    async saveImage(options: ISave): Promise<boolean> {
-        try {
-            const result = await Database.save({...options});
-            return result;
-        } catch (error) {
-            console.error('Error in DatabaseService.saveImage() >>>', error);
-            return false;
-        }
-    }
-
-    /**
      * `//* Удаление папки.` 
      * @param folderName Имя папки которую необходимо удалить.
      */
@@ -125,11 +105,11 @@ class DatabaseService {
      * `//* Просмотреть содержимое папки.`
      * @param folderName Имя папки в которой необходимо просмотреть файлы.
      */
-    async showFolder(folderName: TExistingFolders) {
+    async getFilesFromFolder(folderName: TExistingFolders) {
         try {
-            await Database.showFolder(folderName);
+            return await Database.getFilesFromFolder(folderName);
         } catch (error) {
-            console.error('Error in DatabaseService.showFolder() >>>', error);
+            console.error('Error in DatabaseService.getFilesFromFolder() >>>', error);
         }
     }
 

@@ -22,6 +22,9 @@ export type AppRouterTypes = {
     '/day/addDay': undefined; // создание тренировочного дня
     '/day/listDay': undefined; // список всех тренировочных дней
     '/day/modalAddDay': undefined;
+
+    //: test 
+    '/test/showImgInFolder': undefined; // страница с сохранеными изображениями в папке
 };
 
 

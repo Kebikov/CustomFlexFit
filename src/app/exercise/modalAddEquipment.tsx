@@ -15,6 +15,7 @@ import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import HelpText from '@/components/HelpText/HelpText';
 import useAppTranslation from '@/localization/helpers/useAppTranslation';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
+import {logModal, logInfo} from '@/helpers/log/log';
 
 
 interface ImodalAddEquipment {
@@ -25,6 +26,7 @@ interface ImodalAddEquipment {
  * @modal `Модальное окно добавления инвентаря.`
  */
 const ModalAddEquipment: FC = () => {
+    logModal.page('ModalAddEquipment');
 
     const DISPATCH = useAppDispatch();
     const {t} = useAppTranslation(['[exercise]']);
@@ -38,7 +40,7 @@ const ModalAddEquipment: FC = () => {
         weight: 0
     });
 
-    console.log(equipment);
+    logInfo.info('equipment', equipment);
 
     useEffect(() => {
         if(selectedImgForEquipment) setEquipment(state => ({...state, img: String(selectedImgForEquipment)}))
@@ -61,7 +63,7 @@ const ModalAddEquipment: FC = () => {
                         maxLength={25}
                         value={equipment.title}
                         setState={setEquipment}
-                        marginTop={10}
+                        marginTop={20}
                     />
                     <HelpText text='введите название вашего инвентаря' />
 
@@ -77,7 +79,7 @@ const ModalAddEquipment: FC = () => {
                     />
                     <HelpText text='введите вес инвентаря' />
 
-                    <ButtonsTypeEquipment/>
+                    <ButtonsTypeEquipment setState={setEquipment} />
                     <HelpText text='выберите тип инвентаря, это гриф или диск' />
 
                     <PickImage

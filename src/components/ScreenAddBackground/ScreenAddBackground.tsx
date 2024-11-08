@@ -1,18 +1,18 @@
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import React, { FC, useState } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
 import { FlatList } from 'react-native-gesture-handler';
 import Description from '@/components/Description/Description';
 import { useTranslation } from 'react-i18next';
 import ItemForChoiceBackground from '@/components/ItemForChoiceBackground/ItemForChoiceBackground';
 import { ActionCreatorWithPayload as ACP}  from '@reduxjs/toolkit';
 import HeaderGoBack from '../HeaderGoBack/HeaderGoBack';
+import WrapperScroll from '../WrapperScroll/WrapperScroll';
+import type { IExportImage } from '@/source/img/day';
 
 
 interface IScreenAddBackground {
-    imagesForChoice: number[];
+    imagesForChoice: IExportImage[];
     height: number;
     SET_ACTIONS: ACP<any, "SETUP/SET_BACKGROUND_FOR_DAY"> | ACP<any, "SETUP/SET_BACKGROUND_FOR_EXERCISE">;
 }
@@ -31,44 +31,37 @@ const ScreenAddBackground: FC<IScreenAddBackground> = ({
 }) => {
     
     const {t} = useTranslation(['[day]']);
-    const [selectImg, setSelectImg] = useState<number | undefined>(undefined);
+    const [selectImg, setSelectImg] = useState<string | undefined>(undefined);
+    console.log(selectImg);
     
     return (
-        <SafeAreaProvider>
-            <SafeAreaView style={styles.safeAreaView}>
-                {/* <Pressable 
-                    style={styles.header}
-                    onPress={() => router.back()}
-                >
-                    <View style={styles.imgBox} >
-                        <Image source={require('@/source/icon/files/arrow_back.png')} style={styles.img} />
-                    </View>
-                    <Text style={styles.textHeader} >GO BACK</Text>
-                </Pressable> */}
-                <HeaderGoBack/>
-                
-                <View style={{alignItems: 'flex-start', width: '100%', marginTop: 10, paddingHorizontal: 20}} >
-                    <Description text={t('[day]:modalAddDay.description')} />
-                </View>
-                
+        <WrapperScroll
+            backgroundColor={COLOR_ROOT.BACKGROUND}
+            isScrollEnabled={false}
+        >
+            <HeaderGoBack/>
+        
+            <View style={{alignItems: 'flex-start', width: '100%', marginTop: 60, paddingHorizontal: 20}} >
+                <Description text={t('[day]:modalAddDay.description')} />
+            </View>
+            
 
-                <View style={styles.container} >
+            <View style={styles.container} >
 
-                    <FlatList
-                        style={{width: '100%', marginTop: 10}}
-                        contentContainerStyle={{gap: 10, paddingBottom: 20, paddingHorizontal: 20}}
+                <FlatList
+                    style={{width: '100%', marginTop: 10}}
+                    contentContainerStyle={{gap: 10, paddingBottom: 20, paddingHorizontal: 20}}
 
-                        data={imagesForChoice}
-                        renderItem={({item}) => <ItemForChoiceBackground img={item} selectImg={selectImg} setSelectImg={setSelectImg} height={height} SET_ACTIONS={SET_ACTIONS} />}
-                        keyExtractor={item => String(item)}
+                    data={imagesForChoice}
+                    renderItem={({item}) => <ItemForChoiceBackground imgObj={item} selectImg={selectImg} setSelectImg={setSelectImg} height={height} SET_ACTIONS={SET_ACTIONS} />}
+                    keyExtractor={item => String(item.source)}
 
-                        ListEmptyComponent={<View><Text style={{color: 'white'}}>Нет элементов.</Text></View>}
-                    />
+                    ListEmptyComponent={<View><Text style={{color: 'white'}}>Нет элементов.</Text></View>}
+                    showsVerticalScrollIndicator={false}
+                />
 
-                </View>
-
-            </SafeAreaView>
-        </SafeAreaProvider>
+            </View>
+        </WrapperScroll>
     );
 };
 
@@ -83,7 +76,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
     }
 });
 

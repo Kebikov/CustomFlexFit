@@ -45,19 +45,12 @@ class DayServise {
      */
     async insertOne(db: SQLiteDatabase, entity: DayDTOomitId): Promise<boolean> {
         try {
-            if(!this.checkEntity(entity, 'queue', 'type number')) return false;
-            if(!this.checkEntity(entity, 'img', 'type number/string')) return false;
-            if(!this.checkEntity(entity, 'date', 'type string')) return false;
-            if(!this.checkEntity(entity, 'title', 'type string')) return false;
-            if(!this.checkEntity(entity, 'description', 'type string')) return false;
-            if(!this.checkEntity(entity, 'lastExercise', 'type number')) return false;
-
+            // Если очередь равна 0.
             if(entity.queue === 0) {
-                const find = await Day.find(db);
-                if(Array.isArray(find) && find.length > 0) {
-                    const queueDays: number[] = [];
-                    find.forEach(item => queueDays.push(item.queue));
-                    const maxQueue = Math.max(...queueDays);
+                const maxQueue = await Day.maxValueColumn(db, 'queue');
+                if(!maxQueue) return false;
+
+                if(maxQueue > 0) {
                     entity.queue = maxQueue + 1;
                 } else {
                     entity.queue = 1;
@@ -80,63 +73,14 @@ class DayServise {
         }
     }
 
-
     /**
-     * `Проверка сушествования данных в свойстве с заданным типом.`
+     * `//* Максимальное значение в колонке, если в колонке числа.`
      */
-    private checkEntity(entity: DayDTOomitId,  property: keyof DayDTOomitId, typeCheck: keyof ICheck) {
-
-        let msg: string = '';
-
-        switch(property) {
-            case 'queue':
-                msg = i18next.t('alert_and_toast.imgNotSelect');
-                break;
-            case 'img':
-                msg = i18next.t('alert_and_toast.imgNotSelect');
-                break;
-            case 'title':
-                msg = i18next.t('alert_and_toast.notTitle');
-                break;
-            case 'description': 
-                msg = i18next.t('alert_and_toast.notDescription');
-                break;
-            default:
-                msg = 'Error in checkEntity';
-                break;
-        }
-
-        const check: ICheck = {
-            'type number': (property) => {
-                if(property in entity && typeof entity[property] === 'number') {
-                    return true;
-                } else {
-                    showMessage(msg);
-                    return false;
-                }
-            },
-            'type string': (property) => {
-                if(property === 'date') return property in entity && typeof entity[property] === 'string' ? true : false;
-                
-                if(property in entity && typeof entity[property] === 'string' && entity[property] !== '') {
-                    return true;
-                } else {
-                    showMessage(msg);
-                    return false;
-                }
-            },
-            'type number/string': (property) => {
-                if(property in entity && typeof entity.img === 'number' || typeof entity.img === 'string' && entity[property] !== '') {
-                    return true;
-                } else {
-                    showMessage(msg);
-                    return false;
-                }
-            }
-        }
-
-        return check[typeCheck](property)
+    async maxValueColumn(db: SQLiteDatabase, column: keyof DayDTO): Promise<number | undefined> {
+        const result = await Day.maxValueColumn(db, column);
+        return result;
     }
+
 }
 
 export default new DayServise();

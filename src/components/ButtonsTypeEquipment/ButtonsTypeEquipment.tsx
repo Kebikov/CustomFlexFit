@@ -1,30 +1,77 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
-import React, { FC } from 'react';
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import React, { FC, useState } from 'react';
 import ICON from '@/source/icon';
 import { COLOR_ROOT } from '@/constants/colors';
+import { EquipmentDTO } from '@/SQLite/Equipment/DTO/EquipmentDTO';
+
+
+interface IButtonsTypeEquipment {
+    setState: React.Dispatch<React.SetStateAction<EquipmentDTO>>;
+}
 
 
 /**
  * @component `Группа кнопок для выбора типа инвентаря.`
  */
-const ButtonsTypeEquipment: FC = () => {
+const ButtonsTypeEquipment: FC<IButtonsTypeEquipment> = ({
+    setState
+}) => {
+
+    const [activeBox, setActiveBox] = useState<'plate' | 'barbell' | undefined>();
+
 
     const plate = (
-        <View style={[styles.equipment, {backgroundColor: COLOR_ROOT.LIME_DARK}]} >
+        <Pressable
+            onPress={() => {
+                setActiveBox('plate');
+                setState(state => ({...state, type: 'plate'}));
+            }}
+            style={[
+                styles.equipment, 
+                {
+                    backgroundColor: 
+                        !activeBox ? 
+                        COLOR_ROOT.LIME_DARK
+                        :
+                        activeBox === 'plate' ?
+                        COLOR_ROOT.LIME_CUSTOM(.7)
+                        :
+                        COLOR_ROOT.LIME_DARK
+                }
+            ]} 
+        >
             <View style={styles.box_img} >
                 <Image source={ICON.WEIGHT} style={styles.img} />
             </View>
             <Text style={styles.text} >plate</Text>
-        </View>
+        </Pressable>
     );
 
     const barbell = (
-        <View style={[styles.equipment, {backgroundColor: COLOR_ROOT.LIME_CUSTOM(.7)}]} >
+        <Pressable 
+            onPress={() => {
+                setActiveBox('barbell');
+                setState(state => ({...state, type: 'barbell'}));
+            }}
+            style={[
+                styles.equipment, 
+                {
+                    backgroundColor: 
+                        !activeBox ?
+                        COLOR_ROOT.LIME_DARK
+                        :
+                        activeBox === 'barbell' ?
+                        COLOR_ROOT.LIME_CUSTOM(.7)
+                        :
+                        COLOR_ROOT.LIME_DARK
+                }
+            ]} 
+        >
             <View style={styles.box_img} >
                 <Image source={ICON.PLATE_2} style={styles.img} />
             </View>
             <Text style={styles.text} >barbell</Text>
-        </View>
+        </Pressable>
     );
 
     return (

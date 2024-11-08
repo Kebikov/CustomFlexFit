@@ -22,7 +22,7 @@ interface IWrapper {
 /**
  * @wrapper `Обертка для страниц.` 
  * @optional 
- * @param scrollEnabled ? Если не нужен ScrollView, передаем false. `default = true`
+ * @param isScrollEnabled ? Если не нужен ScrollView, передаем false. `default = true`
  * @param barStyle ? Стиль StatusBar. `default = 'light-content'`
  * @param backgroundColor ? Цвет фона StatusBar. `default = 'transparent'`
  * @param isShowGoBack ? Показывать ли header для возврата назад. `default = {isShow: false, paddingLeft: 0}`

@@ -1,16 +1,12 @@
-import { StyleSheet, ImageBackground, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { FC, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import useConvertFont from '@/hook/useConvertFont';
 import { useHookRouter } from '@/router/useHookRouter';
 import { useAppSelector } from '@/redux/store/hooks';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_BACKGROUND_FOR_DAY } from '@/redux/slice/setup.slice';
-import DatabaseService from '@/SQLite/Database/service/DatabaseService';
 import DayService from '@/SQLite/Day/service/DayService';
 import { useSQLiteContext } from 'expo-sqlite';
-import Menu from '@/components/Menu/Menu';
-import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import PickImage from '@/components/PickImage/PickImage';
 import DayElement from '@/components/DayElement/DayElement';
 import Title from '@/components/Title/Title';
@@ -18,16 +14,18 @@ import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import InputForAdd from '@/components/InputForAdd/InputForAdd';
 import type { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
+import { logPage, logInfo } from '@/helpers/log/log';
+import useCreateDay from '@/helpers/pages/AddDay/useCreateDay';
 
 
-type TdayState = Pick<DayDTOomitId, 'title' | 'description'> & {img: string | number | undefined};
+export type TdayState = Pick<DayDTOomitId, 'title' | 'description'> & {img: string | undefined};
 
 
 /**
  * @page `Добавление тренировачного дня.`
  */
 const AddDay: FC = () => {
-    console.debug('page > AddDay');
+    logPage.page('AddDay');
 
     const db = useSQLiteContext();
     const {t} = useTranslation(['common', 'button', '[day]']);
@@ -39,44 +37,11 @@ const AddDay: FC = () => {
         title: t('[day]:addDay.title'), 
         description: t('[day]:addDay.description')
     });
+    logInfo.info('dayState >>> ', dayState);
 
     const selectedBackgroundDay = useAppSelector(state => state.setupSlice.selectedBackgroundDay);
-    /**
-     * `Создание дня тренировки.`
-     */
-    const createDay = async () => {
-        // Задаем имя для изображения.
-        let nameForSaveImage: string;
-        if(typeof dayState.img === 'string') {
-            nameForSaveImage = new Date().getTime() + '.' + dayState.img.split('.').at(-1);
-        } else if(typeof dayState.img === 'number'){
-            nameForSaveImage = String(dayState.img);
-        } else {
-            nameForSaveImage = '';
-        }
 
-        // Формируем обьект сушности для записи в таблицу Day.
-        const entity: DayDTOomitId = {
-            queue: 0,
-            img: nameForSaveImage,
-            date: '',
-            title: dayState.title === t('[day]:addDay.title') ? '' : dayState.title,
-            description: dayState.description === t('[day]:addDay.description') ? '' : dayState.description,
-            lastExercise: 0
-        }
-
-        const result = await DayService.insertOne(db, entity);
-
-        // Сохраняем изображение при удачной записи в BD.
-        if(result && typeof dayState.img === 'string') {
-            const resultSaveImage = await DatabaseService.saveImage({
-                folderForSave: 'myImage', 
-                pathToFile: dayState.img, 
-                saveFileName: nameForSaveImage
-            });
-        }
-        if(result) appRouter.replace('/exercise/addExercise');
-    }
+    const {createDay} = useCreateDay(db, dayState);
 
     useEffect(() => {
         selectedBackgroundDay ? setDayState(state => ({...state, img: selectedBackgroundDay})) : null;
@@ -101,7 +66,7 @@ const AddDay: FC = () => {
                         title={dayState.title}
                         description={dayState.description}
                         backgroundZero={true} 
-                        img={dayState?.img}
+                        img={dayState.img}
                         isShowShadow={selectedBackgroundDay ? true : false}
                     />
 

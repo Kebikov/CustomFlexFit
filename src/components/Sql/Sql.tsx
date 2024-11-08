@@ -5,6 +5,7 @@ import CONFIGURATION from '@/constants/сonfiguration';
 import ButtonPress from '../ButtonPress/ButtonPress';
 import Days from '@/SQLite/Day/modules/Day';
 import Exercise from '@/SQLite/Exercise/modules/Exercise';
+import Day from '@/SQLite/Day/modules/Day';
 
 import dayService from '@/SQLite/Day/service/DayService';
 import exerciseService from '@/SQLite/Exercise/service/ExerciseService';
@@ -16,6 +17,7 @@ import DatabaseService from '@/SQLite/Database/service/DatabaseService';
 
 import dataEquipment from '@/data/equipment/dataEquipment';
 import EquipmentService from '@/SQLite/Equipment/service/EquipmentService';
+import { useHookRouter } from '@/router/useHookRouter';
 
 const colorBlue = '#007aeb';
 const colorRed = 'rgba( 241, 50, 43, .9)';
@@ -26,6 +28,7 @@ const colorRed = 'rgba( 241, 50, 43, .9)';
  */
 const Sql: FC = () => {
 
+    const {appRouter} = useHookRouter();
     const db = useSQLiteContext();
 
     const pressDB = async () => {
@@ -50,7 +53,7 @@ const Sql: FC = () => {
 
 
     const pressGet = async () => {
-        await Database.showFolder('myImage');
+        appRouter.navigate('/test/showImgInFolder');
     }
 
     const pressDel = async () => {
@@ -62,9 +65,13 @@ const Sql: FC = () => {
     }
 
     const data_Equipment = async () => {
-        await EquipmentService.initializeDatabase(db, dataEquipment)
+        await EquipmentService.initializeDatabase(db, dataEquipment);
     }
 
+    const test = async () => {
+        await Day.find(db);
+        await Day.maxValueColumn(db, 'description');
+    }
 
     return (
         <View style={styles.container}>
@@ -78,7 +85,9 @@ const Sql: FC = () => {
             <ButtonPress title='Add Data Equipment' onPress={data_Equipment} />
 
             <ButtonPress title='SHOW FOLDER IMG' onPress={pressGet} marginTop={20} />
-            <ButtonPress title='remove folder img' onPress={pressDel} type='dangerous' />
+            <ButtonPress title='remove folder img' onPress={pressDel} type='dangerous' marginTop={20} />
+
+            <ButtonPress title='test' onPress={test} backgroundColor='green' marginTop={20} />
         </View>
     );
 };

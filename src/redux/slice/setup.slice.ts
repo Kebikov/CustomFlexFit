@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 
 interface IinitialDay {
-    selectedBackgroundDay?: number | string;
+    selectedBackgroundDay?: string;
     selectedBackgroundExercise?: number | string;
     selectedImgForEquipment?: number | string;
 }

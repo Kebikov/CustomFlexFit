@@ -10,13 +10,14 @@ import WrapperScroll from '../../components/WrapperScroll/WrapperScroll';
 import { COLOR_ROOT } from '@/constants/colors';
 import { useSQLiteContext } from 'expo-sqlite';
 import Menu from '@/components/Menu/Menu';
+import { logPage, logInfo } from '@/helpers/log/log';
 
 
 /**
  * @page `Страница с днями занятий.`
  */
 const ListDay: FC = () => {
-    console.debug('page > ListDay / Страница с днями занятий.');
+    logPage.page('ListDay');
 
     const {appRouter} = useHookRouter();
     const db = useSQLiteContext();
@@ -25,7 +26,8 @@ const ListDay: FC = () => {
      * @param stateDays Массив с данными дней.
      */
     const [stateDays, setStateDays] = useState<Array<DayDTOomitId> | []>([]);
-
+    logInfo.info('stateDays >>> ', stateDays);
+    
     useEffect(() => {
         (async () => {
             let data: Array<DayDTOomitId> = await dayService.find(db);
@@ -59,7 +61,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        paddingHorizontal: 20
     },
     maskedView: {
         width: '100%',

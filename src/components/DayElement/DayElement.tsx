@@ -9,6 +9,8 @@ import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
 import { styleFontConvertForTitle } from '@/styles/font';
 import useConvertFont from '@/hook/useConvertFont';
 import { Shadow } from 'react-native-shadow-2';
+import IMAGE from '@/source/img';
+import imgCheck from '@/helpers/imgCheck';
 
 
 interface IDay {
@@ -46,8 +48,6 @@ const DayElement: FC<IDay> = ({
     const {textCurrentDay} = getCurrentDateInFormatArray();
     const {convertFont} = useConvertFont();
 
-    if(typeof img === 'string') img = {uri: img}
-
 	return (
         <View style={[style.container, {width: `${width}%`}]} >
             <Shadow 
@@ -63,13 +63,15 @@ const DayElement: FC<IDay> = ({
                     >
                         <ImageBackground 
                             source={
-                                day ? day.img 
-                                : 
-                                img ? img 
-                                : 
-                                backgroundZero ? require('@/source/img/imgForScreen/zeroFon.jpg') 
-                                : 
-                                undefined
+                                imgCheck(
+                                    day ? day.img 
+                                    : 
+                                    img ? img 
+                                    : 
+                                    backgroundZero ? IMAGE.ZERO_FON 
+                                    : 
+                                    undefined
+                                )
                             } 
                             style={[style.imageBackground]}
                         >

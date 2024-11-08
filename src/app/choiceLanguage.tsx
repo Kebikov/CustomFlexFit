@@ -13,13 +13,14 @@ import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
 import Test from '@/components/Test/Test';
 import SelectEquipment from './exercise/selectEquipment';
 import AddRepsRest from './exercise/addRepsRest';
+import { logPage } from '@/helpers/log/log';
 
 
 /**
  * @page `Страница с выбором языка.`
  */
 const ChoiceLanguage: FC = () => {
-    console.debug('page > ChoiceLanguage');
+    logPage.page('ChoiceLanguage');
     
     const {appRouter} = useHookRouter();
     const {i18n} = useTranslation();
@@ -30,8 +31,9 @@ const ChoiceLanguage: FC = () => {
         await i18n.changeLanguage(language);
         //appRouter.replace(path);
         DISPATCH(SET_EXERCISE_STATE('RESET'));
-        //appRouter.navigate('/exercise/addExercise');
-        appRouter.navigate('/exercise/selectEquipment');
+        //appRouter.navigate('/exercise/addExercise'); // добавление упражнения
+        // appRouter.navigate('/exercise/selectEquipment'); // добавление инвентаря
+        appRouter.navigate('/day/addDay'); // добавление дня
     }
 
     return (
