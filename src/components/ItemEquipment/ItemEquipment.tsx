@@ -12,18 +12,18 @@ import ICON from '@/source/icon';
 
 interface IItemEquipment {
     item: EquipmentDTO;
-    onPressing: (id: number) => void;
-    isActive:  (id: number) => boolean;
+    onPressing?: (id: number) => void;
+    isActive?:  (id: number) => boolean;
     marginTop?: number;
 }
 
 
 /**
  * @component `Элемент со снарядом.`
- * @param item Object EquipmentDTO
- * @param onPressing 
- * @param isActive
  * @optional
+ * @param item Object EquipmentDTO
+ * @param onPressing ? Функция обработки нажатия на блок.
+ * @param isActive ? Активный ли переключатель
  * @param marginTop ? Отступ с верху.
  */
 const ItemEquipment: FC<IItemEquipment> = ({
@@ -53,7 +53,7 @@ const ItemEquipment: FC<IItemEquipment> = ({
                         <View 
                             style={[styles.box_img, 
                                 {
-                                    padding: item.type === 'plate' ? 
+                                    padding: item.type === 'plate' && item.weight !== 0 ? 
                                     interpolate(item.weight, [1, 5, 10, 20], [16, 8, 3, 0], Extrapolation.CLAMP)
                                     : 
                                     0
@@ -67,17 +67,29 @@ const ItemEquipment: FC<IItemEquipment> = ({
                                     item.type === 'plate' ?
                                     `${t$(item.title)} ${item.weight}`
                                     :
+                                    t$(item.title) === '' ?
+                                    'Имя инвенаря'
+                                    :
                                     t$(item.title)
                                 }
                             </Text>
-                            <Text style={styles.text_weight} >{`Вес: ${item.weight} ${t('[exercise]:equipment.kilograms')}`}</Text>
+                            <Text style={styles.text_weight} >
+                                {
+                                    `Вес: ${String(item.weight) === '' ? 0 : item.weight} ${t('[exercise]:equipment.kilograms')}`
+                                }
+                            </Text>
                         </View>
                         <View style={styles.box_switcher}>
-                            <Switcher
-                                id={item.id}
-                                onPressing={onPressing}
-                                isEnabled={isActive(item.id)}
-                            />
+                            {
+                                isActive === undefined ||  onPressing === undefined ?
+                                null
+                                :
+                                <Switcher
+                                    id={item.id}
+                                    onPressing={onPressing}
+                                    isEnabled={isActive(item.id)}
+                                />
+                            }
                         </View>
                     </View>
                 </View>

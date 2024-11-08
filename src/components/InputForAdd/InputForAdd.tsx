@@ -59,9 +59,9 @@ const InputForAdd = <I extends object | number>({
     }
 
     const onChangeForm = (e: NativeSyntheticEvent<TextInputChangeEventData>, key: keyof I) => {
-        const text = e.nativeEvent.text;
-        e.persist()
-        setState( state => (typeof state === 'object' ? {...state, [key]: text} : state) )
+        e.persist();
+        let text = e.nativeEvent.text;
+        setState( state => (typeof state === 'object' ? {...state, [key]: text} : state) );
     }
 
     return (
@@ -88,7 +88,7 @@ const InputForAdd = <I extends object | number>({
                 }}
                 maxLength={maxLength}
                 placeholderTextColor={COLOR_ROOT.WHITE_40}
-                value={value}
+                value={value === '0' ? '' : value}
                 keyboardType={keyboardType}
                 onSubmitEditing={() => onEnterOk ? onEnterOk() : undefined}
             />

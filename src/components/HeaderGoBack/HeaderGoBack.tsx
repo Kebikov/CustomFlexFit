@@ -42,7 +42,7 @@ const height = 50;
 
 const styles = StyleSheet.create({
     blur: {
-        backgroundColor: Platform.OS === 'ios' ? COLOR_ROOT.BACKGROUND_CUSTOM(.2) : COLOR_ROOT.BACKGROUND_CUSTOM(.9),
+        //backgroundColor: Platform.OS === 'ios' ? COLOR_ROOT.BACKGROUND_CUSTOM(.2) : COLOR_ROOT.BACKGROUND_CUSTOM(.9),
         position: 'absolute',
         top: 0,
         left: 0,

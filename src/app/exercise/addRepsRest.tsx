@@ -40,10 +40,9 @@ const borderRadiusBody = 22;
 const paddingHorizontal = 25;
 
 /**
- * @page `Модальное окно для добавления повторов и времени отдыха у упражнения.`
+ * @page `Страница для добавления повторов и времени отдыха у упражнения.`
  */
 const AddRepsRest: FC = () => {
-    console.debug('modal > addRepsRest-----------------------------------------------------------');
 
     const refRestAfter = useRef<IClockRef>(null);
     const refRuntime = useRef<IClockRef>(null);

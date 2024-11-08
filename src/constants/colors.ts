@@ -3,6 +3,7 @@ interface IColors {
     BACKGROUND_CUSTOM: (opasity: number) => string;
     BACKGROUND_LIGHT: string;
     LIME: string;
+    LIME_DARK: string;
     LIME_70: string;
     LIME_CUSTOM: (opasity: number) => string;
     WHITE_CUSTOM: (opasity: number) => string;
@@ -34,6 +35,7 @@ export const COLOR_ROOT: IColors = {
     BACKGROUND_CUSTOM,
     BACKGROUND_LIGHT: '#777777',
     LIME: '#D9F511',
+    LIME_DARK: '#545f06',
     LIME_70: 'rgba(217, 245, 17, 0.7)',
     LIME_CUSTOM,
     WHITE_CUSTOM,

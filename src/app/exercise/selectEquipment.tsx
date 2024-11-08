@@ -10,6 +10,7 @@ import EquipmentService from '@/SQLite/Equipment/service/EquipmentService';
 import { useSQLiteContext } from 'expo-sqlite';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { useHookRouter } from '@/router/useHookRouter';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 interface IselectEquipment {
@@ -61,21 +62,18 @@ const SelectEquipment: FC = () => {
     return (
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
+            isScrollEnabled={false}
         >
             <View style={styles.container} >
                 <Title text={t('[exercise]:equipment.yourEquipment')} />
                 <Text style={styles.text}>{t('[exercise]:equipment.yourEquipmentInfo')}</Text>
                 <View style={styles.contaiber_body} >
-                    {
-                        dataEquipment.map(item => (
-                            <ItemEquipment
-                                item={item}
-                                onPressing={onPressing}
-                                isActive={isActive}
-                                key={item.id}
-                            />
-                        ))
-                    }
+                    <FlatList
+                        data={dataEquipment}
+                        renderItem={({item}) => <ItemEquipment item={item} onPressing={onPressing} isActive={isActive} />}
+                        keyExtractor={item => String(item.id)}
+                        showsVerticalScrollIndicator={false}
+                    />
                 </View>
                 <ButtonGreen 
                     text='добавить инвентарь'

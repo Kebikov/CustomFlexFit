@@ -5,7 +5,7 @@ import Title from '@/components/Title/Title';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { useHookRouter } from '@/router/useHookRouter';
 import { useTranslation } from 'react-i18next';
-import PickBackgroundForDay from '@/components/PickBackgroundForDay/PickBackgroundForDay';
+import PickImage from '@/components/PickImage/PickImage';
 import { SET_BACKGROUND_FOR_EXERCISE } from '@/redux/slice/setup.slice';
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import HelpText from '@/components/HelpText/HelpText';
@@ -52,7 +52,7 @@ const AddExercise: FC = () => {
                 <View style={[styles.overlay, {backgroundColor: selectedBackgroundExercise ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
             </View>
 
-            <PickBackgroundForDay 
+            <PickImage
                 SET_ACTIONS={SET_BACKGROUND_FOR_EXERCISE}
                 aspect={[8, 5]}
                 modalPath='/exercise/modalAddImageExercise'

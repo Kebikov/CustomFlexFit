@@ -11,7 +11,7 @@ import DayService from '@/SQLite/Day/service/DayService';
 import { useSQLiteContext } from 'expo-sqlite';
 import Menu from '@/components/Menu/Menu';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
-import PickBackgroundForDay from '@/components/PickBackgroundForDay/PickBackgroundForDay';
+import PickImage from '@/components/PickImage/PickImage';
 import DayElement from '@/components/DayElement/DayElement';
 import Title from '@/components/Title/Title';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
@@ -105,7 +105,7 @@ const AddDay: FC = () => {
                         isShowShadow={selectedBackgroundDay ? true : false}
                     />
 
-                    <PickBackgroundForDay 
+                    <PickImage
                         SET_ACTIONS={SET_BACKGROUND_FOR_DAY}
                         aspect={[28, 10]}
                         modalPath='/day/modalAddDay'

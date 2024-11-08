@@ -13,6 +13,7 @@ export type AppRouterTypes = {
     '/exercise/modal': undefined;
     '/exercise/modalAddImageExercise': undefined;
     '/exercise/modalAddEquipment': undefined;
+    '/exercise/modalChoiceImgForEquipment': undefined;
     '/exercise/addRepsRest': {sendIndex: string};
     '/exercise/selectEquipment': undefined;
 

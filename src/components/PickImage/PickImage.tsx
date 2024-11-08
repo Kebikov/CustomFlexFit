@@ -11,28 +11,30 @@ import VibrationApp from '@/helpers/VibrationApp';
 import ICON from '@/source/icon';
 
 
-interface IPickBackgroundForDay {
-    SET_ACTIONS: ACP<any, "SETUP/SET_BACKGROUND_FOR_DAY"> | ACP<any, "SETUP/SET_BACKGROUND_FOR_EXERCISE">;
+interface IPickImage<I extends string> {
+    SET_ACTIONS: ACP<any, I>;
     aspect: [number, number];
     modalPath: keyof AppRouterTypes;
     marginTop?: number;
 }
 
+// "SETUP/SET_BACKGROUND_FOR_DAY" "SETUP/SET_BACKGROUND_FOR_EXERCISE"
+
 
 /**
- * @component `Выбор изображения для дня тренировок.`
+ * @component `Выбор изображения.`
  * @param SET_ACTIONS Экшен для установки состояния выбраного изображения в redux.
  * @param aspect Соотношение сторон для выбираемого изображения, работает на Андроид. [example: [2, 4]].
  * @param modalPath Путь к модальному окну для выбора изображения из библиотеки приложения.
  * @optional
  * @param marginTop ? Отступ с верху.
  */
-const PickBackgroundForDay: FC<IPickBackgroundForDay> = ({
+const PickImage = <I extends string,>({
     SET_ACTIONS,
     aspect,
     modalPath,
     marginTop
-}) => {
+}: IPickImage<I>) => {
 
     const {t} = useTranslation(['alert_and_toast', '[day]']);
     const {appRouter} = useHookRouter();
@@ -138,4 +140,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default PickBackgroundForDay;
+export default PickImage;

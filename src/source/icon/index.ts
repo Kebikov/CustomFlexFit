@@ -7,6 +7,7 @@ const ICON = {
     MENU: require('@/source/icon/files/menu.png'),
     GALERY: require('@/source/icon/files/galery.png'),
     PLUS: require('@/source/icon/files/plus.png'),
+    PLATE_2: require('@/source/icon/files/plate_2.png'),
     ADD_BTN: require('@/source/icon/files/add-btn.png'),
     EDIT_BTN: require('@/source/icon/files/edit-btn.png'),
     DEL_BTN: require('@/source/icon/files/del-btn.png'),
