@@ -3,6 +3,7 @@ import CONFIGURATION from '@/constants/сonfiguration';
 import { DayDTO, DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
 
 
+
 class Day {
 
     /**
@@ -33,7 +34,6 @@ class Day {
     async find(db: SQLiteDatabase): Promise<DayDTO[] | undefined> {
         try{
             const result: DayDTO[] = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_Day}`);
-            console.log(JSON.stringify( result, null, 2));
             return result;
         } catch(error) {
             console.error('Error in Day.find >>> ', error);

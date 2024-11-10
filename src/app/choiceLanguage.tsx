@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable, Button } from 'react-native';
 import React, { FC } from 'react';
 import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
 import { useHookRouter } from '@/router/useHookRouter';
@@ -14,6 +14,15 @@ import Test from '@/components/Test/Test';
 import SelectEquipment from './exercise/selectEquipment';
 import AddRepsRest from './exercise/addRepsRest';
 import { logPage } from '@/helpers/log/log';
+import { tableLog } from '@/helpers/log/printTableToTerminal';
+
+const dataMock: {name: string, age: number, country: string}[] = [
+    { name: 'Alice', age: 25, country: 'USA' },
+    { name: 'Bob', age: 30, country: 'UK' },
+    { name: 'Charlie', age: 28, country: 'Canada' },
+    { name: 'Charlie', age: 28, country: 'Canada' },
+    { name: 'Bob', age: 30, country: 'UK' },
+];
 
 
 /**
@@ -71,6 +80,9 @@ const ChoiceLanguage: FC = () => {
                         </View>
                         <Text style={styles.textLanguage} >Russian</Text>
                     </Pressable>
+                    <View style={{marginTop: 40}}>
+                        <Button title='TABLE' onPress={() => tableLog(dataMock)}/>
+                    </View>
                 </View>
             }
         </>

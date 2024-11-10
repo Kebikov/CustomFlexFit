@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
 import React, { FC } from 'react';
+import VibrationApp from '@/helpers/VibrationApp';
 
 interface IButton {
     title: string;
@@ -53,7 +54,10 @@ const ButtonPress: FC<IButton> = ({
     return (
         <Pressable 
             style={[styles.container, {backgroundColor, marginTop}]} 
-            onPress={() => onPress()}
+            onPress={() => {
+                VibrationApp.pressButton();
+                onPress();
+            }}
         >
             <Text style={[styles.text, {color, fontSize: Platform.OS === 'ios' ? fontSize + 3 : fontSize}]} >{title}</Text>
         </Pressable>

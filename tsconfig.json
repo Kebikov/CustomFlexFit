@@ -12,6 +12,6 @@
         ".expo/types/**/*.ts",
         "expo-env.d.ts", 
         "src/localization/translations", "src/localization/types/i18n.d.ts"
-    ],
+, "src/helpers/log/printTableToTerminal/modules/dataForTable.ts"    ],
     
 }

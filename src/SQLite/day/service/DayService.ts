@@ -5,6 +5,9 @@ import showMessage from '@/helpers/showMessage';
 import { DayDTO } from '@/SQLite/Day/DTO/DayDTO';
 import { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
+import { tableLog } from '@/helpers/log/printTableToTerminal';
+
+
 
 
 interface ICheck {
@@ -29,7 +32,12 @@ class DayServise {
     async showTableInConsole(db: SQLiteDatabase): Promise<void> {
         const result = await Day.find(db);
         if(!result) return showMessage('in Days.find');
-        console.info(JSON.stringify( result, null, 2));
+        console.log('Data table "Day"');
+
+        if(result && Array.isArray(result) && typeof result[0] === 'object') {
+            console.log('Table >>> ');
+            //tableLog()
+        }
     }
 
     /**

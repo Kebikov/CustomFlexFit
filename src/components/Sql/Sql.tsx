@@ -7,7 +7,7 @@ import Days from '@/SQLite/Day/modules/Day';
 import Exercise from '@/SQLite/Exercise/modules/Exercise';
 import Day from '@/SQLite/Day/modules/Day';
 
-import dayService from '@/SQLite/Day/service/DayService';
+import DayService from '@/SQLite/Day/service/DayService';
 import exerciseService from '@/SQLite/Exercise/service/ExerciseService';
 import databaseService from '@/SQLite/Database/service/DatabaseService';
 import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
@@ -17,7 +17,9 @@ import DatabaseService from '@/SQLite/Database/service/DatabaseService';
 
 import dataEquipment from '@/data/equipment/dataEquipment';
 import EquipmentService from '@/SQLite/Equipment/service/EquipmentService';
+
 import { useHookRouter } from '@/router/useHookRouter';
+import { tableLog } from '@/helpers/log/printTableToTerminal';
 
 const colorBlue = '#007aeb';
 const colorRed = 'rgba( 241, 50, 43, .9)';
@@ -40,7 +42,7 @@ const Sql: FC = () => {
     }
 
     const pressShowDays = async () => {
-        await dayService.showTableInConsole(db);
+        await DayService.showTableInConsole(db);
     }
 
     const pressShowTableExercise = async () => {
@@ -69,8 +71,9 @@ const Sql: FC = () => {
     }
 
     const test = async () => {
-        await Day.find(db);
-        await Day.maxValueColumn(db, 'description');
+        const result = await Day.find(db);
+        tableLog(result);
+        //await Day.maxValueColumn(db, 'description');
     }
 
     return (
