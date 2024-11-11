@@ -14,7 +14,7 @@ import Test from '@/components/Test/Test';
 import SelectEquipment from './exercise/selectEquipment';
 import AddRepsRest from './exercise/addRepsRest';
 import { logPage } from '@/helpers/log/log';
-import { consoleTable } from '@/helpers/log/react-native-console-table';
+import { consoleTable } from 'react-native-console-table';
 
 const dataMock: {name: string, age: number, country: string, job: string}[] = [
     { name: 'Alice', age: 25, country: 'USA', job: 'Developer' },
@@ -81,7 +81,7 @@ const ChoiceLanguage: FC = () => {
                         <Text style={styles.textLanguage} >Russian</Text>
                     </Pressable>
                     <View style={{marginTop: 40}}>
-                        <Button title='TABLE' onPress={() => consoleTable(dataMock)}/>
+                        <Button title='TABLE' onPress={() => consoleTable(dataMock, {selectionType: 'text_yellow', isShowLine: true, sing: 'rocket'}) }/>
                     </View>
                 </View>
             }
