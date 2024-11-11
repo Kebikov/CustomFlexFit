@@ -1,7 +1,7 @@
 import {selectionTypeObj, signObj} from '../modules/dataForTable'
 
 export type TObj = {
-    [key in string]: number | string;
+    [key in string]: number | string | any;
 }
 
 export interface IlengthColumn {

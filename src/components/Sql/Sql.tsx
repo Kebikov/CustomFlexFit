@@ -19,7 +19,7 @@ import dataEquipment from '@/data/equipment/dataEquipment';
 import EquipmentService from '@/SQLite/Equipment/service/EquipmentService';
 
 import { useHookRouter } from '@/router/useHookRouter';
-import { tableLog } from '@/helpers/log/printTableToTerminal';
+import { printTableToTerminal } from '@/helpers/log/printTableToTerminal';
 
 const colorBlue = '#007aeb';
 const colorRed = 'rgba( 241, 50, 43, .9)';
@@ -72,7 +72,7 @@ const Sql: FC = () => {
 
     const test = async () => {
         const result = await Day.find(db);
-        tableLog(result);
+        printTableToTerminal(result);
         //await Day.maxValueColumn(db, 'description');
     }
 

@@ -19,8 +19,8 @@ const defaultOptions: IOptions = {
  * @param data данные для вывода
  * @param options обьект настроек 
  */
-export const printTableToTerminal = (
-    data: TObj[] | undefined, 
+export const printTableToTerminal = <T extends object>(
+    data: T[] | undefined, 
     options: IOptions | undefined  =  defaultOptions
 ) => {
 
@@ -28,6 +28,6 @@ export const printTableToTerminal = (
 
     const {header, dash, columnLength} = formation(data, options);
 
-    print({dash,data,header,columnLength});
+    print({dash, data, header, columnLength});
 }
 

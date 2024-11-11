@@ -5,9 +5,6 @@ import showMessage from '@/helpers/showMessage';
 import { DayDTO } from '@/SQLite/Day/DTO/DayDTO';
 import { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
-import { tableLog } from '@/helpers/log/printTableToTerminal';
-
-
 
 
 interface ICheck {

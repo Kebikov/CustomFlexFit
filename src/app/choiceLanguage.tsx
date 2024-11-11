@@ -14,7 +14,7 @@ import Test from '@/components/Test/Test';
 import SelectEquipment from './exercise/selectEquipment';
 import AddRepsRest from './exercise/addRepsRest';
 import { logPage } from '@/helpers/log/log';
-import { tableLog } from '@/helpers/log/printTableToTerminal';
+import { printTableToTerminal } from '@/helpers/log/printTableToTerminal';
 
 const dataMock: {name: string, age: number, country: string}[] = [
     { name: 'Alice', age: 25, country: 'USA' },
@@ -81,7 +81,7 @@ const ChoiceLanguage: FC = () => {
                         <Text style={styles.textLanguage} >Russian</Text>
                     </Pressable>
                     <View style={{marginTop: 40}}>
-                        <Button title='TABLE' onPress={() => tableLog(dataMock)}/>
+                        <Button title='TABLE' onPress={() => printTableToTerminal(dataMock)}/>
                     </View>
                 </View>
             }
