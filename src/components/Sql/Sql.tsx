@@ -19,7 +19,7 @@ import dataEquipment from '@/data/equipment/dataEquipment';
 import EquipmentService from '@/SQLite/Equipment/service/EquipmentService';
 
 import { useHookRouter } from '@/router/useHookRouter';
-import { printTableToTerminal } from '@/helpers/log/printTableToTerminal';
+import { consoleTable } from '@/helpers/log/react-native-console-table';
 
 const colorBlue = '#007aeb';
 const colorRed = 'rgba( 241, 50, 43, .9)';
@@ -72,7 +72,7 @@ const Sql: FC = () => {
 
     const test = async () => {
         const result = await Day.find(db);
-        printTableToTerminal(result);
+        consoleTable(result);
         //await Day.maxValueColumn(db, 'description');
     }
 

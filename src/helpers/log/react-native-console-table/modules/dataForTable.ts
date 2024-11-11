@@ -1,20 +1,19 @@
 export const signObj = {
-    rocket: '🚀 ',
+    rocket: '🚀',
     anchor: '⚓️',
     money: '💵',
     magnet: '🧲',
     box: '📦',
     list: '📜',
-    paperclip: '📎',
     pin: '📌',
-    lock: '🔒'
+    lock: '🔒',
+    clock: '🕒',
+    lightBulb: '💡'
 }
 
 export const tabObj = {
-    start:     '  ',
-    dashStart: '--',
-    end:     '    ',
-    dashEnd: '----'
+    start: '  ',
+    end: '  '
 }
 
 export const selectionTypeObj = {
@@ -38,4 +37,18 @@ export const selectionTypeObj = {
     // Тип текста в ANSI, жирный/подчеркнутый.
     textStyle_bold: '1',
     textStyle_underlined: '4'
+}
+
+export const  lines = {
+    horizon: '\u2500', // "─"
+    vertical: '\u2502', // "│"
+    angleTopLeft: '\u250c', // "┌"
+    angleTopRight: '\u2510', //  "┐"
+    angleBottomLeft: '\u2514', //  "└"
+    angleBottomRight: '\u2518', //  "┘"
+    connectionCross: '\u253c', //  "┼",
+    connectionTop: '\u252c', //  "┬",
+    connectionLeft: '\u251c', //  "├",
+    connectionRight: '\u2524', //  "┤",
+    connectionBottom: '\u2534', //  "┴",
 }

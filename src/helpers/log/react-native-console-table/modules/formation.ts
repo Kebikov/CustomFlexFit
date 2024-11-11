@@ -1,4 +1,4 @@
-import { IlengthColumn, TObj, IOptions } from '../types';
+import { IlengthColumn, TObj, IOptions, IFormation } from '../types';
 import { copyDash } from './copyDash';
 import { formationHeader } from './formationHeader';
 
@@ -14,7 +14,11 @@ import { formationHeader } from './formationHeader';
  * - header: шапка таблицы,
  * - columnLength: обьект с ключом и максимальной длинной колонки.
  */
-export function formation(arrObj: Array<TObj>, options: IOptions): {columnLength: IlengthColumn[], dash: string, header: string} {
+export const formation = (
+    arrObj: Array<TObj>, 
+    options?: IOptions
+): IFormation => {
+
     /**
      * `Обьект с ключом и максимальной длинной колонки, которое имеет одно из его значений.`
      */
@@ -36,7 +40,7 @@ export function formation(arrObj: Array<TObj>, options: IOptions): {columnLength
     /**
      *  `Разделительная линия таблицы.`
      */
-    const dash = copyDash(columnLength);
+    const {dashUp, dashCenter, dashBottom} = copyDash(columnLength);
     /**
      * `Шапка таблицы.`
      */
@@ -44,7 +48,9 @@ export function formation(arrObj: Array<TObj>, options: IOptions): {columnLength
 
     return {
         columnLength,
-        dash,
+        dashUp,
+        dashCenter,
+        dashBottom,
         header
     }
 }

@@ -6,6 +6,6 @@ const data = [
     { name: 'Bob', age: 30, country: 'UK      ' },
 ];
 
-console.log(Object.values(data));
+console.table(data);
 
 
