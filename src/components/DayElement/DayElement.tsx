@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, ImageBackground, Image, Pressable, Platform } from 'react-native';
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { useHookRouter } from '@/router/useHookRouter';
-import type { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
+import type { DayDTOomitId, DayDTO } from '@/SQLite/Day/DTO/DayDTO';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
 import { styleFontConvertForTitle } from '@/styles/font';
 import useConvertFont from '@/hook/useConvertFont';
@@ -14,12 +14,8 @@ import imgCheck from '@/helpers/imgCheck';
 
 
 interface IDay {
-	day?: DayDTOomitId;
-    title?: string;
-    description?: string;
+	day?: DayDTOomitId | DayDTO;
     backgroundZero?: boolean;
-    img?: number | string | object | undefined;
-    isShowShadow?: boolean;
     width?: number;
 }
 
@@ -28,81 +24,71 @@ interface IDay {
  * @component `Карточка дня занятий.`
  * @optional
  * @param day ? Обьект дня занятия с interface DayDTOomitId.
- * @param title ? Установливаеваемый заголовок.
- * @param description ? Устанавливаемое описание дня занятий.
  * @param backgroundZero ? Цвет фона пока нет изображения.
- * @param img ? Выбраное изображение для фона дня.
- * @param isShowShadow ? Отображать ли тень. [default - true]
  * @param width ? Ширина компонента в процентах. [example - 100]
  */
 const DayElement: FC<IDay> = ({ 
     day,
-    title,
-    description,
     backgroundZero,
-    img,
-    isShowShadow = true,
     width = 100
 }) => {
-    console.debug('day >>> ', typeof img);
     const {textCurrentDay} = getCurrentDateInFormatArray();
     const {convertFont} = useConvertFont();
 
-	return (
-        <View style={[style.container, {width: `${width}%`}]} >
-            <Shadow 
-                containerStyle={{flex: 1}}
-                style={[style.shadow_style, {alignSelf: 'stretch'}]} 
-                distance={isShowShadow ? 12 : 0} 
-                startColor='rgba(255, 255, 255, .3)' 
-            >
-                <View style={style.shadow_view} >
-                    <Pressable
-                        //onPress={() => day ? appRouter.navigate({pathname: '/exercise/[id]', params: {dayExercise: day.day}}) : {}}
-                        style={style.main}
-                    >
-                        <ImageBackground 
-                            source={
-                                imgCheck(
-                                    day ? day.img 
-                                    : 
-                                    img ? img 
-                                    : 
-                                    backgroundZero ? IMAGE.ZERO_FON 
-                                    : 
-                                    undefined
-                                )
-                            } 
-                            style={[style.imageBackground]}
-                        >
-                            <View style={style.overlay} />
-                            <Image source={day && day.lastExercise ? require('@/source/img/dumbbell-orange.png') : require('@/source/img/dumbbell-white.png')} style={style.dumbbell} />
-                            
-                            <View style={[style.textDateBox]}>
-                                <Text style={[style.textDate, {fontSize: convertFont(Platform.OS === 'ios' ? 14 : 13)}]}>{day ? day.date : textCurrentDay}</Text>
-                            </View>
+    const [image, setImage] = useState<number | {uri: string} | undefined>();
 
-                            <View>
-                                
-                                <View style={style.titleBox}>
-                                    <Text style={[style.title, styleFontConvertForTitle.sport, {fontSize: convertFont(Platform.OS === 'ios' ? 16 : 15)}]} >
-                                        {title ? title : day ? day.title : null}
-                                    </Text>
-                                </View>
-                                
-                                <Text style={[style.textPart, {fontSize: convertFont(Platform.OS === 'ios' ? 15 : 14)}]} >
-                                    {description ? description : day ? day.description : null}
+    useEffect(() => {
+        (async () => {
+            const currentImg = await imgCheck(
+                day ? day.img 
+                : 
+                backgroundZero ? IMAGE.ZERO_FON 
+                : 
+                undefined
+            );
+
+            setImage(currentImg);
+        })();
+    }, [day]);
+
+	return (
+        <View style={[styleDayElement.container, {width: `${width}%`}]} >
+            <View style={styleDayElement.shadow_view} >
+                <Pressable
+                    //onPress={() => day ? appRouter.navigate({pathname: '/exercise/[id]', params: {dayExercise: day.day}}) : {}}
+                    style={styleDayElement.main}
+                >
+                    <ImageBackground 
+                        source={image} 
+                        style={[styleDayElement.imageBackground]}
+                    >
+                        <View style={styleDayElement.overlay} />
+                        <Image source={day && day.lastExercise ? require('@/source/img/dumbbell-orange.png') : require('@/source/img/dumbbell-white.png')} style={styleDayElement.dumbbell} />
+                        
+                        <View style={[styleDayElement.textDateBox]}>
+                            <Text style={[styleDayElement.textDate, {fontSize: convertFont(Platform.OS === 'ios' ? 14 : 13)}]}>{day ? day.date : textCurrentDay}</Text>
+                        </View>
+
+                        <View>
+                            
+                            <View style={styleDayElement.titleBox}>
+                                <Text style={[styleDayElement.title, styleFontConvertForTitle.sport, {fontSize: convertFont(Platform.OS === 'ios' ? 16 : 15)}]} >
+                                    {day ? day.title : null}
                                 </Text>
                             </View>
-                        </ImageBackground>
-                    </Pressable>
-                </View>
-            </Shadow>
+                            
+                            <Text style={[styleDayElement.textPart, {fontSize: convertFont(Platform.OS === 'ios' ? 15 : 14)}]} >
+                                {day ? day.description : null}
+                            </Text>
+                        </View>
+                    </ImageBackground>
+                </Pressable>
+            </View>
         </View>
 	);
 };
 
-const style = StyleSheet.create({
+export const styleDayElement = StyleSheet.create({
     container: {
         marginTop: 15,
 		height: 132,

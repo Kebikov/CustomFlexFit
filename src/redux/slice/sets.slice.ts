@@ -70,7 +70,6 @@ const setsSlice = createSlice({
                 state.exerciseStateArray = action.payload;
             } else {
                 // Изминение состояния отдельного обьекта, передаем обьект который надо поменять.
-                console.log('action.payload. >>> ', JSON.stringify(action.payload, null, 2));
                 const id = action.payload.id;
                 let findIndex = state.exerciseStateArray.findIndex(item => item.id === id);
                 state.exerciseStateArray[findIndex] = action.payload;

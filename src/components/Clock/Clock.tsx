@@ -62,7 +62,7 @@ const Clock = forwardRef<IClockRef, IClock>(({
     typeClockCustom,
     typeOfDisplay = 'clock'
 }, ref) => {
-    console.log('render clock');
+
     // Установки для массива отображаемых чисел.
     let optionsClock: IArraysForClock;
     if(typeof typeClockCustom === 'object') {

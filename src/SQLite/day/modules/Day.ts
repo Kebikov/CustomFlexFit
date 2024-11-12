@@ -43,7 +43,7 @@ class Day {
     /**
      * `//* Добавление одной записи в таблицу.`
      */
-    async insertOne(db: SQLiteDatabase, entity: DayDTOomitId) {
+    async insertOne(db: SQLiteDatabase, entity: DayDTO) {
         try {
             const result = await db.runAsync(`
                 INSERT INTO ${CONFIGURATION.TABLE_Day}
@@ -78,7 +78,8 @@ class Day {
                 SELECT MAX(${column}) AS MAX
                 FROM ${CONFIGURATION.TABLE_Day}
             `);
-
+            if(result && result.MAX === null) return 0;
+            
             if(result && typeof result.MAX === 'number') {
                 return result.MAX;
             } else {

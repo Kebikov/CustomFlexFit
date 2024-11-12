@@ -6,6 +6,7 @@ import ButtonPress from '../ButtonPress/ButtonPress';
 import Days from '@/SQLite/Day/modules/Day';
 import Exercise from '@/SQLite/Exercise/modules/Exercise';
 import Day from '@/SQLite/Day/modules/Day';
+import { Asset } from 'expo-asset';
 
 import DayService from '@/SQLite/Day/service/DayService';
 import exerciseService from '@/SQLite/Exercise/service/ExerciseService';
@@ -18,8 +19,8 @@ import DatabaseService from '@/SQLite/Database/service/DatabaseService';
 import dataEquipment from '@/data/equipment/dataEquipment';
 import EquipmentService from '@/SQLite/Equipment/service/EquipmentService';
 
-import { useHookRouter } from '@/router/useHookRouter';
-import { consoleTable } from '@/helpers/log/react-native-console-table';
+import { useHookRouter } from '@/router/';
+
 
 const colorBlue = '#007aeb';
 const colorRed = 'rgba( 241, 50, 43, .9)';
@@ -71,9 +72,8 @@ const Sql: FC = () => {
     }
 
     const test = async () => {
-        const result = await Day.find(db);
-        consoleTable(result);
-        //await Day.maxValueColumn(db, 'description');
+        const days = await DayService.find(db);
+        consoleTable(days, {title: 'sdf'});
     }
 
     return (
@@ -89,6 +89,7 @@ const Sql: FC = () => {
 
             <ButtonPress title='SHOW FOLDER IMG' onPress={pressGet} marginTop={20} />
             <ButtonPress title='remove folder img' onPress={pressDel} type='dangerous' marginTop={20} />
+            <ButtonPress title='SHOW FOLDER CASHE' onPress={test} marginTop={20} />
 
             <ButtonPress title='test' onPress={test} backgroundColor='green' marginTop={20} />
         </View>
@@ -106,3 +107,4 @@ const styles = StyleSheet.create({
 });
 
 export default Sql;
+

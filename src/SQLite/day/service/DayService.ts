@@ -5,6 +5,7 @@ import showMessage from '@/helpers/showMessage';
 import { DayDTO } from '@/SQLite/Day/DTO/DayDTO';
 import { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
+import { consoleTable } from 'react-native-console-table';
 
 
 interface ICheck {
@@ -28,12 +29,11 @@ class DayServise {
      */
     async showTableInConsole(db: SQLiteDatabase): Promise<void> {
         const result = await Day.find(db);
-        if(!result) return showMessage('in Days.find');
-        console.log('Data table "Day"');
-
-        if(result && Array.isArray(result) && typeof result[0] === 'object') {
-            console.log('Table >>> ');
-            //tableLog()
+        if(!result) return showMessage('Ошибка получения данных в таблице "Day".');
+        if(Array.isArray(result) && result.length === 0) return showMessage('Нет данных в таблице "Day".');
+        
+        if(typeof result[0] === 'object') {
+            consoleTable(result);
         }
     }
 
@@ -48,12 +48,12 @@ class DayServise {
     /**
      * `//* Добавление одной записи в таблицу.`
      */
-    async insertOne(db: SQLiteDatabase, entity: DayDTOomitId): Promise<boolean> {
+    async insertOne(db: SQLiteDatabase, entity: DayDTO): Promise<boolean> {
         try {
-            // Если очередь равна 0.
+            // Если очередь равна 0, усанавливаем очередь.
             if(entity.queue === 0) {
                 const maxQueue = await Day.maxValueColumn(db, 'queue');
-                if(!maxQueue) return false;
+                if(maxQueue === undefined) return false;
 
                 if(maxQueue > 0) {
                     entity.queue = maxQueue + 1;
@@ -62,7 +62,7 @@ class DayServise {
                 }
             }
 
-            if(typeof entity.img === 'number') entity.img = String(entity.img);
+            // Заполняем поле даты, если пустое.
             if(entity.date === '') {
                 const {textCurrentDay} = getCurrentDateInFormatArray();
                 entity.date = textCurrentDay;

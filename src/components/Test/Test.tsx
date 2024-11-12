@@ -30,12 +30,8 @@ const initialData: Item[] = [...Array(NUM_ITEMS)].map((d, index) => {
 });
 
 export default function Test() {
-    console.log('-----------------------------------------------');
-	const [data, setData] = useState<Item[]>(initialData);
 
-    data.forEach(item => {
-        console.log(item.label);
-    })
+	const [data, setData] = useState<Item[]>(initialData);
 
 
 	const renderItem = ({ item, drag, isActive }: RenderItemParams<Item>) => {

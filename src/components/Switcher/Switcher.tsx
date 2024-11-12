@@ -52,7 +52,6 @@ const Switcher: FC<ISwitcher> = ({
 
     const onPress = (id: number) => {
         'worklet';
-        console.log('press');
         onPressing(id);
         if(isEnabled) {
             circleColor.value = withTiming(colorRight, {duration: animatedDuration});

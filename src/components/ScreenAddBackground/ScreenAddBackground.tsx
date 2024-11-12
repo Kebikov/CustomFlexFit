@@ -14,7 +14,6 @@ import type { IExportImage } from '@/source/img/day';
 interface IScreenAddBackground {
     imagesForChoice: IExportImage[];
     height: number;
-    SET_ACTIONS: ACP<any, "SETUP/SET_BACKGROUND_FOR_DAY"> | ACP<any, "SETUP/SET_BACKGROUND_FOR_EXERCISE">;
 }
 
 
@@ -22,17 +21,14 @@ interface IScreenAddBackground {
  * @modal `Экран для выбора фона для дня занятий.`
  * @param imagesForChoice Массив изображений из которых выбираем.
  * @param height Высота одного изображения.
- * @param SET_ACTIONS Экшен для устрановки состояния в redux.
  */
 const ScreenAddBackground: FC<IScreenAddBackground> = ({
     imagesForChoice,
-    height,
-    SET_ACTIONS
+    height
 }) => {
     
     const {t} = useTranslation(['[day]']);
     const [selectImg, setSelectImg] = useState<string | undefined>(undefined);
-    console.log(selectImg);
     
     return (
         <WrapperScroll
@@ -53,7 +49,7 @@ const ScreenAddBackground: FC<IScreenAddBackground> = ({
                     contentContainerStyle={{gap: 10, paddingBottom: 20, paddingHorizontal: 20}}
 
                     data={imagesForChoice}
-                    renderItem={({item}) => <ItemForChoiceBackground imgObj={item} selectImg={selectImg} setSelectImg={setSelectImg} height={height} SET_ACTIONS={SET_ACTIONS} />}
+                    renderItem={({item}) => <ItemForChoiceBackground imgObj={item} selectImg={selectImg} setSelectImg={setSelectImg} height={height} />}
                     keyExtractor={item => String(item.source)}
 
                     ListEmptyComponent={<View><Text style={{color: 'white'}}>Нет элементов.</Text></View>}

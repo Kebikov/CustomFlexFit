@@ -3,6 +3,7 @@ import * as SQLite from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
 import * as FileSystem from 'expo-file-system';
 import { TTables } from '@/constants/сonfiguration';
+import { checkIfConfigIsValid } from 'react-native-reanimated/lib/typescript/reanimated2/animation/springUtils';
 
 
 export type TExistingFolders = 'myImage';
@@ -107,6 +108,10 @@ class Database {
         }
     }
 
+    /**
+     * `Получение пути к папке в телефона.`
+     * @param nameFolder 
+     */
     async getPathToFolder(nameFolder: TExistingFolders): Promise<string | undefined> {
         try {
             const root = FileSystem.documentDirectory;
@@ -123,6 +128,55 @@ class Database {
             return pathToFolder;
         } catch (error) {
             console.error('Error in Database.getPathToFolder >>>', error);
+        }
+    }
+
+    /**
+     * `Просмотр корневой`
+     */
+    async showCasheFolder() {
+        try {
+            const root = FileSystem.documentDirectory;
+            if(!root) return undefined;
+
+            const myFolder = root + 'myFolder/';
+
+            const files = await FileSystem.readDirectoryAsync(myFolder);
+            console.log(JSON.stringify( files, null, 2));
+
+            const removeJpg = files.filter(item => {
+                if(item.split('.').at(-1) === 'jpg') {
+                    return item;
+                }
+            })
+
+            console.log('removeJpg = ', JSON.stringify( removeJpg, null, 2));
+
+            // for(let item of removeJpg) {
+            //     //console.log(myFolder + item);
+            //     await FileSystem.deleteAsync(root + '/' + item);
+            // }
+
+            // const check = await FileSystem.getInfoAsync(pathPicasso);
+            // console.log('check = ', check);
+            // if(!check.exists) {
+            //     await FileSystem.makeDirectoryAsync(pathPicasso, {intermediates: true});
+            // }
+
+            // const files = await FileSystem.readDirectoryAsync(pathPicasso);
+            // console.log('pathPicasso = ', JSON.stringify( files, null, 2));
+            // console.log(files.length);
+
+
+
+            // "image1722356151124.jpg",
+
+            // const folders1 = await FileSystem.readDirectoryAsync(pathPicasso);
+            // console.log(JSON.stringify( folders1, null, 2));
+            // console.log(folders1.length);
+
+        } catch (error) {
+            console.error('Error in showCasheFolder >>>', error);
         }
     }
 
@@ -177,3 +231,4 @@ class Database {
 }
 
 export default new Database();
+

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Button, Image } from 'react-native';
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import DatabaseService from '@/SQLite/Database/service/DatabaseService';
@@ -19,9 +19,9 @@ const ShowImgInFolder: FC = () => {
 
     const [data, setData] = useState<string[]>([]);
 
+
     const go = async () => {
         const files = await ImageService.find();
-        console.log(files);
 
         if(!files) return;
         setData(files);

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useHookRouter } from '@/router/useHookRouter';
 import { useAppSelector } from '@/redux/store/hooks';
 import { useAppDispatch } from '@/redux/store/hooks';
-import { SET_BACKGROUND_FOR_DAY } from '@/redux/slice/setup.slice';
+import { SET_BACKGROUND } from '@/redux/slice/setup.slice';
 import DayService from '@/SQLite/Day/service/DayService';
 import { useSQLiteContext } from 'expo-sqlite';
 import PickImage from '@/components/PickImage/PickImage';
@@ -16,9 +16,10 @@ import type { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
 import { logPage, logInfo } from '@/helpers/log/log';
 import useCreateDay from '@/helpers/pages/AddDay/useCreateDay';
+import DayElementZero from '@/components/DayElementZero/DayElementZero';
 
 
-export type TdayState = Pick<DayDTOomitId, 'title' | 'description'> & {img: string | undefined};
+export type TdayState = Pick<DayDTOomitId, 'title' | 'description' | 'img'>;
 
 
 /**
@@ -33,13 +34,16 @@ const AddDay: FC = () => {
     const dispatch = useAppDispatch();
 
     const [dayState, setDayState] = useState<TdayState>({
-        img: undefined,
+        img: {
+            path: undefined,
+            extension: undefined
+        },
         title: t('[day]:addDay.title'), 
         description: t('[day]:addDay.description')
     });
     logInfo.info('dayState >>> ', dayState);
 
-    const selectedBackgroundDay = useAppSelector(state => state.setupSlice.selectedBackgroundDay);
+    const selectedBackgroundDay = useAppSelector(state => state.setupSlice.selectedBackground);
 
     const {createDay} = useCreateDay(db, dayState);
 
@@ -49,7 +53,7 @@ const AddDay: FC = () => {
 
     useEffect(() => {
         return() => {
-            dispatch(SET_BACKGROUND_FOR_DAY(''));
+            dispatch(SET_BACKGROUND(undefined));
         }
     },[])
 
@@ -62,16 +66,15 @@ const AddDay: FC = () => {
                 <Title text={t('[day]:addDay.pageTitle')} />
                 <View style={styles.bodyForm} >
 
-                    <DayElement
+                    <DayElementZero
                         title={dayState.title}
                         description={dayState.description}
                         backgroundZero={true} 
-                        img={dayState.img}
+                        img={dayState.img.path}
                         isShowShadow={selectedBackgroundDay ? true : false}
                     />
 
                     <PickImage
-                        SET_ACTIONS={SET_BACKGROUND_FOR_DAY}
                         aspect={[28, 10]}
                         modalPath='/day/modalAddDay'
                         marginTop={30}

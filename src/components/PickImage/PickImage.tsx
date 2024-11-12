@@ -9,32 +9,28 @@ import { ActionCreatorWithPayload as ACP}  from '@reduxjs/toolkit';
 import { AppRouterTypes } from '@/router/app.router.types';
 import VibrationApp from '@/helpers/VibrationApp';
 import ICON from '@/source/icon';
+import { SET_BACKGROUND } from '@/redux/slice/setup.slice';
 
 
-interface IPickImage<I extends string> {
-    SET_ACTIONS: ACP<any, I>;
+interface IPickImage {
     aspect: [number, number];
     modalPath: keyof AppRouterTypes;
     marginTop?: number;
 }
 
-// "SETUP/SET_BACKGROUND_FOR_DAY" "SETUP/SET_BACKGROUND_FOR_EXERCISE"
-
 
 /**
  * @component `Выбор изображения.`
- * @param SET_ACTIONS Экшен для установки состояния выбраного изображения в redux.
  * @param aspect Соотношение сторон для выбираемого изображения, работает на Андроид. [example: [2, 4]].
  * @param modalPath Путь к модальному окну для выбора изображения из библиотеки приложения.
  * @optional
  * @param marginTop ? Отступ с верху.
  */
-const PickImage = <I extends string,>({
-    SET_ACTIONS,
+const PickImage: FC<IPickImage> = ({
     aspect,
     modalPath,
     marginTop
-}: IPickImage<I>) => {
+}) => {
 
     const {t} = useTranslation(['alert_and_toast', '[day]']);
     const {appRouter} = useHookRouter();
@@ -50,7 +46,7 @@ const PickImage = <I extends string,>({
         });
     
         if (!result.canceled)  {
-            dispatch(SET_ACTIONS(result.assets[0].uri));
+            dispatch(SET_BACKGROUND({path: result.assets[0].uri, extension: result.assets[0].uri.split('.').at(-1) }));
         } else {
             Platform.OS === 'ios' 
             ?

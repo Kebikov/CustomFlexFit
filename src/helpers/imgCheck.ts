@@ -1,17 +1,22 @@
+import DatabaseService from "@/SQLite/Database/service/DatabaseService";
+import Database from "@/SQLite/Database/model/Database";
+
 /**
- * `Проверка, является ли value после преобразования в число верным форматом, 
- * если да, вернет value как число, 
- * если нет, вернет обьект {uri: value}`
+ * `Проверка value:`
+ * - if value === number => return value: number;
+ * - if value === string => return value: number;
  */
-const imgCheck = (value: number | string): number | {uri: string} | undefined => {
+const imgCheck = async (value: number | string): Promise<number | {uri: string} | undefined> => {
+
     if(typeof value === 'number' && !isNaN(value)) {
         return value;
-    } else if(typeof value === 'string') {
-
+    } 
+    
+    if(typeof value === 'string') {
         const splitOnePart = value.split('.')[0];
 
         if( !isNaN( Number(splitOnePart) ) ) {
-            return Number(splitOnePart);
+            return {uri: await Database.getPathToFolder('myImage') + '/' + value}
         }
 
         if( isNaN(Number(value)) && typeof value === 'string') {

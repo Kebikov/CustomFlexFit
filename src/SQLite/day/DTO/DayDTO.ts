@@ -1,8 +1,10 @@
+import { IImageObj } from "@/redux/slice/setup.slice";
+
 /**
  * @table `Day - Тренировочный день.`
  * @param id ID.
  * @param dayQueue День занятий по очереди.
- * @param img Изображение фоновое.
+ * @param img Изображение фоновое, имя изображения в папке памяти телефона > 'myImage'.
  * @param date Дата последнего занятия по данной программе.[example '23.12.2023']
  * @param title Титульное название для дня занятий.
  * @param description Описание для дня занятий, внизу блока.
@@ -11,11 +13,13 @@
 export interface DayDTO {
     id: number;
     queue: number;
-    img: string | number; // in BD type string
+    img: string;
     date: string;
     title: string;
     description: string;
     lastExercise: number;
 }
 
-export interface DayDTOomitId extends Omit<DayDTO, 'id'> {}
+export interface DayDTOomitId extends Omit<DayDTO, 'id' | 'img'> {
+    img: IImageObj
+}

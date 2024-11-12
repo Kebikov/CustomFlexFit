@@ -3,6 +3,7 @@ import CONFIGURATION from '@/constants/сonfiguration';
 import * as FileSystem from 'expo-file-system';
 import Database, { ISave, TExistingFolders } from "../model/Database";
 import type { IExportImage } from "@/source/img/day";
+import { Asset } from "expo-asset";
 
 
 class ImageService {
@@ -22,7 +23,7 @@ class ImageService {
             const result = await Database.saveImg({...options});
             return result;
         } catch (error) {
-            console.error('Error in DatabaseService.saveImage() >>>', error);
+            console.error('Error in ImageService.saveImage() >>>', error);
             return false;
         }
     }
@@ -46,10 +47,31 @@ class ImageService {
 
     }
 
-    //* Получение имени для сохроняемого изображения.
-    getNameForImage(data: string): string {
+    /**
+     * `Получение имени для сохроняемого изображения.`
+     * @param extension расширение изображения (.jpg и т.д.)
+     */
+    getNameForImage(extension: string): string {
         // Задаем имя для изображения.
-        return new Date().getTime() + '.' + data.split('.').at(-1);
+        return new Date().getTime() + '.' + extension;
+    }
+
+    /**
+     * `Получение пути к изображению.`
+     */
+    async getPathToImage(data: string): Promise<string> {
+        // Проверяем, это путь или название файла, если изображение выбрано из библиотеке App, то имя будет как число + расширение файла > "12.jpg"
+        const partOne = data.split('.')[0];
+        // Проверка, является ли первая састь имени числом, если да то изображение выбрано из App
+        if(partOne && !isNaN(Number(partOne))) {
+            const assetObj = Asset.fromModule(Number(partOne));
+            await assetObj.downloadAsync();
+            const assetPath = assetObj.localUri || assetObj.uri;
+            console.log('assetPath = ', assetPath);
+            return assetPath;
+        } else {
+            return data;
+        }
     }
 
 }

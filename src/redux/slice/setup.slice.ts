@@ -1,8 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+
+/**
+ * @param path Путь к изображению.
+ * @param type Тип изображения ".jpg | .png"
+ */
+export interface IImageObj {
+    path?: string;
+    extension?: string;
+}
 
 interface IinitialDay {
-    selectedBackgroundDay?: string;
+    selectedBackground?: IImageObj;
     selectedBackgroundExercise?: number | string;
     selectedImgForEquipment?: number | string;
 }
@@ -12,7 +21,7 @@ interface IinitialDay {
  */
 //* initialState 
 const initialState: IinitialDay = {
-    selectedBackgroundDay: undefined,
+    selectedBackground: undefined,
     selectedBackgroundExercise: undefined,
     selectedImgForEquipment: undefined
 }
@@ -24,8 +33,8 @@ const setupSlice = createSlice({
     initialState,
     reducers: {
 
-        SET_BACKGROUND_FOR_DAY: (state, action) => {
-            state.selectedBackgroundDay = action.payload;
+        SET_BACKGROUND: (state, action: PayloadAction<IImageObj | undefined>) => {
+            state.selectedBackground = action.payload;
         },
         SET_BACKGROUND_FOR_EXERCISE: (state, action) => {
             state.selectedBackgroundExercise = action.payload;
@@ -41,7 +50,7 @@ const setupSlice = createSlice({
 export default setupSlice.reducer;
 
 export const {
-    SET_BACKGROUND_FOR_DAY,
+    SET_BACKGROUND,
     SET_BACKGROUND_FOR_EXERCISE,
     SET_IMG_FOR_EQUIPMENT
 } = setupSlice.actions;
