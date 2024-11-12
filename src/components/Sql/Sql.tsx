@@ -19,11 +19,13 @@ import DatabaseService from '@/SQLite/Database/service/DatabaseService';
 import dataEquipment from '@/data/equipment/dataEquipment';
 import EquipmentService from '@/SQLite/Equipment/service/EquipmentService';
 
-import { useHookRouter } from '@/router/';
+import { useHookRouter } from '@/router/useHookRouter'; 
+import { consoleTable } from 'react-native-console-table';
 
 
 const colorBlue = '#007aeb';
 const colorRed = 'rgba( 241, 50, 43, .9)';
+
 
 
 /**
@@ -73,7 +75,14 @@ const Sql: FC = () => {
 
     const test = async () => {
         const days = await DayService.find(db);
-        consoleTable(days, {title: 'sdf'});
+        consoleTable(days, 
+            {
+                title: 'Table Day', 
+                sing: 'rocket', 
+                selectionTitle: 'background_green', 
+                selectionHeader: 'background_magenta'
+            }
+        );
     }
 
     return (

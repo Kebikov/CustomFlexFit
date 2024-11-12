@@ -5,7 +5,7 @@ import showMessage from '@/helpers/showMessage';
 import { DayDTO } from '@/SQLite/Day/DTO/DayDTO';
 import { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
-import { consoleTable } from 'react-native-console-table';
+//import { consoleTable } from 'react-native-console-table';
 
 
 interface ICheck {
@@ -33,7 +33,7 @@ class DayServise {
         if(Array.isArray(result) && result.length === 0) return showMessage('Нет данных в таблице "Day".');
         
         if(typeof result[0] === 'object') {
-            consoleTable(result);
+            //consoleTable(result);
         }
     }
 
