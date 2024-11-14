@@ -3,21 +3,21 @@ import React, { FC } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
 import ButtonPress from '../ButtonPress/ButtonPress';
-import Days from '@/SQLite/Day/modules/Day';
-import Exercise from '@/SQLite/Exercise/modules/Exercise';
-import Day from '@/SQLite/Day/modules/Day';
+import Days from '@/SQL/Day/modules/Day';
+import Exercise from '@/SQL/Exercise/modules/Exercise';
+import Day from '@/SQL/Day/modules/Day';
 import { Asset } from 'expo-asset';
 
-import DayService from '@/SQLite/Day/service/DayService';
-import exerciseService from '@/SQLite/Exercise/service/ExerciseService';
-import databaseService from '@/SQLite/Database/service/DatabaseService';
+import DayService from '@/SQL/Day/service/DayService';
+import exerciseService from '@/SQL/Exercise/service/ExerciseService';
+import databaseService from '@/SQL/Database/service/DatabaseService';
 import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
-import List_Equipment_Service from '@/SQLite/REFERENCES/List_Equipment/service/List_Equipment_Service';
-import Database from '@/SQLite/Database/model/Database';
-import DatabaseService from '@/SQLite/Database/service/DatabaseService';
+import List_Equipment_Service from '@/SQL/REFERENCES/List_Equipment/service/List_Equipment_Service';
+import Database from '@/SQL/Database/model/Database';
+import DatabaseService from '@/SQL/Database/service/DatabaseService';
 
 import dataEquipment from '@/data/equipment/dataEquipment';
-import EquipmentService from '@/SQLite/Equipment/service/EquipmentService';
+import EquipmentService from '@/SQL/Equipment/service/EquipmentService';
 
 import { useHookRouter } from '@/router/useHookRouter'; 
 import { consoleTable } from 'react-native-console-table';
@@ -69,18 +69,27 @@ const Sql: FC = () => {
         await List_Equipment_Service.showTableInConsole(db);
     }
 
+    const dataMock: {name: string, age: number, country: string, job: string}[] = [
+        { name: 'Alice', age: 25, country: 'USA', job: 'Developer' },
+        { name: 'Bob', age: 30, country: 'UK', job: 'Driver' },
+        { name: 'Charlie', age: 28, country: 'Canada', job: 'Engineer' },
+        { name: 'Charlie', age: 28, country: 'Canada', job: 'Manager' },
+        { name: 'Bob', age: 30, country: 'UK', job: 'Developer' }
+    ];
+
     const data_Equipment = async () => {
         await EquipmentService.initializeDatabase(db, dataEquipment);
     }
 
     const test = async () => {
-        const days = await DayService.find(db);
-        consoleTable(days, 
+        //const days = await DayService.find(db);
+        consoleTable(dataMock, 
             {
-                title: 'Table Day', 
+                title: 'Table User', 
                 sing: 'rocket', 
                 selectionTitle: 'background_green', 
-                selectionHeader: 'background_magenta'
+                selectionHeader: 'background_magenta', 
+                isShowLine: true
             }
         );
     }

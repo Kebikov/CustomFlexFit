@@ -1,11 +1,11 @@
-import ImageService from '@/SQLite/Database/service/ImageService';
+import ImageService from '@/SQL/Database/service/ImageService';
 import { useTranslation } from 'react-i18next';
-import DayService from '@/SQLite/Day/service/DayService';
+import DayService from '@/SQL/Day/service/DayService';
 import { useHookRouter } from '@/router/useHookRouter';
 import showMessage from '@/helpers/showMessage';
 
 import type { SQLiteDatabase } from 'expo-sqlite';
-import type { DayDTO } from '@/SQLite/Day/DTO/DayDTO';
+import type { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import type { TdayState } from '@/app/day/addDay';
 
 

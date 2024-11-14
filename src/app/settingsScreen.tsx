@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 // import loadDb from '@/SQLite/Backup/loadDb';
-import backupDB from '@/SQLite/Database/Backup/backupDB';
+import backupDB from '@/SQL/Database/Backup/backupDB';
 import { useAppDispatch } from '@/redux/store/hooks';
 //* component
 import TopMenu from '@/components/TopMenu/TopMenu';

@@ -1,6 +1,6 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
-import { DayDTO, DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
+import { DayDTO, DayDTOomitId } from '@/SQL/Day/DTO/DayDTO';
 
 
 

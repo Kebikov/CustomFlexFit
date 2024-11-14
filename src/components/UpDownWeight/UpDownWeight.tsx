@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO'; 
+import type { ExerciseDTO } from '@/SQL/Exercise/DTO/ExerciseDTO'; 
 //* redux
 import { useAppDispatch } from '@/redux/store/hooks';
 //import { setSliceChangeExerciseInArray } from '@/redux/slice/sets.slice';

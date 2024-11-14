@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { DayDTO } from '@/SQLite/Day/DTO/DayDTO';
+import type { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import { RootState } from '../store/store';
-import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO';
+import type { ExerciseDTO } from '@/SQL/Exercise/DTO/ExerciseDTO';
 import type { ITimeClock } from '@/components/Clock/Clock';
 import i18next from 'i18next';
 

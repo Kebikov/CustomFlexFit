@@ -3,7 +3,7 @@ import showMessage from '@/helpers/showMessage';
 import Equipment from '../model/Equipment';
 import { EquipmentDTO } from '../DTO/EquipmentDTO';
 import CONFIGURATION from '@/constants/сonfiguration';
-import DatabaseService from '@/SQLite/Database/service/DatabaseService';
+import DatabaseService from '@/SQL/Database/service/DatabaseService';
 
 
 class EquipmentServise {

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Platform, Image } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO';
+import type { ExerciseDTO } from '@/SQL/Exercise/DTO/ExerciseDTO';
 import type { IExerciseState } from '@/redux/slice/sets.slice';
 import ICON from '@/source/icon';
 import { useTranslation } from 'react-i18next';

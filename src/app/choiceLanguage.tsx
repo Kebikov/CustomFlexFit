@@ -21,7 +21,7 @@ import { consoleTable } from 'react-native-console-table';
  * @page `Страница с выбором языка.`
  */
 const ChoiceLanguage: FC = () => {
-    logPage.page('ChoiceLanguage');
+    //logPage.page('ChoiceLanguage');
     
     const {appRouter} = useHookRouter();
     const {i18n} = useTranslation();

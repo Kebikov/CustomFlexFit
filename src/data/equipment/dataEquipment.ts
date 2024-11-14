@@ -1,4 +1,4 @@
-import { EquipmentDTO } from "@/SQLite/Equipment/DTO/EquipmentDTO";
+import { EquipmentDTO } from "@/SQL/Equipment/DTO/EquipmentDTO";
 
 
 const barbellStandart: string =  String(require('@/source/img/weight/barbell.jpg'));

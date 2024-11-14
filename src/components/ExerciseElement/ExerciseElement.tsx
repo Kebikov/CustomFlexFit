@@ -5,7 +5,7 @@ import DateExercise from '@/components/DateExercise/DateExercise';
 import WeightExercise from '@/components/WeightExercise/WeightExercise';
 import UpDownWeight from '@/components/UpDownWeight/UpDownWeight';
 import Sets from '@/components/Sets/Sets';
-import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO';
+import type { ExerciseDTO } from '@/SQL/Exercise/DTO/ExerciseDTO';
 
 interface IExerciseElement {
     exercise: ExerciseDTO;

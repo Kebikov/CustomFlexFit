@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import React, { FC, useState } from 'react';
 import ICON from '@/source/icon';
 import { COLOR_ROOT } from '@/constants/colors';
-import { EquipmentDTO } from '@/SQLite/Equipment/DTO/EquipmentDTO';
+import { EquipmentDTO } from '@/SQL/Equipment/DTO/EquipmentDTO';
 
 
 interface IButtonsTypeEquipment {

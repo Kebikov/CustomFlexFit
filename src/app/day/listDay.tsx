@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
 import { SQLiteDatabase } from 'expo-sqlite';
-import type { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
+import type { DayDTOomitId } from '@/SQL/Day/DTO/DayDTO';
 import { useHookRouter } from '@/router/useHookRouter';
-import dayService from '@/SQLite/Day/service/DayService';
+import dayService from '@/SQL/Day/service/DayService';
 import Gradient from '@/components/Gradient/Gradient';
 import DayElement from '@/components/DayElement/DayElement';
 import WrapperScroll from '../../components/WrapperScroll/WrapperScroll';
@@ -11,7 +11,7 @@ import { COLOR_ROOT } from '@/constants/colors';
 import { useSQLiteContext } from 'expo-sqlite';
 import Menu from '@/components/Menu/Menu';
 import { logPage, logInfo } from '@/helpers/log/log';
-import type { DayDTO } from '@/SQLite/Day/DTO/DayDTO';
+import type { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 
 
 /**

@@ -5,7 +5,7 @@ import HeaderGoBack from '@/components/HeaderGoBack/HeaderGoBack';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
 import InputForAdd from '@/components/InputForAdd/InputForAdd';
-import { EquipmentDTO } from '@/SQLite/Equipment/DTO/EquipmentDTO';
+import { EquipmentDTO } from '@/SQL/Equipment/DTO/EquipmentDTO';
 import PickImage from '@/components/PickImage/PickImage';
 import { SET_IMG_FOR_EQUIPMENT } from '@/redux/slice/setup.slice';
 import ItemEquipment from '@/components/ItemEquipment/ItemEquipment';

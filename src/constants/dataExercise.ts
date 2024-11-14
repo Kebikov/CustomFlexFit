@@ -1,4 +1,4 @@
-import { ExerciseDTO } from "@/SQLite/Exercise/DTO/ExerciseDTO";
+import { ExerciseDTO } from "@/SQL/Exercise/DTO/ExerciseDTO";
 
 
 export const DATA_START_EXERCISE: Array<Omit<ExerciseDTO, 'id'>> = [

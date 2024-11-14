@@ -1,5 +1,5 @@
-import DatabaseService from "@/SQLite/Database/service/DatabaseService";
-import Database from "@/SQLite/Database/model/Database";
+import DatabaseService from "@/SQL/Database/service/DatabaseService";
+import Database from "@/SQL/Database/model/Database";
 
 /**
  * `Проверка value:`

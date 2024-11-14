@@ -4,7 +4,7 @@ import { COLOR_ROOT } from '@/constants/colors';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { useHookRouter } from '@/router/useHookRouter';
-import type { DayDTOomitId, DayDTO } from '@/SQLite/Day/DTO/DayDTO';
+import type { DayDTOomitId, DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
 import { styleFontConvertForTitle } from '@/styles/font';
 import useConvertFont from '@/hook/useConvertFont';

@@ -4,7 +4,7 @@ import { COLOR_ROOT } from '@/constants/colors';
 import Switcher from '../Switcher/Switcher';
 import { interpolate, Extrapolation } from 'react-native-reanimated';
 import imgCheck from '@/helpers/imgCheck';
-import { EquipmentDTO } from '@/SQLite/Equipment/DTO/EquipmentDTO';
+import { EquipmentDTO } from '@/SQL/Equipment/DTO/EquipmentDTO';
 import useAppTranslation from '@/localization/helpers/useAppTranslation';
 import ButtonSwipeable from '../ButtonSwipeable/ButtonSwipeable';
 import ICON from '@/source/icon';

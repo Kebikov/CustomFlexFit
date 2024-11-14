@@ -1,4 +1,4 @@
-import { DayDTO } from "@/SQLite/Day/DTO/DayDTO";
+import { DayDTO } from "@/SQL/Day/DTO/DayDTO";
 
 
 /**

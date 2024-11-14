@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import React, { FC } from 'react';
-import type { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO';
+import type { ExerciseDTO } from '@/SQL/Exercise/DTO/ExerciseDTO';
 //* component
 import Set from '@/components/Set/Set';
 

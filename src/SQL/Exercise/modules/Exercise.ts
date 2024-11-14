@@ -1,6 +1,6 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
-import { ExerciseDTO } from '@/SQLite/Exercise/DTO/ExerciseDTO';
+import { ExerciseDTO } from '@/SQL/Exercise/DTO/ExerciseDTO';
 
 
 class Exercise {

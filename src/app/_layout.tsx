@@ -10,13 +10,13 @@ import { COLOR_ROOT } from '@/constants/colors';
 import { PortalProvider, PortalHost } from '@gorhom/portal';
 import '@/localization/i18n';
 //* SQLite
-import DayService from '@/SQLite/Day/service/DayService';
-import ExerciseService from '@/SQLite/Exercise/service/ExerciseService';
-import DatabaseService from '@/SQLite/Database/service/DatabaseService';
-import EquipmentService from '@/SQLite/Equipment/service/EquipmentService';
-import ListService from '@/SQLite/List/service/ListService';
-import List_Equipment_Service from '@/SQLite/REFERENCES/List_Equipment/service/List_Equipment_Service';
-import RepsRestService from '@/SQLite/RepsRest/service/RepsRestService';
+import DayService from '@/SQL/Day/service/DayService';
+import ExerciseService from '@/SQL/Exercise/service/ExerciseService';
+import DatabaseService from '@/SQL/Database/service/DatabaseService';
+import EquipmentService from '@/SQL/Equipment/service/EquipmentService';
+import ListService from '@/SQL/List/service/ListService';
+import List_Equipment_Service from '@/SQL/REFERENCES/List_Equipment/service/List_Equipment_Service';
+import RepsRestService from '@/SQL/RepsRest/service/RepsRestService';
 
 import dataEquipment from '@/data/equipment/dataEquipment';
 

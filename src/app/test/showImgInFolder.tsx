@@ -2,8 +2,8 @@ import { View, Text, StyleSheet, Button, Image } from 'react-native';
 import React, { FC, useState, useEffect } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
-import DatabaseService from '@/SQLite/Database/service/DatabaseService';
-import ImageService from '@/SQLite/Database/service/ImageService';
+import DatabaseService from '@/SQL/Database/service/DatabaseService';
+import ImageService from '@/SQL/Database/service/ImageService';
 import imgCheck from '@/helpers/imgCheck';
 import { FlatList } from 'react-native-gesture-handler';
 

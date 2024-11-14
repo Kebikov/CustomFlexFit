@@ -1,9 +1,9 @@
 import i18next from 'i18next';
 import { SQLiteDatabase } from 'expo-sqlite';
-import Day from '@/SQLite/Day/modules/Day';
+import Day from '@/SQL/Day/modules/Day';
 import showMessage from '@/helpers/showMessage';
-import { DayDTO } from '@/SQLite/Day/DTO/DayDTO';
-import { DayDTOomitId } from '@/SQLite/Day/DTO/DayDTO';
+import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
+import { DayDTOomitId } from '@/SQL/Day/DTO/DayDTO';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
 //import { consoleTable } from 'react-native-console-table';
 

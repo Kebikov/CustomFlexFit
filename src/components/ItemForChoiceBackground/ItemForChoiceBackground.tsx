@@ -6,7 +6,7 @@ import { Shadow } from 'react-native-shadow-2';
 import { ActionCreatorWithPayload as ACP}  from '@reduxjs/toolkit';
 import type { IExportImage } from '@/source/img/day';
 import { SET_BACKGROUND } from '@/redux/slice/setup.slice';
-import ImageService from '@/SQLite/Database/service/ImageService';
+import ImageService from '@/SQL/Database/service/ImageService';
 
 
 export interface IItemForChoiceBackground {
