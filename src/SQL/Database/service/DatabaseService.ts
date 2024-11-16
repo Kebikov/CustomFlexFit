@@ -56,6 +56,8 @@ class DatabaseService {
 
     /**
      * `//* Возврат или вывод в консоль сушествуюших таблиц в базе данных.`
+     * - `get` Вернет все таблицы.
+     * - `log` Покажет таблицы в консоле.
      */
     async getTable(db: SQLiteDatabase, comand: 'get' | 'log') {
         const result = await Database.findTable(db);
@@ -63,7 +65,7 @@ class DatabaseService {
         if(comand === 'get') {
             return result;
         } else {
-            console.info(`Таблицы в ${CONFIGURATION.DB_Name}: `, result);
+            console.info(`Таблицы в ${CONFIGURATION.DB_Name}: `, JSON.stringify( result, null, 2));
         }
     }
     

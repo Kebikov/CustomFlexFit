@@ -83,7 +83,6 @@ const ModalAddEquipment: FC = () => {
                     <HelpText text='выберите тип инвентаря, это гриф или диск' />
 
                     <PickImage
-                        SET_ACTIONS={SET_IMG_FOR_EQUIPMENT}
                         aspect={[1,1]}
                         modalPath={'/exercise/modalChoiceImgForEquipment'}
                         marginTop={20}

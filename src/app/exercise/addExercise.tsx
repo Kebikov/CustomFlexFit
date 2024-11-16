@@ -53,7 +53,6 @@ const AddExercise: FC = () => {
             </View>
 
             <PickImage
-                SET_ACTIONS={SET_BACKGROUND_FOR_EXERCISE}
                 aspect={[8, 5]}
                 modalPath='/exercise/modalAddImageExercise'
                 marginTop={20}

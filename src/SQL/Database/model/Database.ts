@@ -3,7 +3,6 @@ import * as SQLite from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
 import * as FileSystem from 'expo-file-system';
 import { TTables } from '@/constants/сonfiguration';
-import { checkIfConfigIsValid } from 'react-native-reanimated/lib/typescript/reanimated2/animation/springUtils';
 
 
 export type TExistingFolders = 'myImage';
@@ -197,7 +196,7 @@ class Database {
 
             const files = await FileSystem.readDirectoryAsync(pathForShow);
 
-            // console.info(`Файлы в папке "${folderName}:"`, files);
+            console.info(`Файлы в папке "${folderName}:"`, files);
             return files;
         } catch (error) {
             console.error('Error in Database.getFilesFromFolder() >>>', error);

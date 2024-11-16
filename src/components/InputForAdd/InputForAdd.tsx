@@ -102,7 +102,7 @@ const styleTextInput = StyleSheet.create({
         width: '100%',
         marginTop: 3,
         borderRadius: 12,
-        paddingVertical: Platform.OS === 'ios' ? 7 : 3,
+        paddingVertical: Platform.OS === 'ios' ? 7 : 6,
         paddingHorizontal: 10,
         fontSize: Platform.OS === 'ios' ? 17 : 14,
         color: 'white'

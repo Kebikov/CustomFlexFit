@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from '@/redux/store/store';
 import { Stack, SplashScreen } from 'expo-router';
 import CONFIGURATION from '@/constants/сonfiguration';
+import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { COLOR_ROOT } from '@/constants/colors';
 import { PortalProvider, PortalHost } from '@gorhom/portal';
@@ -76,15 +77,18 @@ const IndexLayout = () => {
 
     return(
         <MainLayout>
-            <Stack screenOptions={{headerShown: false}} >
-                <Stack.Screen name='index' options={{animation: 'ios'}} />
-                <Stack.Screen name='settingsScreen' options={{animation: 'ios'}} />
-                <Stack.Screen name='choiceLanguage' options={{animation: 'ios'}} />
+            <StatusBar translucent backgroundColor='transparent'/>
+            <Stack 
+                screenOptions={{headerShown: false}} 
+            >
+                <Stack.Screen name='index' options={{animation: 'ios_from_left'}} />
+                <Stack.Screen name='settingsScreen' options={{animation: 'ios_from_left'}} />
+                <Stack.Screen name='choiceLanguage' options={{animation: 'ios_from_left'}} />
 
                 <Stack.Screen name="modal" options={{presentation: 'modal'}} />
                 {/* folders */}
-                <Stack.Screen name='exercise' options={{animation: 'ios'}} />
-                <Stack.Screen name='day' options={{animation: 'ios'}} />
+                <Stack.Screen name='exercise' options={{animation: 'ios_from_left'}} />
+                <Stack.Screen name='day' options={{animation: 'ios_from_left'}} />
             </Stack>
         </MainLayout>
     )

@@ -7,7 +7,7 @@ import { COLOR_ROOT } from '@/constants/colors';
 
 
 interface ILinearGradient {
-    colors: string[];
+    colors: [string, string, ...string[]];
     start: {
         x: number;
         y: number;

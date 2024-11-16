@@ -14,7 +14,7 @@ import Test from '@/components/Test/Test';
 import SelectEquipment from './exercise/selectEquipment';
 import AddRepsRest from './exercise/addRepsRest';
 import { logPage } from '@/helpers/log/log';
-import { consoleTable } from 'react-native-console-table';
+
 
 
 /**

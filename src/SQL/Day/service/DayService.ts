@@ -5,7 +5,7 @@ import showMessage from '@/helpers/showMessage';
 import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import { DayDTOomitId } from '@/SQL/Day/DTO/DayDTO';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
-//import { consoleTable } from 'react-native-console-table';
+
 
 
 interface ICheck {

@@ -1,18 +1,19 @@
 {
     "expo": {
-            "name": "CustomFlexFit",
-            "slug": "CustomFlexFit",
-            "version": "1.0.0",
-            "orientation": "portrait",
-            "icon": "./assets/icon.png",
-            "scheme": "myapp",
-            "userInterfaceStyle": "automatic",
-            "splash": {
+        "name": "CustomFlexFit",
+        "slug": "CustomFlexFit",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "scheme": "myapp",
+        "userInterfaceStyle": "automatic",
+        "newArchEnabled": true,
+        "splash": {
             "image": "./assets/splash.png",
             "resizeMode": "contain",
             "backgroundColor": "#000000"
         },
-            "ios": {
+        "ios": {
             "supportsTablet": true
         },
         "android": {
@@ -41,7 +42,9 @@
                     "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
                     "isAccessMediaLocationEnabled": true
                 }
-            ]
+            ],
+            "expo-asset",
+            "expo-font"
         ],
         "experiments": {
             "typedRoutes": true

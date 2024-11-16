@@ -4,9 +4,9 @@ const DayLayout = () => {
 
     return(
         <Stack screenOptions={{headerShown: false}} >
-            <Stack.Screen name='addDay' options={{animation: 'ios'}}/>
-            <Stack.Screen name='guide' options={{animation: 'ios'}}/>
-            <Stack.Screen name='listDay' options={{animation: 'ios'}}/>
+            <Stack.Screen name='addDay' options={{animation: 'ios_from_left'}}/>
+            <Stack.Screen name='guide' options={{animation: 'ios_from_left'}}/>
+            <Stack.Screen name='listDay' options={{animation: 'ios_from_left'}}/>
 
             <Stack.Screen name="modalAddDay" options={{presentation: 'modal'}} />
         </Stack>

@@ -30,21 +30,8 @@ class ImageService {
 
     //* Получение всех изображений в папке. 
     async find(): Promise<string[] | undefined> {
-        const pathTo = await Database.getPathToFolder('myImage');
         const arrNamesImg = await Database.getFilesFromFolder('myImage');
-
-        let arrFullPathToImage: string[] = [];
-
-        if(arrNamesImg && Array.isArray(arrNamesImg)) {
-            arrNamesImg.forEach(item => {
-                arrFullPathToImage.push(pathTo + item);
-            });
-
-            return arrFullPathToImage;
-        } else {
-            return undefined;
-        }
-
+        return arrNamesImg && Array.isArray(arrNamesImg) ? arrNamesImg : undefined;
     }
 
     /**

@@ -31,7 +31,21 @@ const Title: FC<ITitle> = ({
     const {convertFont} = useConvertFont();
 
     return (
-        <Text style={[styles.title, styleFontConvertForTitle.sport, {fontSize: convertFont(fontSize), marginBottom, marginTop}]} numberOfLines={oneLineText ? 1 : 0} adjustsFontSizeToFit={oneLineText} >{text}</Text>
+        <Text 
+            style={[
+                styles.title, 
+                styleFontConvertForTitle.sport, 
+                {
+                    fontSize: convertFont(fontSize), 
+                    marginBottom, 
+                    marginTop
+                }
+                ]} 
+            numberOfLines={oneLineText ? 1 : 0} 
+            adjustsFontSizeToFit={oneLineText} 
+        >
+            {text}
+        </Text>
     );
 };
 

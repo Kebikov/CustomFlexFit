@@ -1,4 +1,4 @@
-import { View, StyleSheet, Button, Platform } from 'react-native';
+import { View, StyleSheet, Button, Platform, Alert } from 'react-native';
 import React, { FC } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
@@ -21,6 +21,8 @@ import EquipmentService from '@/SQL/Equipment/service/EquipmentService';
 
 import { useHookRouter } from '@/router/useHookRouter'; 
 import { consoleTable } from 'react-native-console-table';
+import Title from '../Title/Title';
+import ImageService from '@/SQL/Database/service/ImageService';
 
 
 const colorBlue = '#007aeb';
@@ -43,73 +45,126 @@ const Sql: FC = () => {
     const pressDBT = async () => {
         await databaseService.getTable(db, 'log');
     }
-
-    const pressShowDays = async () => {
-        await DayService.showTableInConsole(db);
+    /**
+     * `Показать данные таблицы Day в консоле.`
+     */
+    const showDays = async () => {
+        const result = await DayService.find(db);
+        consoleTable(result, {title: 'Day', selectionTitle: 'background_green', selectionHeader: 'background_magenta'})
     }
 
     const pressShowTableExercise = async () => {
         await exerciseService.showTableInConsole(db);
     }
 
-    const del = async () => {
-        await databaseService.removeDataBase(db);
+    /**
+     * `Удаление базы данных.`
+     */
+    const removeDB = async () => {
+        Alert.alert(
+            'Удалить базу данных ?',
+            'После нажатия база данных будет удалена !',
+            [
+                {
+                    text: 'удалить',
+                    onPress: async () => await databaseService.removeDataBase(db),
+                    style: 'destructive'
+                },
+                {
+                    text: 'отмена',
+                    onPress: () => console.log('вы отменили удаление'),
+                    style: 'cancel'
+                }
+            ]
+        )
     }
-
-
-    const pressGet = async () => {
+    /**
+     * `Перейти на страницу с сохраненными изображениями.`
+     */
+    const goToPageImages = async () => {
         appRouter.navigate('/test/showImgInFolder');
     }
-
-    const pressDel = async () => {
-        await DatabaseService.removeFolder('myImage');
+    /**
+     * `Удаление папки с изображениями`
+     */
+    const removeFolderImages = async () => {
+        Alert.alert(
+            'Удалить папку с изображениями ?',
+            'После нажатия папка будет удалена !',
+            [
+                {
+                    text: 'удалить',
+                    onPress: async () => await DatabaseService.removeFolder('myImage'),
+                    style: 'destructive'
+                },
+                {
+                    text: 'отмена',
+                    onPress: () => console.log('вы отменили удаление'),
+                    style: 'cancel'
+                }
+            ]
+        )
+    }
+    /**
+     *  `Показ сохраненных изображений в консоле.`
+     */
+    const showImgInConsole = async () => {
+        const result = await ImageService.find();
+        console.log(JSON.stringify( result, null, 2));
     }
 
     const pressList_Equipment = async () => {
         await List_Equipment_Service.showTableInConsole(db);
     }
 
-    const dataMock: {name: string, age: number, country: string, job: string}[] = [
-        { name: 'Alice', age: 25, country: 'USA', job: 'Developer' },
-        { name: 'Bob', age: 30, country: 'UK', job: 'Driver' },
-        { name: 'Charlie', age: 28, country: 'Canada', job: 'Engineer' },
-        { name: 'Charlie', age: 28, country: 'Canada', job: 'Manager' },
-        { name: 'Bob', age: 30, country: 'UK', job: 'Developer' }
-    ];
-
     const data_Equipment = async () => {
         await EquipmentService.initializeDatabase(db, dataEquipment);
     }
 
     const test = async () => {
-        //const days = await DayService.find(db);
-        consoleTable(dataMock, 
+        const days = await DayService.find(db);
+        console.table(days);
+        consoleTable(days, 
             {
                 title: 'Table User', 
-                sing: 'rocket', 
+                sing: 'box', 
                 selectionTitle: 'background_green', 
                 selectionHeader: 'background_magenta', 
-                isShowLine: true
+               // isShowLine: true
             }
         );
     }
 
     return (
         <View style={styles.container}>
-            <ButtonPress title='check DB' onPress={pressDB} />
-            <ButtonPress title='All tables DB' onPress={pressDBT} />
-            <ButtonPress title='Tables Days' onPress={pressShowDays} />
-            <ButtonPress title='Tables Exercise' onPress={pressShowTableExercise} />
+            {/*//* База данных  */}
+            <Title text='База данных' fontSize={18} />
+            <ButtonPress title='проверка сушествования BD' onPress={pressDB} />
+            <ButtonPress title='все таблицы DB' onPress={pressDBT} />
+            <ButtonPress title='удаление BD' onPress={removeDB} type='dangerous' />
+            {/*
+            //* Images  */}
+            <Title text='images' fontSize={18} marginTop={10} />
+            <ButtonPress title='сохраненные img в консоль' onPress={showImgInConsole} />
+            <ButtonPress title='паказать img на экране' onPress={goToPageImages} />
+            <ButtonPress title='remove folder img' onPress={removeFolderImages} type='dangerous' />
+            {/*
+            //* Day  */}
+            <Title text='Day' fontSize={18} marginTop={10} />
+            <ButtonPress title='данные Day' onPress={showDays} />
+            {/*
+            //* Test */}
+            <Title text='Test' fontSize={18} marginTop={10} />
+            <ButtonPress title='test' onPress={test} backgroundColor='green' />
+            {/*
+            //* Others  */}
+            <Title text='Others' fontSize={18} marginTop={10} />
+            <ButtonPress title='данные Exercise' onPress={pressShowTableExercise} />
             <ButtonPress title='Tables List_Equipment' onPress={pressList_Equipment} />
-            <ButtonPress title='all delete' onPress={del} type='dangerous' />
-
             <ButtonPress title='Add Data Equipment' onPress={data_Equipment} />
-
-            <ButtonPress title='SHOW FOLDER IMG' onPress={pressGet} marginTop={20} />
-            <ButtonPress title='remove folder img' onPress={pressDel} type='dangerous' marginTop={20} />
             <ButtonPress title='SHOW FOLDER CASHE' onPress={test} marginTop={20} />
 
-            <ButtonPress title='test' onPress={test} backgroundColor='green' marginTop={20} />
+            
         </View>
     );
 };
