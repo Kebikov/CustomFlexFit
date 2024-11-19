@@ -8,10 +8,11 @@
         "scheme": "myapp",
         "userInterfaceStyle": "automatic",
         "newArchEnabled": true,
+        "backgroundColor": "#131313",
         "splash": {
             "image": "./assets/splash.png",
             "resizeMode": "contain",
-            "backgroundColor": "#000000"
+            "backgroundColor": "#131313"
         },
         "ios": {
             "supportsTablet": true
@@ -19,8 +20,9 @@
         "android": {
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#000000"
-            }
+                "backgroundColor": "#131313"
+            },
+            "backgroundColor": "#131313"
         },
         "web": {
             "bundler": "metro",

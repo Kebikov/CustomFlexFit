@@ -123,14 +123,13 @@ const Sql: FC = () => {
 
     const test = async () => {
         const days = await DayService.find(db);
-        console.table(days);
         consoleTable(days, 
             {
                 title: 'Table User', 
-                sing: 'box', 
+                sing: 'anchor', 
                 selectionTitle: 'background_green', 
                 selectionHeader: 'background_magenta', 
-               // isShowLine: true
+                filter: ['lastExercise']
             }
         );
     }

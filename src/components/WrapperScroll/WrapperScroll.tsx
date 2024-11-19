@@ -1,6 +1,6 @@
 import { StatusBar, View, Platform, StatusBarStyle, KeyboardAvoidingView } from 'react-native';
 import React, { FC } from 'react';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLOR_ROOT } from '@/constants/colors';
 import { ScrollView } from 'react-native-gesture-handler';
 import HeaderGoBack from '../HeaderGoBack/HeaderGoBack';
@@ -37,6 +37,8 @@ const WrapperScroll: FC<IWrapper> = ({
     ListHeaderComponent
 }) => {
 
+    const insets = useSafeAreaInsets();
+
     const headerGoBack = (
         <>
             {
@@ -56,19 +58,15 @@ const WrapperScroll: FC<IWrapper> = ({
 
     return (
         <>
-            <View style={{backgroundColor, height: Platform.OS === 'ios' ? 47 : StatusBar.currentHeight}} >
+            <View style={{backgroundColor, height: insets.top}} >
                 <StatusBar animated={true} barStyle={barStyle} backgroundColor={backgroundColor} />
             </View>
             <SafeAreaProvider>
                 <KeyboardAvoidingView
                     style={{ flex: 1 }}
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                     keyboardVerticalOffset={
-                        Platform.OS === 'ios' ? 47 
-                        : 
-                        StatusBar.currentHeight !== undefined ? StatusBar.currentHeight 
-                        : 
-                        undefined
+                        insets.top
                     }
                 >
                     <SafeAreaView style={{ flex: 1, backgroundColor }}>
