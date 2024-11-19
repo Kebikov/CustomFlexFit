@@ -10,8 +10,8 @@ import { styleFontConvertForTitle } from '@/styles/font';
 import useConvertFont from '@/hook/useConvertFont';
 import { Shadow } from 'react-native-shadow-2';
 import IMAGE from '@/source/img';
-import imgCheck from '@/helpers/imgCheck';
 import { styleDayElement } from '../DayElement/DayElement';
+import useHookImageCheck from '@/hook/useHookImageCheck';
 
 
 
@@ -19,7 +19,7 @@ interface IDayElementZero {
     title?: string;
     description?: string;
     backgroundZero?: boolean;
-    img?: number | string | object | undefined;
+    img?: number | string;
     isShowShadow?: boolean;
     width?: number;
 }
@@ -46,22 +46,14 @@ const DayElementZero: FC<IDayElementZero> = ({
     console.debug('day >>> ', typeof img);
     const {textCurrentDay} = getCurrentDateInFormatArray();
     const {convertFont} = useConvertFont();
+    const {imgCheck} = useHookImageCheck();
 
-    const [image, setImage] = useState<number | {uri: string} | undefined>();
-
-    useEffect(() => {
-        (async () => {
-            const currentImg = await imgCheck(
-                img ? img 
-                : 
-                backgroundZero ? IMAGE.ZERO_FON 
-                : 
-                undefined
-            );
-
-            setImage(currentImg);
-        })();
-    }, [img]);
+    const imageBackground = 
+        img ? imgCheck(img)
+        :
+        backgroundZero ? IMAGE.ZERO_FON
+        :
+        undefined;
 
 	return (
         <View style={[styleDayElement.container, {width: `${width}%`}]} >
@@ -77,7 +69,7 @@ const DayElementZero: FC<IDayElementZero> = ({
                         style={styleDayElement.main}
                     >
                         <ImageBackground 
-                            source={image} 
+                            source={imageBackground} 
                             style={[styleDayElement.imageBackground]}
                         >
                             <View style={styleDayElement.overlay} />

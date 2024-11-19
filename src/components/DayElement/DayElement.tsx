@@ -10,11 +10,11 @@ import { styleFontConvertForTitle } from '@/styles/font';
 import useConvertFont from '@/hook/useConvertFont';
 import { Shadow } from 'react-native-shadow-2';
 import IMAGE from '@/source/img';
-import imgCheck from '@/helpers/imgCheck';
+import useHookImageCheck from '@/hook/useHookImageCheck';
 
 
 interface IDay {
-	day?: DayDTOomitId | DayDTO;
+	day?: DayDTO;
     backgroundZero?: boolean;
     width?: number;
 }
@@ -34,22 +34,15 @@ const DayElement: FC<IDay> = ({
 }) => {
     const {textCurrentDay} = getCurrentDateInFormatArray();
     const {convertFont} = useConvertFont();
+    const {imgCheck} = useHookImageCheck();
 
-    const [image, setImage] = useState<number | {uri: string} | undefined>();
 
-    useEffect(() => {
-        (async () => {
-            const currentImg = await imgCheck(
-                day ? day.img 
-                : 
-                backgroundZero ? IMAGE.ZERO_FON 
-                : 
-                undefined
-            );
-
-            setImage(currentImg);
-        })();
-    }, [day]);
+    const image = 
+        day && day.img ? imgCheck(day.img)
+        :
+        backgroundZero ? IMAGE.ZERO_FON
+        :
+        undefined;
 
 	return (
         <View style={[styleDayElement.container, {width: `${width}%`}]} >

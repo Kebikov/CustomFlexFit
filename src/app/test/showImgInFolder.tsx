@@ -35,12 +35,14 @@ const ShowImgInFolder: FC = () => {
 
     return (
         <WrapperScroll
+            backgroundColor={COLOR_ROOT.BACKGROUND}
             isShowGoBack={{isShow: true, paddingLeft: 20}}
             isScrollEnabled={false}
         >
             <View style={styles.container} >
                 <View style={styles.contaiber_body} >
                     <FlatList
+                    contentContainerStyle={{gap: 10}}
                         data={data}
                         renderItem={({item}) => (
                             <View style={styles.box_img} >
@@ -58,6 +60,8 @@ const ShowImgInFolder: FC = () => {
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: 60,
+        paddingHorizontal: 20,
         backgroundColor: COLOR_ROOT.BACKGROUND,
         flex: 1
     },
@@ -67,14 +71,16 @@ const styles = StyleSheet.create({
     },
     box_img: {
         width: '100%',
-        height: 200,
-        borderWidth: 3,
-        borderColor: '#fff'
+        height: 160,
+        borderWidth: 1,
+        borderColor: COLOR_ROOT.LIME_70,
+        borderRadius: 10,
+        overflow: 'hidden'
     },
     img: {
         width: '100%',
         height: '100%',
-        objectFit: 'contain'
+        objectFit: 'cover'
     }
 });
 

@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import Switcher from '../Switcher/Switcher';
 import { interpolate, Extrapolation } from 'react-native-reanimated';
-import imgCheck from '@/helpers/imgCheck';
+import useHookImageCheck from '@/hook/useHookImageCheck';
 import { EquipmentDTO } from '@/SQL/Equipment/DTO/EquipmentDTO';
 import useAppTranslation from '@/localization/helpers/useAppTranslation';
 import ButtonSwipeable from '../ButtonSwipeable/ButtonSwipeable';
@@ -32,7 +32,7 @@ const ItemEquipment: FC<IItemEquipment> = ({
     isActive,
     marginTop = 10
 }) => {
-
+    const {imgCheck} = useHookImageCheck();
     const {t, t$} = useAppTranslation(['[exercise]']);
 
     return (
