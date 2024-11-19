@@ -3,9 +3,12 @@ import React, { FC, useState, useEffect } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import DatabaseService from '@/SQL/Database/service/DatabaseService';
+import DayService from '@/SQL/Day/service/DayService';
 import ImageService from '@/SQL/Database/service/ImageService';
-import imgCheck from '@/helpers/imgCheck';
 import { FlatList } from 'react-native-gesture-handler';
+import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
+import { useSQLiteContext } from 'expo-sqlite';
+import useHookImageCheck from '@/hook/useHookImageCheck';
 
 
 interface IshowImgInFolder {
@@ -17,21 +20,18 @@ interface IshowImgInFolder {
  */
 const ShowImgInFolder: FC = () => {
 
-    const [data, setData] = useState<string[]>([]);
+    const db = useSQLiteContext();
+    const {imgCheck} = useHookImageCheck();
 
+    const [data, setData] = useState<DayDTO[]>([]);
 
-    const go = async () => {
-        const files = await ImageService.find();
+    useEffect(() => {
+        (async () => {
+            const data = await DayService.find(db);
+            setData(data);
+        })();
+    }, []);
 
-        if(!files) return;
-        setData(files);
-    }
-
-    const FileImage = (item: string) => (
-        <View style={styles.box_img} >
-            <Image source={imgCheck(item)} style={styles.img} />
-        </View>
-    );
 
     return (
         <WrapperScroll
@@ -42,19 +42,13 @@ const ShowImgInFolder: FC = () => {
                 <View style={styles.contaiber_body} >
                     <FlatList
                         data={data}
-                        renderItem={({item}) => FileImage(item)}
+                        renderItem={({item}) => (
+                            <View style={styles.box_img} >
+                                <Image source={imgCheck(item.img)} style={styles.img} />
+                            </View>
+                        )}
                         keyExtractor={(_, i) => String(i)}
                     />
-                    {/* {
-                        data.map((item, i) => (
-                            <View style={styles.box_img} key={i} >
-                                <Image source={imgCheck(item)} style={styles.img} />
-                            </View>
-                        ))
-                    } */}
-                </View>
-                <View style={{width: '100%', marginBottom: 20}} >
-                    <Button title='GO' onPress={() => go()} />
                 </View>
             </View>
         </WrapperScroll>

@@ -10,16 +10,19 @@ export interface IImageObj {
     extension?: string;
 }
 
+/**
+ * @param pathToImageFolder Путь к папке с изображениями в памяти телефона.
+ * @param selectedBackground Выбранное изображение для дальнейшего использования.
+ */
 interface IinitialDay {
+    pathToImageFolder?: string;
     selectedBackground?: IImageObj;
     selectedBackgroundExercise?: number | string;
     selectedImgForEquipment?: number | string;
 }
 
-/**
- * @param selectedBackgroundDay Выбраное изображение для фона дня.
- */
-//* initialState 
+
+//= initialState 
 const initialState: IinitialDay = {
     selectedBackground: undefined,
     selectedBackgroundExercise: undefined,
@@ -27,12 +30,14 @@ const initialState: IinitialDay = {
 }
 
 
-//* setsSlice 
+//= setsSlice 
 const setupSlice = createSlice({
     name: 'SETUP',
     initialState,
     reducers: {
-
+        SET_PATH_TO_IMAGE_FOLDER: (state, action: PayloadAction<string>) => {
+            state.pathToImageFolder = action.payload;
+        }, 
         SET_BACKGROUND: (state, action: PayloadAction<IImageObj | undefined>) => {
             state.selectedBackground = action.payload;
         },
@@ -52,5 +57,6 @@ export default setupSlice.reducer;
 export const {
     SET_BACKGROUND,
     SET_BACKGROUND_FOR_EXERCISE,
-    SET_IMG_FOR_EQUIPMENT
+    SET_IMG_FOR_EQUIPMENT,
+    SET_PATH_TO_IMAGE_FOLDER
 } = setupSlice.actions;
