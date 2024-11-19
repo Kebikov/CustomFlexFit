@@ -122,16 +122,18 @@ const Sql: FC = () => {
     }
 
     const test = async () => {
-        const days = await DayService.find(db);
-        consoleTable(days, 
-            {
-                title: 'Table User', 
-                sing: 'anchor', 
-                selectionTitle: 'background_green', 
-                selectionHeader: 'background_magenta', 
-                filter: ['lastExercise']
-            }
-        );
+        // const days = await DayService.find(db);
+        // consoleTable(days, 
+        //     {
+        //         title: 'Table User', 
+        //         sing: 'anchor', 
+        //         selectionTitle: 'background_green', 
+        //         selectionHeader: 'background_magenta', 
+        //         filter: ['lastExercise']
+        //     }
+        // );
+
+        appRouter.navigate('/day/listDay');
     }
 
     return (

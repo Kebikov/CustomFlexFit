@@ -13,7 +13,6 @@ import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
 import Test from '@/components/Test/Test';
 import SelectEquipment from './exercise/selectEquipment';
 import AddRepsRest from './exercise/addRepsRest';
-import { logPage } from '@/helpers/log/log';
 
 
 
@@ -21,7 +20,6 @@ import { logPage } from '@/helpers/log/log';
  * @page `Страница с выбором языка.`
  */
 const ChoiceLanguage: FC = () => {
-    //logPage.page('ChoiceLanguage');
     
     const {appRouter} = useHookRouter();
     const {i18n} = useTranslation();

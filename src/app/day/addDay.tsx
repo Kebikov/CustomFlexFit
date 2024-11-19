@@ -12,7 +12,6 @@ import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import InputForAdd from '@/components/InputForAdd/InputForAdd';
 import type { DayDTOomitId } from '@/SQL/Day/DTO/DayDTO';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
-import { logPage, logInfo } from '@/helpers/log/log';
 import useCreateDay from '@/helpers/pages/AddDay/useCreateDay';
 import DayElementZero from '@/components/DayElementZero/DayElementZero';
 
@@ -24,7 +23,6 @@ export type TdayState = Pick<DayDTOomitId, 'title' | 'description' | 'img'>;
  * @page `Добавление тренировачного дня.`
  */
 const AddDay: FC = () => {
-    logPage.page('AddDay');
 
     const db = useSQLiteContext();
     const {t} = useTranslation(['common', 'button', '[day]']);
@@ -39,7 +37,6 @@ const AddDay: FC = () => {
         title: t('[day]:addDay.title'), 
         description: t('[day]:addDay.description')
     });
-    logInfo.info('dayState >>> ', dayState);
 
     const selectedBackgroundDay = useAppSelector(state => state.setupSlice.selectedBackground);
 

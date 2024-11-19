@@ -1,11 +1,9 @@
-import i18next from 'i18next';
 import { SQLiteDatabase } from 'expo-sqlite';
 import Day from '@/SQL/Day/modules/Day';
 import showMessage from '@/helpers/showMessage';
 import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import { DayDTOomitId } from '@/SQL/Day/DTO/DayDTO';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
-
 
 
 interface ICheck {

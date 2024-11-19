@@ -9,6 +9,7 @@ import { ActionCreatorWithPayload as ACP}  from '@reduxjs/toolkit';
 import HeaderGoBack from '../HeaderGoBack/HeaderGoBack';
 import WrapperScroll from '../WrapperScroll/WrapperScroll';
 import type { IExportImage } from '@/source/img/day';
+import logApp from '@/helpers/log';
 
 
 interface IScreenAddBackground {
@@ -28,7 +29,8 @@ const ScreenAddBackground: FC<IScreenAddBackground> = ({
 }) => {
     
     const {t} = useTranslation(['[day]']);
-    const [selectImg, setSelectImg] = useState<string | undefined>(undefined);
+    const [selectImg, setSelectImg] = useState<string | number | undefined>(undefined);
+    logApp.info(`${selectImg}`);
     
     return (
         <WrapperScroll
@@ -49,7 +51,14 @@ const ScreenAddBackground: FC<IScreenAddBackground> = ({
                     contentContainerStyle={{gap: 10, paddingBottom: 20, paddingHorizontal: 20}}
 
                     data={imagesForChoice}
-                    renderItem={({item}) => <ItemForChoiceBackground imgObj={item} selectImg={selectImg} setSelectImg={setSelectImg} height={height} />}
+                    renderItem={({item}) => (
+                        <ItemForChoiceBackground 
+                            imgObj={item} 
+                            selectImg={selectImg} 
+                            setSelectImg={setSelectImg} 
+                            height={height} 
+                        />
+                    )}
                     keyExtractor={item => String(item.source)}
 
                     ListEmptyComponent={<View><Text style={{color: 'white'}}>Нет элементов.</Text></View>}

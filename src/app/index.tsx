@@ -6,14 +6,13 @@ import { COLOR_ROOT } from '@/constants/colors';
 import Database from '@/SQL/Database/model/Database';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_PATH_TO_IMAGE_FOLDER } from '@/redux/slice/setup.slice';
+import logApp from '@/helpers/log';
 
 
 /**
  * @page Стартовая страница приложения. 
  */
-const Index: FC = () => {
-    console.debug('page > Index');
-
+const Index: FC = () => { logApp.page('Index');
     const {appRouter} = useHookRouter();
     const DISPATCH = useAppDispatch();
 

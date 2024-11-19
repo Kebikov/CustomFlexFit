@@ -11,7 +11,6 @@ import { useSQLiteContext } from 'expo-sqlite';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { useHookRouter } from '@/router/useHookRouter';
 import { FlatList } from 'react-native-gesture-handler';
-import {logPage} from '@/helpers/log/log';
 
 
 interface IselectEquipment {
@@ -22,7 +21,6 @@ interface IselectEquipment {
  * @page `Страница выбора оборудования для занятий.`
  */
 const SelectEquipment: FC = () => {
-    logPage.page('SelectEquipment');
 
     const {t, t$} = useAppTranslation(['[exercise]']);
     const db = useSQLiteContext();

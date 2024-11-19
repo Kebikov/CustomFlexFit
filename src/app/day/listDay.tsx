@@ -10,7 +10,6 @@ import WrapperScroll from '../../components/WrapperScroll/WrapperScroll';
 import { COLOR_ROOT } from '@/constants/colors';
 import { useSQLiteContext } from 'expo-sqlite';
 import Menu from '@/components/Menu/Menu';
-import { logPage, logInfo } from '@/helpers/log/log';
 import type { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 
 
@@ -18,7 +17,6 @@ import type { DayDTO } from '@/SQL/Day/DTO/DayDTO';
  * @page `Страница с днями занятий.`
  */
 const ListDay: FC = () => {
-    logPage.page('ListDay');
 
     const {appRouter} = useHookRouter();
     const db = useSQLiteContext();
@@ -27,7 +25,6 @@ const ListDay: FC = () => {
      * @param stateDays Массив с данными дней.
      */
     const [stateDays, setStateDays] = useState<Array<DayDTO> | []>([]);
-    logInfo.info('stateDays >>> ', stateDays);
     
     useEffect(() => {
         (async () => {

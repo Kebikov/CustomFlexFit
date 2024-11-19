@@ -9,6 +9,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import { useSQLiteContext } from 'expo-sqlite';
 import useHookImageCheck from '@/hook/useHookImageCheck';
+import logApp from '@/helpers/log';
 
 
 interface IshowImgInFolder {
@@ -18,7 +19,7 @@ interface IshowImgInFolder {
 /**
  * @test `Экран для отображения добавленых изображений в папку приложения.`
  */
-const ShowImgInFolder: FC = () => {
+const ShowImgInFolder: FC = () => { logApp.page('ShowImgInFolder');
 
     const db = useSQLiteContext();
     const {imgCheck} = useHookImageCheck();

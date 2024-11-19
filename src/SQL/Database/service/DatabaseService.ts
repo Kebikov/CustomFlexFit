@@ -4,6 +4,7 @@ import * as FileSystem from 'expo-file-system';
 import Database, { ISave, TExistingFolders } from "../model/Database";
 import * as SQLite from 'expo-sqlite';
 import { TTables } from "@/constants/сonfiguration";
+import logApp from "@/helpers/log";
 
 
 class DatabaseService {
@@ -23,10 +24,10 @@ class DatabaseService {
          */
         const dirInfo = await FileSystem.getInfoAsync(dbDir + CONFIGURATION.DB_Name);
         if (dirInfo.exists) {
-            console.info(`База данных ${CONFIGURATION.DB_Name} сушествует.`);
+            logApp.info(`База данных ${CONFIGURATION.DB_Name} сушествует.`);
             return true;
         } else {
-            console.info(`База данных ${CONFIGURATION.DB_Name} не сушествует.`);
+            logApp.error(`База данных ${CONFIGURATION.DB_Name} не сушествует.`);
             return false;
         }
     }
@@ -61,7 +62,6 @@ class DatabaseService {
      */
     async getTable(db: SQLiteDatabase, comand: 'get' | 'log') {
         const result = await Database.findTable(db);
-
         if(comand === 'get') {
             return result;
         } else {

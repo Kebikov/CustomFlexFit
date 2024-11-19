@@ -81,15 +81,16 @@ const DayElement: FC<IDay> = ({
 	);
 };
 
+
 export const styleDayElement = StyleSheet.create({
     container: {
         marginTop: 15,
 		height: 132,
-    },
-    shadow_style: {
-        flex: 1,
         borderRadius: 10,
         overflow: 'hidden'
+    },
+    shadow_style: {
+        flex: 1
     },
     shadow_view: {
         flex: 1
