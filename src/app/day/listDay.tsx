@@ -37,7 +37,10 @@ const ListDay: FC = () => {
         <WrapperScroll backgroundColor={COLOR_ROOT.BACKGROUND} >
             <View style={styles.main} > 
                 <Menu/>
-                <Gradient text='Days Of Training' size={32} />
+                <View>
+                <Gradient text='Days Of Training' size={32} color={COLOR_ROOT.LIME} />
+                </View>
+                
                 {
                     stateDays.length > 0
                     ?

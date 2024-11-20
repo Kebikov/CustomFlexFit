@@ -41,10 +41,12 @@ const ItemForChoiceBackground: FC<IItemForChoiceBackground> = ({
                 style={[styles.img_boxImgBackground, selectImg && selectImg === imgObj.source ? stylesSelect : null]} 
                 onPress={async () => {
                     try {
+                        console.log('PRESS !');
                         const fullNameImage = imgObj.source + '.' + imgObj.extension;
                         const path = await ImageService.getPathToImage(fullNameImage); 
                         setSelectImg(imgObj.source);
                         dispatch(SET_BACKGROUND({path: path, extension: imgObj.extension}));
+                        console.log('END !');
                     } catch (error) { console.error(error) }
                 }}
             >

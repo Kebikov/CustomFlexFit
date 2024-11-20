@@ -12,6 +12,8 @@ import HelpText from '@/components/HelpText/HelpText';
 import SetEditSwipeable from '@/components/SetEditSwipeable/SetEditSwipeable';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import { IExerciseState } from '@/redux/slice/sets.slice';
+import useHookImageCheck from '@/hook/useHookImageCheck';
+import IMAGE from '@/source/img';
 
 
 /**
@@ -19,15 +21,16 @@ import { IExerciseState } from '@/redux/slice/sets.slice';
  */
 const AddExercise: FC = () => {
 
+    const {imgCheck} = useHookImageCheck();
     const {appRouter} = useHookRouter();
     const {t} = useTranslation(['[exercise]', 'button']);
     const DISPATCH = useAppDispatch();
 
-    const exerciseStateArray = useAppSelector(state => state.setsSlice.exerciseStateArray);
+    const exerciseStateArray: IExerciseState[] = useAppSelector(state => state.setsSlice.exerciseStateArray);
 
     const [data, setData] = useState<IExerciseState[]>([]);
 
-    const selectedBackgroundExercise = useAppSelector(state => state.setupSlice.selectedBackgroundExercise);
+    const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
 
     useEffect(() => {
         setData(exerciseStateArray);
@@ -41,15 +44,13 @@ const AddExercise: FC = () => {
             <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={20} />
             <View style={styles.boxImageBackground} >
                 <Image source={
-                        selectedBackgroundExercise && typeof selectedBackgroundExercise === 'string' ? {uri: selectedBackgroundExercise}
+                        selectedBackground && selectedBackground.path ? imgCheck(selectedBackground.path)
                         :
-                        typeof selectedBackgroundExercise === 'number' ? selectedBackgroundExercise
-                        :
-                        require('@/source/img/imgForScreen/zeroFon.jpg')
+                        IMAGE.ZERO_FON
                     } 
                     style={styles.imageBackground} 
                 />
-                <View style={[styles.overlay, {backgroundColor: selectedBackgroundExercise ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
+                <View style={[styles.overlay, {backgroundColor: selectedBackground ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
             </View>
 
             <PickImage
@@ -57,6 +58,7 @@ const AddExercise: FC = () => {
                 modalPath='/exercise/modalAddImageExercise'
                 marginTop={20}
             />
+
             <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
         </View>
     );

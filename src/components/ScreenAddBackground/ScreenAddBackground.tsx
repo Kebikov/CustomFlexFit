@@ -30,7 +30,6 @@ const ScreenAddBackground: FC<IScreenAddBackground> = ({
     
     const {t} = useTranslation(['[day]']);
     const [selectImg, setSelectImg] = useState<string | number | undefined>(undefined);
-    logApp.info(`${selectImg}`);
     
     return (
         <WrapperScroll

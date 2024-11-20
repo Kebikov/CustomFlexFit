@@ -2,8 +2,8 @@ const logApp = {
     page(text: string) {
         console.info(`\x1b[${44}m${'page:'}\x1b[0m\x1b[${34}m${' ' + text}\x1b[0m`);
     },
-    info(text: string) {
-        console.info(`\x1b[${43}m${'info:'}\x1b[0m\x1b[${33}m${' ' + text}\x1b[0m`);
+    info(text: string, title?: string) {
+        console.info(`\x1b[${43}m${title ? title : 'info:'}\x1b[0m\x1b[${33}m${' ' + text}\x1b[0m`);
     },
     modal(text: string) {
         console.info(`\x1b[${45}m${'modal:'}\x1b[0m\x1b[${35}m${' ' + text}\x1b[0m`);

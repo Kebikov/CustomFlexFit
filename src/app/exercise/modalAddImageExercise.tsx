@@ -12,8 +12,7 @@ const ModalAddImageExercise: FC = () => {
     return (
         <ScreenAddBackground
             imagesForChoice={exerciseImage}
-            height={180}
-            SET_ACTIONS={SET_BACKGROUND_FOR_EXERCISE}
+            height={170}
         />
     );
 };

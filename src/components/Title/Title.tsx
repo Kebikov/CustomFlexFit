@@ -9,23 +9,26 @@ interface ITitle {
     marginBottom?: number;
     marginTop?: number;
     oneLineText?: boolean;
+    color?: string;
 }
 
 /**
  * @component `Заголовок.`
  * @param text Отображаемый текст.
  * @optional
- * @param fontSize ? Размер шрифта. [default: 25]
+ * @param fontSize ? Размер шрифта. `default = 25`
  * @param marginTop ? Отступ с верху.
  * @param marginBottom ? Отступ с низу.
  * @param oneLineText ? Отображение текста в одну строку.
+ * @param color ? Цвет текста. `default = "white"`
  */
 const Title: FC<ITitle> = ({
     text,
     fontSize = 25,
     marginTop = 0,
     marginBottom = 0,
-    oneLineText = false
+    oneLineText = false,
+    color = 'white'
 }) => {
 
     const {convertFont} = useConvertFont();
@@ -38,7 +41,8 @@ const Title: FC<ITitle> = ({
                 {
                     fontSize: convertFont(fontSize), 
                     marginBottom, 
-                    marginTop
+                    marginTop,
+                    color
                 }
                 ]} 
             numberOfLines={oneLineText ? 1 : 0} 
@@ -51,8 +55,7 @@ const Title: FC<ITitle> = ({
 
 const styles = StyleSheet.create({
     title: {
-        fontFamily: 'Sport500',
-        color: 'white'
+        fontFamily: 'Sport500'
     }
 });
 

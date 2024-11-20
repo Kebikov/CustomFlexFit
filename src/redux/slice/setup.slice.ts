@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import logApp from '@/helpers/log';
 
 
 /**
@@ -40,6 +41,7 @@ const setupSlice = createSlice({
         }, 
         SET_BACKGROUND: (state, action: PayloadAction<IImageObj | undefined>) => {
             state.selectedBackground = action.payload;
+            //logApp.info(`PATH_TO_IMAGE_FOLDER: ${action.payload?.path}`, 'REDUX');
         },
         SET_BACKGROUND_FOR_EXERCISE: (state, action) => {
             state.selectedBackgroundExercise = action.payload;

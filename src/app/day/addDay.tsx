@@ -26,7 +26,6 @@ const AddDay: FC = () => {
 
     const db = useSQLiteContext();
     const {t} = useTranslation(['common', 'button', '[day]']);
-    const {appRouter} = useHookRouter();
     const dispatch = useAppDispatch();
 
     const [dayState, setDayState] = useState<TdayState>({

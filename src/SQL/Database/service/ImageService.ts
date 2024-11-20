@@ -54,7 +54,6 @@ class ImageService {
             const assetObj = Asset.fromModule(Number(partOne));
             await assetObj.downloadAsync();
             const assetPath = assetObj.localUri || assetObj.uri;
-            console.log('assetPath = ', assetPath);
             return assetPath;
         } else {
             return data;

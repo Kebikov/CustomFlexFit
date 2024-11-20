@@ -72,13 +72,16 @@ const SetEditSwipeable: FC<ISetEditSwipeable> = ({
             <ButtonSwipeable
                 totalButton={3}
                 onPressButton1={() => {
+                    console.log('press');
                     if(index === undefined) return;
                     appRouter.navigate({pathname: '/exercise/addRepsRest', params: {sendIndex: String(index)}});
                 }}
                 onPressButton2={() => copy()}
                 onPressButton3={() => remove()}
                 marginTop={10}
-                paddingInsideButton={22}
+                borderRadiusButton={12}
+                paddingInsideButton={23}
+                paddingOutsideButtonHorizontal={2}
                 iconColor={COLOR_ROOT.WHITE_CUSTOM(.8)}
                 drag={drag}
                 isActive={isActive}

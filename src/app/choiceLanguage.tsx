@@ -30,9 +30,9 @@ const ChoiceLanguage: FC = () => {
         await i18n.changeLanguage(language);
         //appRouter.replace(path);
         DISPATCH(SET_EXERCISE_STATE('RESET'));
-        //appRouter.navigate('/exercise/addExercise'); // добавление упражнения
+        appRouter.navigate('/exercise/addExercise'); // добавление упражнения
         // appRouter.navigate('/exercise/selectEquipment'); // добавление инвентаря
-        appRouter.navigate('/day/addDay'); // добавление дня
+        //appRouter.navigate('/day/addDay'); // добавление дня
     }
 
     return (
