@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Button, Pressable, Text } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
@@ -79,7 +79,27 @@ const AddExercise: FC = () => {
         <View style={styles.container} >
             <View style={styles.bodyForm} >
 
-                <ButtonSwipeable totalButton={1} onPressButton1={() => console.log('press')}>
+                <Pressable 
+                    onPress={() => console.log('WORKING !')}
+                    style={{width: '100%', height: 50, backgroundColor: 'red', justifyContent: 'center', alignItems: 'center',
+                        transform: [
+                            {translateY: -100}
+                        ]
+                    }} 
+                >
+                    <Text style={{color: 'white', fontSize: 20, textAlign: 'center'}}>Press Me</Text>
+                </Pressable>
+
+                <ButtonSwipeable 
+                    totalButton={1} 
+                    onPressButton1={() => console.log('press 1')}
+                    borderRadiusButton={20}
+                    colorButton1='black'
+                    colorButton2='black'
+                    colorButton3='black'
+                    onPressButton2={() => console.log('press 2')}
+                    onPressButton3={() => console.log('press 3')}
+                >
                     <View style={{
                         width: '100%',
                         height: 100,

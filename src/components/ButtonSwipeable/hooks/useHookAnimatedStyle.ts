@@ -3,28 +3,22 @@ import { useAnimatedStyle, SharedValue } from 'react-native-reanimated';
 
 export const useHookAnimatedStyle = (
     translateButtonSv: SharedValue<number>, 
-    translateDownButton1Sv:SharedValue<number>,
+    rightDownButton1Sv:SharedValue<number>,
     translateDownButton2Sv:SharedValue<number>,
     translateDownButton3Sv:SharedValue<number>,
+    widthButton: number
 ) => {
 
         // animated styles
         const animatedStyleButton = useAnimatedStyle(() => {
             return {
-                transform: [
-                    {
-                        translateX: translateButtonSv.value
-                    }
-                ]
+                left: translateButtonSv.value
             }
         });
         const animatedStyleDownButton1 = useAnimatedStyle(() => {
+            console.log('1 = ', rightDownButton1Sv.value);
             return {
-                transform: [
-                    {
-                        translateX: translateDownButton1Sv.value
-                    }
-                ]
+                right: rightDownButton1Sv.value
             }
         });
         const animatedStyleDownButton2 = useAnimatedStyle(() => {

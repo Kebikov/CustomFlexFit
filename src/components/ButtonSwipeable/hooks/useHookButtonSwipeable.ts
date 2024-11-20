@@ -1,4 +1,4 @@
-import { useSharedValue, withTiming, interpolate, runOnJS, SharedValue } from "react-native-reanimated";
+import { useSharedValue, withTiming, interpolate, SharedValue } from "react-native-reanimated";
 
 /**
  * `Hook с основными функциями.`
@@ -26,11 +26,11 @@ export const useHookButtonSwipeable = (
     /**
      * Смешение кнопки #1.
      */
-    const translateDownButton1Sv = useSharedValue<number>(0);
+    const rightDownButton1Sv = useSharedValue<number>(-widthButton);
     /**
      * Последняя позиция кнопки #1.
      */
-    const positionDownButton1Sv = useSharedValue<number>(0);
+    const lastPositionDownButton1Sv = useSharedValue<number>(-widthButton);
     /**
      * Смешение кнопки #2.
      */
@@ -53,11 +53,13 @@ export const useHookButtonSwipeable = (
      */
     const update = (translationX: number) => {
         'worklet';
+        let offsetX = translationX * -1 - widthButton;
         translateButtonSv.value = positionButtonSv.value + translationX;
-        translateDownButton1Sv.value = positionDownButton1Sv.value + translationX;
+        //:
+        rightDownButton1Sv.value = offsetX;
 
-        translateDownButton2Sv.value = positionDownButton2Sv.value + interpolate(translationX, [0, -activeWidthLeft], [0, -activeWidthLeft - widthButton]);
-        translateDownButton3Sv.value = positionDownButton3Sv.value + interpolate(translationX, [0, -activeWidthLeft], [0, -activeWidthLeft - widthButton * 2]);
+        translateDownButton2Sv.value = interpolate(translationX, [0, -activeWidthLeft], [0, -activeWidthLeft - widthButton]);
+        translateDownButton3Sv.value = interpolate(translationX, [0, -activeWidthLeft], [0, -activeWidthLeft - widthButton * 2]);
     }
     /**
      * Переместить кнопку в позицию открытого состояния.
@@ -66,12 +68,14 @@ export const useHookButtonSwipeable = (
         'worklet';
         isActiveButton.value = true;
         translateButtonSv.value = withTiming(activeWidthLeft - shiftButton, {duration});
-        translateDownButton1Sv.value = withTiming(activeWidthLeft, {duration});
+        //:
+        console.log('widthButton = ', widthButton);
+        rightDownButton1Sv.value = withTiming(0, {duration});
         translateDownButton2Sv.value = withTiming(activeWidthLeft + widthButton, {duration});
         translateDownButton3Sv.value = withTiming(activeWidthLeft + widthButton * 2, {duration});
 
         positionButtonSv.value = withTiming(activeWidthLeft);
-        positionDownButton1Sv.value = activeWidthLeft;
+        lastPositionDownButton1Sv.value = activeWidthLeft;
         positionDownButton2Sv.value = activeWidthLeft + widthButton;
         positionDownButton3Sv.value = activeWidthLeft + widthButton * 2;
     }
@@ -83,11 +87,12 @@ export const useHookButtonSwipeable = (
         'worklet';
         isActiveButton.value = false;
         translateButtonSv.value = withTiming(0, {duration: 200}); 
-        translateDownButton1Sv.value = withTiming(0, {duration: 200});
+        //:
+        rightDownButton1Sv.value = withTiming(-widthButton, {duration: 200});
         translateDownButton2Sv.value = withTiming(0, {duration: 200});
         translateDownButton3Sv.value = withTiming(0, {duration: 200});
         positionDownButton2Sv.value = 0;
-        positionDownButton1Sv.value = 0;
+        lastPositionDownButton1Sv.value = 0;
         positionButtonSv.value = 0;
         positionDownButton3Sv.value = 0;
     }
@@ -113,7 +118,7 @@ export const useHookButtonSwipeable = (
         /**
          * Последняя позиция кнопки #1.
          */
-        positionDownButton1Sv,
+        lastPositionDownButton1Sv,
         /**
          * Смешение кнопки основной.
          */
@@ -121,7 +126,7 @@ export const useHookButtonSwipeable = (
         /**
          * Смешение кнопки #1.
          */
-        translateDownButton1Sv,
+        rightDownButton1Sv,
         /**
          * Смешение кнопки #2.
          */

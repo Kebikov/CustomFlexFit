@@ -114,22 +114,35 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
      * `Смешение кнопки для ровномерного отступа при задании padding между кнопками.`
      */
     const shiftButton = paddingOutsideButtonHorizontal;
+
     const {
         update, 
         openStateButton, 
         closeStateButton,
         positionButtonSv,
         translateButtonSv,
-        translateDownButton1Sv,
+        rightDownButton1Sv,
         translateDownButton2Sv,
         translateDownButton3Sv
-    } = useHookButtonSwipeable(activeWidthLeft, widthButton, isActiveButton, shiftButton);
+    } = useHookButtonSwipeable(
+        activeWidthLeft, 
+        widthButton, 
+        isActiveButton, 
+        shiftButton
+    );
+    
     const {
         animatedStyleButton,
         animatedStyleDownButton1,
         animatedStyleDownButton2,
         animatedStyleDownButton3
-    } = useHookAnimatedStyle(translateButtonSv, translateDownButton1Sv, translateDownButton2Sv, translateDownButton3Sv);
+    } = useHookAnimatedStyle(
+        translateButtonSv, 
+        rightDownButton1Sv, 
+        translateDownButton2Sv, 
+        translateDownButton3Sv,
+        widthButton
+    );
 
     /**
      * Обработчик жестов.
@@ -137,6 +150,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     const panGesture = useMemo(() => Gesture.Pan()
         .activeOffsetX([-10, 10])
         .onUpdate(({translationX, translationY}) => {
+            console.log('offsetX = ', translationX * -1);
             if(translationX < 0) {
                 update(translationX);
             }
@@ -171,8 +185,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
      * `Стиль для контейнера кнопки.`
      */
     const styleContainerButton: ViewStyle = ({
-        width: widthButton, 
-        right: -widthButton,
+        width: widthButton,
         paddingHorizontal: paddingOutsideButtonHorizontal,
         paddingVertical: paddingOutsideButtonVertical 
     });
@@ -181,7 +194,8 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
      * `Стиль для тела кнопки.`
      */
         const styleBodyButton = (colorButton: string): ViewStyle => ({
-            flex: 1, 
+            width: '100%',
+            height: '100%', 
             padding: paddingInsideButton, 
             backgroundColor: colorButton, 
             borderRadius: borderRadiusButton
@@ -204,92 +218,94 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
             </GestureDetector>
             {/* Background */}
             <View style={[styles.down]}>
-                <Animated.View 
-                    style={[styles.down_button_common, animatedStyleDownButton1,
-                        {
-                            ...styleContainerButton
-                        }
-                    ]} 
-                >
-                    <Pressable 
-                        style={{...styleBodyButton(colorButton1)}}
-                        onPress={
-                            onPressButton1 
-                            ? 
-                            () => {
-                                VibrationApp.pressButton(); 
-                                onPressButton1(); 
-                                closeStateButton();
-                            } 
-                            : 
-                            null
-                        }
-                    >
-                        <Image source={iconForButton1} style={[styles.img, {tintColor: iconColor}]} />
-                    </Pressable>
-                </Animated.View>
-                {
-                    totalButton === 2 || totalButton === 3 
-                    ?
+                <View style={styles.down_body} >
                     <Animated.View 
-                        style={[styles.down_button_common, animatedStyleDownButton2,
-                            {
-                                ...styleContainerButton
-                            }
+                        style={[
+                            styles.down_button_common, 
+                            //{right: widthButton},
+                            animatedStyleDownButton1,
+                            {...styleContainerButton}
                         ]} 
                     >
                         <Pressable 
-                            style={{...styleBodyButton(colorButton2)}} 
+                            style={{...styleBodyButton(colorButton1)}}
                             onPress={
-                                onPressButton2 
+                                onPressButton1 
                                 ? 
                                 () => {
-                                    VibrationApp.pressButton();
-                                    onPressButton2();
+                                    VibrationApp.pressButton(); 
+                                    onPressButton1(); 
                                     closeStateButton();
                                 } 
                                 : 
-                                null
+                                () => console.log('not function')
                             }
                         >
-                            <Image source={iconForButton2} style={[styles.img, {tintColor: iconColor}]} />
+                            <Image source={iconForButton1} style={[styles.img, {tintColor: iconColor}]} />
                         </Pressable>
                     </Animated.View>
-                    :
-                    null
-                }
-                {
-                    totalButton === 3 
-                    ?
-                    <Animated.View 
-                        style={[styles.down_button_common, animatedStyleDownButton3,
-                            {
-                                ...styleContainerButton
-                            }
-                        ]} 
-                    >
-                        <Pressable 
-                            style={{...styleBodyButton(colorButton3)}} 
-                            onPress={
-                                onPressButton3 
-                                ? 
-                                () => {
-                                    VibrationApp.pressButton();
-                                    onPressButton3();
-                                    closeStateButton();
+                    {
+                        totalButton === 2 || totalButton === 3 
+                        ?
+                        <Animated.View 
+                            style={[styles.down_button_common, animatedStyleDownButton2,
+                                {
+                                    ...styleContainerButton
                                 }
-                                : 
-                                null
-                            }
+                            ]} 
                         >
-                            <Image source={iconForButton3} style={[styles.img, {tintColor: iconColor}]} />
-                        </Pressable>
-                    </Animated.View>
-                    : 
-                    null
-                }
+                            <Pressable 
+                                style={{...styleBodyButton(colorButton2)}} 
+                                onPress={
+                                    onPressButton2 
+                                    ? 
+                                    () => {
+                                        VibrationApp.pressButton();
+                                        onPressButton2();
+                                        closeStateButton();
+                                    } 
+                                    : 
+                                    null
+                                }
+                            >
+                                <Image source={iconForButton2} style={[styles.img, {tintColor: iconColor}]} />
+                            </Pressable>
+                        </Animated.View>
+                        :
+                        null
+                    }
+                    {
+                        totalButton === 3 
+                        ?
+                        <Animated.View 
+                            style={[styles.down_button_common, animatedStyleDownButton3,
+                                {
+                                    ...styleContainerButton
+                                }
+                            ]} 
+                        >
+                            <Pressable 
+                                style={{...styleBodyButton(colorButton3)}} 
+                                onPress={
+                                    onPressButton3 
+                                    ? 
+                                    () => {
+                                        VibrationApp.pressButton();
+                                        onPressButton3();
+                                        closeStateButton();
+                                    }
+                                    : 
+                                    null
+                                }
+                            >
+                                <Image source={iconForButton3} style={[styles.img, {tintColor: iconColor}]} />
+                            </Pressable>
+                        </Animated.View>
+                        : 
+                        null
+                    }
+                </View>
             </View>
-
         </View>
     );
 };
@@ -300,15 +316,31 @@ const styles = StyleSheet.create({
         width: '100%' 
     },
     button: { 
-        width: '100%' 
+        position: 'relative',
+        zIndex: 2,
+        top: 0,
+        width: '100%',
+        height: 'auto', 
     },
     down: { 
         position: 'absolute',
+        zIndex: 1,
         top: 0, 
         right: -1, 
         height: '100%', 
+        width: '100%',
+        backgroundColor: 'blue',
+
         flexDirection: 'row', 
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+    },
+    down_body: {
+        position: 'relative',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'pink'
     },
     down_button_common: { 
         position: 'absolute', 
