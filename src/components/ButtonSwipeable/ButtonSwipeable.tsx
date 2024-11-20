@@ -4,7 +4,7 @@ import { COLOR_ROOT } from '@/constants/colors';
 import React, { FC, useState, useMemo } from 'react';
 import { StyleSheet, View, Dimensions, Image, Pressable, ViewStyle } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
+import Animated, {useSharedValue} from 'react-native-reanimated';
 import VibrationApp from '@/helpers/VibrationApp';
 import ICON from '@/source/icon';
 
@@ -79,7 +79,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     /**
      * @param isActiveButton Состояние кнопки, в открытом или закрытом состоянии находится кнопка.
      */
-    const [isActiveButton, setIsActiveButton] = useState<boolean>(false);
+    const isActiveButton = useSharedValue<boolean>(false);
     /**
      * Ширина экрана телефона.
      */
@@ -123,7 +123,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         translateDownButton1Sv,
         translateDownButton2Sv,
         translateDownButton3Sv
-    } = useHookButtonSwipeable(activeWidthLeft, widthButton, setIsActiveButton, shiftButton);
+    } = useHookButtonSwipeable(activeWidthLeft, widthButton, isActiveButton, shiftButton);
     const {
         animatedStyleButton,
         animatedStyleDownButton1,
@@ -163,10 +163,8 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     const onHandlePress = () => {
         'worklet';
         VibrationApp.pressButton();
-        setIsActiveButton(state => {
-            state ? closeStateButton() : openStateButton(250);
-            return !state;
-        });
+        isActiveButton.value ? closeStateButton() : openStateButton(250);
+        isActiveButton.value = !isActiveButton.value;
     }
 
     /**

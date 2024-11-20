@@ -14,6 +14,7 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 import { IExerciseState } from '@/redux/slice/sets.slice';
 import useHookImageCheck from '@/hook/useHookImageCheck';
 import IMAGE from '@/source/img';
+import ButtonSwipeable from '@/components/ButtonSwipeable/ButtonSwipeable';
 
 
 /**
@@ -78,7 +79,15 @@ const AddExercise: FC = () => {
         <View style={styles.container} >
             <View style={styles.bodyForm} >
 
-                <DraggableFlatList
+                <ButtonSwipeable totalButton={1} onPressButton1={() => console.log('press')}>
+                    <View style={{
+                        width: '100%',
+                        height: 100,
+                        backgroundColor: 'green'
+                    }}></View>
+                </ButtonSwipeable>
+
+                {/* <DraggableFlatList
                     ListHeaderComponent={header}
                     data={data}
                     onDragEnd={ ({ data }) => setData(data) } 
@@ -86,7 +95,7 @@ const AddExercise: FC = () => {
                     renderItem={({item, drag, isActive, getIndex}) => <SetEditSwipeable item={item} drag={drag} isActive={isActive} index={getIndex()} />}
                     ListFooterComponent={footer}
                     showsVerticalScrollIndicator={false}
-                />
+                /> */}
 
             </View>
         </View>

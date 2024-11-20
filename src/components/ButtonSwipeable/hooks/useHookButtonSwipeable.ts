@@ -1,17 +1,17 @@
-import { useSharedValue, withTiming, interpolate, runOnJS } from "react-native-reanimated";
+import { useSharedValue, withTiming, interpolate, runOnJS, SharedValue } from "react-native-reanimated";
 
 /**
  * `Hook с основными функциями.`
  * @param activeWidthLeft Отсечка смешения.
  * @param widthButton Ширина одной кнопки.
- * @param setIsActiveButton set useState Активна ли кнопка.
+ * @param isActiveButton Активна ли кнопка.
  * @param shiftButton Смешение кнопки для ровномерного отступа при задании padding между кнопками.
  * @returns 
  */
 export const useHookButtonSwipeable = (
     activeWidthLeft: number, 
     widthButton: number,
-    setIsActiveButton: React.Dispatch<React.SetStateAction<boolean>>,
+    isActiveButton: SharedValue<boolean>,
     shiftButton: number
 ) => {
 
@@ -64,13 +64,13 @@ export const useHookButtonSwipeable = (
      */
     const openStateButton = (duration: number) => {
         'worklet';
-        runOnJS(setIsActiveButton)(true);
+        isActiveButton.value = true;
         translateButtonSv.value = withTiming(activeWidthLeft - shiftButton, {duration});
         translateDownButton1Sv.value = withTiming(activeWidthLeft, {duration});
         translateDownButton2Sv.value = withTiming(activeWidthLeft + widthButton, {duration});
         translateDownButton3Sv.value = withTiming(activeWidthLeft + widthButton * 2, {duration});
 
-        positionButtonSv.value = activeWidthLeft;
+        positionButtonSv.value = withTiming(activeWidthLeft);
         positionDownButton1Sv.value = activeWidthLeft;
         positionDownButton2Sv.value = activeWidthLeft + widthButton;
         positionDownButton3Sv.value = activeWidthLeft + widthButton * 2;
@@ -81,7 +81,7 @@ export const useHookButtonSwipeable = (
      */
     const closeStateButton = () => {
         'worklet';
-        runOnJS(setIsActiveButton)(false);
+        isActiveButton.value = false;
         translateButtonSv.value = withTiming(0, {duration: 200}); 
         translateDownButton1Sv.value = withTiming(0, {duration: 200});
         translateDownButton2Sv.value = withTiming(0, {duration: 200});
@@ -91,7 +91,6 @@ export const useHookButtonSwipeable = (
         positionButtonSv.value = 0;
         positionDownButton3Sv.value = 0;
     }
-    
     return {
         /**
          * `Обновление позиций кнопок.`
