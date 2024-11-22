@@ -121,9 +121,9 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         closeStateButton,
         positionButtonSv,
         translateButtonSv,
-        rightDownButton1Sv,
-        translateDownButton2Sv,
-        translateDownButton3Sv
+        rightPositionButton1Sv,
+        rightPositionButton2Sv,
+        rightPositionButton3Sv
     } = useHookButtonSwipeable(
         activeWidthLeft, 
         widthButton, 
@@ -138,10 +138,9 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         animatedStyleDownButton3
     } = useHookAnimatedStyle(
         translateButtonSv, 
-        rightDownButton1Sv, 
-        translateDownButton2Sv, 
-        translateDownButton3Sv,
-        widthButton
+        rightPositionButton1Sv, 
+        rightPositionButton2Sv, 
+        rightPositionButton3Sv
     );
 
     /**
@@ -150,7 +149,6 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     const panGesture = useMemo(() => Gesture.Pan()
         .activeOffsetX([-10, 10])
         .onUpdate(({translationX, translationY}) => {
-            console.log('offsetX = ', translationX * -1);
             if(translationX < 0) {
                 update(translationX);
             }

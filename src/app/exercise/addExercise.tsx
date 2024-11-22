@@ -36,7 +36,6 @@ const AddExercise: FC = () => {
     useEffect(() => {
         setData(exerciseStateArray);
         return () => {
-            console.log('Размонтирование AddExercise !');
         }
     }, [exerciseStateArray]);
 
@@ -91,19 +90,19 @@ const AddExercise: FC = () => {
                 </Pressable>
 
                 <ButtonSwipeable 
-                    totalButton={1} 
+                    totalButton={3} 
                     onPressButton1={() => console.log('press 1')}
-                    borderRadiusButton={20}
-                    colorButton1='black'
-                    colorButton2='black'
-                    colorButton3='black'
                     onPressButton2={() => console.log('press 2')}
                     onPressButton3={() => console.log('press 3')}
+                    borderRadiusButton={20}
+                    colorButton1='black'
+                    colorButton2='blue'
+                    colorButton3='green'
                 >
                     <View style={{
                         width: '100%',
                         height: 100,
-                        backgroundColor: 'green'
+                        backgroundColor: 'rgba(1, 127, 1, .8)'
                     }}></View>
                 </ButtonSwipeable>
 

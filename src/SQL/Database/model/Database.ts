@@ -141,38 +141,24 @@ class Database {
             const myFolder = root + 'myFolder/';
 
             const files = await FileSystem.readDirectoryAsync(myFolder);
-            console.log(JSON.stringify( files, null, 2));
-
             const removeJpg = files.filter(item => {
                 if(item.split('.').at(-1) === 'jpg') {
                     return item;
                 }
             })
 
-            console.log('removeJpg = ', JSON.stringify( removeJpg, null, 2));
-
             // for(let item of removeJpg) {
-            //     //console.log(myFolder + item);
             //     await FileSystem.deleteAsync(root + '/' + item);
             // }
 
             // const check = await FileSystem.getInfoAsync(pathPicasso);
-            // console.log('check = ', check);
             // if(!check.exists) {
             //     await FileSystem.makeDirectoryAsync(pathPicasso, {intermediates: true});
             // }
 
             // const files = await FileSystem.readDirectoryAsync(pathPicasso);
-            // console.log('pathPicasso = ', JSON.stringify( files, null, 2));
-            // console.log(files.length);
-
-
-
-            // "image1722356151124.jpg",
 
             // const folders1 = await FileSystem.readDirectoryAsync(pathPicasso);
-            // console.log(JSON.stringify( folders1, null, 2));
-            // console.log(folders1.length);
 
         } catch (error) {
             console.error('Error in showCasheFolder >>>', error);

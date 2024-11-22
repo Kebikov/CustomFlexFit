@@ -72,7 +72,6 @@ const SetEditSwipeable: FC<ISetEditSwipeable> = ({
             <ButtonSwipeable
                 totalButton={3}
                 onPressButton1={() => {
-                    console.log('press');
                     if(index === undefined) return;
                     appRouter.navigate({pathname: '/exercise/addRepsRest', params: {sendIndex: String(index)}});
                 }}

@@ -14,6 +14,10 @@ export const useHookButtonSwipeable = (
     isActiveButton: SharedValue<boolean>,
     shiftButton: number
 ) => {
+    /**
+     * `Выделенная ширина для кнопок.`
+     */
+    const activeWidth = activeWidthLeft * -1;
 
     /**
      * Смешение кнопки основной.
@@ -23,43 +27,46 @@ export const useHookButtonSwipeable = (
      * Последняя позиция кнопки основной.
      */
     const positionButtonSv = useSharedValue<number>(0);
+
     /**
      * Смешение кнопки #1.
      */
-    const rightDownButton1Sv = useSharedValue<number>(-widthButton);
+    const rightPositionButton1Sv = useSharedValue<number>(-widthButton);
     /**
      * Последняя позиция кнопки #1.
      */
-    const lastPositionDownButton1Sv = useSharedValue<number>(-widthButton);
+    const lastRightPositionButton1Sv = useSharedValue<number>(-widthButton);
+
     /**
      * Смешение кнопки #2.
      */
-    const translateDownButton2Sv = useSharedValue<number>(0);
+    const rightPositionButton2Sv = useSharedValue<number>(-widthButton)
     /**
      * Последняя позиция кнопки #2.
      */
-    const positionDownButton2Sv = useSharedValue<number>(0);
+    const lastRightPositionButton2Sv = useSharedValue<number>(-widthButton);
+
     /**
      * Смешение кнопки #3.
      */
-    const translateDownButton3Sv = useSharedValue<number>(0);
+    const rightPositionButton3Sv = useSharedValue<number>(0);
     /**
      * Последняя позиция кнопки #3.
      */
-    const positionDownButton3Sv = useSharedValue<number>(0);
+    const lastRightPositionButton3Sv = useSharedValue<number>(0);
     /**
      * `Обновление позиций кнопок.`
      * @param translationX  Координаты смешения.
      */
     const update = (translationX: number) => {
         'worklet';
-        let offsetX = translationX * -1 - widthButton;
+        console.log('update = ', translationX);
         translateButtonSv.value = positionButtonSv.value + translationX;
         //:
-        rightDownButton1Sv.value = offsetX;
-
-        translateDownButton2Sv.value = interpolate(translationX, [0, -activeWidthLeft], [0, -activeWidthLeft - widthButton]);
-        translateDownButton3Sv.value = interpolate(translationX, [0, -activeWidthLeft], [0, -activeWidthLeft - widthButton * 2]);
+        console.log('lastRightPositionButton1Sv = ', lastRightPositionButton1Sv.value);
+        rightPositionButton1Sv.value = lastRightPositionButton1Sv.value + interpolate(translationX, [0, activeWidthLeft], [0, activeWidth]);
+        rightPositionButton2Sv.value = lastRightPositionButton2Sv.value + interpolate(translationX, [0, activeWidthLeft], [0, activeWidth - widthButton]);
+        rightPositionButton3Sv.value = lastRightPositionButton3Sv.value + interpolate(translationX, [0, activeWidthLeft], [0, activeWidth - widthButton * 2]);
     }
     /**
      * Переместить кнопку в позицию открытого состояния.
@@ -69,15 +76,19 @@ export const useHookButtonSwipeable = (
         isActiveButton.value = true;
         translateButtonSv.value = withTiming(activeWidthLeft - shiftButton, {duration});
         //:
+        console.log('activeWidth = ', activeWidth);
         console.log('widthButton = ', widthButton);
-        rightDownButton1Sv.value = withTiming(0, {duration});
-        translateDownButton2Sv.value = withTiming(activeWidthLeft + widthButton, {duration});
-        translateDownButton3Sv.value = withTiming(activeWidthLeft + widthButton * 2, {duration});
+        console.log('result = ', activeWidth - widthButton * 2);
+        rightPositionButton1Sv.value = withTiming(activeWidth - widthButton, {duration});
+        rightPositionButton2Sv.value = withTiming(activeWidth - widthButton * 2, {duration});
+        rightPositionButton3Sv.value = withTiming(activeWidth - widthButton * 3, {duration});
 
         positionButtonSv.value = withTiming(activeWidthLeft);
-        lastPositionDownButton1Sv.value = activeWidthLeft;
-        positionDownButton2Sv.value = activeWidthLeft + widthButton;
-        positionDownButton3Sv.value = activeWidthLeft + widthButton * 2;
+        //:
+        lastRightPositionButton1Sv.value = activeWidth - widthButton;
+
+        lastRightPositionButton2Sv.value = activeWidth - widthButton * 2;
+        lastRightPositionButton3Sv.value = activeWidthLeft + widthButton * 3;
     }
     /**
      * `Переместить кнопку в позицию закрытого состояния.`
@@ -88,13 +99,15 @@ export const useHookButtonSwipeable = (
         isActiveButton.value = false;
         translateButtonSv.value = withTiming(0, {duration: 200}); 
         //:
-        rightDownButton1Sv.value = withTiming(-widthButton, {duration: 200});
-        translateDownButton2Sv.value = withTiming(0, {duration: 200});
-        translateDownButton3Sv.value = withTiming(0, {duration: 200});
-        positionDownButton2Sv.value = 0;
-        lastPositionDownButton1Sv.value = 0;
+        rightPositionButton1Sv.value = withTiming(-widthButton, {duration: 200});
+        rightPositionButton2Sv.value = withTiming(-widthButton, {duration: 200});
+        rightPositionButton3Sv.value = withTiming(-widthButton, {duration: 200});
+        
+        //:
         positionButtonSv.value = 0;
-        positionDownButton3Sv.value = 0;
+        lastRightPositionButton1Sv.value = -widthButton;
+        lastRightPositionButton2Sv.value = -widthButton;
+        lastRightPositionButton3Sv.value = -widthButton;
     }
     return {
         /**
@@ -118,7 +131,7 @@ export const useHookButtonSwipeable = (
         /**
          * Последняя позиция кнопки #1.
          */
-        lastPositionDownButton1Sv,
+        lastRightPositionButton1Sv,
         /**
          * Смешение кнопки основной.
          */
@@ -126,14 +139,14 @@ export const useHookButtonSwipeable = (
         /**
          * Смешение кнопки #1.
          */
-        rightDownButton1Sv,
+        rightPositionButton1Sv,
         /**
          * Смешение кнопки #2.
          */
-        translateDownButton2Sv,
+        rightPositionButton2Sv,
         /**
          * Смешение кнопки #3.
          */
-        translateDownButton3Sv
+        rightPositionButton3Sv
     }
 }

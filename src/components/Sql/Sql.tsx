@@ -72,7 +72,7 @@ const Sql: FC = () => {
                 },
                 {
                     text: 'отмена',
-                    onPress: () => console.log('вы отменили удаление'),
+                    onPress: () => console.info('вы отменили удаление'),
                     style: 'cancel'
                 }
             ]
