@@ -7,53 +7,11 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {useSharedValue} from 'react-native-reanimated';
 import VibrationApp from '@/helpers/VibrationApp';
 import ICON from '@/source/icon';
+import { IButtonSwipeable } from './types'
 
 
-interface IButtonSwipeable {
-    children: JSX.Element | JSX.Element[];
-    totalButton: 1 | 2 | 3;
-    onPressButton1: Function;
-
-    onPressButton2?: Function;
-    onPressButton3?: Function;
-    iconForButton1?: number;
-    iconForButton2?: number;
-    iconForButton3?: number;
-    paddingInsideButton?: number;
-    borderRadiusButton?: number;
-    colorButton1?: string;
-    colorButton2?: string;
-    colorButton3?: string;
-    marginTop?: number;
-    iconColor?: string;
-    drag?: () => void;
-    isActive?: boolean;
-    paddingOutsideButtonHorizontal?: number;
-    paddingOutsideButtonVertical?: number;
-}
-`default = `
 /**
- * @widgets `Кнопка со скрытыми кнопками.`
- * @param children Дочерний элемент оболочки.
- * @param totalButton Количество кнопок под кнопкой.
- * @param onPressButton1 Функция обработываюшая нажатия на кнопку #1.
- * @optional
- * @param onPressButton2 ? Функция обработываюшая нажатия на кнопку #2. `default = undefined`
- * @param onPressButton3  ? Функция обработываюшая нажатия на кнопку #3. `default = undefined`
- * @param iconForButton1 ? Иконка кнопки #1. `default = ICON.EDIT_BTN`
- * @param iconForButton2 ? Иконка кнопки #2. `default = ICON.COPY`
- * @param iconForButton3 ? Иконка кнопки #3. `default = ICON.DEL_BTN`
- * @param paddingInsideButton ? Отступ внутри кнопки для регулировки размера иконки внутри кнопки. `default = 23`
- * @param paddingOutsideButtonHorizontal ? Отступ горизонтальный, внешний, для регулировки размера кнопок по горизонтали. `default = 0`
- * @param paddingOutsideButtonVertical ? Отступ вертикальный, внешний, для регулировки размера кнопок по вертикали. `default = 0`
- * @param borderRadiusButton ? Радиус закругления блока. `default = 10`
- * @param colorButton1 ? Цвет кнопки 1. `default = COLOR_ROOT.BUTTON_COLOR_GREEN`
- * @param colorButton2 ? Цвет кнопки 2. `default = COLOR_ROOT.BUTTON_COLOR_YELLOW`
- * @param colorButton3 ? Цвет кнопки 3. `default = COLOR_ROOT.BUTTON_COLOR_RED`
- * @param marginTop ? Отступ с верху. `default = undefined`
- * @param iconColor ? Цвет эконки. `default = undefined`
- * @param drag ? Функция из DraggableFlatList, для обработки перемешения элемента. `default = undefined`
- * @param isActive ? Булевое значение из DraggableFlatList, во время перемешения true. `default = undefined`
+ * `Кнопка со скрытыми кнопками.`
  */
 const ButtonSwipeable: FC<IButtonSwipeable> = ({ 
     children, 
@@ -76,17 +34,11 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     paddingOutsideButtonHorizontal = 0,
     paddingOutsideButtonVertical = 0
 }) => {
-    /**
-     * @param isActiveButton Состояние кнопки, в открытом или закрытом состоянии находится кнопка.
-     */
+        
     const isActiveButton = useSharedValue<boolean>(false);
-    /**
-     * Ширина экрана телефона.
-     */
+    /** Ширина экрана телефона. */
     const windowsWidth = Dimensions.get('window').width;
-    /**
-     * `Ширина в процентах, сколько место будет выделено под кнопки.`
-     */
+    /** Ширина в процентах, сколько место будет выделено под кнопки. */
     let spaceForButtons = 0;
     switch(totalButton) {
         case 1: spaceForButtons = 20;
@@ -98,22 +50,12 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         default: spaceForButtons = 50;
             break;
     }
-    /**
-     * Выделенная ширина под кнопки.
-     */
-    const activeWidth = windowsWidth * spaceForButtons / 100;
-    /**
-     * Ширина одной кнопки.
-     */
+    /** Выделенная ширина под кнопки. */
+    const activeWidth = (windowsWidth * spaceForButtons - 50) / 100;
+    /** Ширина одной кнопки. */
     const widthButton = activeWidth / totalButton;
-    /**
-     * Отсечка смешения.
-     */
+    /** Отсечка смешения. */
     const activeWidthLeft = -activeWidth;
-    /**
-     * `Смешение кнопки для ровномерного отступа при задании padding между кнопками.`
-     */
-    const shiftButton = paddingOutsideButtonHorizontal;
 
     const {
         update, 
@@ -127,8 +69,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     } = useHookButtonSwipeable(
         activeWidthLeft, 
         widthButton, 
-        isActiveButton, 
-        shiftButton
+        isActiveButton
     );
     
     const {
@@ -143,9 +84,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         rightPositionButton3Sv
     );
 
-    /**
-     * Обработчик жестов.
-     */
+    /** Обработчик жестов. */
     const panGesture = useMemo(() => Gesture.Pan()
         .activeOffsetX([-10, 10])
         .onUpdate(({translationX, translationY}) => {
@@ -169,9 +108,8 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
                 closeStateButton();
             }
         }),[]);
-    /**
-     * Обработка нажатия основной кнопки.
-     */
+
+    /** Обработка нажатия основной кнопки. */
     const onHandlePress = () => {
         'worklet';
         VibrationApp.pressButton();
@@ -179,25 +117,59 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         isActiveButton.value = !isActiveButton.value;
     }
 
-    /**
-     * `Стиль для контейнера кнопки.`
-     */
-    const styleContainerButton: ViewStyle = ({
+    /** Стиль для контейнера кнопки. */
+    const styleContainer : ViewStyle = {
+        position: 'absolute', 
+        top: 0, 
+        height: '100%',
         width: widthButton,
+        paddingVertical: paddingOutsideButtonVertical,
         paddingHorizontal: paddingOutsideButtonHorizontal,
-        paddingVertical: paddingOutsideButtonVertical 
+    };
+
+
+    /** Стиль для тела кнопки. */
+    const styleBodyButton = (colorButton: string): ViewStyle => ({
+        width: '100%',
+        height: '100%', 
+        padding: paddingInsideButton, 
+        backgroundColor: colorButton, 
+        borderRadius: borderRadiusButton
     });
 
-    /**
-     * `Стиль для тела кнопки.`
-     */
-        const styleBodyButton = (colorButton: string): ViewStyle => ({
-            width: '100%',
-            height: '100%', 
-            padding: paddingInsideButton, 
-            backgroundColor: colorButton, 
-            borderRadius: borderRadiusButton
-        });
+    /** Кнопка под кнопкой. */
+    const buttonDown = (
+        animatedStyle: {right: number},
+        onPressButton: (() => void) | undefined,
+        iconForButton: number | undefined,
+        colorButton: string
+    ) => {
+        return(
+            <Animated.View 
+                style={[
+                    animatedStyle,
+                    styleContainer
+                ]} 
+            >
+                <Pressable 
+                    style={{...styleBodyButton(colorButton)}}
+                    onPress={
+                        onPressButton
+                        ? 
+                        () => {
+                            VibrationApp.pressButton(); 
+                            onPressButton(); 
+                            closeStateButton();
+                        } 
+                        : 
+                        undefined
+                    }
+                >
+                    <Image source={iconForButton} style={[styles.img, {tintColor: iconColor}]} />
+                </Pressable>
+            </Animated.View>
+        )
+    }
 
 
     return (
@@ -217,88 +189,21 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
             {/* Background */}
             <View style={[styles.down]}>
                 <View style={styles.down_body} >
-                    <Animated.View 
-                        style={[
-                            styles.down_button_common, 
-                            //{right: widthButton},
-                            animatedStyleDownButton1,
-                            {...styleContainerButton}
-                        ]} 
-                    >
-                        <Pressable 
-                            style={{...styleBodyButton(colorButton1)}}
-                            onPress={
-                                onPressButton1 
-                                ? 
-                                () => {
-                                    VibrationApp.pressButton(); 
-                                    onPressButton1(); 
-                                    closeStateButton();
-                                } 
-                                : 
-                                () => console.log('not function')
-                            }
-                        >
-                            <Image source={iconForButton1} style={[styles.img, {tintColor: iconColor}]} />
-                        </Pressable>
-                    </Animated.View>
+                    {/*//* Button 1  */}
+                    { buttonDown(animatedStyleDownButton1, onPressButton1, iconForButton1, colorButton1) }
+                    {/*//* Button 2  */}
                     {
                         totalButton === 2 || totalButton === 3 
                         ?
-                        <Animated.View 
-                            style={[styles.down_button_common, animatedStyleDownButton2,
-                                {
-                                    ...styleContainerButton
-                                }
-                            ]} 
-                        >
-                            <Pressable 
-                                style={{...styleBodyButton(colorButton2)}} 
-                                onPress={
-                                    onPressButton2 
-                                    ? 
-                                    () => {
-                                        VibrationApp.pressButton();
-                                        onPressButton2();
-                                        closeStateButton();
-                                    } 
-                                    : 
-                                    null
-                                }
-                            >
-                                <Image source={iconForButton2} style={[styles.img, {tintColor: iconColor}]} />
-                            </Pressable>
-                        </Animated.View>
+                        buttonDown(animatedStyleDownButton2, onPressButton2, iconForButton2, colorButton2) 
                         :
                         null
                     }
+                    {/*//* Button 3  */}
                     {
                         totalButton === 3 
                         ?
-                        <Animated.View 
-                            style={[styles.down_button_common, animatedStyleDownButton3,
-                                {
-                                    ...styleContainerButton
-                                }
-                            ]} 
-                        >
-                            <Pressable 
-                                style={{...styleBodyButton(colorButton3)}} 
-                                onPress={
-                                    onPressButton3 
-                                    ? 
-                                    () => {
-                                        VibrationApp.pressButton();
-                                        onPressButton3();
-                                        closeStateButton();
-                                    }
-                                    : 
-                                    null
-                                }
-                            >
-                                <Image source={iconForButton3} style={[styles.img, {tintColor: iconColor}]} />
-                            </Pressable>
-                        </Animated.View>
+                        buttonDown(animatedStyleDownButton3, onPressButton3, iconForButton3, colorButton3) 
                         : 
                         null
                     }
@@ -307,6 +212,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         </View>
     );
 };
+
 
 const styles = StyleSheet.create({
     body: { 
@@ -324,7 +230,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         zIndex: 1,
         top: 0, 
-        right: -1, 
+        right: 0, 
         height: '100%', 
         width: '100%',
         backgroundColor: 'blue',
@@ -340,11 +246,6 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: 'pink'
     },
-    down_button_common: { 
-        position: 'absolute', 
-        top: 0, 
-        height: '100%'
-    },
     button_press: { 
         justifyContent: 'center', 
         alignItems: 'center' 
@@ -356,6 +257,7 @@ const styles = StyleSheet.create({
         tintColor: 'white'
     }
 });
+
 
 export default ButtonSwipeable;
 

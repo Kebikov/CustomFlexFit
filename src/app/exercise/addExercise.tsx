@@ -98,6 +98,9 @@ const AddExercise: FC = () => {
                     colorButton1='black'
                     colorButton2='blue'
                     colorButton3='green'
+                    paddingInsideButton={21}
+                    paddingOutsideButtonVertical={17}
+                    paddingOutsideButtonHorizontal={0}
                 >
                     <View style={{
                         width: '100%',

@@ -6,13 +6,11 @@ import { useSharedValue, withTiming, interpolate, SharedValue } from "react-nati
  * @param widthButton Ширина одной кнопки.
  * @param isActiveButton Активна ли кнопка.
  * @param shiftButton Смешение кнопки для ровномерного отступа при задании padding между кнопками.
- * @returns 
  */
 export const useHookButtonSwipeable = (
     activeWidthLeft: number, 
     widthButton: number,
-    isActiveButton: SharedValue<boolean>,
-    shiftButton: number
+    isActiveButton: SharedValue<boolean>
 ) => {
     /**
      * `Выделенная ширина для кнопок.`
@@ -49,11 +47,11 @@ export const useHookButtonSwipeable = (
     /**
      * Смешение кнопки #3.
      */
-    const rightPositionButton3Sv = useSharedValue<number>(0);
+    const rightPositionButton3Sv = useSharedValue<number>(-widthButton);
     /**
      * Последняя позиция кнопки #3.
      */
-    const lastRightPositionButton3Sv = useSharedValue<number>(0);
+    const lastRightPositionButton3Sv = useSharedValue<number>(-widthButton);
     /**
      * `Обновление позиций кнопок.`
      * @param translationX  Координаты смешения.
@@ -74,7 +72,7 @@ export const useHookButtonSwipeable = (
     const openStateButton = (duration: number) => {
         'worklet';
         isActiveButton.value = true;
-        translateButtonSv.value = withTiming(activeWidthLeft - shiftButton, {duration});
+        translateButtonSv.value = withTiming(activeWidthLeft, {duration});
         //:
         console.log('activeWidth = ', activeWidth);
         console.log('widthButton = ', widthButton);
