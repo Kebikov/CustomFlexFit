@@ -78,7 +78,7 @@ const AddExercise: FC = () => {
         <View style={styles.container} >
             <View style={styles.bodyForm} >
 
-                <Pressable 
+                {/* <Pressable 
                     onPress={() => console.log('WORKING !')}
                     style={{width: '100%', height: 50, backgroundColor: 'red', justifyContent: 'center', alignItems: 'center',
                         transform: [
@@ -94,22 +94,22 @@ const AddExercise: FC = () => {
                     onPressButton1={() => console.log('press 1')}
                     onPressButton2={() => console.log('press 2')}
                     onPressButton3={() => console.log('press 3')}
-                    borderRadiusButton={20}
+                    borderRadiusButton={10}
                     colorButton1='black'
                     colorButton2='blue'
                     colorButton3='green'
-                    paddingInsideButton={21}
-                    paddingOutsideButtonVertical={17}
-                    paddingOutsideButtonHorizontal={0}
+                    paddingInsideButton={18}
+                    heightOneButton={60}
+                    widthOneButton={60}
                 >
                     <View style={{
                         width: '100%',
                         height: 100,
                         backgroundColor: 'rgba(1, 127, 1, .8)'
                     }}></View>
-                </ButtonSwipeable>
+                </ButtonSwipeable> */}
 
-                {/* <DraggableFlatList
+                <DraggableFlatList
                     ListHeaderComponent={header}
                     data={data}
                     onDragEnd={ ({ data }) => setData(data) } 
@@ -117,7 +117,7 @@ const AddExercise: FC = () => {
                     renderItem={({item, drag, isActive, getIndex}) => <SetEditSwipeable item={item} drag={drag} isActive={isActive} index={getIndex()} />}
                     ListFooterComponent={footer}
                     showsVerticalScrollIndicator={false}
-                /> */}
+                />
 
             </View>
         </View>

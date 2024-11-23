@@ -79,8 +79,9 @@ const SetEditSwipeable: FC<ISetEditSwipeable> = ({
                 onPressButton3={() => remove()}
                 marginTop={10}
                 borderRadiusButton={12}
-                paddingInsideButton={23}
-                paddingOutsideButtonHorizontal={2}
+                paddingInsideButton={21}
+                heightOneButton={60}
+                widthOneButton={60}
                 iconColor={COLOR_ROOT.WHITE_CUSTOM(.8)}
                 drag={drag}
                 isActive={isActive}

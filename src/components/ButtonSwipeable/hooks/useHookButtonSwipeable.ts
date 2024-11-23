@@ -4,13 +4,17 @@ import { useSharedValue, withTiming, interpolate, SharedValue } from "react-nati
  * `Hook с основными функциями.`
  * @param activeWidthLeft Отсечка смешения.
  * @param widthButton Ширина одной кнопки.
+ * @param widthOneButton Заданная пользователем ширина одной кнопки.
  * @param isActiveButton Активна ли кнопка.
+ * @param totalButton Количество кнопок.
  * @param shiftButton Смешение кнопки для ровномерного отступа при задании padding между кнопками.
  */
 export const useHookButtonSwipeable = (
     activeWidthLeft: number, 
     widthButton: number,
-    isActiveButton: SharedValue<boolean>
+    isActiveButton: SharedValue<boolean>,
+    totalButton: number,
+    widthOneButton?: number,
 ) => {
     /**
      * `Выделенная ширина для кнопок.`
@@ -52,19 +56,25 @@ export const useHookButtonSwipeable = (
      * Последняя позиция кнопки #3.
      */
     const lastRightPositionButton3Sv = useSharedValue<number>(-widthButton);
+    /** Равное растояние между кнопками и краями, для выравнивания, если заданна ширена. */
+    let shift = widthOneButton ? (activeWidth - widthOneButton * totalButton) / (totalButton + 1) : 0;
     /**
      * `Обновление позиций кнопок.`
      * @param translationX  Координаты смешения.
      */
     const update = (translationX: number) => {
         'worklet';
-        console.log('update = ', translationX);
+        /** Позиция кнопки #1 */
+        let activeWidthButton1 = activeWidth - shift;
+        /** Позиция кнопки #2 */
+        let activeWidthButton2 = activeWidth - shift * 2 - widthButton;
+        /** Позиция кнопки #3 */
+        let activeWidthButton3 = activeWidth - shift * 3 - widthButton * 2;
+
         translateButtonSv.value = positionButtonSv.value + translationX;
-        //:
-        console.log('lastRightPositionButton1Sv = ', lastRightPositionButton1Sv.value);
-        rightPositionButton1Sv.value = lastRightPositionButton1Sv.value + interpolate(translationX, [0, activeWidthLeft], [0, activeWidth]);
-        rightPositionButton2Sv.value = lastRightPositionButton2Sv.value + interpolate(translationX, [0, activeWidthLeft], [0, activeWidth - widthButton]);
-        rightPositionButton3Sv.value = lastRightPositionButton3Sv.value + interpolate(translationX, [0, activeWidthLeft], [0, activeWidth - widthButton * 2]);
+        rightPositionButton1Sv.value = lastRightPositionButton1Sv.value + interpolate(translationX, [0, activeWidthLeft], [0, activeWidthButton1]);
+        rightPositionButton2Sv.value = lastRightPositionButton2Sv.value + interpolate(translationX, [0, activeWidthLeft], [0, activeWidthButton2]);
+        rightPositionButton3Sv.value = lastRightPositionButton3Sv.value + interpolate(translationX, [0, activeWidthLeft], [0, activeWidthButton3]);
     }
     /**
      * Переместить кнопку в позицию открытого состояния.
@@ -72,21 +82,22 @@ export const useHookButtonSwipeable = (
     const openStateButton = (duration: number) => {
         'worklet';
         isActiveButton.value = true;
+        /** Позиция кнопки #1 */
+        let positionButton1 = activeWidth - shift - widthButton;
+        /** Позиция кнопки #2 */
+        let positionButton2 = activeWidth - shift * 2 - widthButton * 2;
+        /** Позиция кнопки #3 */
+        let positionButton3 = activeWidth - shift * 3 - widthButton * 3;
+
         translateButtonSv.value = withTiming(activeWidthLeft, {duration});
-        //:
-        console.log('activeWidth = ', activeWidth);
-        console.log('widthButton = ', widthButton);
-        console.log('result = ', activeWidth - widthButton * 2);
-        rightPositionButton1Sv.value = withTiming(activeWidth - widthButton, {duration});
-        rightPositionButton2Sv.value = withTiming(activeWidth - widthButton * 2, {duration});
-        rightPositionButton3Sv.value = withTiming(activeWidth - widthButton * 3, {duration});
+        rightPositionButton1Sv.value = withTiming(positionButton1, {duration});
+        rightPositionButton2Sv.value = withTiming(positionButton2, {duration});
+        rightPositionButton3Sv.value = withTiming(positionButton3, {duration});
 
         positionButtonSv.value = withTiming(activeWidthLeft);
-        //:
-        lastRightPositionButton1Sv.value = activeWidth - widthButton;
-
-        lastRightPositionButton2Sv.value = activeWidth - widthButton * 2;
-        lastRightPositionButton3Sv.value = activeWidthLeft + widthButton * 3;
+        lastRightPositionButton1Sv.value = positionButton1;
+        lastRightPositionButton2Sv.value = positionButton2;
+        lastRightPositionButton3Sv.value = positionButton3;
     }
     /**
      * `Переместить кнопку в позицию закрытого состояния.`

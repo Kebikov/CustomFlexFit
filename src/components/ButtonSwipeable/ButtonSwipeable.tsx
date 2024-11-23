@@ -31,10 +31,11 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     iconColor,
     drag,
     isActive,
-    paddingOutsideButtonHorizontal = 0,
-    paddingOutsideButtonVertical = 0
+    widthOneButton,
+    heightOneButton
 }) => {
         
+    /** Активна ли основная кнопка, самая верхняя, большая. */
     const isActiveButton = useSharedValue<boolean>(false);
     /** Ширина экрана телефона. */
     const windowsWidth = Dimensions.get('window').width;
@@ -51,9 +52,9 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
             break;
     }
     /** Выделенная ширина под кнопки. */
-    const activeWidth = (windowsWidth * spaceForButtons - 50) / 100;
+    const activeWidth = (windowsWidth * spaceForButtons) / 100;
     /** Ширина одной кнопки. */
-    const widthButton = activeWidth / totalButton;
+    const widthButton = widthOneButton ? widthOneButton : activeWidth / totalButton;
     /** Отсечка смешения. */
     const activeWidthLeft = -activeWidth;
 
@@ -69,7 +70,9 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     } = useHookButtonSwipeable(
         activeWidthLeft, 
         widthButton, 
-        isActiveButton
+        isActiveButton,
+        totalButton,
+        widthOneButton,
     );
     
     const {
@@ -120,11 +123,10 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     /** Стиль для контейнера кнопки. */
     const styleContainer : ViewStyle = {
         position: 'absolute', 
-        top: 0, 
-        height: '100%',
+        top: heightOneButton ? '50%' : 0,
+        marginTop: heightOneButton ? -heightOneButton / 2 : 0, 
+        height: heightOneButton ? heightOneButton : '100%',
         width: widthButton,
-        paddingVertical: paddingOutsideButtonVertical,
-        paddingHorizontal: paddingOutsideButtonHorizontal,
     };
 
 
@@ -233,18 +235,16 @@ const styles = StyleSheet.create({
         right: 0, 
         height: '100%', 
         width: '100%',
-        backgroundColor: 'blue',
 
         flexDirection: 'row', 
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-end'
     },
     down_body: {
         position: 'relative',
         top: 0,
         left: 0,
         width: '100%',
-        height: '100%',
-        backgroundColor: 'pink'
+        height: '100%'
     },
     button_press: { 
         justifyContent: 'center', 

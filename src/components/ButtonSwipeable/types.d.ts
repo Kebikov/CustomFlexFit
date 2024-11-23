@@ -33,8 +33,8 @@ export interface IButtonSwipeable {
     drag?: () => void;
     /** Булевое значение из DraggableFlatList, во время перемешения true. `default = undefined` */
     isActive?: boolean;
-    /** Отступ горизонтальный, внешний, для регулировки размера кнопок по горизонтали. `default = 0` */
-    paddingOutsideButtonHorizontal?: number;
-    /** Отступ вертикальный, внешний, для регулировки размера кнопок по вертикали. `default = 0` */
-    paddingOutsideButtonVertical?: number;
+    /** Ширина одной кнопки. */
+    widthOneButton?: number;
+    /** Высота одной кнопки. */
+    heightOneButton?: number;
 }
