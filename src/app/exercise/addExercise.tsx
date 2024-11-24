@@ -16,6 +16,7 @@ import useHookImageCheck from '@/hook/useHookImageCheck';
 import IMAGE from '@/source/img';
 import ButtonSwipeable from '@/components/ButtonSwipeable/ButtonSwipeable';
 import SetEdit from '@/components/SetEdit/SetEdit';
+import VibrationApp from '@/helpers/VibrationApp';
 
 
 /**
@@ -87,6 +88,8 @@ const AddExercise: FC = () => {
                     ListHeaderComponent={header}
                     data={data}
                     onDragEnd={ ({ data }) => setData(data) } 
+                    onDragBegin={() => VibrationApp.pressButton()}
+                    onPlaceholderIndexChange={() => VibrationApp.select()}
                     keyExtractor={item => String(item.id)}
                     renderItem={({item, drag, isActive, getIndex}) => (
                         <SetEditSwipeable 
