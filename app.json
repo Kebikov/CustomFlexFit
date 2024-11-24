@@ -4,32 +4,37 @@
         "slug": "CustomFlexFit",
         "version": "1.0.0",
         "orientation": "portrait",
-        "icon": "./assets/icon.png",
+        "icon": "./assets/splash.png",
         "scheme": "myapp",
         "userInterfaceStyle": "automatic",
         "newArchEnabled": true,
-        "backgroundColor": "#131313",
-        "splash": {
-            "image": "./assets/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#131313"
-        },
         "ios": {
             "supportsTablet": true
         },
         "android": {
             "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
+                "foregroundImage": "./assets/splash.png",
                 "backgroundColor": "#131313"
-            },
-            "backgroundColor": "#131313"
+            }
         },
         "web": {
             "bundler": "metro",
             "output": "static",
             "favicon": "./assets/favicon.png"
         },
+        "splash": {
+            "backgroundColor": "#070507"
+        },
         "plugins": [
+            [
+                "expo-splash-screen",
+                {
+                    "backgroundColor": "#070507",
+                    "image": "./assets/images/icon-splash.png",
+                    "resizeMode": "contain",
+                    "imageWidth": 288
+                }
+            ],
             "expo-router",
             [
                 "expo-image-picker",

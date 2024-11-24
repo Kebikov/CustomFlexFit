@@ -8,7 +8,6 @@ import i18next from 'i18next';
 
 
 /**
- * @object
  * @param id ID упражнения.
  * @param name Название упражнения. 
  * @param note Заметка для упражнения.

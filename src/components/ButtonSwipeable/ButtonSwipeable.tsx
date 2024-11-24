@@ -4,7 +4,7 @@ import { COLOR_ROOT } from '@/constants/colors';
 import React, { FC, useState, useMemo } from 'react';
 import { StyleSheet, View, Dimensions, Image, Pressable, ViewStyle } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, {useSharedValue} from 'react-native-reanimated';
+import Animated, {useSharedValue, useAnimatedReaction, runOnJS, runOnUI} from 'react-native-reanimated';
 import VibrationApp from '@/helpers/VibrationApp';
 import ICON from '@/source/icon';
 import { IButtonSwipeable } from './types'
@@ -32,7 +32,10 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     drag,
     isActive,
     widthOneButton,
-    heightOneButton
+    heightOneButton,
+    idButton,
+    setActiveButtonId,
+    activeButtonId
 }) => {
         
     /** Активна ли основная кнопка, самая верхняя, большая. */
@@ -172,6 +175,25 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
             </Animated.View>
         )
     }
+
+    // Если, id(idButton) кнопки и установленный активный id(activeButtonId) не совподают, закрываем данную кнопку.
+    if(activeButtonId && idButton) {
+        if(activeButtonId !== idButton) {
+            runOnUI(closeStateButton)();
+        }
+    }
+
+    // Отслеживание состояния кнопки и установка id в setActiveButtonId, если кнопка стала активной.
+    useAnimatedReaction(
+        () => isActiveButton.value,
+        (currentValue, previousValue) => {
+            if (currentValue === true && idButton && setActiveButtonId) {
+                console.log(`Shared value changed: ${idButton}`);
+                runOnJS(setActiveButtonId)(idButton);
+            }
+        },
+        [idButton]
+    );
 
 
     return (

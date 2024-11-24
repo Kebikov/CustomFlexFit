@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import React, { FC } from 'react';
 import ButtonSwipeable from '@/components/ButtonSwipeable/ButtonSwipeable';
 import { useHookRouter } from '@/router/useHookRouter';
@@ -11,28 +11,36 @@ import showMessage from '@/helpers/showMessage';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
 import useRandomId from '@/hook/useRandomId';
 import { useTranslation } from 'react-i18next';
+import Title from '../Title/Title';
 
 
 interface ISetEditSwipeable {
     item: IExerciseState;
-    index: number | undefined;
+    index?: number;
     drag?: () => void;
     isActive?: boolean;
+    setActiveButtonId?: React.Dispatch<React.SetStateAction<string | undefined>>;
+    activeButtonId?: string;
 }
 
 
 /**
  * @component `Меню + Блок с одним повтором упражнения.`
  * @param item Обьект с данными.
- * @param index Индекс обьекта в массиве обьектов.
- * @param drag Функция из DraggableFlatList, для обработки перемешения элемента.
- * @param isActive Булевое значение, во время перемешения true.
+ * @optional
+ * @param index ? Индекс обьекта в массиве обьектов.
+ * @param drag ? Функция из DraggableFlatList, для обработки перемешения элемента.
+ * @param isActive ? Булевое значение, во время перемешения true.
+ * @param setActiveButtonId ? SetStateAction срабатываюший при нажатии основной кнопки и устанавливаюший id активной кнопки.
+ * @param activeButtonId ? Id активной кнопки.
  */
 const SetEditSwipeable: FC<ISetEditSwipeable> = ({
     item,
     index,
     drag,
-    isActive
+    isActive,
+    setActiveButtonId,
+    activeButtonId
 }) => {
 
     const {appRouter} = useHookRouter();
@@ -83,8 +91,13 @@ const SetEditSwipeable: FC<ISetEditSwipeable> = ({
                 heightOneButton={60}
                 widthOneButton={60}
                 iconColor={COLOR_ROOT.WHITE_CUSTOM(.8)}
+
                 drag={drag}
                 isActive={isActive}
+
+                idButton={item.id}
+                setActiveButtonId={setActiveButtonId}
+                activeButtonId={activeButtonId}
             >
                 <SetEdit exerciseState={item} />
             </ButtonSwipeable>

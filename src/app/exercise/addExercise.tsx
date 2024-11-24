@@ -15,6 +15,7 @@ import { IExerciseState } from '@/redux/slice/sets.slice';
 import useHookImageCheck from '@/hook/useHookImageCheck';
 import IMAGE from '@/source/img';
 import ButtonSwipeable from '@/components/ButtonSwipeable/ButtonSwipeable';
+import SetEdit from '@/components/SetEdit/SetEdit';
 
 
 /**
@@ -29,7 +30,11 @@ const AddExercise: FC = () => {
 
     const exerciseStateArray: IExerciseState[] = useAppSelector(state => state.setsSlice.exerciseStateArray);
 
+    /** Данные для FlatList. */
     const [data, setData] = useState<IExerciseState[]>([]);
+    /** Id который активен в данный момент, остальные закрываются. */
+    const [activeButtonId, setActiveButtonId] = useState<string>();
+    console.log('activeButtonId = ', activeButtonId);
 
     const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
 
@@ -78,43 +83,21 @@ const AddExercise: FC = () => {
         <View style={styles.container} >
             <View style={styles.bodyForm} >
 
-                {/* <Pressable 
-                    onPress={() => console.log('WORKING !')}
-                    style={{width: '100%', height: 50, backgroundColor: 'red', justifyContent: 'center', alignItems: 'center',
-                        transform: [
-                            {translateY: -100}
-                        ]
-                    }} 
-                >
-                    <Text style={{color: 'white', fontSize: 20, textAlign: 'center'}}>Press Me</Text>
-                </Pressable>
-
-                <ButtonSwipeable 
-                    totalButton={3} 
-                    onPressButton1={() => console.log('press 1')}
-                    onPressButton2={() => console.log('press 2')}
-                    onPressButton3={() => console.log('press 3')}
-                    borderRadiusButton={10}
-                    colorButton1='black'
-                    colorButton2='blue'
-                    colorButton3='green'
-                    paddingInsideButton={18}
-                    heightOneButton={60}
-                    widthOneButton={60}
-                >
-                    <View style={{
-                        width: '100%',
-                        height: 100,
-                        backgroundColor: 'rgba(1, 127, 1, .8)'
-                    }}></View>
-                </ButtonSwipeable> */}
-
                 <DraggableFlatList
                     ListHeaderComponent={header}
                     data={data}
                     onDragEnd={ ({ data }) => setData(data) } 
                     keyExtractor={item => String(item.id)}
-                    renderItem={({item, drag, isActive, getIndex}) => <SetEditSwipeable item={item} drag={drag} isActive={isActive} index={getIndex()} />}
+                    renderItem={({item, drag, isActive, getIndex}) => (
+                        <SetEditSwipeable 
+                            item={item} 
+                            drag={drag} 
+                            isActive={isActive} 
+                            index={getIndex()} 
+                            setActiveButtonId={setActiveButtonId}
+                            activeButtonId={activeButtonId}
+                        />
+                    )}
                     ListFooterComponent={footer}
                     showsVerticalScrollIndicator={false}
                 />

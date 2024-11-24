@@ -1,12 +1,14 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useCallback, useState } from 'react';
 import { SQLiteProvider, type SQLiteDatabase } from 'expo-sqlite';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
 import store from '@/redux/store/store';
-import { Stack, SplashScreen } from 'expo-router';
+import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import CONFIGURATION from '@/constants/сonfiguration';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
+import * as Font from 'expo-font';
 import { COLOR_ROOT } from '@/constants/colors';
 import { PortalProvider, PortalHost } from '@gorhom/portal';
 import '@/localization/i18n';
@@ -18,12 +20,12 @@ import EquipmentService from '@/SQL/Equipment/service/EquipmentService';
 import ListService from '@/SQL/List/service/ListService';
 import List_Equipment_Service from '@/SQL/REFERENCES/List_Equipment/service/List_Equipment_Service';
 import RepsRestService from '@/SQL/RepsRest/service/RepsRestService';
-
 import dataEquipment from '@/data/equipment/dataEquipment';
 
 
-
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync()
+    .then((result) => console.log('Статус экранной заставки: ', result))
+    .catch(console.warn);
 
 
 interface IMainLayout {
@@ -32,10 +34,6 @@ interface IMainLayout {
 
 
 export const MainLayout: FC<IMainLayout> = ({children}) => {
-    
-    // const [loaded, error] = useFonts({
-	// 	'Sport': require('@/source/fonts/BebasNeue.ttf')
-	// });
 
     const [loaded, error] = useFonts({
         'Sport': require('@/source/fonts/BebasNeue.ttf'),
@@ -47,15 +45,14 @@ export const MainLayout: FC<IMainLayout> = ({children}) => {
         'Sport700': require('@/source/fonts/Oswald/Oswald-Bold.ttf')
     });
 
-
     useEffect(() => {
         if (loaded || error) {
-            SplashScreen.hideAsync();
+            SplashScreen.hide();
         }
     }, [loaded, error]);
     
     if (!loaded && !error) return null;
-    
+
 	return (
         <GestureHandlerRootView style={{flex: 1, backgroundColor: COLOR_ROOT.BACKGROUND}} >
             <PortalProvider>
