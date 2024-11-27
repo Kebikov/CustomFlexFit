@@ -1,5 +1,5 @@
 import { View, StyleSheet, Image, Button, Pressable, Text } from 'react-native';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useMemo } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
@@ -10,13 +10,14 @@ import { SET_BACKGROUND_FOR_EXERCISE } from '@/redux/slice/setup.slice';
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import HelpText from '@/components/HelpText/HelpText';
 import SetEditSwipeable from '@/components/SetEditSwipeable/SetEditSwipeable';
-import DraggableFlatList from 'react-native-draggable-flatlist';
+import DraggableFlatList, {ScaleDecorator, RenderItemParams} from 'react-native-draggable-flatlist';
 import { IExerciseState } from '@/redux/slice/sets.slice';
 import useHookImageCheck from '@/hook/useHookImageCheck';
 import IMAGE from '@/source/img';
 import ButtonSwipeable from '@/components/ButtonSwipeable/ButtonSwipeable';
 import SetEdit from '@/components/SetEdit/SetEdit';
 import VibrationApp from '@/helpers/VibrationApp';
+import { AnimatedList } from '@/test/screens/AnimatedList';
 
 
 /**
@@ -27,17 +28,16 @@ const AddExercise: FC = () => {
     const {imgCheck} = useHookImageCheck();
     const {appRouter} = useHookRouter();
     const {t} = useTranslation(['[exercise]', 'button']);
-    const DISPATCH = useAppDispatch();
 
     const exerciseStateArray: IExerciseState[] = useAppSelector(state => state.setsSlice.exerciseStateArray);
 
     /** Данные для FlatList. */
     const [data, setData] = useState<IExerciseState[]>([]);
+    const [data1, setData1] = useState<string[]>(['Hello', 'Roman', 'Masha']);
     /** Id который активен в данный момент, остальные закрываются. */
     const [activeButtonId, setActiveButtonId] = useState<string>();
-    console.log('activeButtonId = ', activeButtonId);
 
-    const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
+    //const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
 
     useEffect(() => {
         setData(exerciseStateArray);
@@ -45,65 +45,75 @@ const AddExercise: FC = () => {
         }
     }, [exerciseStateArray]);
 
-    const header = (
-        <View>
-            <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={20} />
-            <View style={styles.boxImageBackground} >
-                <Image source={
-                        selectedBackground && selectedBackground.path ? imgCheck(selectedBackground.path)
-                        :
-                        IMAGE.ZERO_FON
-                    } 
-                    style={styles.imageBackground} 
-                />
-                <View style={[styles.overlay, {backgroundColor: selectedBackground ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
-            </View>
+    // const header = (
+    //     <View>
+    //         <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={20} />
+    //         <View style={styles.boxImageBackground} >
+    //             <Image source={
+    //                     selectedBackground && selectedBackground.path ? imgCheck(selectedBackground.path)
+    //                     :
+    //                     IMAGE.ZERO_FON
+    //                 } 
+    //                 style={styles.imageBackground} 
+    //             />
+    //             <View style={[styles.overlay, {backgroundColor: selectedBackground ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
+    //         </View>
 
-            <PickImage
-                aspect={[8, 5]}
-                modalPath='/exercise/modalAddImageExercise'
-                marginTop={20}
-            />
+    //         <PickImage
+    //             aspect={[8, 5]}
+    //             modalPath='/exercise/modalAddImageExercise'
+    //             marginTop={20}
+    //         />
 
-            <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
-        </View>
-    );
+    //         <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
+    //     </View>
+    // );
 
-    const footer = (
-        <>
-            <HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />
-            <ButtonGreen
-                text={t('button:create')}
-                handlePess={() => appRouter.navigate('/exercise/modalAddImageExercise')}
-                marginTop={40}
-            />
-        </>
-    )
+    // const footer = (
+    //     <>
+    //         <HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />
+    //         <ButtonGreen
+    //             text={t('button:create')}
+    //             //handlePess={() => appRouter.navigate('/exercise/modalAddImageExercise')}
+    //             handlePess={() => setData1(['Hello', 'Masha', 'Roman'])}
+    //             marginTop={40}
+    //         />
+    //     </>
+    // )
+
+    // const renderItem = ({item, drag, isActive}: RenderItemParams<string>) => {
+    //     const memoRenderItem = useMemo(() => {
+    //         return(
+    //             <ScaleDecorator>
+    //                 <Pressable
+    //                     onLongPress={drag}
+    //                     disabled={isActive}
+    //                 >
+    //                     <Title text={item} />
+    //                 </Pressable>
+    //             </ScaleDecorator>  
+    //         )
+    //     }, [item])
+
+    //     return memoRenderItem;
+    // };
 
     return (
         <View style={styles.container} >
             <View style={styles.bodyForm} >
 
-                <DraggableFlatList
+                {/* <DraggableFlatList
                     ListHeaderComponent={header}
-                    data={data}
-                    onDragEnd={ ({ data }) => setData(data) } 
+                    data={data1}
+                    onDragEnd={ ({ data }) => setData1(data) } 
                     onDragBegin={() => VibrationApp.pressButton()}
                     onPlaceholderIndexChange={() => VibrationApp.select()}
-                    keyExtractor={item => String(item.id)}
-                    renderItem={({item, drag, isActive, getIndex}) => (
-                        <SetEditSwipeable 
-                            item={item} 
-                            drag={drag} 
-                            isActive={isActive} 
-                            index={getIndex()} 
-                            setActiveButtonId={setActiveButtonId}
-                            activeButtonId={activeButtonId}
-                        />
-                    )}
+                    keyExtractor={item => String(item)}
+                    renderItem={renderItem}
                     ListFooterComponent={footer}
                     showsVerticalScrollIndicator={false}
-                />
+                /> */}
+                <AnimatedList/>
 
             </View>
         </View>
