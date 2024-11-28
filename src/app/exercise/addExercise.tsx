@@ -90,6 +90,7 @@ const AddExercise: FC = () => {
         >
             <DragFlatList
                 scrollEnabled={false}
+                gap={4}
                 ListHeaderComponent={header}
                 ListFooterComponent={footer}
                 heightElement={100}
@@ -101,10 +102,7 @@ const AddExercise: FC = () => {
                         height: '100%', 
                         alignItems: 'center', 
                         justifyContent: 'center',
-                        borderWidth: 2, 
-                        borderColor: 'black',
-                        borderRadius: 20,
-                        marginTop: 5
+                        borderRadius: 20
                         }}
                     >
                         <Title text={item.title} color='white' />

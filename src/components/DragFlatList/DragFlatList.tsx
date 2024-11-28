@@ -18,7 +18,8 @@ const DragFlatList = <T extends {id: number}>({
     renderItem,
     scrollEnabled,
     ListHeaderComponent,
-    ListFooterComponent
+    ListFooterComponent,
+    gap
 }: IDragFlatList<T>) => {
 
     const MIN_HI = 0;
@@ -59,6 +60,7 @@ const DragFlatList = <T extends {id: number}>({
                             <ListItem
                                 item={item}
                                 heightElement={heightElement}
+                                gap={gap}
 
                                 isDragging={isDragging}
                                 draggedItemId={draggedItemId}

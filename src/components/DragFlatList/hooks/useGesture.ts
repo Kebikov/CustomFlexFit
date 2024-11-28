@@ -1,7 +1,10 @@
-import { SharedValue, interpolate, interpolateColor, useAnimatedReaction, useAnimatedStyle, useDerivedValue, useSharedValue, withDelay, withSpring, withTiming } from "react-native-reanimated";
+import { SharedValue, interpolate, interpolateColor, useAnimatedReaction, useAnimatedStyle, useDerivedValue, useSharedValue, withDelay, withSpring, withTiming, runOnJS } from "react-native-reanimated";
 import { NullableNumber, TPositions } from "../types";
 import { Gesture } from "react-native-gesture-handler";
 import { COLOR_ROOT } from "@/constants/colors";
+import VibrationApp from "@/helpers/VibrationApp";
+import * as Haptics from 'expo-haptics';
+import { Platform, Vibration } from "react-native";
 
 
 export const useGesture = (
@@ -41,6 +44,11 @@ export const useGesture = (
         return draggedItemId.value;
     });
 
+    const vibroPress = () => {
+        'worklet';
+        Platform.OS === 'ios' ?  runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Light) : runOnJS(Vibration.vibrate)(7);
+    }
+
 
     useAnimatedReaction(
         () => {
@@ -52,6 +60,7 @@ export const useGesture = (
                 if (draggedItemIdDerived.value !== null && item.id === draggedItemIdDerived.value) {
                     top.value = withSpring(currentPositionsDerived.value[item.id].updatedIndex * heightElement, {}, () => {
                         console.log('Анимация 2 завершилась !');
+                        runOnJS(Haptics.selectionAsync)();
                     });
                 } else {
                     top.value = withTiming(currentPositionsDerived.value[item.id].updatedIndex * heightElement, { duration: 500 }, (evt) => {
@@ -77,9 +86,11 @@ export const useGesture = (
     };
 
 
+
     const gesturePan = Gesture.Pan()
         .activateAfterLongPress(500)
         .onStart(() => {
+            vibroPress();
             //start dragging
             isDragging.value = withSpring(1);
 
@@ -166,32 +177,37 @@ export const useGesture = (
                     : interpolate(isDraggingDerived.value, [0, 1], [1, 0.98]),
                 },
             ],
-            backgroundColor: 
-                isCurrentDraggingItem.value ? interpolateColor(isDraggingDerived.value, [0, 1], [COLOR_ROOT.metal_black, COLOR_ROOT.night_shadow])
-                : 
-                COLOR_ROOT.metal_black,
-            shadowColor: 
-                isCurrentDraggingItem.value ? interpolateColor(isDraggingDerived.value, [0, 1], [COLOR_ROOT.metal_black, COLOR_ROOT.crystal_white])
-                : 
-                undefined,
+            opacity: 
+                isCurrentDraggingItem.value 
+                ? withTiming(.8, {duration: 200})
+                : withTiming(1, {duration: 200})
+            ,
+            // backgroundColor: 
+            //     isCurrentDraggingItem.value ? interpolateColor(isDraggingDerived.value, [0, 1], [COLOR_ROOT.metal_black, COLOR_ROOT.night_shadow])
+            //     : 
+            //     COLOR_ROOT.metal_black,
+            // shadowColor: 
+            //     isCurrentDraggingItem.value ? interpolateColor(isDraggingDerived.value, [0, 1], [COLOR_ROOT.metal_black, COLOR_ROOT.crystal_white])
+            //     : 
+            //     undefined,
             // shadowOffset: {
             //     width: 0,
             //     height: isCurrentDraggingItem.value ? interpolate(isDraggingDerived.value, [0, 1], [0, 7])
             //     :
             //     0,
             // },
-            shadowOpacity: 
-                isCurrentDraggingItem.value ? interpolate(isDraggingDerived.value, [0, 1], [0, 0.2])
-                : 
-                0,
-            shadowRadius: 
-                isCurrentDraggingItem.value ? interpolate(isDraggingDerived.value, [0, 1], [0, 10])
-                : 
-                0,
-            elevation: 
-                isCurrentDraggingItem.value ? interpolate(isDraggingDerived.value, [0, 1], [0, 5])
-                : 
-                0, // For Android,
+            // shadowOpacity: 
+            //     isCurrentDraggingItem.value ? interpolate(isDraggingDerived.value, [0, 1], [0, 0.2])
+            //     : 
+            //     0,
+            // shadowRadius: 
+            //     isCurrentDraggingItem.value ? interpolate(isDraggingDerived.value, [0, 1], [0, 10])
+            //     : 
+            //     0,
+            // elevation: 
+            //     isCurrentDraggingItem.value ? interpolate(isDraggingDerived.value, [0, 1], [0, 5])
+            //     : 
+            //     0, // For Android,
             zIndex: isCurrentDraggingItem.value ? 1 : 0
         };
     });

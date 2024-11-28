@@ -14,7 +14,8 @@ const ListItem = <T extends {id: number}>({
     currentPositions,
     heightElement,
     maxHi,
-    minHi
+    minHi,
+    gap
 }: IListItem<T>) => {
 
     const { animatedStyles, gesturePan } = useGesture(
@@ -28,7 +29,13 @@ const ListItem = <T extends {id: number}>({
     );
 
     return (
-        <Animated.View style={[styles.itemContainer, {height: heightElement}, animatedStyles]} key={item.id} >
+        <Animated.View 
+            style={[
+                styles.itemContainer, 
+                {height: heightElement, paddingVertical: gap}, 
+                animatedStyles
+                ]} 
+        >
             <GestureDetector gesture={gesturePan} >
                 <Animated.View style={styles.draggerContainer}>
                     {children}

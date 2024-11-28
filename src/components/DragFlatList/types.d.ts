@@ -11,6 +11,8 @@ export interface IDragFlatList<T extends {id: number}> {
     heightList?: number;
     /** `Высота одного элемента.` */
     heightElement: number;
+    /** `Вертикальный разрыв между элементами.` */
+    gap?: number;
     /** `Массив данных для отображения.` */
     data: T[];
     /** `Функция получения и возврата элемента.` */
@@ -41,6 +43,8 @@ export interface IListItem<T extends {id: number}> {
     minHi: number;
     /** `Максимильная высота всего списка.` */
     maxHi: number;
+    /** `Отступ для элемента.` */
+    gap?: number;
 };
 
 
