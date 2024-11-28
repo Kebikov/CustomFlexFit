@@ -21,6 +21,13 @@ interface IColors {
     BUTTON_COLOR_YELLOW: string;
     BUTTON_COLOR_RED: string;
     FON_GREY: string;
+    /**
+     * Для DragLIst
+     */
+    metal_black: string;
+    night_shadow: string;
+    crystal_white: string;
+    silver_storm: string;
 }
 
 const LIME_CUSTOM = (opasity: number) => `rgba(217, 245, 17, ${opasity})`;
@@ -53,6 +60,11 @@ export const COLOR_ROOT: IColors = {
 
     BUTTON_COLOR_GREEN: 'rgba( 47, 168, 138, .6)',
     BUTTON_COLOR_YELLOW: 'rgba( 243, 205, 68, .6)',
-    BUTTON_COLOR_RED: 'rgba( 241, 50, 43, .5)'
+    BUTTON_COLOR_RED: 'rgba( 241, 50, 43, .5)',
+
+    metal_black: '#0E0C0A',
+    night_shadow: '#1C1C1C',
+    crystal_white: '#FFFFFF',
+    silver_storm: '#808080'
 };
 

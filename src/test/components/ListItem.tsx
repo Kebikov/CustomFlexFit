@@ -1,48 +1,79 @@
 import React from "react";
-import { Image, Text, View } from "react-native";
-
-import { GestureDetector } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
-import { TListItem } from "../types";
-import { styles } from "./ListItem.styles";
+import { Image, Text, View, StyleSheet, Pressable } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import Animated, { SharedValue } from "react-native-reanimated";
 import { useGesture } from "../hooks/useGesture";
+import { COLOR_ROOT } from "@/constants/colors";
+import { TItem, NullableNumber, TPositions } from "../types";
 
-export const ListItem = ({
+
+interface IListItem<T extends {id: number}> {
+    /** Отображаемый элемент. */
+    children: JSX.Element | JSX.Element[] | null;
+    /** `Данные для отображения` */
+    item: T;
+    /** `Переменная для указывающяя происходит ли в данный момент перемешение какого либо элемента.` */
+    isDragging: SharedValue<0 | 1>;
+    /** `Id элемента который в данный момент перемешяется.` */
+    draggedItemId: SharedValue<NullableNumber>;
+    /** `Текушее позиции всех элементов.` */
+    currentPositions: SharedValue<TPositions>;
+    /** `Высота одного элемента.` */
+    heightElement: number;
+    /** `Минимальная высота всего списка.` */
+    minHi: number;
+    /** `Максимильная высота всего списка.` */
+    maxHi: number;
+};
+
+
+const ListItem = <T extends {id: number}>({
+    children,
     item,
     isDragging,
     draggedItemId,
-    currentSongPositions,
-}: TListItem) => {
+    currentPositions,
+    heightElement,
+    maxHi,
+    minHi
+}: IListItem<T>) => {
 
-    const { animatedStyles, gesture } = useGesture(
+    const { animatedStyles, gesturePan } = useGesture(
         item,
         isDragging,
         draggedItemId,
-        currentSongPositions
+        currentPositions,
+        minHi,
+        maxHi,
+        heightElement
     );
 
     return (
-        <Animated.View key={item.id} style={[styles.itemContainer, animatedStyles]}>
-            <View style={styles.imageContainer}>
-                <Image
-                source={{
-                    uri: item.imageSrc,
-                }}
-                style={styles.image}
-                borderRadius={8}
-                />
-            </View>
-            <View style={styles.descriptionContainer}>
-                <Text style={styles.description1}>{item.title}</Text>
-                <Text style={styles.description2}>{item.singer}</Text>
-            </View>
-            <GestureDetector gesture={gesture}>
+        <Animated.View style={[styles.itemContainer, {height: heightElement}, animatedStyles]} key={item.id} >
+            <GestureDetector gesture={gesturePan} >
                 <Animated.View style={styles.draggerContainer}>
-                    <View style={[styles.dragger, styles.marginBottom]} />
-                    <View style={[styles.dragger, styles.marginBottom]} />
-                    <View style={styles.dragger} />
+                    {children}
                 </Animated.View>
             </GestureDetector>
         </Animated.View>
     );
 };
+
+
+export const styles = StyleSheet.create({
+    itemContainer: {
+        flexDirection: 'row',
+        position: 'absolute',
+    },
+    draggerContainer: {
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'blue',
+        borderWidth: 2,
+        borderColor: 'black'
+    }
+});
+
+
+export default ListItem;

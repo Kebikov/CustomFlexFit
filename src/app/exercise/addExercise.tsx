@@ -10,14 +10,15 @@ import { SET_BACKGROUND_FOR_EXERCISE } from '@/redux/slice/setup.slice';
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import HelpText from '@/components/HelpText/HelpText';
 import SetEditSwipeable from '@/components/SetEditSwipeable/SetEditSwipeable';
-import DraggableFlatList, {ScaleDecorator, RenderItemParams} from 'react-native-draggable-flatlist';
 import { IExerciseState } from '@/redux/slice/sets.slice';
 import useHookImageCheck from '@/hook/useHookImageCheck';
 import IMAGE from '@/source/img';
 import ButtonSwipeable from '@/components/ButtonSwipeable/ButtonSwipeable';
 import SetEdit from '@/components/SetEdit/SetEdit';
 import VibrationApp from '@/helpers/VibrationApp';
-import { AnimatedList } from '@/test/screens/AnimatedList';
+import DragList from '@/test/DragList';
+import { SONGS } from '@/test/constants';
+import { AnimatedList } from '@/test-2/screens/AnimatedList';
 
 
 /**
@@ -102,18 +103,13 @@ const AddExercise: FC = () => {
         <View style={styles.container} >
             <View style={styles.bodyForm} >
 
-                {/* <DraggableFlatList
-                    ListHeaderComponent={header}
-                    data={data1}
-                    onDragEnd={ ({ data }) => setData1(data) } 
-                    onDragBegin={() => VibrationApp.pressButton()}
-                    onPlaceholderIndexChange={() => VibrationApp.select()}
-                    keyExtractor={item => String(item)}
-                    renderItem={renderItem}
-                    ListFooterComponent={footer}
-                    showsVerticalScrollIndicator={false}
-                /> */}
-                <AnimatedList/>
+                <DragList
+                    heightElement={100}
+                    data={SONGS}
+                    renderItem={(item) => <Title text={item.title} />}
+                />
+
+                {/* <AnimatedList/> */}
 
             </View>
         </View>

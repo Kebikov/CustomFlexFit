@@ -1,24 +1,17 @@
-import {SharedValue} from 'react-native-reanimated';
-
 export type TItem = {
-  id: number;
-  title: string;
-  singer: string;
-  imageSrc: string;
+    id: number;
+    title: string;
+    singer: string;
+    imageSrc: string;
 };
 
-export type TListItem = {
-  item: TItem;
-  isDragging: SharedValue<0 | 1>;
-  draggedItemId: SharedValue<NullableNumber>;
-  currentSongPositions: SharedValue<TSongPositions>;
+
+export type TPositions = {
+    [key: number]: {
+        updatedIndex: number;
+        updatedTop: number;
+    };
 };
 
-export type TSongPositions = {
-  [key: number]: {
-    updatedIndex: number;
-    updatedTop: number;
-  };
-};
 
 export type NullableNumber = null | number;
