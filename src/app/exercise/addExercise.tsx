@@ -16,9 +16,8 @@ import IMAGE from '@/source/img';
 import ButtonSwipeable from '@/components/ButtonSwipeable/ButtonSwipeable';
 import SetEdit from '@/components/SetEdit/SetEdit';
 import VibrationApp from '@/helpers/VibrationApp';
-import DragList from '@/test/DragList';
-import { SONGS } from '@/test/constants';
-import { AnimatedList } from '@/test-2/screens/AnimatedList';
+import DragFlatList from '@/components/DragFlatList/DragFlatList';
+import { TEST_DATA } from '@/components/DragFlatList/constants';
 
 
 /**
@@ -103,13 +102,15 @@ const AddExercise: FC = () => {
         <View style={styles.container} >
             <View style={styles.bodyForm} >
 
-                <DragList
+                <DragFlatList
                     heightElement={100}
-                    data={SONGS}
-                    renderItem={(item) => <Title text={item.title} />}
+                    data={TEST_DATA}
+                    renderItem={(item) => (
+                        <View style={{backgroundColor: 'blue', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center',borderWidth: 2, borderColor: 'black'}}>
+                            <Title text={item.title} color='white' />
+                        </View>
+                    )}
                 />
-
-                {/* <AnimatedList/> */}
 
             </View>
         </View>
