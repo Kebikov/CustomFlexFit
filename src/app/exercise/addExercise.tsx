@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, Button, Pressable, Text } from 'react-native';
+import { View, StyleSheet, Image, Button, Pressable, Text, SectionList } from 'react-native';
 import React, { FC, useEffect, useState, useMemo } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
@@ -18,6 +18,7 @@ import SetEdit from '@/components/SetEdit/SetEdit';
 import VibrationApp from '@/helpers/VibrationApp';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
 import { TEST_DATA } from '@/components/DragFlatList/constants';
+import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 
 
 /**
@@ -37,7 +38,7 @@ const AddExercise: FC = () => {
     /** Id который активен в данный момент, остальные закрываются. */
     const [activeButtonId, setActiveButtonId] = useState<string>();
 
-    //const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
+    const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
 
     useEffect(() => {
         setData(exerciseStateArray);
@@ -45,75 +46,72 @@ const AddExercise: FC = () => {
         }
     }, [exerciseStateArray]);
 
-    // const header = (
-    //     <View>
-    //         <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={20} />
-    //         <View style={styles.boxImageBackground} >
-    //             <Image source={
-    //                     selectedBackground && selectedBackground.path ? imgCheck(selectedBackground.path)
-    //                     :
-    //                     IMAGE.ZERO_FON
-    //                 } 
-    //                 style={styles.imageBackground} 
-    //             />
-    //             <View style={[styles.overlay, {backgroundColor: selectedBackground ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
-    //         </View>
+    const header = (
+        <View>
+            <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={20} />
+            <View style={styles.boxImageBackground} >
+                <Image source={
+                        selectedBackground && selectedBackground.path ? imgCheck(selectedBackground.path)
+                        :
+                        IMAGE.ZERO_FON
+                    } 
+                    style={styles.imageBackground} 
+                />
+                <View style={[styles.overlay, {backgroundColor: selectedBackground ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
+            </View>
 
-    //         <PickImage
-    //             aspect={[8, 5]}
-    //             modalPath='/exercise/modalAddImageExercise'
-    //             marginTop={20}
-    //         />
+            <PickImage
+                aspect={[8, 5]}
+                modalPath='/exercise/modalAddImageExercise'
+                marginTop={20}
+            />
 
-    //         <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
-    //     </View>
-    // );
+            <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
+        </View>
+    );
 
-    // const footer = (
-    //     <>
-    //         <HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />
-    //         <ButtonGreen
-    //             text={t('button:create')}
-    //             //handlePess={() => appRouter.navigate('/exercise/modalAddImageExercise')}
-    //             handlePess={() => setData1(['Hello', 'Masha', 'Roman'])}
-    //             marginTop={40}
-    //         />
-    //     </>
-    // )
+    const footer = (
+        <>
+            <HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />
+            <ButtonGreen
+                text={t('button:create')}
+                //handlePess={() => appRouter.navigate('/exercise/modalAddImageExercise')}
+                handlePess={() => setData1(['Hello', 'Masha', 'Roman'])}
+                marginTop={40}
+            />
+        </>
+    )
 
-    // const renderItem = ({item, drag, isActive}: RenderItemParams<string>) => {
-    //     const memoRenderItem = useMemo(() => {
-    //         return(
-    //             <ScaleDecorator>
-    //                 <Pressable
-    //                     onLongPress={drag}
-    //                     disabled={isActive}
-    //                 >
-    //                     <Title text={item} />
-    //                 </Pressable>
-    //             </ScaleDecorator>  
-    //         )
-    //     }, [item])
-
-    //     return memoRenderItem;
-    // };
 
     return (
-        <View style={styles.container} >
-            <View style={styles.bodyForm} >
-
-                <DragFlatList
-                    heightElement={100}
-                    data={TEST_DATA}
-                    renderItem={(item) => (
-                        <View style={{backgroundColor: 'blue', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center',borderWidth: 2, borderColor: 'black'}}>
-                            <Title text={item.title} color='white' />
-                        </View>
-                    )}
-                />
-
-            </View>
-        </View>
+        <WrapperScroll
+            //isScrollEnabled={false}
+            backgroundColor={COLOR_ROOT.BACKGROUND}
+        >
+            <DragFlatList
+                scrollEnabled={false}
+                ListHeaderComponent={header}
+                ListFooterComponent={footer}
+                heightElement={100}
+                data={TEST_DATA}
+                renderItem={(item) => (
+                    <View style={{
+                        backgroundColor: 'blue', 
+                        width: '100%', 
+                        height: '100%', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        borderWidth: 2, 
+                        borderColor: 'black',
+                        borderRadius: 20,
+                        marginTop: 5
+                        }}
+                    >
+                        <Title text={item.title} color='white' />
+                    </View>
+                )}
+            />
+        </WrapperScroll>
     );
 };
 

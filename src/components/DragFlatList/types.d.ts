@@ -7,12 +7,20 @@ export type TPositions = {
 
 
 export interface IDragFlatList<T extends {id: number}> {
+    /** `Высота всего FlatLIst` */
+    heightList?: number;
     /** `Высота одного элемента.` */
     heightElement: number;
     /** `Массив данных для отображения.` */
     data: T[];
     /** `Функция получения и возврата элемента.` */
     renderItem: (item: T) => JSX.Element | null;
+    /** Вкл./Выкл. скрола. */
+    scrollEnabled?: boolean;
+    /** `Элементы в верху FlatList` */
+    ListHeaderComponent?: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined;
+    /** `Элементы в низу FlatList` */
+    ListFooterComponent?: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined;
 }
 
 

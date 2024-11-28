@@ -1,19 +1,24 @@
 import { useSharedValue, useDerivedValue } from 'react-native-reanimated';
 import ListItem from './components/ListItem';
-import { View, ScrollView } from 'react-native';
+import { View, LayoutChangeEvent } from 'react-native';
 import { NullableNumber, TPositions } from './types';
 import { getInitialPositions } from './helpers/getInitialPositions';
 import { FlatList } from 'react-native-gesture-handler';
 import type { IDragFlatList } from './types';
+import { useState, useEffect } from 'react';
 
 
 /**
  * `Для создания списка с возможностью перетаскивания элементов.`
  */
 const DragFlatList = <T extends {id: number}>({
+    heightList,
     heightElement,
     data,
-    renderItem
+    renderItem,
+    scrollEnabled,
+    ListHeaderComponent,
+    ListFooterComponent
 }: IDragFlatList<T>) => {
 
     const MIN_HI = 0;
@@ -29,7 +34,6 @@ const DragFlatList = <T extends {id: number}>({
         return currentPositions.value;
     });
 
-
     //console.log(JSON.stringify( currentPositionsDv.value, null, 2));
 
     // происходит ли перемешение или нет 
@@ -38,28 +42,39 @@ const DragFlatList = <T extends {id: number}>({
     // id элемента который пользователь началь перетаскивать
     const draggedItemId = useSharedValue<NullableNumber>(null);
 
-    return (
-        <FlatList
-            contentContainerStyle={{height: data.length * heightElement}}
-            data={data}
-            keyExtractor={item => String(item.id)}
-            renderItem={({item}) => {
-                return(
-                    <ListItem
-                        item={item}
-                        heightElement={heightElement}
 
-                        isDragging={isDragging}
-                        draggedItemId={draggedItemId}
-                        currentPositions={currentPositions}
-                        minHi={MIN_HI}
-                        maxHi={MAX_HI}
-                    >
-                        { renderItem(item) }
-                    </ListItem>  
-                )
-            }}
-        />
+    return (
+        <View style={{flex: 1}}>
+            {ListHeaderComponent}
+            <View style={heightList ? {height: heightList} : {flex: 1}}>
+
+                <FlatList
+                    nestedScrollEnabled
+                    scrollEnabled={scrollEnabled}
+                    contentContainerStyle={{height: data.length * heightElement, paddingHorizontal: 10}}
+                    data={data}
+                    keyExtractor={item => String(item.id)}
+
+                    renderItem={({item}) => (
+                            <ListItem
+                                item={item}
+                                heightElement={heightElement}
+
+                                isDragging={isDragging}
+                                draggedItemId={draggedItemId}
+                                currentPositions={currentPositions}
+                                minHi={MIN_HI}
+                                maxHi={MAX_HI}
+                            >
+                                { renderItem(item) }
+                            </ListItem>  
+                        )
+                    }
+                />
+
+            </View>
+            {ListFooterComponent}
+        </View>
     );
 };
 
