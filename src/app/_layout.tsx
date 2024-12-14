@@ -1,4 +1,4 @@
-import { FC, useEffect, useCallback, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { SQLiteProvider, type SQLiteDatabase } from 'expo-sqlite';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
@@ -8,7 +8,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import CONFIGURATION from '@/constants/сonfiguration';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
-import * as Font from 'expo-font';
+import { ThemeProvider, DarkTheme, DefaultTheme } from '@react-navigation/native';
+import { useColorScheme } from 'react-native';
 import { COLOR_ROOT } from '@/constants/colors';
 import { PortalProvider, PortalHost } from '@gorhom/portal';
 import '@/localization/i18n';
@@ -23,9 +24,9 @@ import RepsRestService from '@/SQL/RepsRest/service/RepsRestService';
 import dataEquipment from '@/data/equipment/dataEquipment';
 
 
-SplashScreen.preventAutoHideAsync()
-    .then((result) => console.log('Статус экранной заставки: ', result))
-    .catch(console.warn);
+DarkTheme.colors.background = COLOR_ROOT.BACKGROUND;
+
+SplashScreen.preventAutoHideAsync().then(() => console.log('Показ заставки !'))
 
 
 interface IMainLayout {
@@ -54,19 +55,21 @@ export const MainLayout: FC<IMainLayout> = ({children}) => {
     if (!loaded && !error) return null;
 
 	return (
-        <GestureHandlerRootView style={{flex: 1, backgroundColor: COLOR_ROOT.BACKGROUND}} >
-            <PortalProvider>
-                <SQLiteProvider databaseName={CONFIGURATION.DB_Name} onInit={migrateDbIfNeeded} >
-                    <Provider store={store} >
-                            <PortalHost name='clock' />
-                            <PortalHost name='InputOver' />
-                            <>
-                                {children}
-                            </>
-                    </Provider>
-                </SQLiteProvider>
-            </PortalProvider>
-        </GestureHandlerRootView>
+        <ThemeProvider value={DarkTheme} >
+            <GestureHandlerRootView style={{flex: 1, backgroundColor: COLOR_ROOT.BACKGROUND}} >
+                <PortalProvider>
+                    <SQLiteProvider databaseName={CONFIGURATION.DB_Name} onInit={migrateDbIfNeeded} >
+                        <Provider store={store} >
+                                <PortalHost name='clock' />
+                                <PortalHost name='InputOver' />
+                                <>
+                                    {children}
+                                </>
+                        </Provider>
+                    </SQLiteProvider>
+                </PortalProvider>
+            </GestureHandlerRootView>
+        </ThemeProvider>
 	);
 }
 
@@ -76,7 +79,9 @@ const IndexLayout = () => {
         <MainLayout>
             <StatusBar translucent backgroundColor='transparent'/>
             <Stack 
-                screenOptions={{headerShown: false}} 
+                screenOptions={{
+                    headerShown: false
+                }} 
             >
                 <Stack.Screen name='index' options={{animation: 'ios_from_left'}} />
                 <Stack.Screen name='settingsScreen' options={{animation: 'ios_from_left'}} />

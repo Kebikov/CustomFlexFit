@@ -29,8 +29,6 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     colorButton3 = COLOR_ROOT.BUTTON_COLOR_RED,
     marginTop,
     iconColor,
-    drag,
-    isActive,
     widthOneButton,
     heightOneButton,
     idButton,
@@ -200,9 +198,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         <View style={[styles.body, {marginTop, overflow: 'hidden'}]} >
             <GestureDetector gesture={panGesture} >
                 <Animated.View style={[styles.button, animatedStyleButton]} >
-                    <Pressable 
-                        onLongPress={drag}
-                        disabled={isActive} 
+                    <Pressable
                         style={styles.button_press}
                         onPress={() => onHandlePress()}
                     >

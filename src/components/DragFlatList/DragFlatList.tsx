@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
 /**
  * `Для создания списка с возможностью перетаскивания элементов.`
  */
-const DragFlatList = <T extends {id: number}>({
+const DragFlatList = <T extends {id: number | string}>({
     heightList,
     heightElement,
     data,
@@ -27,7 +27,7 @@ const DragFlatList = <T extends {id: number}>({
 
     // `определение позиций всех элементов при перетаскивании`
     const currentPositions = useSharedValue<TPositions>(
-        getInitialPositions(data.length, heightElement),
+        getInitialPositions(data.length, heightElement)
     );
 
     const currentPositionsDv = useDerivedValue(() => {
@@ -50,7 +50,6 @@ const DragFlatList = <T extends {id: number}>({
             <View style={heightList ? {height: heightList} : {flex: 1}}>
 
                 <FlatList
-                    nestedScrollEnabled
                     scrollEnabled={scrollEnabled}
                     contentContainerStyle={{height: data.length * heightElement, paddingHorizontal: 10}}
                     data={data}

@@ -36,14 +36,48 @@ interface IInitialStateSets {
 /**
  * `Начальное состояние упражнения при добавлении нового.`
  */
-const exerciseStateInitial = (): IExerciseState[] => [{
-    id: 'startId',
-    name: i18next.t('[exercise]:addExercise.title'),
-    note: i18next.t('[exercise]:addExercise.description'),
-    reps: {one: 10, two: 0},
-    runtime: {one: 0, two: 0},
-    restAfter: {one: 2, two: 30}
-}];
+const exerciseStateInitial = (): IExerciseState[] => [
+    {
+        id: '0',
+        name: i18next.t('[exercise]:addExercise.title'),
+        note: i18next.t('[exercise]:addExercise.description'),
+        reps: {one: 10, two: 0},
+        runtime: {one: 0, two: 0},
+        restAfter: {one: 2, two: 30}
+    },
+    {
+        id: '1',
+        name: i18next.t('[exercise]:addExercise.title'),
+        note: i18next.t('[exercise]:addExercise.description'),
+        reps: {one: 10, two: 0},
+        runtime: {one: 0, two: 0},
+        restAfter: {one: 2, two: 30}
+    },
+    {
+        id: '2',
+        name: i18next.t('[exercise]:addExercise.title'),
+        note: i18next.t('[exercise]:addExercise.description'),
+        reps: {one: 10, two: 0},
+        runtime: {one: 0, two: 0},
+        restAfter: {one: 2, two: 30}
+    },
+    {
+        id: '3',
+        name: i18next.t('[exercise]:addExercise.title'),
+        note: i18next.t('[exercise]:addExercise.description'),
+        reps: {one: 10, two: 0},
+        runtime: {one: 0, two: 0},
+        restAfter: {one: 2, two: 30}
+    },
+    {
+        id: '4',
+        name: i18next.t('[exercise]:addExercise.title'),
+        note: i18next.t('[exercise]:addExercise.description'),
+        reps: {one: 10, two: 0},
+        runtime: {one: 0, two: 0},
+        restAfter: {one: 2, two: 30}
+    }
+];
 
 
 //* initialState 

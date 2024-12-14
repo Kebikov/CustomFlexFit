@@ -34,7 +34,7 @@ const AddExercise: FC = () => {
 
     /** Данные для FlatList. */
     const [data, setData] = useState<IExerciseState[]>([]);
-    const [data1, setData1] = useState<string[]>(['Hello', 'Roman', 'Masha']);
+
     /** Id который активен в данный момент, остальные закрываются. */
     const [activeButtonId, setActiveButtonId] = useState<string>();
 
@@ -76,12 +76,13 @@ const AddExercise: FC = () => {
             <ButtonGreen
                 text={t('button:create')}
                 //handlePess={() => appRouter.navigate('/exercise/modalAddImageExercise')}
-                handlePess={() => setData1(['Hello', 'Masha', 'Roman'])}
+                handlePess={() => {}}
                 marginTop={40}
             />
         </>
     )
 
+    if(data.length === 0) return null;
 
     return (
         <WrapperScroll
@@ -90,23 +91,18 @@ const AddExercise: FC = () => {
         >
             <DragFlatList
                 scrollEnabled={false}
-                gap={4}
+                //gap={4}
                 ListHeaderComponent={header}
                 ListFooterComponent={footer}
-                heightElement={100}
-                data={TEST_DATA}
+                heightElement={70}
+                data={data}
                 renderItem={(item) => (
-                    <View style={{
-                        backgroundColor: 'blue', 
-                        width: '100%', 
-                        height: '100%', 
-                        alignItems: 'center', 
-                        justifyContent: 'center',
-                        borderRadius: 20
-                        }}
+                    <ButtonSwipeable
+                        totalButton={1}
+                        onPressButton1={() => {}}
                     >
-                        <Title text={item.title} color='white' />
-                    </View>
+                        <SetEdit exerciseState={item} />
+                    </ButtonSwipeable>
                 )}
             />
         </WrapperScroll>

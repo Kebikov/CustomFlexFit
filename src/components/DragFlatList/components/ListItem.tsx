@@ -6,7 +6,7 @@ import { useGesture } from "../hooks/useGesture";
 import { IListItem } from "../types";
 
 
-const ListItem = <T extends {id: number}>({
+const ListItem = <T extends {id: number | string}>({
     children,
     item,
     isDragging,
@@ -34,7 +34,7 @@ const ListItem = <T extends {id: number}>({
                 styles.itemContainer, 
                 {height: heightElement, paddingVertical: gap}, 
                 animatedStyles
-                ]} 
+            ]} 
         >
             <GestureDetector gesture={gesturePan} >
                 <Animated.View style={styles.draggerContainer}>

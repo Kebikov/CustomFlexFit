@@ -6,7 +6,7 @@ export type TPositions = {
 };
 
 
-export interface IDragFlatList<T extends {id: number}> {
+export interface IDragFlatList<T extends {id: number | string}> {
     /** `Высота всего FlatLIst` */
     heightList?: number;
     /** `Высота одного элемента.` */
@@ -26,7 +26,7 @@ export interface IDragFlatList<T extends {id: number}> {
 }
 
 
-export interface IListItem<T extends {id: number}> {
+export interface IListItem<T extends {id: number | string}> {
     /** `Отображаемый элемент.` */
     children: JSX.Element | JSX.Element[] | null;
     /** `Данные для отображения` */

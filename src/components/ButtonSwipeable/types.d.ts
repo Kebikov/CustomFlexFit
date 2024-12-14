@@ -43,13 +43,6 @@ export interface IButtonSwipeable {
     /** Высота одной кнопки. */
     heightOneButton?: number;
     /**
-     * //* Для DraggableFlatList. 
-     */
-    /** Функция из DraggableFlatList, для обработки перемешения элемента. `default = undefined` */
-    drag?: () => void;
-    /** Булевое значение из DraggableFlatList, во время перемешения true. `default = undefined` */
-    isActive?: boolean;
-    /**
      * //* Переменные необходимые для определения активной кнопки и закрытия не активных. 
      */
     /** Id кнопки. */

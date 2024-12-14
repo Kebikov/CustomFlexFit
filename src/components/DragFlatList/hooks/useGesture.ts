@@ -9,7 +9,7 @@ import { Platform, Vibration } from "react-native";
 
 export const useGesture = (
     /** `Данные для отображения` */
-    item: {id: number},
+    item: {id: number | string},
     /** `Переменная для указывающяя происходит ли в данный момент перемешение какого либо элемента.` */
     isDragging: SharedValue<0 | 1>,
     /** `Id элемента который в данный момент перемешяется.` */
@@ -24,6 +24,8 @@ export const useGesture = (
     heightElement: number
 ) => {
 
+    const ID = Number(item.id);
+
     //used for swapping with currentIndex
     const newIndex = useSharedValue<NullableNumber>(null);
 
@@ -34,7 +36,7 @@ export const useGesture = (
         return currentPositions.value;
     });
 
-    const top = useSharedValue(item.id * heightElement);
+    const top = useSharedValue(ID * heightElement);
 
     const isDraggingDerived = useDerivedValue(() => {
         return isDragging.value;
@@ -52,7 +54,7 @@ export const useGesture = (
 
     useAnimatedReaction(
         () => {
-            return currentPositionsDerived.value[item.id].updatedIndex;
+            return currentPositionsDerived.value[ID].updatedIndex;
         },
         (currentValue, previousValue) => {
             //console.log(currentValue, previousValue);
@@ -63,7 +65,7 @@ export const useGesture = (
                         runOnJS(Haptics.selectionAsync)();
                     });
                 } else {
-                    top.value = withTiming(currentPositionsDerived.value[item.id].updatedIndex * heightElement, { duration: 500 }, (evt) => {
+                    top.value = withTiming(currentPositionsDerived.value[ID].updatedIndex * heightElement, { duration: 500 }, (evt) => {
                         console.log('Анимация 1 завершилась !', evt);
                     });
                 }
@@ -95,10 +97,10 @@ export const useGesture = (
             isDragging.value = withSpring(1);
 
             //keep track of dragged item
-            draggedItemId.value = item.id;
+            draggedItemId.value = ID;
 
             //store dragged item id for future swap
-            currentIndex.value = currentPositionsDerived.value[item.id].updatedIndex;
+            currentIndex.value = currentPositionsDerived.value[ID].updatedIndex;
         })
         .onUpdate((e) => {
             if (draggedItemIdDerived.value === null) {
@@ -162,7 +164,7 @@ export const useGesture = (
                 },
                 };
             }
-            //stop dragging
+            //stop dragging`
             isDragging.value = withDelay(200, withSpring(0));
         })
 
@@ -208,7 +210,7 @@ export const useGesture = (
             //     isCurrentDraggingItem.value ? interpolate(isDraggingDerived.value, [0, 1], [0, 5])
             //     : 
             //     0, // For Android,
-            zIndex: isCurrentDraggingItem.value ? 1 : 0
+            zIndex: isCurrentDraggingItem.value ? 10 : 0
         };
     });
 
