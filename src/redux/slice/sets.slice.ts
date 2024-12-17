@@ -49,7 +49,7 @@ const exerciseStateInitial = (): IExerciseState[] => [
         id: '1',
         name: i18next.t('[exercise]:addExercise.title'),
         note: i18next.t('[exercise]:addExercise.description'),
-        reps: {one: 10, two: 0},
+        reps: {one: 11, two: 0},
         runtime: {one: 0, two: 0},
         restAfter: {one: 2, two: 30}
     },
@@ -57,7 +57,7 @@ const exerciseStateInitial = (): IExerciseState[] => [
         id: '2',
         name: i18next.t('[exercise]:addExercise.title'),
         note: i18next.t('[exercise]:addExercise.description'),
-        reps: {one: 10, two: 0},
+        reps: {one: 12, two: 0},
         runtime: {one: 0, two: 0},
         restAfter: {one: 2, two: 30}
     },
@@ -65,7 +65,7 @@ const exerciseStateInitial = (): IExerciseState[] => [
         id: '3',
         name: i18next.t('[exercise]:addExercise.title'),
         note: i18next.t('[exercise]:addExercise.description'),
-        reps: {one: 10, two: 0},
+        reps: {one: 13, two: 0},
         runtime: {one: 0, two: 0},
         restAfter: {one: 2, two: 30}
     },
@@ -73,7 +73,7 @@ const exerciseStateInitial = (): IExerciseState[] => [
         id: '4',
         name: i18next.t('[exercise]:addExercise.title'),
         note: i18next.t('[exercise]:addExercise.description'),
-        reps: {one: 10, two: 0},
+        reps: {one: 14, two: 0},
         runtime: {one: 0, two: 0},
         restAfter: {one: 2, two: 30}
     }

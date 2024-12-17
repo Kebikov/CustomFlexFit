@@ -15,6 +15,8 @@ export interface IDragFlatList<T extends {id: number | string}> {
     gap?: number;
     /** `Массив данных для отображения.` */
     data: T[];
+    /** `Установка данных для отображения.` */
+    setData: React.Dispatch<React.SetStateAction<T[]>>
     /** `Функция получения и возврата элемента.` */
     renderItem: (item: T) => JSX.Element | null;
     /** Вкл./Выкл. скрола. */

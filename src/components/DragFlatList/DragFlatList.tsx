@@ -1,4 +1,4 @@
-import { useSharedValue, useDerivedValue } from 'react-native-reanimated';
+import { useSharedValue, useDerivedValue, useAnimatedReaction, runOnJS } from 'react-native-reanimated';
 import ListItem from './components/ListItem';
 import { View, LayoutChangeEvent } from 'react-native';
 import { NullableNumber, TPositions } from './types';
@@ -6,6 +6,7 @@ import { getInitialPositions } from './helpers/getInitialPositions';
 import { FlatList } from 'react-native-gesture-handler';
 import type { IDragFlatList } from './types';
 import { useState, useEffect } from 'react';
+import { getDataAfterDrag } from './helpers/getDataAfterDrag';
 
 
 /**
@@ -15,6 +16,7 @@ const DragFlatList = <T extends {id: number | string}>({
     heightList,
     heightElement,
     data,
+    setData,
     renderItem,
     scrollEnabled,
     ListHeaderComponent,
@@ -30,18 +32,24 @@ const DragFlatList = <T extends {id: number | string}>({
         getInitialPositions(data.length, heightElement)
     );
 
-    const currentPositionsDv = useDerivedValue(() => {
-        //console.log(JSON.stringify( currentPositions.value, null, 2));
-        return currentPositions.value;
-    });
-
-    //console.log(JSON.stringify( currentPositionsDv.value, null, 2));
-
     // происходит ли перемешение или нет 
     const isDragging = useSharedValue<0 | 1>(0);
 
     // id элемента который пользователь началь перетаскивать
     const draggedItemId = useSharedValue<NullableNumber>(null);
+
+    useAnimatedReaction(
+        () => isDragging.value,
+        (currentValue, previousValue) => {
+            if (currentValue === 0 && previousValue === 1) {
+                //console.log('=========================================================================================');
+                const newData = getDataAfterDrag(data, currentPositions);
+                //console.log('newData = ', JSON.stringify( newData, null, 2));
+                runOnJS(setData)(newData);
+            }
+        },
+        []
+    )
 
 
     return (

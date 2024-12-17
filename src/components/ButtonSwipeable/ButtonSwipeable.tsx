@@ -130,7 +130,6 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         width: widthButton,
     };
 
-
     /** Стиль для тела кнопки. */
     const styleBodyButton = (colorButton: string): ViewStyle => ({
         width: '100%',
@@ -176,7 +175,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
 
     // Если, id(idButton) кнопки и установленный активный id(activeButtonId) не совподают, закрываем данную кнопку.
     if(activeButtonId && idButton) {
-        if(activeButtonId !== idButton) {
+        if(activeButtonId !== idButton || activeButtonId === '') {
             runOnUI(closeStateButton)();
         }
     }
@@ -186,7 +185,6 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         () => isActiveButton.value,
         (currentValue, previousValue) => {
             if (currentValue === true && idButton && setActiveButtonId) {
-                console.log(`Shared value changed: ${idButton}`);
                 runOnJS(setActiveButtonId)(idButton);
             }
         },
@@ -200,7 +198,10 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
                 <Animated.View style={[styles.button, animatedStyleButton]} >
                     <Pressable
                         style={styles.button_press}
-                        onPress={() => onHandlePress()}
+                        onPress={() => {
+                            console.log('Нажатие основной кнопки.');
+                            onHandlePress();
+                        }}
                     >
                         {children}
                     </Pressable>

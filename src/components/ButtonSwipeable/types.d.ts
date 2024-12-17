@@ -48,7 +48,7 @@ export interface IButtonSwipeable {
     /** Id кнопки. */
     idButton?: string;
     /** @param {SetStateAction} setActiveButtonId SetStateAction срабатываюший при нажатии основной кнопки и устанавливаюший id активной кнопки. */
-    setActiveButtonId?: React.Dispatch<React.SetStateAction<string | undefined>>;
+    setActiveButtonId?: React.Dispatch<React.SetStateAction<string>>;
     /** Id активной кнопки. */
-    activeButtonId?: string | undefined;
+    activeButtonId?: string;
 }

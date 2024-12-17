@@ -15,9 +15,7 @@ import useHookImageCheck from '@/hook/useHookImageCheck';
 import IMAGE from '@/source/img';
 import ButtonSwipeable from '@/components/ButtonSwipeable/ButtonSwipeable';
 import SetEdit from '@/components/SetEdit/SetEdit';
-import VibrationApp from '@/helpers/VibrationApp';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
-import { TEST_DATA } from '@/components/DragFlatList/constants';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 
 
@@ -34,9 +32,11 @@ const AddExercise: FC = () => {
 
     /** Данные для FlatList. */
     const [data, setData] = useState<IExerciseState[]>([]);
+    //console.log('data =====================================================================================\n',JSON.stringify( data, null, 2));
 
     /** Id который активен в данный момент, остальные закрываются. */
-    const [activeButtonId, setActiveButtonId] = useState<string>();
+    const [activeButtonId, setActiveButtonId] = useState<string>('');
+    console.log('activeButtonId = ', activeButtonId);
 
     const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
 
@@ -96,10 +96,15 @@ const AddExercise: FC = () => {
                 ListFooterComponent={footer}
                 heightElement={70}
                 data={data}
+                setData={setData}
                 renderItem={(item) => (
                     <ButtonSwipeable
                         totalButton={1}
                         onPressButton1={() => {}}
+
+                        idButton={item.id}
+                        activeButtonId={activeButtonId}
+                        setActiveButtonId={setActiveButtonId}
                     >
                         <SetEdit exerciseState={item} />
                     </ButtonSwipeable>

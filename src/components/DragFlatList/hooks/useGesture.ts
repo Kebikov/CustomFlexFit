@@ -6,6 +6,7 @@ import VibrationApp from "@/helpers/VibrationApp";
 import * as Haptics from 'expo-haptics';
 import { Platform, Vibration } from "react-native";
 
+const DELAY = 200;
 
 export const useGesture = (
     /** `Данные для отображения` */
@@ -26,7 +27,7 @@ export const useGesture = (
 
     const ID = Number(item.id);
 
-    //used for swapping with currentIndex
+    // used for swapping with currentIndex
     const newIndex = useSharedValue<NullableNumber>(null);
 
     //used for swapping with newIndex
@@ -61,20 +62,22 @@ export const useGesture = (
             if (previousValue !== null && currentValue !== previousValue) {
                 if (draggedItemIdDerived.value !== null && item.id === draggedItemIdDerived.value) {
                     top.value = withSpring(currentPositionsDerived.value[item.id].updatedIndex * heightElement, {}, () => {
-                        console.log('Анимация 2 завершилась !');
+                        //console.log('Анимация 2 завершилась !');
                         runOnJS(Haptics.selectionAsync)();
                     });
                 } else {
                     top.value = withTiming(currentPositionsDerived.value[ID].updatedIndex * heightElement, { duration: 500 }, (evt) => {
                         console.log('Анимация 1 завершилась !', evt);
+                        if(!evt) runOnJS(Haptics.selectionAsync)();
                     });
                 }
             }
         }
     );
 
+
     const isCurrentDraggingItem = useDerivedValue(() => {
-        return isDraggingDerived.value && draggedItemIdDerived.value === item.id;
+        return isDraggingDerived.value && draggedItemIdDerived.value === Number(item.id);
     });
 
     const getKeyOfValue = (value: number, obj: TPositions): number | undefined => {
@@ -92,13 +95,15 @@ export const useGesture = (
     const gesturePan = Gesture.Pan()
         .activateAfterLongPress(500)
         .onStart(() => {
+            console.log('Активна !');
             vibroPress();
             //start dragging
-            isDragging.value = withSpring(1);
+            //isDragging.value = withSpring(1);
+            isDragging.value = 1;
 
             //keep track of dragged item
             draggedItemId.value = ID;
-
+            console.log('draggedItemId.value = ', draggedItemId.value);
             //store dragged item id for future swap
             currentIndex.value = currentPositionsDerived.value[ID].updatedIndex;
         })
@@ -155,7 +160,7 @@ export const useGesture = (
             const currentDragIndexItemKey = getKeyOfValue(currentIndex.value, currentPositionsDerived.value);
 
             if (currentDragIndexItemKey !== undefined) {
-                //update the values for item whose drag we just stopped
+                // update the values for item whose drag we just stopped
                 currentPositions.value = {
                 ...currentPositionsDerived.value,
                 [currentDragIndexItemKey]: {
@@ -165,51 +170,21 @@ export const useGesture = (
                 };
             }
             //stop dragging`
-            isDragging.value = withDelay(200, withSpring(0));
+            isDragging.value = withDelay(DELAY, withTiming(0, {duration: 0}, (evt) => {
+                if(evt) console.log('END');
+            }));
         })
 
 
     const animatedStyles = useAnimatedStyle(() => {
+
         return {
             top: top.value,
-            transform: [
-                {
-                scale: isCurrentDraggingItem.value
-                    ? interpolate(isDraggingDerived.value, [0, 1], [1, 1.025])
-                    : interpolate(isDraggingDerived.value, [0, 1], [1, 0.98]),
-                },
-            ],
             opacity: 
                 isCurrentDraggingItem.value 
-                ? withTiming(.8, {duration: 200})
-                : withTiming(1, {duration: 200})
+                ? withTiming(.5, {duration: DELAY})
+                : withTiming(1, {duration: DELAY})
             ,
-            // backgroundColor: 
-            //     isCurrentDraggingItem.value ? interpolateColor(isDraggingDerived.value, [0, 1], [COLOR_ROOT.metal_black, COLOR_ROOT.night_shadow])
-            //     : 
-            //     COLOR_ROOT.metal_black,
-            // shadowColor: 
-            //     isCurrentDraggingItem.value ? interpolateColor(isDraggingDerived.value, [0, 1], [COLOR_ROOT.metal_black, COLOR_ROOT.crystal_white])
-            //     : 
-            //     undefined,
-            // shadowOffset: {
-            //     width: 0,
-            //     height: isCurrentDraggingItem.value ? interpolate(isDraggingDerived.value, [0, 1], [0, 7])
-            //     :
-            //     0,
-            // },
-            // shadowOpacity: 
-            //     isCurrentDraggingItem.value ? interpolate(isDraggingDerived.value, [0, 1], [0, 0.2])
-            //     : 
-            //     0,
-            // shadowRadius: 
-            //     isCurrentDraggingItem.value ? interpolate(isDraggingDerived.value, [0, 1], [0, 10])
-            //     : 
-            //     0,
-            // elevation: 
-            //     isCurrentDraggingItem.value ? interpolate(isDraggingDerived.value, [0, 1], [0, 5])
-            //     : 
-            //     0, // For Android,
             zIndex: isCurrentDraggingItem.value ? 10 : 0
         };
     });

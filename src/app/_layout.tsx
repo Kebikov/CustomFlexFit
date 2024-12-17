@@ -22,6 +22,7 @@ import ListService from '@/SQL/List/service/ListService';
 import List_Equipment_Service from '@/SQL/REFERENCES/List_Equipment/service/List_Equipment_Service';
 import RepsRestService from '@/SQL/RepsRest/service/RepsRestService';
 import dataEquipment from '@/data/equipment/dataEquipment';
+import React from 'react';
 
 
 DarkTheme.colors.background = COLOR_ROOT.BACKGROUND;

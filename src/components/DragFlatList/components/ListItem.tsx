@@ -52,6 +52,7 @@ export const styles = StyleSheet.create({
         position: 'absolute'
     },
     draggerContainer: {
+        position: 'relative',
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center'
