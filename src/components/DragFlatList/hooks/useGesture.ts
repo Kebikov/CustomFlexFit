@@ -22,7 +22,9 @@ export const useGesture = (
     /** `Максимильная высота всего списка.` */
     maxHi: number,
     /** `Высота одного элемента.` */
-    heightElement: number
+    heightElement: number,
+    /** `SetStateAction для установки id активной кнопки` */
+    setActiveButtonId?: React.Dispatch<React.SetStateAction<string>>
 ) => {
 
     const ID = Number(item.id);
@@ -67,7 +69,7 @@ export const useGesture = (
                     });
                 } else {
                     top.value = withTiming(currentPositionsDerived.value[ID].updatedIndex * heightElement, { duration: 500 }, (evt) => {
-                        console.log('Анимация 1 завершилась !', evt);
+                        //console.log('Анимация 1 завершилась !', evt);
                         if(!evt) runOnJS(Haptics.selectionAsync)();
                     });
                 }
@@ -95,7 +97,11 @@ export const useGesture = (
     const gesturePan = Gesture.Pan()
         .activateAfterLongPress(500)
         .onStart(() => {
-            console.log('Активна !');
+            // Если есть функция, то обнуляем id активной кнопки,_
+            //_ для закрытия всех кнопок во время перемещения кнопки.
+            if(setActiveButtonId) {
+                runOnJS(setActiveButtonId)('');
+            }
             vibroPress();
             //start dragging
             //isDragging.value = withSpring(1);
@@ -103,7 +109,6 @@ export const useGesture = (
 
             //keep track of dragged item
             draggedItemId.value = ID;
-            console.log('draggedItemId.value = ', draggedItemId.value);
             //store dragged item id for future swap
             currentIndex.value = currentPositionsDerived.value[ID].updatedIndex;
         })

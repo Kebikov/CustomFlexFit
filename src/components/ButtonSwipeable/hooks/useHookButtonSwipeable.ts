@@ -105,7 +105,6 @@ export const useHookButtonSwipeable = (
      */
     const closeStateButton = () => {
         'worklet';
-        console.log('closeStateButton !');
         isActiveButton.value = false;
         translateButtonSv.value = withTiming(0, {duration: 200}); 
         rightPositionButton1Sv.value = withTiming(-widthButton, {duration: 200});

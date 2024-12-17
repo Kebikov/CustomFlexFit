@@ -91,12 +91,12 @@ const AddExercise: FC = () => {
         >
             <DragFlatList
                 scrollEnabled={false}
-                //gap={4}
                 ListHeaderComponent={header}
                 ListFooterComponent={footer}
                 heightElement={70}
                 data={data}
                 setData={setData}
+                setActiveButtonId={setActiveButtonId}
                 renderItem={(item) => (
                     <ButtonSwipeable
                         totalButton={1}

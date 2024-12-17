@@ -1,7 +1,7 @@
 import { useHookButtonSwipeable } from './hooks/useHookButtonSwipeable';
 import { useHookAnimatedStyle } from './hooks/useHookAnimatedStyle';
 import { COLOR_ROOT } from '@/constants/colors';
-import React, { FC, useState, useMemo } from 'react';
+import React, { FC, useState, useMemo, useEffect } from 'react';
 import { StyleSheet, View, Dimensions, Image, Pressable, ViewStyle } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {useSharedValue, useAnimatedReaction, runOnJS, runOnUI} from 'react-native-reanimated';
@@ -173,13 +173,6 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         )
     }
 
-    // Если, id(idButton) кнопки и установленный активный id(activeButtonId) не совподают, закрываем данную кнопку.
-    if(activeButtonId && idButton) {
-        if(activeButtonId !== idButton || activeButtonId === '') {
-            runOnUI(closeStateButton)();
-        }
-    }
-
     // Отслеживание состояния кнопки и установка id в setActiveButtonId, если кнопка стала активной.
     useAnimatedReaction(
         () => isActiveButton.value,
@@ -190,6 +183,15 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         },
         [idButton]
     );
+
+    useEffect(() => {
+        // Если, id(idButton) кнопки и установленный активный id(activeButtonId) не совподают, закрываем данную кнопку.
+        if(idButton) {
+            if(activeButtonId !== idButton || activeButtonId === '') {
+                runOnUI(closeStateButton)();
+            }
+        }
+    }, [activeButtonId])
 
 
     return (
