@@ -1,16 +1,14 @@
-import { View, StyleSheet, Image, Button, Pressable, Text, SectionList } from 'react-native';
-import React, { FC, useEffect, useState, useMemo } from 'react';
+import { View, StyleSheet, Image } from 'react-native';
+import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { useHookRouter } from '@/router/useHookRouter';
 import { useTranslation } from 'react-i18next';
 import PickImage from '@/components/PickImage/PickImage';
-import { SET_BACKGROUND_FOR_EXERCISE } from '@/redux/slice/setup.slice';
 import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
-import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
+import { useAppDispatch } from '@/redux/store/hooks';
 import HelpText from '@/components/HelpText/HelpText';
-import SetEditSwipeable from '@/components/SetEditSwipeable/SetEditSwipeable';
 import { IExerciseState } from '@/redux/slice/sets.slice';
 import useHookImageCheck from '@/hook/useHookImageCheck';
 import IMAGE from '@/source/img';
@@ -39,7 +37,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
         setActiveButtonId,
         selectedBackground
     } = usePageAddExercise();
-    console.log(data);
+
     const header = (
         <View>
             <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={10} />
@@ -78,7 +76,6 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
 
     const addElement = (id: string) => {
         const find = data.findIndex(item => item.id === id);
-        //console.log('find = ', String(find))
         /** `Копия добавляемого элемента` */
         const newElement: IExerciseState = JSON.parse(JSON.stringify(data[find]));
         /** `Массив всех id` */
@@ -87,18 +84,16 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
         const maxId = Math.max(...arrId);
         // Установка id добавляемого элемента
         newElement.id = String(maxId + 1);
-
+        // Добавляем новый элемент в конец списка.
         const newData = [...data, newElement];
 
         DISPATCH(SET_EXERCISE_STATE(newData));
-        //setData(newData);
     }
 
     if(data.length === 0) return null;
 
     return (
         <WrapperScroll
-            //isScrollEnabled={false}
             backgroundColor={COLOR_ROOT.BACKGROUND}
         >
             <DragFlatList
