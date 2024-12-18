@@ -53,7 +53,7 @@ const AddRepsRest: FC = () => {
 
     const {sendIndex} = useLocalSearchParams<{sendIndex: string}>();
     const index = Number(sendIndex);
-
+    //console.log('index = ', index);
     const exerciseStateArray = useAppSelector(state => state.setsSlice.exerciseStateArray);
 
     /**

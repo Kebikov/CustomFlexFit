@@ -5,6 +5,7 @@ import { COLOR_ROOT } from "@/constants/colors";
 import VibrationApp from "@/helpers/VibrationApp";
 import * as Haptics from 'expo-haptics';
 import { Platform, Vibration } from "react-native";
+import logApp from "@/helpers/log";
 
 const DELAY = 200;
 
@@ -176,7 +177,7 @@ export const useGesture = (
             }
             //stop dragging`
             isDragging.value = withDelay(DELAY, withTiming(0, {duration: 0}, (evt) => {
-                if(evt) console.log('END');
+                //if(evt) console.log('END');
             }));
         })
 

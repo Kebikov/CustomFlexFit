@@ -7,6 +7,7 @@ import { useHookRouter } from '@/router/useHookRouter';
 import { useTranslation } from 'react-i18next';
 import PickImage from '@/components/PickImage/PickImage';
 import { SET_BACKGROUND_FOR_EXERCISE } from '@/redux/slice/setup.slice';
+import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import HelpText from '@/components/HelpText/HelpText';
 import SetEditSwipeable from '@/components/SetEditSwipeable/SetEditSwipeable';
@@ -17,38 +18,31 @@ import ButtonSwipeable from '@/components/ButtonSwipeable/ButtonSwipeable';
 import SetEdit from '@/components/SetEdit/SetEdit';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
+import usePageAddExercise from '@/hook/hookForScreen/usePageAddExercise';
+import logApp from '@/helpers/log';
 
 
 /**
  * @page `Страница добавления занятия.`
  */
-const AddExercise: FC = () => {
+const AddExercise: FC = () => { logApp.page('AddExercise');
 
     const {imgCheck} = useHookImageCheck();
     const {appRouter} = useHookRouter();
+    const DISPATCH = useAppDispatch();
     const {t} = useTranslation(['[exercise]', 'button']);
 
-    const exerciseStateArray: IExerciseState[] = useAppSelector(state => state.setsSlice.exerciseStateArray);
-
-    /** Данные для FlatList. */
-    const [data, setData] = useState<IExerciseState[]>([]);
-    //console.log('data =====================================================================================\n',JSON.stringify( data, null, 2));
-
-    /** Id который активен в данный момент, остальные закрываются. */
-    const [activeButtonId, setActiveButtonId] = useState<string>('');
-    console.log('activeButtonId = ', activeButtonId);
-
-    const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
-
-    useEffect(() => {
-        setData(exerciseStateArray);
-        return () => {
-        }
-    }, [exerciseStateArray]);
-
+    const {
+        data,
+        setData,
+        activeButtonId, 
+        setActiveButtonId,
+        selectedBackground
+    } = usePageAddExercise();
+    console.log(data);
     const header = (
         <View>
-            <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={20} />
+            <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={10} />
             <View style={styles.boxImageBackground} >
                 <Image source={
                         selectedBackground && selectedBackground.path ? imgCheck(selectedBackground.path)
@@ -72,7 +66,7 @@ const AddExercise: FC = () => {
 
     const footer = (
         <>
-            <HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />
+            {/* <HelpText text={t('[exercise]:addExercise.infoCreateExercise')} /> */}
             <ButtonGreen
                 text={t('button:create')}
                 //handlePess={() => appRouter.navigate('/exercise/modalAddImageExercise')}
@@ -82,6 +76,24 @@ const AddExercise: FC = () => {
         </>
     )
 
+    const addElement = (id: string) => {
+        const find = data.findIndex(item => item.id === id);
+        //console.log('find = ', String(find))
+        /** `Копия добавляемого элемента` */
+        const newElement: IExerciseState = JSON.parse(JSON.stringify(data[find]));
+        /** `Массив всех id` */
+        const arrId = data.map(item => Number(item.id));
+        /** `Максимальный id` */
+        const maxId = Math.max(...arrId);
+        // Установка id добавляемого элемента
+        newElement.id = String(maxId + 1);
+
+        const newData = [...data, newElement];
+
+        DISPATCH(SET_EXERCISE_STATE(newData));
+        //setData(newData);
+    }
+
     if(data.length === 0) return null;
 
     return (
@@ -90,17 +102,33 @@ const AddExercise: FC = () => {
             backgroundColor={COLOR_ROOT.BACKGROUND}
         >
             <DragFlatList
+                style={{flex: 1, padding: 10}}
+                styleContainer={{marginTop: 10}}
                 scrollEnabled={false}
+                // Elements
                 ListHeaderComponent={header}
                 ListFooterComponent={footer}
+                bottomComponentFlatList={<HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />}
+
                 heightElement={70}
                 data={data}
                 setData={setData}
                 setActiveButtonId={setActiveButtonId}
+
                 renderItem={(item) => (
                     <ButtonSwipeable
-                        totalButton={1}
-                        onPressButton1={() => {}}
+                        totalButton={3}
+
+                        onPressButton1={() => {
+                            // переход на страницу редактирования упражнения по id
+                            appRouter.navigate({pathname: '/exercise/addRepsRest', params: {sendIndex: item.id}});
+                        }}
+                        onPressButton2={() => addElement(item.id)}
+                        onPressButton3={() => {}}
+                        //style
+                        widthOneButton={62}
+                        heightOneButton={62}
+                        paddingInsideButton={22}
 
                         idButton={item.id}
                         activeButtonId={activeButtonId}
@@ -109,6 +137,7 @@ const AddExercise: FC = () => {
                         <SetEdit exerciseState={item} />
                     </ButtonSwipeable>
                 )}
+
             />
         </WrapperScroll>
     );

@@ -1,18 +1,19 @@
 import { useSharedValue, useDerivedValue, useAnimatedReaction, runOnJS } from 'react-native-reanimated';
 import ListItem from './components/ListItem';
-import { View, LayoutChangeEvent } from 'react-native';
+import { View, Text } from 'react-native';
 import { NullableNumber, TPositions } from './types';
 import { getInitialPositions } from './helpers/getInitialPositions';
 import { FlatList } from 'react-native-gesture-handler';
 import type { IDragFlatList } from './types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { getDataAfterDrag } from './helpers/getDataAfterDrag';
+import logApp from '@/helpers/log';
 
 
 /**
  * `Для создания списка с возможностью перетаскивания элементов.`
  */
-const DragFlatList = <T extends {id: number | string}>({
+const DragFlatList = <T extends {id: string}>({
     heightList,
     heightElement,
     data,
@@ -21,15 +22,18 @@ const DragFlatList = <T extends {id: number | string}>({
     scrollEnabled,
     ListHeaderComponent,
     ListFooterComponent,
-    setActiveButtonId
+    setActiveButtonId,
+    style,
+    styleContainer,
+    bottomComponentFlatList
 }: IDragFlatList<T>) => {
 
     const MIN_HI = 0;
     const MAX_HI = (data.length - 1) * heightElement;
 
-    // `определение позиций всех элементов при перетаскивании`
+    // `определение позиций всех элементов`
     const currentPositions = useSharedValue<TPositions>(
-        getInitialPositions(data.length, heightElement)
+        getInitialPositions(data, heightElement)
     );
 
     // происходит ли перемешение или нет 
@@ -42,24 +46,26 @@ const DragFlatList = <T extends {id: number | string}>({
         () => isDragging.value,
         (currentValue, previousValue) => {
             if (currentValue === 0 && previousValue === 1) {
-                //console.log('=========================================================================================');
                 const newData = getDataAfterDrag(data, currentPositions);
-                //console.log('newData = ', JSON.stringify( newData, null, 2));
                 runOnJS(setData)(newData);
             }
-        },
-        []
+        },[data]
     )
 
+    useLayoutEffect(() => {
+        currentPositions.value = getInitialPositions(data, heightElement)
+    }, [data]);
+    
 
     return (
-        <View style={{flex: 1}}>
+        <View style={{...style}}>
             {ListHeaderComponent}
             <View style={heightList ? {height: heightList} : {flex: 1}}>
 
                 <FlatList
+                    style={{...styleContainer}}
                     scrollEnabled={scrollEnabled}
-                    contentContainerStyle={{height: data.length * heightElement, paddingHorizontal: 10}}
+                    contentContainerStyle={{height: data.length * heightElement}}
                     data={data}
                     keyExtractor={item => String(item.id)}
 
@@ -80,7 +86,9 @@ const DragFlatList = <T extends {id: number | string}>({
                         )
                     }
                 />
-
+                <View style={{position: 'absolute', top: MAX_HI ? MAX_HI + heightElement + 5 : heightElement + 5}} >
+                    {bottomComponentFlatList}
+                </View>
             </View>
             {ListFooterComponent}
         </View>

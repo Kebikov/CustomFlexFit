@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { DayDTO } from '@/SQL/Day/DTO/DayDTO';
-import { RootState } from '../store/store';
 import type { ExerciseDTO } from '@/SQL/Exercise/DTO/ExerciseDTO';
 import type { ITimeClock } from '@/components/Clock/Clock';
 import i18next from 'i18next';
@@ -44,38 +43,6 @@ const exerciseStateInitial = (): IExerciseState[] => [
         reps: {one: 10, two: 0},
         runtime: {one: 0, two: 0},
         restAfter: {one: 2, two: 30}
-    },
-    {
-        id: '1',
-        name: i18next.t('[exercise]:addExercise.title'),
-        note: i18next.t('[exercise]:addExercise.description'),
-        reps: {one: 11, two: 0},
-        runtime: {one: 0, two: 0},
-        restAfter: {one: 2, two: 30}
-    },
-    {
-        id: '2',
-        name: i18next.t('[exercise]:addExercise.title'),
-        note: i18next.t('[exercise]:addExercise.description'),
-        reps: {one: 12, two: 0},
-        runtime: {one: 0, two: 0},
-        restAfter: {one: 2, two: 30}
-    },
-    {
-        id: '3',
-        name: i18next.t('[exercise]:addExercise.title'),
-        note: i18next.t('[exercise]:addExercise.description'),
-        reps: {one: 13, two: 0},
-        runtime: {one: 0, two: 0},
-        restAfter: {one: 2, two: 30}
-    },
-    {
-        id: '4',
-        name: i18next.t('[exercise]:addExercise.title'),
-        note: i18next.t('[exercise]:addExercise.description'),
-        reps: {one: 14, two: 0},
-        runtime: {one: 0, two: 0},
-        restAfter: {one: 2, two: 30}
     }
 ];
 
@@ -95,7 +62,7 @@ const setsSlice = createSlice({
          * `//--Установка состояния при создании нового упражнения.`
          */
         SET_EXERCISE_STATE: (state, action: PayloadAction<IExerciseState[] | IExerciseState | 'RESET'>) => {
-            console.info('work > SET_EXERCISE_STATE');
+
             if(action.payload === 'RESET') {
                 // Сброс состояния в ночальное, используется при изминении языка.
                 state.exerciseStateArray = exerciseStateInitial();

@@ -19,10 +19,18 @@ export interface IDragFlatList<T extends {id: number | string}> {
     renderItem: (item: T) => JSX.Element | null;
     /** Вкл./Выкл. скрола. Выключаем, если DragFlatList у родительского компонент есть Scroll*/
     scrollEnabled?: boolean;
+    //* Дополнительные Element
     /** `Элементы в верху FlatList` */
     ListHeaderComponent?: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined;
     /** `Элементы в низу FlatList` */
     ListFooterComponent?: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined;
+    /** `Элемент внизу FlatList` */
+    bottomComponentFlatList?: JSX.Element
+    //* Стили:
+    /** `Стили для DragFlatList` */
+    style?: StyleProp<ViewStyle>;
+    /** `Стили для контейнера с элементами` */
+    styleContainer?: StyleProp<ViewStyle>;
     //* Переменные для закрытия всех активных кнопок:
     /** `SetStateAction для установки id активной кнопки` */
     setActiveButtonId?: React.Dispatch<React.SetStateAction<string>>

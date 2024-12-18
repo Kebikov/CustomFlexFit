@@ -3,9 +3,7 @@ export interface IButtonSwipeable {
     children: JSX.Element | JSX.Element[];
     /** Количество кнопок под кнопкой. */
     totalButton: 1 | 2 | 3;
-    /**
-     * //* Отступв от основной кнопки. 
-     */
+    //* Отступв от основной кнопки. 
     /** Отступ с верху. */
     marginTop?: number;
     /**

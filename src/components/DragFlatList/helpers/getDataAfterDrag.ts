@@ -7,14 +7,14 @@ import { SharedValue } from "react-native-reanimated";
  * @param positionSv Текушие позиции элементов.
  * @returns 
  */
-export const getDataAfterDrag = <T>(data: T[], positionSv: SharedValue<TPositions>): T[] => {
+export const getDataAfterDrag = <T extends {id: string}>(data: T[], positionSv: SharedValue<TPositions>): T[] => {
     'worklet'
     const position = positionSv.value;
     const lengthObject = Object.keys(position).length;
     const arrData = Array(lengthObject);
 
-    for(let key in position) {
-        arrData[position[key].updatedIndex] = data[Number(key)]
+    for(let id in position) {
+        arrData[position[id].updatedIndex] = data.find(item => item.id === id)
     }
 
     return arrData;

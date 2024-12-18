@@ -201,7 +201,6 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
                     <Pressable
                         style={styles.button_press}
                         onPress={() => {
-                            console.log('Нажатие основной кнопки.');
                             onHandlePress();
                         }}
                     >
@@ -240,7 +239,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
 const styles = StyleSheet.create({
     body: { 
         position: 'relative', 
-        width: '100%' 
+        width: '100%'
     },
     button: { 
         position: 'relative',
