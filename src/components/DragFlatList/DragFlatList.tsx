@@ -13,7 +13,7 @@ import logApp from '@/helpers/log';
 /**
  * `Для создания списка с возможностью перетаскивания элементов.`
  */
-const DragFlatList = <T extends {id: string}>({
+const DragFlatList = <T extends {id: string | number}>({
     heightList,
     heightElement,
     data,

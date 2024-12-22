@@ -7,8 +7,7 @@ export type TPositions = {
 
 
 export interface IDragFlatList<T extends {id: number | string}> {
-    /** `Высота всего FlatLIst` */
-    heightList?: number;
+    //* Mandatory prop
     /** `Высота одного элемента.` */
     heightElement: number;
     /** `Массив данных для отображения.` */
@@ -17,8 +16,6 @@ export interface IDragFlatList<T extends {id: number | string}> {
     setData: React.Dispatch<React.SetStateAction<T[]>>
     /** `Функция получения и возврата элемента.` */
     renderItem: (item: T) => JSX.Element | null;
-    /** Вкл./Выкл. скрола. Выключаем, если DragFlatList у родительского компонент есть Scroll*/
-    scrollEnabled?: boolean;
     //* Дополнительные Element
     /** `Элементы в верху FlatList` */
     ListHeaderComponent?: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined;
@@ -27,6 +24,10 @@ export interface IDragFlatList<T extends {id: number | string}> {
     /** `Элемент внизу FlatList` */
     bottomComponentFlatList?: JSX.Element
     //* Стили:
+    /** `Высота всего FlatLIst` */
+    heightList?: number;
+    /** Вкл./Выкл. скрола. Выключаем, если DragFlatList у родительского компонент есть Scroll*/
+    scrollEnabled?: boolean;
     /** `Стили для DragFlatList` */
     style?: StyleProp<ViewStyle>;
     /** `Стили для контейнера с элементами` */

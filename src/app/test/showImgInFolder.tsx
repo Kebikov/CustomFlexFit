@@ -10,29 +10,35 @@ import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import { useSQLiteContext } from 'expo-sqlite';
 import useHookImageCheck from '@/hook/useHookImageCheck';
 import logApp from '@/helpers/log';
+import DragFlatList from '@/components/DragFlatList/DragFlatList';
 
 
-interface IshowImgInFolder {
+interface IData {
+    id: number | string;
+    name: number | string;
+}
+
+const DATA = [
+    {id: 1, name: 1},
+    {id: 2, name: 2},
+    {id: 3, name: 3}
+];
+
+const Item = ({name} : {name: number | string}) => {
+    return(
+        <View style={styles.box}>
+            <Text style={styles.text} >{name}</Text>
+        </View>
+    )
 }
 
 
-/**
- * @test `Экран для отображения добавленых изображений в папку приложения.`
- */
-const ShowImgInFolder: FC = () => { logApp.page('ShowImgInFolder');
+const ShowImgInFolder: FC = () => {
 
-    const db = useSQLiteContext();
-    const {imgCheck} = useHookImageCheck();
+    const [data, setData] = useState<IData[]>(DATA);
 
-    const [data, setData] = useState<DayDTO[]>([]);
-
-    useEffect(() => {
-        (async () => {
-            const data = await DayService.find(db);
-            setData(data);
-        })();
-    }, []);
-
+    const render = (item: IData) => <Item name={item.name} />
+    
 
     return (
         <WrapperScroll
@@ -40,48 +46,30 @@ const ShowImgInFolder: FC = () => { logApp.page('ShowImgInFolder');
             isShowGoBack={{isShow: true, paddingLeft: 20}}
             isScrollEnabled={false}
         >
-            <View style={styles.container} >
-                <View style={styles.contaiber_body} >
-                    <FlatList
-                    contentContainerStyle={{gap: 10}}
-                        data={data}
-                        renderItem={({item}) => (
-                            <View style={styles.box_img} >
-                                <Image source={imgCheck(item.img)} style={styles.img} />
-                            </View>
-                        )}
-                        keyExtractor={(_, i) => String(i)}
-                    />
-                </View>
-            </View>
+            <Item name={'fff'}/>
+            <DragFlatList
+                style={{background: COLOR_ROOT.ARCTIC}}
+                heightElement={70}
+                data={data}
+                setData={setData}
+                renderItem={render}
+            />
         </WrapperScroll>
     );
 };
 
 
 const styles = StyleSheet.create({
-    container: {
-        marginTop: 60,
-        paddingHorizontal: 20,
-        backgroundColor: COLOR_ROOT.BACKGROUND,
-        flex: 1
-    },
-    contaiber_body: {
-        flex: 1,
+    box: {
+        width: '100%',
+        height: 50,
+        backgroundColor: 'green',
         justifyContent: 'center'
     },
-    box_img: {
-        width: '100%',
-        height: 160,
-        borderWidth: 1,
-        borderColor: COLOR_ROOT.LIME_70,
-        borderRadius: 10,
-        overflow: 'hidden'
-    },
-    img: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover'
+    text: {
+        color: 'white',
+        fontSize: 24,
+        textAlign: 'center'
     }
 });
 
