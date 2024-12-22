@@ -19,9 +19,9 @@ interface IData {
 }
 
 const DATA = [
-    {id: 1, name: 1},
-    {id: 2, name: 2},
-    {id: 3, name: 3}
+    {id: 'id_1', name: 1},
+    {id: 'id_2', name: 2},
+    {id: 'id_3', name: 3}
 ];
 
 const Item = ({name} : {name: number | string}) => {

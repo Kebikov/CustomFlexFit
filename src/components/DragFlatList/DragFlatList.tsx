@@ -40,15 +40,15 @@ const DragFlatList = <T extends {id: string | number}>({
     // происходит ли перемешение или нет 
     const isDragging = useSharedValue<0 | 1>(0);
 
-    useAnimatedReaction(
-        () => isDragging.value,
-        (currentValue, previousValue) => {
-            if (currentValue === 0 && previousValue === 1) {
-                const newData = getDataAfterDrag(data, currentPositions);
-                runOnJS(setData)(newData);
-            }
-        },[data]
-    )
+    // useAnimatedReaction(
+    //     () => isDragging.value,
+    //     (currentValue, previousValue) => {
+    //         if (currentValue === 0 && previousValue === 1) {
+    //             const newData = getDataAfterDrag(data, currentPositions);
+    //             runOnJS(setData)(newData);
+    //         }
+    //     },[data]
+    // )
     
     useLayoutEffect(() => {
         currentPositions.value = getInitialPositions(data, heightElement, 'useLayoutEffect')

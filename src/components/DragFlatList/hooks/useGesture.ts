@@ -29,30 +29,18 @@ export const useGesture = ({
     activeButtonIdSv
 }: IUseGesture) => {
     console.log('use currentPositions = ', currentPositions.value[id].updatedIndex);
-    // id элемента который пользователь начал перетаскивать
-    const draggedItemId = useSharedValue<NullableNumber>(null);
-    
-    const ID = Number(currentPositions.value[id].updatedIndex);
 
-    // для замены с currentIndex
+    /** `Индекс очередности элемента` */
+    const index = Number(currentPositions.value[id].updatedIndex);
+    console.log('index = ', index);
+
+    /** `Новый индекс для элемента` */
     const newIndex = useSharedValue<NullableNumber>(null);
 
-    // для замены с newIndex
+    /** `Текуший индекс элемента который пользователь начал перетаскивать` */
     const currentIndex = useSharedValue<NullableNumber>(null);
 
-    const currentPositionsDerived = useDerivedValue(() => {
-        return currentPositions.value;
-    });
-
     const top = useSharedValue(currentPositions.value[id].updatedTop);
-
-    const isDraggingDerived = useDerivedValue(() => {
-        return isDragging.value;
-    });
-
-    const draggedItemIdDerived = useDerivedValue(() => {
-        return draggedItemId.value;
-    });
 
     const vibroPress = () => {
         'worklet';
@@ -60,18 +48,16 @@ export const useGesture = ({
     }
 
     useAnimatedReaction(
-        () => currentPositionsDerived.value[id].updatedIndex,
+        () => currentPositions.value[id].updatedIndex,
         (currentValue, previousValue) => {
             //console.log(currentValue, previousValue);
             if (previousValue !== null && currentValue !== previousValue) {
-                if (draggedItemIdDerived.value !== null && ID === draggedItemIdDerived.value) {
-                    top.value = withSpring(currentPositionsDerived.value[id].updatedIndex * heightElement, {}, () => {
-                        //console.log('Анимация 2 завершилась !');
+                if (currentIndex.value !== null && index === currentIndex.value) {
+                    top.value = withSpring(currentPositions.value[id].updatedIndex * heightElement, {}, () => {
                         runOnJS(Haptics.selectionAsync)();
                     });
                 } else {
-                    top.value = withTiming(currentPositionsDerived.value[id].updatedIndex * heightElement, { duration: 500 }, (evt) => {
-                        //console.log('Анимация 1 завершилась !', evt);
+                    top.value = withTiming(currentPositions.value[id].updatedIndex * heightElement, { duration: 500 }, (evt) => {
                         if(!evt) runOnJS(Haptics.selectionAsync)();
                     });
                 }
@@ -79,15 +65,19 @@ export const useGesture = ({
         }
     );
 
+    /** `Это ? Текуший передвигаемый элемент` */
     const isCurrentDraggingItem = useDerivedValue(() => {
-        return isDraggingDerived.value && draggedItemIdDerived.value === ID;
+        return isDragging.value && currentIndex.value === index;
     });
 
-    const getKeyOfValue = (value: number, obj: TPositions): number | undefined => {
+    /**
+     * `Возврат id элемента на чье место займет перемешаемый элемент`
+     */
+    const getIdPlace = (value: number, obj: TPositions): number | string | undefined => {
         "worklet";
         for (const [key, val] of Object.entries(obj)) {
             if (val.updatedIndex === value) {
-                return Number(key);
+                return key;
             }
         }
         return undefined; // Return undefined if the value is not found
@@ -101,16 +91,16 @@ export const useGesture = ({
             vibroPress();
             // начало передвижения элемента
             isDragging.value = 1;
-            // установка отслеживаемого элемента
-            draggedItemId.value = ID;
+
             // сохранение id для будущего обмена
             console.log('use id = ', id);
-            currentIndex.value = currentPositionsDerived.value[id].updatedIndex;
+            console.log('use index = ', index);
+            currentIndex.value = currentPositions.value[id].updatedIndex;
         })
         .onUpdate((e) => {
-            if (draggedItemIdDerived.value === null) return;
+            if (currentIndex.value === null) return;
 
-            const newTop = currentPositionsDerived.value[draggedItemIdDerived.value].updatedTop + e.translationY;
+            const newTop = currentPositions.value[id].updatedTop + e.translationY;
 
             if (currentIndex.value === null || newTop < minHi || newTop > maxHi) return;
             
@@ -121,23 +111,21 @@ export const useGesture = ({
 
             // замена элементов
             if (newIndex.value !== currentIndex.value) {
-                // найти идентификатор который находится в newIndex
-                const newIndexItemKey = getKeyOfValue(newIndex.value, currentPositionsDerived.value);
+                /** `Id элемента на место которого будет установлен перемешаемый элемент` */
+                const newIdItemKey = getIdPlace(newIndex.value, currentPositions.value);
+                console.log('newIndexItemKey = ', newIdItemKey);
 
-                // Найдите исходный ID элемента, который в данный момент находится на текущем индексе (currentIndex).
-                const currentDragIndexItemKey = getKeyOfValue(currentIndex.value, currentPositionsDerived.value);
-
-                if (newIndexItemKey !== undefined && currentDragIndexItemKey !== undefined) {
+                if (newIdItemKey !== undefined && id !== undefined) {
                 // Мы обновляем updatedTop и updatedIndex, так как в следующий раз мы хотим выполнять вычисления, исходя из нового значения top и нового индекса.
                     currentPositions.value = {
-                        ...currentPositionsDerived.value,
-                        [newIndexItemKey]: {
-                            ...currentPositionsDerived.value[newIndexItemKey],
+                        ...currentPositions.value,
+                        [newIdItemKey]: {
+                            ...currentPositions.value[newIdItemKey],
                             updatedIndex: currentIndex.value,
                             updatedTop: currentIndex.value * heightElement,
                         },
-                        [currentDragIndexItemKey]: {
-                            ...currentPositionsDerived.value[currentDragIndexItemKey],
+                        [id]: {
+                            ...currentPositions.value[id],
                             updatedIndex: newIndex.value,
                         },
                     };
@@ -153,14 +141,14 @@ export const useGesture = ({
             }
             top.value = withSpring(newIndex.value * heightElement);
             // Найдите исходный ID элемента, который в данный момент находится на текущем индексе (currentIndex).
-            const currentDragIndexItemKey = getKeyOfValue(currentIndex.value, currentPositionsDerived.value);
+            const currentDragIdItemKey = getIdPlace(currentIndex.value, currentPositions.value);
 
-            if (currentDragIndexItemKey !== undefined) {
+            if (currentDragIdItemKey !== undefined) {
                 // Обновите значения для элемента, перетаскивание которого только что завершилось.
                 currentPositions.value = {
-                ...currentPositionsDerived.value,
-                [currentDragIndexItemKey]: {
-                    ...currentPositionsDerived.value[currentDragIndexItemKey],
+                ...currentPositions.value,
+                [currentDragIdItemKey]: {
+                    ...currentPositions.value[currentDragIdItemKey],
                     updatedTop: newIndex.value * heightElement,
                 },
                 };
@@ -173,7 +161,7 @@ export const useGesture = ({
     
     //= Анимация 
     const animatedStyles = useAnimatedStyle(() => {
-        console.log('top.value = ', top.value);
+        //console.log('top.value = ', top.value); 
         return {
             top: top.value,
             opacity: 
