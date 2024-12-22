@@ -8,9 +8,8 @@ import { IListItem } from "../types";
 
 const ListItem = <T extends {id: number | string}>({
     children,
-    item,
+    id,
     isDragging,
-    draggedItemId,
     currentPositions,
     heightElement,
     maxHi,
@@ -18,16 +17,15 @@ const ListItem = <T extends {id: number | string}>({
     activeButtonIdSv
 }: IListItem<T>) => {
 
-    const { animatedStyles, gesturePan } = useGesture(
-        item,
-        isDragging,
-        draggedItemId,
-        currentPositions,
-        minHi,
-        maxHi,
-        heightElement,
+    const { animatedStyles, gesturePan } = useGesture({
+        id, 
+        isDragging, 
+        currentPositions, 
+        maxHi, 
+        minHi, 
+        heightElement, 
         activeButtonIdSv
-    );
+    });
 
     return (
         <Animated.View 

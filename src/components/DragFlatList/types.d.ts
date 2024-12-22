@@ -1,5 +1,7 @@
+import { SharedValue } from "react-native-reanimated";
+
 export type TPositions = {
-    [key: number]: {
+    [key: string]: {
         updatedIndex: number;
         updatedTop: number;
     };
@@ -42,11 +44,9 @@ export interface IListItem<T extends {id: number | string}> {
     /** `Отображаемый элемент.` */
     children: JSX.Element | JSX.Element[] | null;
     /** `Данные для отображения` */
-    item: T;
+    id: string;
     /** `Переменная для указывающяя происходит ли в данный момент перемешение какого либо элемента.` */
     isDragging: SharedValue<0 | 1>;
-    /** `Id элемента который в данный момент перемешяется.` */
-    draggedItemId: SharedValue<NullableNumber>;
     /** `Текушее позиции всех элементов.` */
     currentPositions: SharedValue<TPositions>;
     /** `Высота одного элемента.` */
@@ -61,6 +61,23 @@ export interface IListItem<T extends {id: number | string}> {
     /** Id активной кнопки. */
     activeButtonIdSv?: SharedValue<string>;
 };
+
+export interface IUseGesture {
+    /** `Id самого элемента` */
+    id: string;
+    /** `Переменная для указывающяя происходит ли в данный момент перемешение какого либо элемента.` */
+    isDragging: SharedValue<0 | 1>;
+    /** `Текушее позиции всех элементов.` */
+    currentPositions: SharedValue<TPositions>;
+    /** `Минимальная высота всего списка.` */
+    minHi: number;
+    /** `Максимильная высота всего списка.` */
+    maxHi: number;
+    /** `Высота одного элемента.` */
+    heightElement: number;
+        /** Id активной кнопки. */
+    activeButtonIdSv?: SharedValue<string>;
+}
 
 
 export type NullableNumber = null | number;

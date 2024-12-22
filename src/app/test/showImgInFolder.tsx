@@ -36,20 +36,23 @@ const Item = ({name} : {name: number | string}) => {
 const ShowImgInFolder: FC = () => {
 
     const [data, setData] = useState<IData[]>(DATA);
+    console.log('DATA = ', data);
 
-    const render = (item: IData) => <Item name={item.name} />
+    const render = (item: IData) => {
+        console.log('render = ', item.id);
+        return <Item name={item.name} />
+    }
     
 
     return (
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
-            isShowGoBack={{isShow: true, paddingLeft: 20}}
+            //isShowGoBack={{isShow: true, paddingLeft: 20}}
             isScrollEnabled={false}
         >
-            <Item name={'fff'}/>
             <DragFlatList
                 style={{background: COLOR_ROOT.ARCTIC}}
-                heightElement={70}
+                heightElement={54}
                 data={data}
                 setData={setData}
                 renderItem={render}

@@ -30,17 +30,15 @@ const DragFlatList = <T extends {id: string | number}>({
 
     const MIN_HI = 0;
     const MAX_HI = (data.length - 1) * heightElement;
+    const HI = data.length * heightElement;
 
     // `определение позиций всех элементов`
     const currentPositions = useSharedValue<TPositions>(
-        getInitialPositions(data, heightElement)
+        getInitialPositions(data, heightElement, 'useSharedValue')
     );
-
+    console.log(currentPositions.value);
     // происходит ли перемешение или нет 
     const isDragging = useSharedValue<0 | 1>(0);
-
-    // id элемента который пользователь началь перетаскивать
-    const draggedItemId = useSharedValue<NullableNumber>(null);
 
     useAnimatedReaction(
         () => isDragging.value,
@@ -51,32 +49,31 @@ const DragFlatList = <T extends {id: string | number}>({
             }
         },[data]
     )
-
+    
     useLayoutEffect(() => {
-        currentPositions.value = getInitialPositions(data, heightElement)
+        currentPositions.value = getInitialPositions(data, heightElement, 'useLayoutEffect')
     }, [data]);
     
 
     return (
-        <View style={{...style}}>
+        <View style={{...style}} >
             {ListHeaderComponent}
-            <View style={heightList ? {height: heightList} : {flex: 1}}>
+            <View style={heightList ? {height: heightList} : {height: HI, backgroundColor: 'blue'}} >
 
                 <FlatList
                     style={{...styleContainer}}
                     scrollEnabled={scrollEnabled}
-                    contentContainerStyle={{height: data.length * heightElement}}
+                    contentContainerStyle={{height: HI, backgroundColor: 'red'}}
                     data={data}
                     keyExtractor={item => String(item.id)}
 
                     renderItem={({item}) => (
                             <ListItem
-                                item={item}
+                                id={String(item.id)}
                                 heightElement={heightElement}
                                 activeButtonIdSv={activeButtonIdSv}
 
                                 isDragging={isDragging}
-                                draggedItemId={draggedItemId}
                                 currentPositions={currentPositions}
                                 minHi={MIN_HI}
                                 maxHi={MAX_HI}
