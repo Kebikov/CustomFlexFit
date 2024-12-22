@@ -1,6 +1,7 @@
 import { IExerciseState } from '@/redux/slice/sets.slice';
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import React, { FC, useEffect, useState, useMemo } from 'react';
+import { SharedValue, useSharedValue } from 'react-native-reanimated';
 
 
 const usePageAddExercise = () => {
@@ -10,7 +11,7 @@ const usePageAddExercise = () => {
     const [data, setData] = useState<IExerciseState[]>([]);
 
     /** Id который активен в данный момент, остальные закрываются. */
-    const [activeButtonId, setActiveButtonId] = useState<string>('');
+    const activeButtonIdSv = useSharedValue<string>('');
 
     const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
     
@@ -24,8 +25,7 @@ const usePageAddExercise = () => {
     return {
         data,
         setData,
-        activeButtonId, 
-        setActiveButtonId,
+        activeButtonIdSv, 
         selectedBackground
     }
 }

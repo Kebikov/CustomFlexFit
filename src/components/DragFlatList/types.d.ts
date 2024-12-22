@@ -32,8 +32,8 @@ export interface IDragFlatList<T extends {id: number | string}> {
     /** `Стили для контейнера с элементами` */
     styleContainer?: StyleProp<ViewStyle>;
     //* Переменные для закрытия всех активных кнопок:
-    /** `SetStateAction для установки id активной кнопки` */
-    setActiveButtonId?: React.Dispatch<React.SetStateAction<string>>
+    /** Id активной кнопки. */
+    activeButtonIdSv?: SharedValue<string>;
 }
 
 
@@ -57,8 +57,8 @@ export interface IListItem<T extends {id: number | string}> {
     /** `Отступ для элемента.` */
     gap?: number;
     //* Переменные для закрытия всех активных кнопок:
-    /** `SetStateAction для установки id активной кнопки` */
-    setActiveButtonId?: React.Dispatch<React.SetStateAction<string>>
+    /** Id активной кнопки. */
+    activeButtonIdSv?: SharedValue<string>;
 };
 
 

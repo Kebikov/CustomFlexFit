@@ -1,3 +1,5 @@
+import { SharedValue } from "react-native-reanimated";
+
 export interface IButtonSwipeable {
     /** Дочерний элемент оболочки. */
     children: JSX.Element | JSX.Element[];
@@ -45,8 +47,6 @@ export interface IButtonSwipeable {
      */
     /** Id кнопки. */
     idButton?: string;
-    /** @param {SetStateAction} setActiveButtonId SetStateAction срабатываюший при нажатии основной кнопки и устанавливаюший id активной кнопки. */
-    setActiveButtonId?: React.Dispatch<React.SetStateAction<string>>;
     /** Id активной кнопки. */
-    activeButtonId?: string;
+    activeButtonIdSv?: SharedValue<string>;
 }

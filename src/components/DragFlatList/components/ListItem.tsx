@@ -15,7 +15,7 @@ const ListItem = <T extends {id: number | string}>({
     heightElement,
     maxHi,
     minHi,
-    setActiveButtonId
+    activeButtonIdSv
 }: IListItem<T>) => {
 
     const { animatedStyles, gesturePan } = useGesture(
@@ -26,7 +26,7 @@ const ListItem = <T extends {id: number | string}>({
         minHi,
         maxHi,
         heightElement,
-        setActiveButtonId
+        activeButtonIdSv
     );
 
     return (

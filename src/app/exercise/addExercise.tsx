@@ -33,8 +33,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
     const {
         data,
         setData,
-        activeButtonId, 
-        setActiveButtonId,
+        activeButtonIdSv, 
         selectedBackground
     } = usePageAddExercise();
 
@@ -101,14 +100,14 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
                 styleContainer={{marginTop: 10}}
                 scrollEnabled={false}
                 // Elements
-                ListHeaderComponent={header}
-                ListFooterComponent={footer}
-                bottomComponentFlatList={<HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />}
+                //ListHeaderComponent={header}
+                //ListFooterComponent={footer}
+                //bottomComponentFlatList={<HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />}
 
                 heightElement={70}
                 data={data}
                 setData={setData}
-                setActiveButtonId={setActiveButtonId}
+                activeButtonIdSv={activeButtonIdSv}
 
                 renderItem={(item) => (
                     <ButtonSwipeable
@@ -126,8 +125,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
                         paddingInsideButton={22}
 
                         idButton={item.id}
-                        activeButtonId={activeButtonId}
-                        setActiveButtonId={setActiveButtonId}
+                        activeButtonIdSv={activeButtonIdSv}
                     >
                         <SetEdit exerciseState={item} />
                     </ButtonSwipeable>

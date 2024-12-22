@@ -24,8 +24,8 @@ export const useGesture = (
     maxHi: number,
     /** `Высота одного элемента.` */
     heightElement: number,
-    /** `SetStateAction для установки id активной кнопки` */
-    setActiveButtonId?: React.Dispatch<React.SetStateAction<string>>
+     /** Id активной кнопки. */
+    activeButtonIdSv?: SharedValue<string>
 ) => {
 
     const ID = Number(item.id);
@@ -100,9 +100,7 @@ export const useGesture = (
         .onStart(() => {
             // Если есть функция, то обнуляем id активной кнопки,_
             //_ для закрытия всех кнопок во время перемещения кнопки.
-            if(setActiveButtonId) {
-                runOnJS(setActiveButtonId)('');
-            }
+            if(activeButtonIdSv) activeButtonIdSv.value = ''
             vibroPress();
             //start dragging
             //isDragging.value = withSpring(1);

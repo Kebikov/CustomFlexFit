@@ -32,8 +32,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     widthOneButton,
     heightOneButton,
     idButton,
-    setActiveButtonId,
-    activeButtonId
+    activeButtonIdSv
 }) => {
         
     /** Активна ли основная кнопка, самая верхняя, большая. */
@@ -173,25 +172,29 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         )
     }
 
-    // Отслеживание состояния кнопки и установка id в setActiveButtonId, если кнопка стала активной.
+    // Отслеживание состояния кнопки и установка id в activeButtonIdSv, если кнопка стала активной.
     useAnimatedReaction(
         () => isActiveButton.value,
         (currentValue, previousValue) => {
-            if (currentValue === true && idButton && setActiveButtonId) {
-                runOnJS(setActiveButtonId)(idButton);
+            if (currentValue === true && idButton && activeButtonIdSv) {
+                activeButtonIdSv.value = idButton
             }
         },
         [idButton]
     );
 
-    useEffect(() => {
-        // Если, id(idButton) кнопки и установленный активный id(activeButtonId) не совподают, закрываем данную кнопку.
-        if(idButton) {
-            if(activeButtonId !== idButton || activeButtonId === '') {
-                runOnUI(closeStateButton)();
+    useAnimatedReaction(
+        () => activeButtonIdSv?.value,
+        (currentValue, previousValue) => {
+            // Если, id(idButton) кнопки и установленный активный id(activeButtonIdSv) не совподают, закрываем данную кнопку.
+            if(idButton) {
+                if(activeButtonIdSv && activeButtonIdSv.value !== idButton || activeButtonIdSv && activeButtonIdSv.value === '') {
+                    closeStateButton();
+                }
             }
-        }
-    }, [activeButtonId])
+        },
+        []
+    );
 
 
     return (
