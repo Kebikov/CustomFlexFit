@@ -9,8 +9,9 @@ import { FlatList } from 'react-native-gesture-handler';
 import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import { useSQLiteContext } from 'expo-sqlite';
 import useHookImageCheck from '@/hook/useHookImageCheck';
-import logApp from '@/helpers/log';
+import logApp, {strApp} from '@/helpers/log';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
+
 
 
 interface IData {
@@ -36,10 +37,9 @@ const Item = ({name} : {name: number | string}) => {
 const ShowImgInFolder: FC = () => {
 
     const [data, setData] = useState<IData[]>(DATA);
-    console.log('DATA = ', data);
+    console.log(strApp.Magenta('DATA = '), data);
 
     const render = (item: IData) => {
-        console.log('render = ', item.id);
         return <Item name={item.name} />
     }
     

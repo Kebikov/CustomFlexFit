@@ -34,10 +34,10 @@ export const animatedStyles = ({
     lengthArrayOne,
     lengthArrayTwo
 }: IanimatedStyles) => {
-
+    
     const animatedFirstNumber = (i: number) => {
         return useAnimatedStyle(() => {
-
+            
             const elementPositionBefore = firstNumberPosition.value + i * itemHeight;
             let iAfter = i;
 

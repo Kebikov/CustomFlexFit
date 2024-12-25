@@ -1,5 +1,5 @@
 import { View, StyleSheet, Image } from 'react-native';
-import React, { FC } from 'react';
+import React, { FC, memo, useCallback } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
@@ -36,7 +36,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
         activeButtonIdSv, 
         selectedBackground
     } = usePageAddExercise();
-
+    console.log(JSON.stringify( data, null, 2));
     const header = (
         <View>
             <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={10} />
@@ -84,10 +84,33 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
         // Установка id добавляемого элемента
         newElement.id = String(maxId + 1);
         // Добавляем новый элемент в конец списка.
-        const newData = [...data, newElement];
+        const newData = [...data.slice(0, find + 1), newElement, ...data.slice(find + 1)];
 
         DISPATCH(SET_EXERCISE_STATE(newData));
     }
+
+    const render = (item: IExerciseState) => (
+        <ButtonSwipeable
+            totalButton={3}
+
+            onPressButton1={() => {
+                const index = data.findIndex(el => el.id === item.id);
+                // переход на страницу редактирования упражнения по id
+                appRouter.navigate({pathname: '/exercise/addRepsRest', params: {sendIndex: String(index)}});
+            }}
+            onPressButton2={() => addElement(item.id)}
+            onPressButton3={() => {}}
+            //style
+            widthOneButton={62}
+            heightOneButton={62}
+            paddingInsideButton={22}
+
+            idButton={item.id}
+            activeButtonIdSv={activeButtonIdSv}
+        >
+            <SetEdit exerciseState={item} />
+        </ButtonSwipeable>
+    );
 
     if(data.length === 0) return null;
 
@@ -96,41 +119,20 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
             backgroundColor={COLOR_ROOT.BACKGROUND}
         >
             <DragFlatList
-                style={{flex: 1, padding: 10}}
-                styleContainer={{marginTop: 10}}
+                style={{padding: 10}}
+                //styleContainer={}
                 scrollEnabled={false}
                 // Elements
                 //ListHeaderComponent={header}
                 //ListFooterComponent={footer}
                 //bottomComponentFlatList={<HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />}
 
-                heightElement={70}
+                heightElement={69}
                 data={data}
                 setData={setData}
                 activeButtonIdSv={activeButtonIdSv}
 
-                renderItem={(item) => (
-                    <ButtonSwipeable
-                        totalButton={3}
-
-                        onPressButton1={() => {
-                            // переход на страницу редактирования упражнения по id
-                            appRouter.navigate({pathname: '/exercise/addRepsRest', params: {sendIndex: item.id}});
-                        }}
-                        onPressButton2={() => addElement(item.id)}
-                        onPressButton3={() => {}}
-                        //style
-                        widthOneButton={62}
-                        heightOneButton={62}
-                        paddingInsideButton={22}
-
-                        idButton={item.id}
-                        activeButtonIdSv={activeButtonIdSv}
-                    >
-                        <SetEdit exerciseState={item} />
-                    </ButtonSwipeable>
-                )}
-
+                renderItem={render}
             />
         </WrapperScroll>
     );

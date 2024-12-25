@@ -115,12 +115,12 @@ const Clock = forwardRef<IClockRef, IClock>(({
      * `Позиция "Первого числа".`
      */
     const firstNumberPosition = useSharedValue<number>(0); 
-    if(firstNumberPosition.value === 0) firstNumberPosition.value = position;
+    //*if(firstNumberPosition.value === 0) firstNumberPosition.value = position;
     /**
      * `Последняя позиция "Первого числа".`
      */
     const lastPositionFirstNumber = useSharedValue<number>(0);
-    if(lastPositionFirstNumber.value === 0) lastPositionFirstNumber.value = getPosition(selectedTime.one, itemHeight, firstNumberArray);
+    //*if(lastPositionFirstNumber.value === 0) lastPositionFirstNumber.value = getPosition(selectedTime.one, itemHeight, firstNumberArray);
 
     /**
      * `Позиция "Второго числа".`
@@ -128,13 +128,13 @@ const Clock = forwardRef<IClockRef, IClock>(({
     const secondNumberPosition = useSharedValue<number>(0);
     if(secondNumberPosition.value === 0) {
         const position = getPosition(selectedTime.two, itemHeight, secondNumberArray);
-        secondNumberPosition.value = position;
+        //*secondNumberPosition.value = position;
     }
     /**
      * `Последняя позиция "Второго числа".`
      */
     const lastPositionSecondNumber = useSharedValue<number>(0);
-    if(lastPositionSecondNumber.value === 0) lastPositionSecondNumber.value = getPosition(selectedTime.two, itemHeight, secondNumberArray);
+    //*if(lastPositionSecondNumber.value === 0) lastPositionSecondNumber.value = getPosition(selectedTime.two, itemHeight, secondNumberArray);
     /**
      * `Выбраный пользователем первое число.`
      */
@@ -284,7 +284,7 @@ const Clock = forwardRef<IClockRef, IClock>(({
         )
     }
 
-    
+    console.log(13);
     return (
         <>
             {

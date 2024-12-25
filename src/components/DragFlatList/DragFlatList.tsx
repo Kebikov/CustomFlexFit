@@ -5,9 +5,9 @@ import { NullableNumber, TPositions } from './types';
 import { getInitialPositions } from './helpers/getInitialPositions';
 import { FlatList } from 'react-native-gesture-handler';
 import type { IDragFlatList } from './types';
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useState, useEffect, useLayoutEffect, memo } from 'react';
 import { getDataAfterDrag } from './helpers/getDataAfterDrag';
-import logApp from '@/helpers/log';
+import {strApp} from '@/helpers/log';
 
 
 /**
@@ -26,7 +26,7 @@ const DragFlatList = <T extends {id: string | number}>({
     style,
     styleContainer,
     bottomComponentFlatList
-}: IDragFlatList<T>) => {
+}: IDragFlatList<T>) => { console.log(strApp.Red('render DragFlatList'));
 
     const MIN_HI = 0;
     const MAX_HI = (data.length - 1) * heightElement;
@@ -36,34 +36,33 @@ const DragFlatList = <T extends {id: string | number}>({
     const currentPositions = useSharedValue<TPositions>(
         getInitialPositions(data, heightElement, 'useSharedValue')
     );
-    console.log(currentPositions.value);
+
     // происходит ли перемешение или нет 
     const isDragging = useSharedValue<0 | 1>(0);
 
-    // useAnimatedReaction(
-    //     () => isDragging.value,
-    //     (currentValue, previousValue) => {
-    //         if (currentValue === 0 && previousValue === 1) {
-    //             const newData = getDataAfterDrag(data, currentPositions);
-    //             runOnJS(setData)(newData);
-    //         }
-    //     },[data]
-    // )
-    
-    useLayoutEffect(() => {
-        currentPositions.value = getInitialPositions(data, heightElement, 'useLayoutEffect')
+    useAnimatedReaction(
+        () => isDragging.value,
+        (currentValue, previousValue) => {
+            if (currentValue === 0 && previousValue === 1) {
+                const newData = getDataAfterDrag(data, currentPositions.value);
+                runOnJS(setData)(newData);
+            }
+        },[data]
+    );
+
+    useEffect(() => {
+        currentPositions.value = getInitialPositions(data, heightElement, 'useEffect')
     }, [data]);
     
-
     return (
         <View style={{...style}} >
             {ListHeaderComponent}
-            <View style={heightList ? {height: heightList} : {height: HI, backgroundColor: 'blue'}} >
+            <View style={heightList ? {height: heightList} : {height: HI}} >
 
                 <FlatList
                     style={{...styleContainer}}
                     scrollEnabled={scrollEnabled}
-                    contentContainerStyle={{height: HI, backgroundColor: 'red'}}
+                    contentContainerStyle={{height: HI}}
                     data={data}
                     keyExtractor={item => String(item.id)}
 
@@ -71,7 +70,7 @@ const DragFlatList = <T extends {id: string | number}>({
                             <ListItem
                                 id={String(item.id)}
                                 heightElement={heightElement}
-                                activeButtonIdSv={activeButtonIdSv}
+                                //activeButtonIdSv={activeButtonIdSv}
 
                                 isDragging={isDragging}
                                 currentPositions={currentPositions}

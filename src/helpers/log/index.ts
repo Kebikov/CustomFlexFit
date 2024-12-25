@@ -17,4 +17,12 @@ const logApp = {
 }
 
 
+export const strApp = {
+    Red: (text: string) => `\x1b[${41}m${text}\x1b[0m`,
+    Green: (text: string) => `\x1b[${42}m${text}\x1b[0m`,
+    Yellow: (text: string) => `\x1b[${43}m${text}\x1b[0m`,
+    Blue: (text: string) => `\x1b[${44}m${text}\x1b[0m`,
+    Magenta: (text: string) => `\x1b[${45}m${text}\x1b[0m`
+}
+
 export default logApp;
