@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 import React, { FC, memo } from 'react';
 import Title from '@/components/Title/Title';
 import InputForAdd from '@/components/InputForAdd/InputForAdd';
-import type { INameAndNote } from '@/app/exercise/addRepsRest';
+import type { INameAndNote } from '@/components/Clock/types';
 import { useTranslation } from 'react-i18next';
 import HelpText from '@/components/HelpText/HelpText';
 import { COLOR_ROOT } from '@/constants/colors';

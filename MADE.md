@@ -1,8 +1,16 @@
 Поделится тренеровкой.
 Обьем упражнения, вес * повторы * подходы
 
-made: added action the SET_PATH_TO_IMAGE_FOLDER, added hook the useHookImageCheck, remove helper the imgCheck
+# Сделать
 
-useHookImageCheck
+### 1- Узнать почему происходит лишний рендер компонентов в DragFlatList
 
-helpers imgCheck
+ (NOBRIDGE) LOG  render DragFlatList
+ (NOBRIDGE) LOG  getInitialPositions / useSharedValue
+ (NOBRIDGE) LOG  render item 0
+ (NOBRIDGE) LOG  render item 1
+ (NOBRIDGE) LOG  getInitialPositions / useEffect
+ (NOBRIDGE) LOG  render item 0
+ (NOBRIDGE) LOG  render item 1
+
+### 2 - При довавлении последний элемент некрасиво добавляется, исправить.

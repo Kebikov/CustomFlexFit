@@ -89,28 +89,32 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
         DISPATCH(SET_EXERCISE_STATE(newData));
     }
 
-    const render = (item: IExerciseState) => (
-        <ButtonSwipeable
-            totalButton={3}
+    const render = (item: IExerciseState) => {
+        console.log(`render item ${item.id}`);
+        return(
+            <ButtonSwipeable
+                totalButton={3}
 
-            onPressButton1={() => {
-                const index = data.findIndex(el => el.id === item.id);
-                // переход на страницу редактирования упражнения по id
-                appRouter.navigate({pathname: '/exercise/addRepsRest', params: {sendIndex: String(index)}});
-            }}
-            onPressButton2={() => addElement(item.id)}
-            onPressButton3={() => {}}
-            //style
-            widthOneButton={62}
-            heightOneButton={62}
-            paddingInsideButton={22}
+                onPressButton1={() => {
+                    DISPATCH(SET_EXERCISE_STATE(data));
+                    const index = data.findIndex(el => el.id === item.id);
+                    // переход на страницу редактирования упражнения по индексу в массиве данных
+                    appRouter.navigate({pathname: '/exercise/addRepsRest', params: {sendIndex: String(index)}});
+                }}
+                onPressButton2={() => addElement(item.id)}
+                onPressButton3={() => {}}
+                //style
+                widthOneButton={62}
+                heightOneButton={62}
+                paddingInsideButton={22}
 
-            idButton={item.id}
-            activeButtonIdSv={activeButtonIdSv}
-        >
-            <SetEdit exerciseState={item} />
-        </ButtonSwipeable>
-    );
+                idButton={item.id}
+                activeButtonIdSv={activeButtonIdSv}
+            >
+                <SetEdit exerciseState={item} />
+            </ButtonSwipeable>
+        )
+    };
 
     if(data.length === 0) return null;
 
@@ -119,7 +123,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
             backgroundColor={COLOR_ROOT.BACKGROUND}
         >
             <DragFlatList
-                style={{padding: 10}}
+                style={{padding: 10, backgroundColor: 'blue'}}
                 //styleContainer={}
                 scrollEnabled={false}
                 // Elements

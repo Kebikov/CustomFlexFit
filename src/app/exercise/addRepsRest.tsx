@@ -1,37 +1,38 @@
-import { View, StyleSheet, Button, Platform } from 'react-native';
-import React, { FC, useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { View, StyleSheet } from 'react-native';
+import React, { FC } from 'react';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
-import InputOver from '@/components/InputOver/InputOver';
 import { COLOR_ROOT } from '@/constants/colors';
-import Clock, { ITimeClock, IClockRef } from '@/components/Clock/Clock';
-import Title from '@/components/Title/Title';
-import { useTranslation } from 'react-i18next';
-import ICON from '@/source/icon';
-import ItemRepsRest from '@/components/ItemRepsRest/ItemRepsRest';
-import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
-import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
+import Clock from '@/components/Clock/Clock';
 import { useLocalSearchParams } from 'expo-router';
-import { useHookRouter } from '@/router/useHookRouter';
-import ItemAddWeight from '@/components/ItemAddWeight/ItemAddWeight';
-import HelpText from '@/components/HelpText/HelpText';
 import Inputs from '@/components/itemsForAddRepsRest/Inputs/Inputs';
 import RepsRest from '@/components/itemsForAddRepsRest/RepsRest/RepsRest';
 import Weight from '@/components/itemsForAddRepsRest/Weight/Weight';
 import { useAddRepsRest } from '@/hook/hookForScreen/useAddRepsRest';
+import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
+import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
+import { useAppDispatch } from '@/redux/store/hooks';
+import { useHookRouter } from '@/router/useHookRouter';
 
 
 const fontSizeTitle = 21;
 const borderRadiusBody = 22;
 const paddingHorizontal = 25;
 
+
 /**
  * @page `Страница для добавления повторов и времени отдыха у упражнения.`
  */
 const AddRepsRest: FC = () => {
 
+    const {router} = useHookRouter();
+
     const {sendIndex} = useLocalSearchParams<{sendIndex: string}>();
+    const index = Number(sendIndex);
+    console.log('AddRepsRest index = ', index);
+    const DISPATCH = useAppDispatch();
 
     const {
+        idExercise,
         selectedWeight,
         setSelectedWeight,
         nameAndNote,
@@ -40,8 +41,8 @@ const AddRepsRest: FC = () => {
         setReps,
         runtime,
         setRuntime,
-        isScrollEnabled,
-        setIsScrollEnabled,
+        idShowClock,
+        setIdShowClock,
         setRestAfter,
         restAfter,
         clockCustom,
@@ -52,12 +53,16 @@ const AddRepsRest: FC = () => {
         onRuntime,
         onRestAfter,
         onReps
-    } = useAddRepsRest(sendIndex);
+    } = useAddRepsRest(index);
 
 
     const Clocks = (
         <>
             <Clock 
+                id={1}
+                idShowClock={idShowClock}
+                setIdShowClock={setIdShowClock}
+
                 setSelectedTime={setRestAfter}
                 selectedTime={restAfter} 
                 isUsePortal={false}
@@ -66,6 +71,10 @@ const AddRepsRest: FC = () => {
                 ref={refRestAfter} 
             />
             <Clock 
+                id={2}
+                idShowClock={idShowClock}
+                setIdShowClock={setIdShowClock}
+
                 setSelectedTime={setRuntime} 
                 selectedTime={runtime} 
                 isUsePortal={false}
@@ -74,7 +83,10 @@ const AddRepsRest: FC = () => {
                 ref={refRuntime}
             />     
             <Clock 
-                
+                id={3}
+                idShowClock={idShowClock}
+                setIdShowClock={setIdShowClock}
+
                 setSelectedTime={setReps} 
                 selectedTime={reps} 
                 isUsePortal={false}
@@ -86,18 +98,28 @@ const AddRepsRest: FC = () => {
         </>
     );
 
+    const sendData = () => {
+        // Формируем изминенный обьект и передаем в redux.
+        const exerciseOfChanged = {
+            id: idExercise,
+            name: nameAndNote.name,
+            note: nameAndNote.note,
+            reps,
+            runtime,
+            restAfter
+        };
+        DISPATCH(SET_EXERCISE_STATE(exerciseOfChanged));
+        if(router.canGoBack()) router.back();
+    }
+
 
     return (
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
             isShowGoBack={{isShow: true}}
-            isScrollEnabled={isScrollEnabled}
+            isScrollEnabled={!idShowClock}
         >
             <View style={styles.container} >
-                <Button 
-                    title='TEST'
-                    onPress={() => setIsScrollEnabled(false)}
-                />
                 <Inputs
                     fontSizeTitle={fontSizeTitle}
                     borderRadiusBody={borderRadiusBody}
@@ -109,14 +131,20 @@ const AddRepsRest: FC = () => {
                     setSelectedWeight={setSelectedWeight}
                 />
                 <RepsRest
-                    onReps={onReps}
-                    onRestAfter={onRestAfter}
-                    onRuntime={onRuntime}
+                    onReps={() => setIdShowClock(3)}
+                    onRestAfter={() => setIdShowClock(1)}
+                    onRuntime={() => setIdShowClock(2)}
                     fontSizeTitle={fontSizeTitle}
                     borderRadiusBody={borderRadiusBody}
                     reps={reps}
                     runtime={runtime}
                     restAfter={restAfter}
+                />
+                <ButtonGreen 
+                    text='установить' 
+                    handlePess={sendData}
+
+                    marginTop={20}
                 />
             </View>
             {Clocks}

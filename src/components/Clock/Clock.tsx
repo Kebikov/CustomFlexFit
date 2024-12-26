@@ -36,7 +36,9 @@ const Clock = forwardRef<IClockRef, IClock>(({
     typeClock = 'hours/minutes',
     typeClockCustom,
     typeOfDisplay = 'clock',
-    setIsScrollEnabled
+    id,
+    idShowClock,
+    setIdShowClock
 }, ref) => {
 
     // Установки для массива отображаемых чисел.
@@ -86,7 +88,6 @@ const Clock = forwardRef<IClockRef, IClock>(({
      * @param isShow Показать/скрыть часы.
      */
     const [isShow, setIsShow] = useState<boolean>(false);
-    console.log('isShow = ', isShow);
     
     /**
      * `Позиция "Первого числа".`
@@ -212,7 +213,6 @@ const Clock = forwardRef<IClockRef, IClock>(({
 
     useImperativeHandle(ref, () => ({
         openClock: () => {
-            
             setIsShow(true);
         }
     }));
@@ -221,7 +221,7 @@ const Clock = forwardRef<IClockRef, IClock>(({
         return (
             <>
                 {
-                    isShow
+                    isShow && id === undefined || id !== undefined && idShowClock === id
                     ?
                     <Animated.View 
                         style={styles.main} 
@@ -259,16 +259,14 @@ const Clock = forwardRef<IClockRef, IClock>(({
                                         :
                                         null
                                     }
-
-
                                 </View>
                             </View>
                             <Pressable 
                                 style={[styles.button, {backgroundColor: colorButton, borderTopColor: colorLine}]}
                                 onPress={() => {
                                     VibrationApp.pressButton();
-                                    console.log('press');
-                                    setIsShow(false);
+                                    // Если есть id, значит есть внешнее состояние контролируюшее отображение компанента.
+                                    id ? setIdShowClock(0) : setIsShow(false);
                                     setTime();
                                 }}
                             >
@@ -283,7 +281,6 @@ const Clock = forwardRef<IClockRef, IClock>(({
         )
     }
 
-    console.log('render Clock');
     return (
         <>
             {

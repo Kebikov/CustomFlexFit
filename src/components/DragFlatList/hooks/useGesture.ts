@@ -33,14 +33,14 @@ export const useGesture = ({
 
     /** `Индекс очередности элемента до начала перемешения` */
     const startIndexDv = useDerivedValue<NullableNumber>(() => {
-        if(currentPositions.value[id]?.updatedIndex) {
+        
+        if(currentPositions.value[id]?.updatedIndex !== null && !isNaN( Number(currentPositions.value[id]?.updatedIndex) ) ) {
             return currentPositions.value[id].updatedIndex;
         } else {
             return null;
         }
     });
 
-    //console.log(strApp.Yellow(`START id = ${id} / index = ${currentPositions.value[id].updatedIndex}`));
     /** `Новый индекс для элемента` */
     const newIndex = useSharedValue<NullableNumber>(null);
 
@@ -60,7 +60,7 @@ export const useGesture = ({
     useAnimatedReaction(
         () => isCurrentDraggingItem.value,
         (currentValue, previousValue) => {
-            if(currentValue) {
+            if(currentValue && startIndexDv.value !== null && currentIndex.value === startIndexDv.value ) {
                 opacitySv.value = withTiming(.5, {duration: 200})
             } else {
                 opacitySv.value = withTiming(1, {duration: 400})
@@ -115,7 +115,6 @@ export const useGesture = ({
             vibroPress();
             // начало передвижения элемента
             isDragging.value = 1;
-            console.log('id => ', id);
             currentIndex.value = currentPositions.value[id].updatedIndex;
         })
         .onUpdate((e) => {

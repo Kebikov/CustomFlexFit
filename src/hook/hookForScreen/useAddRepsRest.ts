@@ -1,14 +1,11 @@
 import Clock, { ITimeClock, IClockRef } from '@/components/Clock/Clock';
 import React, { FC, useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
-import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
 import type { INameAndNote, IWeightState } from '@/components/Clock/types';
+import { strApp } from '@/helpers/log';
 
 
-export const useAddRepsRest = (sendIndex: string) => {
-    const index = Number(sendIndex);
-
-    const DISPATCH = useAppDispatch();
+export const useAddRepsRest = (index: number) => {
 
     const refRestAfter = useRef<IClockRef>(null);
     const refRuntime = useRef<IClockRef>(null);
@@ -16,10 +13,14 @@ export const useAddRepsRest = (sendIndex: string) => {
 
     const exerciseStateArray = useAppSelector(state => state.setsSlice.exerciseStateArray);
 
+    console.log(strApp.Green('exerciseStateArray = '), JSON.stringify( exerciseStateArray, null, 2));
     /**
-     * @param isScrollEnabled State > Доступен ли скролл страницы.
+     * @param idExercise Id редактируемого упражнения.
      */
-    const [isScrollEnabled, setIsScrollEnabled] = useState<boolean>(true);
+    const idExercise = exerciseStateArray[index].id;
+
+    /** @param idShowClock Id открытого модального окна. */
+    const [idShowClock, setIdShowClock] = useState<number>(0);
     /**
      * @param nameAndNote Имя и заметка для упражнения.
      */
@@ -44,43 +45,25 @@ export const useAddRepsRest = (sendIndex: string) => {
      */
     const [selectedWeight, setSelectedWeight] = useState<number | IWeightState>(0);
 
-    /** `@function onRestAfter открытие часов` */
+    /** `function onRestAfter открытие часов` */
     const onRestAfter = useCallback(() => refRestAfter.current?.openClock(), [refRestAfter]);
-    /** `@function onRuntime открытие часов` */
+    /** `function onRuntime открытие часов` */
     const onRuntime = useCallback(() => refRuntime.current?.openClock(), [refRuntime]);
-    /** `@function onReps открытие часов` */
-    const onReps = useCallback(() => {
-            console.log('press +++');
-            refReps.current?.openClock();
-        }
-        , [refReps]
-    );
+    /** `function onReps открытие часов` */
+    const onReps = useCallback(() => refReps.current?.openClock(), [refReps]);
 
     /** `Обьект начальных установок для часов.` */
     const clockCustom = useMemo(() => ({one: {total: 10, step: 1}, two: {total: 55, step: 5}}), []);
     /** `Обьект начальных установок для часов.` */
     const clockCustomReps = useMemo(() => ({one: {total: 50, step: 1}, two: {total: 0, step: 0}}), []);
 
-    useEffect(() => {
-        return () => {
-            // Формируем изминенный обьект и передаем в redux.
-            const exerciseOfChanged = {
-                id: exerciseStateArray[index].id,
-                name: nameAndNote.name,
-                note: nameAndNote.note,
-                reps,
-                runtime,
-                restAfter
-            };
-            DISPATCH(SET_EXERCISE_STATE(exerciseOfChanged));
-        }
-    }, [nameAndNote, reps, runtime, restAfter]);
-
     return {
-        /** `@State Доступен ли скролл страницы.` */
-        isScrollEnabled,
-        /** `@SetStateAction Доступен ли скролл страницы.` */
-        setIsScrollEnabled,
+        /** @param idExercise Id редактируемого упражнения. */
+        idExercise,
+        /** @param idShowClock Id открытого модального окна. */
+        idShowClock,
+        /** `@SetStateAction id Clock который надо показать, если ноль, то все часы скрыты.` */
+        setIdShowClock,
         /** `@SetStateAction Время отдыха после упражнения, минут и секунд.` */
         setRestAfter,
         /** `@State Время отдыха после упражнения, минут и секунд.` */

@@ -1,4 +1,4 @@
-export interface IClock {
+interface IBaseClock {
     /** `State > Обьект с выбранным временем.` */
     selectedTime:  ITimeClock;
     /** `SetStateAction > Установка выбранного времени.` */
@@ -19,9 +19,26 @@ export interface IClock {
     typeClockCustom?: IArraysForClock;
     /** `? Тип отображения, как часы(2 цыфры) или одна цыфра.` */
     typeOfDisplay?: 'one number' | 'clock';
-    /** `SetStateAction > Установка открыто ли модальное окно, передаем false при закрытии.` */
-    setIsScrollEnabled?: React.MutableRefObject<boolean>;
 }
+
+interface IStateIdShowClock extends IBaseClock {
+    /** `Id элемента.` */
+    id: number;
+    /** `State > id Clock который надо показать.` */
+    idShowClock: number;
+    /** `SetStateAction > id Clock который надо показать.` */
+    setIdShowClock: React.Dispatch<React.SetStateAction<number>>;
+}
+
+interface IStateIdShowClock_never extends  IBaseClock {
+    id?: never;
+    idShowClock?: never;
+    setIdShowClock?: never;
+}
+
+export type IClock = IStateIdShowClock | IStateIdShowClock_never
+
+
 
 export interface INameAndNote {
     name: string;

@@ -64,6 +64,7 @@ const DragFlatList = <T extends {id: string | number}>({
                     scrollEnabled={scrollEnabled}
                     contentContainerStyle={{height: HI}}
                     data={data}
+                    extraData={data}
                     keyExtractor={item => String(item.id)}
 
                     renderItem={({item}) => (
