@@ -17,23 +17,8 @@ import HelpText from '@/components/HelpText/HelpText';
 import Inputs from '@/components/itemsForAddRepsRest/Inputs/Inputs';
 import RepsRest from '@/components/itemsForAddRepsRest/RepsRest/RepsRest';
 import Weight from '@/components/itemsForAddRepsRest/Weight/Weight';
+import { useAddRepsRest } from '@/hook/hookForScreen/useAddRepsRest';
 
-
-export interface INameAndNote {
-    name: string;
-    note: string;
-}
-
-/**
- * @param barbell ID используемого грифа.
- * @param plate_1 Массив ID блинов на первой стороне.
- * @param plate_2 Массив ID блинов на второй стороне.
- */
-export interface IWeightState {
-    barbell: number;
-    plate_1: number[];
-    plate_2: number[];
-}
 
 const fontSizeTitle = 21;
 const borderRadiusBody = 22;
@@ -44,63 +29,31 @@ const paddingHorizontal = 25;
  */
 const AddRepsRest: FC = () => {
 
-    const refRestAfter = useRef<IClockRef>(null);
-    const refRuntime = useRef<IClockRef>(null);
-    const refReps = useRef<IClockRef>(null);
-    const {t} = useTranslation(['[exercise]']);
-    const DISPATCH = useAppDispatch();
-    const {appRouter} = useHookRouter();
-
     const {sendIndex} = useLocalSearchParams<{sendIndex: string}>();
-    const index = Number(sendIndex);
-    console.log('index = ', index);
-    const exerciseStateArray = useAppSelector(state => state.setsSlice.exerciseStateArray);
 
-    /**
-     * @param nameAndNote Имя и заметка для упражнения.
-     */
-    const [nameAndNote, setNameAndNote] = useState<INameAndNote>({
-        name: exerciseStateArray[index].name,
-        note: exerciseStateArray[index].note
-    });
-    /**
-     * @param reps reps.one = Количество повторений в упражнении.
-     */
-    const [reps, setReps] = useState<ITimeClock>(exerciseStateArray[index].reps);
-    /**
-     * @param runtime Длительность выполнения упражнения, минут и секунд.
-     */
-    const [runtime, setRuntime] = useState<ITimeClock>(exerciseStateArray[index].runtime);
-    /**
-     * @param restAfter Время отдыха после упражнения, минут и секунд.
-     */
-    const [restAfter, setRestAfter] = useState<ITimeClock>(exerciseStateArray[index].restAfter); //*! Передаем число которое должно быть в массиве, допустим у нас "one: {total: 30, step: 2}", мы хотим вывести в часах числа от 0 до 30 с шигом 2, у нас будет массив в итоге: [0, 2, 4, 6, ...] начальное значение должно быть одним из чисел полученого массива. 
-    /**
-     * @param selectedWeight
-     */
-    const [selectedWeight, setSelectedWeight] = useState<number | IWeightState>(0);
+    const {
+        selectedWeight,
+        setSelectedWeight,
+        nameAndNote,
+        setNameAndNote,
+        reps,
+        setReps,
+        runtime,
+        setRuntime,
+        isScrollEnabled,
+        setIsScrollEnabled,
+        setRestAfter,
+        restAfter,
+        clockCustom,
+        clockCustomReps,
+        refRestAfter,
+        refRuntime,
+        refReps,
+        onRuntime,
+        onRestAfter,
+        onReps
+    } = useAddRepsRest(sendIndex);
 
-    const onRestAfter = useCallback(() => refRestAfter.current?.openClock(), [refRestAfter]);
-    const onRuntime = useCallback(() => refRuntime.current?.openClock(), [refRuntime]);
-    const onReps = useCallback(() => refReps.current?.openClock(), [refReps]);
-
-    useEffect(() => {
-        return () => {
-            // Формируем изминенный обьект и передаем в redux.
-            const exerciseOfChanged = {
-                id: exerciseStateArray[index].id,
-                name: nameAndNote.name,
-                note: nameAndNote.note,
-                reps,
-                runtime,
-                restAfter
-            };
-            DISPATCH(SET_EXERCISE_STATE(exerciseOfChanged));
-        }
-    }, [nameAndNote, reps, runtime, restAfter]);
-
-    const clockCustom = useMemo(() => ({one: {total: 10, step: 1}, two: {total: 55, step: 5}}), []);
-    const clockCustomReps = useMemo(() => ({one: {total: 50, step: 1}, two: {total: 0, step: 0}}), []);
 
     const Clocks = (
         <>
@@ -121,6 +74,7 @@ const AddRepsRest: FC = () => {
                 ref={refRuntime}
             />     
             <Clock 
+                
                 setSelectedTime={setReps} 
                 selectedTime={reps} 
                 isUsePortal={false}
@@ -137,8 +91,13 @@ const AddRepsRest: FC = () => {
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
             isShowGoBack={{isShow: true}}
+            isScrollEnabled={isScrollEnabled}
         >
             <View style={styles.container} >
+                <Button 
+                    title='TEST'
+                    onPress={() => setIsScrollEnabled(false)}
+                />
                 <Inputs
                     fontSizeTitle={fontSizeTitle}
                     borderRadiusBody={borderRadiusBody}
@@ -173,7 +132,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: paddingHorizontal,
         //backgroundColor: 'red',
         paddingTop: 60,
-        paddingBottom: 20
+        paddingBottom: 20,
     }
 });
 

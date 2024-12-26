@@ -1,4 +1,9 @@
-import { useAnimatedStyle, interpolate, SharedValue } from "react-native-reanimated";
+import { 
+    useAnimatedStyle, 
+    interpolate, 
+    SharedValue,
+    useAnimatedReaction 
+} from "react-native-reanimated";
 
 
 interface IanimatedStyles {

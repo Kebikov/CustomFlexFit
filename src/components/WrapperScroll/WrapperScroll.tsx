@@ -72,21 +72,22 @@ const WrapperScroll: FC<IWrapper> = ({
                     <SafeAreaView style={{ flex: 1, backgroundColor }}>
                         {headerGoBack}
                         {listHeaderComponent}
-                        {
+                        {/* {
                             isScrollEnabled
-                            ?
+                            ? */}
                             <ScrollView 
+                                scrollEnabled={isScrollEnabled} // добавил место
                                 contentContainerStyle={{flexGrow: 1}} 
                                 keyboardShouldPersistTaps={'handled'} 
                                 showsVerticalScrollIndicator={false}
                             >
                                 {children}
                             </ScrollView>
-                            :
+                            {/* :
                             <>
                                 {children}
                             </>
-                        }
+                        } */}
                     </SafeAreaView>
                 </KeyboardAvoidingView>
             </SafeAreaProvider>

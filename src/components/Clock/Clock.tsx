@@ -3,7 +3,7 @@ import React, { useState, forwardRef, useImperativeHandle, useMemo, memo } from 
 import { Portal } from '@gorhom/portal'; 
 import { COLOR_ROOT } from '@/constants/colors';
 import { GestureDetector } from 'react-native-gesture-handler';
-import Animated, { useSharedValue, FadeIn, FadeOut } from 'react-native-reanimated';
+import Animated, { useSharedValue, FadeIn, FadeOut, useAnimatedReaction } from 'react-native-reanimated';
 import VibrationApp from '@/helpers/VibrationApp';
 import { BlurView } from 'expo-blur';
 import { animatedStyles } from './helpers/animatedStyles';
@@ -11,23 +11,11 @@ import { arraysForClock, type IArraysForClock } from './helpers/arraysForClock';
 import { gestureForClock } from './helpers/gestureForClock';
 import { getPosition } from './helpers/getPosition';
 import { gapsForClock } from '@/components/Clock/helpers/gapsForClock';
+import { IClock } from './types';
 
 
 export interface IClockRef {
     openClock: () => void;
-}
-
-interface IClock {
-    selectedTime:  ITimeClock;
-    setSelectedTime: React.Dispatch<React.SetStateAction<ITimeClock>>;
-    colorBody?: string;
-    colorButton?:string;
-    colorText?: string;
-    colorLine?: string;
-    isUsePortal?: boolean;
-    typeClock?: 'hours/minutes' | 'minutes_30/seconds';
-    typeClockCustom?: IArraysForClock;
-    typeOfDisplay?: 'one number' | 'clock';
 }
 
 export interface ITimeClock {
@@ -36,20 +24,7 @@ export interface ITimeClock {
 }
 
 
-/**
- * @widgets `Установка времени.`
- * @param selectedTime Обьект с выбранным временем.
- * @param setSelectedTime Установка выбранного времени.
- * @optional 
- * @param colorText ? Цвет текста. [default: 'white']
- * @param colorBody ? Цвет фона часов. [default: COLOR_ROOT.BACKGROUND]
- * @param colorButton ? Цвет фона нажней кнопки. [default: COLOR_ROOT.BACKGROUND]
- * @param colorLine ? Цвет линии между часами и кнопкой. [default: 'rgba(255, 255, 255, 0.3)']
- * @param isUsePortal ? Использовать ли портал, полезно для работы в модальных окнах. [default: true]
- * @param typeClock ? Предустановки для отображения чисел [default: 'hours/minutes'];
- * @param typeClockCustom ? Пользовательская установка отображения чисел, имеет приоритет перед typeClock.
- * @param typeOfDisplay ? Тип отображения, как часы(2 цыфры) или одна цыфра.
- */
+/** @widgets `Установка времени.`*/
 const Clock = forwardRef<IClockRef, IClock>(({
     selectedTime,
     setSelectedTime,
@@ -60,7 +35,8 @@ const Clock = forwardRef<IClockRef, IClock>(({
     isUsePortal = true,
     typeClock = 'hours/minutes',
     typeClockCustom,
-    typeOfDisplay = 'clock'
+    typeOfDisplay = 'clock',
+    setIsScrollEnabled
 }, ref) => {
 
     // Установки для массива отображаемых чисел.
@@ -110,26 +86,45 @@ const Clock = forwardRef<IClockRef, IClock>(({
      * @param isShow Показать/скрыть часы.
      */
     const [isShow, setIsShow] = useState<boolean>(false);
-    const position = getPosition(selectedTime.one, itemHeight, firstNumberArray);
+    console.log('isShow = ', isShow);
+    
     /**
      * `Позиция "Первого числа".`
      */
     const firstNumberPosition = useSharedValue<number>(0); 
-    //*if(firstNumberPosition.value === 0) firstNumberPosition.value = position;
+    useAnimatedReaction(
+        () => firstNumberPosition.value,
+        (currentValue, previousValue) => {
+            if(currentValue === 0) {
+                firstNumberPosition.value = getPosition(selectedTime.one, itemHeight, firstNumberArray);
+            }
+        }
+    );
     /**
      * `Последняя позиция "Первого числа".`
      */
     const lastPositionFirstNumber = useSharedValue<number>(0);
-    //*if(lastPositionFirstNumber.value === 0) lastPositionFirstNumber.value = getPosition(selectedTime.one, itemHeight, firstNumberArray);
+    useAnimatedReaction(
+        () => lastPositionFirstNumber.value,
+        (currentValue, previousValue) => {
+            if(currentValue === 0) {
+                lastPositionFirstNumber.value = getPosition(selectedTime.one, itemHeight, firstNumberArray);
+            }
+        }
+    );
 
     /**
      * `Позиция "Второго числа".`
      */
     const secondNumberPosition = useSharedValue<number>(0);
-    if(secondNumberPosition.value === 0) {
-        const position = getPosition(selectedTime.two, itemHeight, secondNumberArray);
-        //*secondNumberPosition.value = position;
-    }
+    useAnimatedReaction(
+        () => secondNumberPosition.value,
+        (currentValue, previousValue) => {
+            if(currentValue === 0) {
+                secondNumberPosition.value = getPosition(selectedTime.two, itemHeight, secondNumberArray);
+            }
+        }
+    );
     /**
      * `Последняя позиция "Второго числа".`
      */
@@ -216,7 +211,10 @@ const Clock = forwardRef<IClockRef, IClock>(({
     });
 
     useImperativeHandle(ref, () => ({
-        openClock: () => setIsShow(true)
+        openClock: () => {
+            
+            setIsShow(true);
+        }
     }));
 
     const bodyClock = () => {
@@ -268,9 +266,10 @@ const Clock = forwardRef<IClockRef, IClock>(({
                             <Pressable 
                                 style={[styles.button, {backgroundColor: colorButton, borderTopColor: colorLine}]}
                                 onPress={() => {
-                                    setTime();
                                     VibrationApp.pressButton();
+                                    console.log('press');
                                     setIsShow(false);
+                                    setTime();
                                 }}
                             >
                                 <Text style={[styles.buttonText, {color: colorText}]} >OK</Text>
@@ -284,7 +283,7 @@ const Clock = forwardRef<IClockRef, IClock>(({
         )
     }
 
-    console.log(13);
+    console.log('render Clock');
     return (
         <>
             {
@@ -312,7 +311,7 @@ const styles = StyleSheet.create({
         height: '100%'
     },
     container: {
-        position: 'absolute',
+        position: 'relative',
         width: '100%',
         height: '100%',
         justifyContent: 'center',
