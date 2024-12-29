@@ -22,7 +22,7 @@ const DragFlatList = <T extends {id: string | number}>({
     scrollEnabled,
     ListHeaderComponent,
     ListFooterComponent,
-    activeButtonIdSv,
+
     style,
     styleContainer,
     bottomComponentFlatList
@@ -71,7 +71,6 @@ const DragFlatList = <T extends {id: string | number}>({
                             <ListItem
                                 id={String(item.id)}
                                 heightElement={heightElement}
-                                //activeButtonIdSv={activeButtonIdSv}
 
                                 isDragging={isDragging}
                                 currentPositions={currentPositions}

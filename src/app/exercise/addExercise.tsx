@@ -1,5 +1,5 @@
-import { View, StyleSheet, Image } from 'react-native';
-import React, { FC, memo, useCallback } from 'react';
+import { View, StyleSheet, Image, Text } from 'react-native';
+import React, { FC, memo, useCallback, useEffect } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
@@ -17,14 +17,14 @@ import SetEdit from '@/components/SetEdit/SetEdit';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import usePageAddExercise from '@/hook/hookForScreen/usePageAddExercise';
-import logApp from '@/helpers/log';
+import logApp, {strApp} from '@/helpers/log';
 
 
 /**
  * @page `Страница добавления занятия.`
  */
 const AddExercise: FC = () => { logApp.page('AddExercise');
-
+    
     const {imgCheck} = useHookImageCheck();
     const {appRouter} = useHookRouter();
     const DISPATCH = useAppDispatch();
@@ -36,7 +36,8 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
         activeButtonIdSv, 
         selectedBackground
     } = usePageAddExercise();
-    console.log(JSON.stringify( data, null, 2));
+    console.log(strApp.Green('Всего данных = '), data.length);
+    //`console.log(JSON.stringify( data, null, 2));
     const header = (
         <View>
             <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={10} />
@@ -68,7 +69,8 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
                 text={t('button:create')}
                 //handlePess={() => appRouter.navigate('/exercise/modalAddImageExercise')}
                 handlePess={() => {}}
-                marginTop={40}
+                marginTop={20}
+                marginBottom={40}
             />
         </>
     )
@@ -90,7 +92,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
     }
 
     const render = (item: IExerciseState) => {
-        console.log(`render item ${item.id}`);
+        
         return(
             <ButtonSwipeable
                 totalButton={3}
@@ -116,28 +118,31 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
         )
     };
 
-    if(data.length === 0) return null;
+    //if(data.length === 0 || data.length !== exerciseStateArray.length) return null;
 
     return (
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
         >
-            <DragFlatList
-                style={{padding: 10, backgroundColor: 'blue'}}
-                //styleContainer={}
-                scrollEnabled={false}
-                // Elements
-                //ListHeaderComponent={header}
-                //ListFooterComponent={footer}
-                //bottomComponentFlatList={<HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />}
+            <View style={styles.container}>
+                {header}
+                <DragFlatList
+                    style={{padding: 0, marginTop: 20, flex: 1}}
+                    scrollEnabled={false}
+                    styleContainer={{marginButtom: 20}}
+                    
+                    // ListHeaderComponent={header}
+                    //ListFooterComponent={footer}
+                    bottomComponentFlatList={<HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />}
 
-                heightElement={69}
-                data={data}
-                setData={setData}
-                activeButtonIdSv={activeButtonIdSv}
+                    heightElement={69}
+                    data={data}
+                    setData={setData}
 
-                renderItem={render}
-            />
+                    renderItem={render}
+                />
+                {footer}
+            </View>
         </WrapperScroll>
     );
 };
@@ -145,8 +150,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        paddingHorizontal: 10,
         backgroundColor: COLOR_ROOT.BACKGROUND
     },
     bodyForm: {

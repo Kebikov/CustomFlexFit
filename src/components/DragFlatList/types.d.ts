@@ -34,9 +34,6 @@ export interface IDragFlatList<T extends {id: number | string}> {
     style?: StyleProp<ViewStyle>;
     /** `Стили для контейнера с элементами` */
     styleContainer?: StyleProp<ViewStyle>;
-    //* Переменные для закрытия всех активных кнопок:
-    /** Id активной кнопки. */
-    activeButtonIdSv?: SharedValue<string>;
 }
 
 

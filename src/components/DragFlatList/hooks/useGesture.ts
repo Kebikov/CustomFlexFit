@@ -6,7 +6,10 @@ import {
     useAnimatedStyle, 
     useDerivedValue, 
     useSharedValue, 
-    withDelay, withSpring, withTiming, runOnJS 
+    withDelay, 
+    withSpring, 
+    withTiming, 
+    runOnJS 
 } from "react-native-reanimated";
 import { NullableNumber, TPositions } from "../types";
 import { Gesture } from "react-native-gesture-handler";
@@ -27,13 +30,12 @@ export const useGesture = ({
     currentPositions,
     maxHi,
     minHi,
-    heightElement,
-    activeButtonIdSv
+    heightElement
 }: IUseGesture) => {
 
     /** `Индекс очередности элемента до начала перемешения` */
     const startIndexDv = useDerivedValue<NullableNumber>(() => {
-        
+        console.log(currentPositions.value);
         if(currentPositions.value[id]?.updatedIndex !== null && !isNaN( Number(currentPositions.value[id]?.updatedIndex) ) ) {
             return currentPositions.value[id].updatedIndex;
         } else {
@@ -72,7 +74,7 @@ export const useGesture = ({
         () => currentPositions.value[id].updatedTop,
         (currentValue, previousValue) => {
             if(previousValue === null) {
-                topSv.value = currentPositions.value[id].updatedTop
+                topSv.value = withDelay(200, withTiming(currentPositions.value[id].updatedTop, {duration: 400}))
             }
         }
     )
@@ -110,8 +112,6 @@ export const useGesture = ({
     const gesturePan = Gesture.Pan()
         .activateAfterLongPress(500)
         .onStart(() => {
-            // Если есть функция, то обнуляем id активной кнопки, для закрытия всех кнопок во время перемещения кнопки.
-            if(activeButtonIdSv) activeButtonIdSv.value = ''
             vibroPress();
             // начало передвижения элемента
             isDragging.value = 1;

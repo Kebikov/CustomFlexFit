@@ -8,7 +8,7 @@ const usePageAddExercise = () => {
     const exerciseStateArray: IExerciseState[] = useAppSelector(state => state.setsSlice.exerciseStateArray);
 
     /** Данные для FlatList. */
-    const [data, setData] = useState<IExerciseState[]>([]);
+    const [data, setData] = useState<IExerciseState[]>(exerciseStateArray);
 
     /** Id который активен в данный момент, остальные закрываются. */
     const activeButtonIdSv = useSharedValue<string>('');
@@ -17,8 +17,6 @@ const usePageAddExercise = () => {
     
     useEffect(() => {
         setData(exerciseStateArray);
-        return () => {
-        }
     }, [exerciseStateArray]);
     
     

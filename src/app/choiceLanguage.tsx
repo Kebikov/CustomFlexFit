@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image, Pressable, Button } from 'react-native';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
 import { useHookRouter } from '@/router/useHookRouter';
 import { COLOR_ROOT } from '../constants/colors';
@@ -19,7 +19,7 @@ import AddRepsRest from './exercise/addRepsRest';
  * @page `Страница с выбором языка.`
  */
 const ChoiceLanguage: FC = () => {
-    
+
     const {appRouter} = useHookRouter();
     const {i18n} = useTranslation();
     const DISPATCH = useAppDispatch();

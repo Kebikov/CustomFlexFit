@@ -13,6 +13,7 @@ import logApp from '@/helpers/log';
  * @page Стартовая страница приложения. 
  */
 const Index: FC = () => { logApp.page('Index');
+    
     const {appRouter} = useHookRouter();
     const DISPATCH = useAppDispatch();
 
