@@ -1,26 +1,9 @@
-export interface IArraysForClock {
-    one: {
-        total: number;
-        step: number;
-    };
-    two: {
-        total: number;
-        step: number;
-    };
-}
+import type { IArraysForClock } from "../types";
 
 /**
  * `Вернет массивы: первых и вторых чисел.`
  * @example
  * arraysForClock({one: {total: 24, step: 1}, two: {total: 60, step: 5}}) // для первых и вторых чисел
- * @return {
- *  firstNumberArray, 
- *  secondNumberArray
- * }
- * @param one Первое число в установке времени.
- * @param two Второе число в установке времени.
- * @param total Значение последнего элемента.
- * @param step Шиг элемента.  
  */
 export const arraysForClock = (value: IArraysForClock) => {
     /**

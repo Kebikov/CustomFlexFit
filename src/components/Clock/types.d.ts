@@ -1,3 +1,5 @@
+export type TTypeClock = 'hours/minutes' | 'minutes_30/seconds';
+
 interface IBaseClock {
     /** `State > Обьект с выбранным временем.` */
     selectedTime:  ITimeClock;
@@ -14,7 +16,7 @@ interface IBaseClock {
     /** `? Использовать ли портал, полезно для работы в модальных окнах. [default: true]` */
     isUsePortal?: boolean;
     /** `? Предустановки для отображения чисел [default: 'hours/minutes']` */
-    typeClock?: 'hours/minutes' | 'minutes_30/seconds';
+    typeClock?: TTypeClock;
     /** `? Пользовательская установка отображения чисел, имеет приоритет перед typeClock.` */
     typeClockCustom?: IArraysForClock;
     /** `? Тип отображения, как часы(2 цыфры) или одна цыфра.` */
@@ -52,4 +54,19 @@ export interface IWeightState {
     plate_1: number[];
     /** `Массив ID блинов на второй стороне.` */
     plate_2: number[];
+}
+
+export interface IArraysForClock {
+    one: {
+        /** `Первое число в установке времени.` */
+        total: number;
+        /** `Второе число в установке времени.` */
+        step: number;
+    };
+    two: {
+        /** `Значение последнего элемента.` */
+        total: number;
+        /** `Шаг элемента.` */
+        step: number;
+    };
 }

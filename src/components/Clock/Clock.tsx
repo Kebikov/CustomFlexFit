@@ -7,11 +7,14 @@ import Animated, { useSharedValue, FadeIn, FadeOut, useAnimatedReaction } from '
 import VibrationApp from '@/helpers/VibrationApp';
 import { BlurView } from 'expo-blur';
 import { animatedStyles } from './helpers/animatedStyles';
-import { arraysForClock, type IArraysForClock } from './helpers/arraysForClock';
+import { arraysForClock } from './helpers/arraysForClock';
 import { gestureForClock } from './helpers/gestureForClock';
 import { getPosition } from './helpers/getPosition';
 import { gapsForClock } from '@/components/Clock/helpers/gapsForClock';
-import { IClock } from './types';
+import { useGetOptionsClock } from './hooks/useGetOptionsClock';
+import { valuesSv } from './values/valuesSv';
+
+import type { IClock,IArraysForClock } from './types';
 
 
 export interface IClockRef {
@@ -41,27 +44,13 @@ const Clock = forwardRef<IClockRef, IClock>(({
     setIdShowClock
 }, ref) => {
 
+    /**
+     * @param isShow Показать/скрыть часы.
+     */
+    const [isShow, setIsShow] = useState<boolean>(false);
+
     // Установки для массива отображаемых чисел.
-    let optionsClock: IArraysForClock;
-    if(typeof typeClockCustom === 'object') {
-        optionsClock = typeClockCustom;
-        optionsClock.one.total = useMemo(() => optionsClock.one.total + optionsClock.one.step, [optionsClock.one.step]); 
-        optionsClock.two.total = useMemo(() => optionsClock.two.total + optionsClock.two.step, [optionsClock.two.step]); 
-    } else {
-        switch(typeClock) {
-            case 'hours/minutes':
-                optionsClock = {one: {total: 24, step: 1}, two: {total: 60, step: 5}};
-                break;
-            case 'minutes_30/seconds':
-                optionsClock = {one: {total: 30, step: 1}, two: {total: 60, step: 5}};
-                break;
-            default:
-                optionsClock = {one: {total: 24, step: 1}, two: {total: 60, step: 5}};
-                break;
-        }
-        optionsClock.one.total = useMemo(() => optionsClock.one.total + optionsClock.one.total, [optionsClock.one.step]);
-        optionsClock.two.total = useMemo(() => optionsClock.two.total + optionsClock.two.step, [optionsClock.two.step]); 
-    }
+    let {optionsClock} = useGetOptionsClock(typeClock, typeClockCustom);
 
     /**
      * `Высота окна с цыфрами.`
@@ -84,69 +73,18 @@ const Clock = forwardRef<IClockRef, IClock>(({
      * `Диаметр полного оборота второго числа.`
      */
     const fullRotationSecondNumber = secondNumberArray.length * itemHeight;
-    /**
-     * @param isShow Показать/скрыть часы.
-     */
-    const [isShow, setIsShow] = useState<boolean>(false);
-    
-    /**
-     * `Позиция "Первого числа".`
-     */
-    const firstNumberPosition = useSharedValue<number>(0); 
-    useAnimatedReaction(
-        () => firstNumberPosition.value,
-        (currentValue, previousValue) => {
-            if(currentValue === 0) {
-                firstNumberPosition.value = getPosition(selectedTime.one, itemHeight, firstNumberArray);
-            }
-        }
-    );
-    /**
-     * `Последняя позиция "Первого числа".`
-     */
-    const lastPositionFirstNumber = useSharedValue<number>(0);
-    useAnimatedReaction(
-        () => lastPositionFirstNumber.value,
-        (currentValue, previousValue) => {
-            if(currentValue === 0) {
-                lastPositionFirstNumber.value = getPosition(selectedTime.one, itemHeight, firstNumberArray);
-            }
-        }
-    );
 
-    /**
-     * `Позиция "Второго числа".`
-     */
-    const secondNumberPosition = useSharedValue<number>(0);
-    useAnimatedReaction(
-        () => secondNumberPosition.value,
-        (currentValue, previousValue) => {
-            if(currentValue === 0) {
-                secondNumberPosition.value = getPosition(selectedTime.two, itemHeight, secondNumberArray);
-            }
-        }
-    );
-    /**
-     * `Последняя позиция "Второго числа".`
-     */
-    const lastPositionSecondNumber = useSharedValue<number>(0);
-    if(lastPositionSecondNumber.value === 0) lastPositionSecondNumber.value = getPosition(selectedTime.two, itemHeight, secondNumberArray);
-    /**
-     * `Выбраный пользователем первое число.`
-     */
-    const selectedFirstNumber = useSharedValue<number>(selectedTime.one);
-    /**
-     * `Выбраное пользователем "Второе число".`
-     */
-    const selecteSecondNumber = useSharedValue<number>(selectedTime.two);
-    /**
-     * `Последняя позиция вибрации для "Первого числа".`
-     */
-    const lastVibrationPositionFirstNumber = useSharedValue<number>(0);
-    /**
-     * `Последняя позиция вибрации для "Второго числа".`
-     */
-    const lastVibrationPositionSecondNumber = useSharedValue<number>(0);
+    const {
+        firstNumberPosition,
+        secondNumberPosition,
+        selectedFirstNumber,
+        selecteSecondNumber,
+        lastPositionFirstNumber,
+        lastVibrationPositionFirstNumber,
+        lastPositionSecondNumber,
+        lastVibrationPositionSecondNumber
+    } = valuesSv(selectedTime, itemHeight, firstNumberArray, secondNumberArray);
+
 
     const {animatedFirstNumber, animatedSecondNumber} = animatedStyles({
         firstNumberPosition, 
