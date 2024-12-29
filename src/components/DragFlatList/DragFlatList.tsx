@@ -1,4 +1,13 @@
-import { useSharedValue, useDerivedValue, useAnimatedReaction, runOnJS } from 'react-native-reanimated';
+import Animated, { 
+    useSharedValue, 
+    useDerivedValue,
+    useAnimatedStyle, 
+    useAnimatedReaction, 
+    runOnJS,
+    withTiming,
+    withSpring,
+    ReduceMotion
+} from 'react-native-reanimated';
 import ListItem from './components/ListItem';
 import { View, Text } from 'react-native';
 import { NullableNumber, TPositions } from './types';
@@ -22,8 +31,8 @@ const DragFlatList = <T extends {id: string | number}>({
     scrollEnabled,
     ListHeaderComponent,
     ListFooterComponent,
-
     style,
+    styleFlatList,
     styleContainer,
     bottomComponentFlatList
 }: IDragFlatList<T>) => { console.log(strApp.Red('render DragFlatList'));
@@ -31,6 +40,11 @@ const DragFlatList = <T extends {id: string | number}>({
     const MIN_HI = 0;
     const MAX_HI = (data.length - 1) * heightElement;
     const HI = data.length * heightElement;
+
+    /** `Высота FlatLIst` */
+    const heightFlatListSv = useSharedValue<number>(HI);
+    /** `Расположение заметки под FlatList` */
+    const topNoteSv = useSharedValue<number>(MAX_HI + heightElement + 5);
 
     // `определение позиций всех элементов`
     const currentPositions = useSharedValue<TPositions>(
@@ -49,29 +63,55 @@ const DragFlatList = <T extends {id: string | number}>({
             }
         },[data]
     );
+    /** 
+     * `AnimatedStyle для высоты FlatLIst` 
+     * */
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            height: withTiming(heightFlatListSv.value, {duration: 400})
+        }
+    });
+    /** 
+     * `AnimatedStyle для расположения заметки.` 
+     * */
+    const animatedStyleNote = useAnimatedStyle(() => {
+        return {
+            top: withSpring(topNoteSv.value, {
+                mass: 1,
+                damping: 10,
+                stiffness: 100,
+                overshootClamping: false,
+                restDisplacementThreshold: 0.01,
+                restSpeedThreshold: 2,
+                reduceMotion: ReduceMotion.System,
+            })
+        }
+    });
 
     useEffect(() => {
-        currentPositions.value = getInitialPositions(data, heightElement, 'useEffect')
+        currentPositions.value = getInitialPositions(data, heightElement, 'useEffect');
+        heightFlatListSv.value = HI;
+        topNoteSv.value = MAX_HI + heightElement;
     }, [data]);
     
     return (
         <View style={{...style}} >
             {ListHeaderComponent}
-            <View style={heightList ? {height: heightList} : {height: HI}} >
-
+            <Animated.View style={[animatedStyle, styleFlatList, {position: 'relative'}]} >
                 <FlatList
                     style={{...styleContainer}}
                     scrollEnabled={scrollEnabled}
-                    contentContainerStyle={{height: HI}}
+                    contentContainerStyle={[{flexGrow: 1}, styleContainer]}
                     data={data}
                     extraData={data}
+
                     keyExtractor={item => String(item.id)}
 
                     renderItem={({item}) => (
                             <ListItem
                                 id={String(item.id)}
                                 heightElement={heightElement}
-
+                                
                                 isDragging={isDragging}
                                 currentPositions={currentPositions}
                                 minHi={MIN_HI}
@@ -82,10 +122,10 @@ const DragFlatList = <T extends {id: string | number}>({
                         )
                     }
                 />
-                <View style={{position: 'absolute', top: MAX_HI ? MAX_HI + heightElement + 5 : heightElement + 5}} >
+                <Animated.View style={[{position: 'absolute'}, animatedStyleNote]} >
                     {bottomComponentFlatList}
-                </View>
-            </View>
+                </Animated.View>
+            </Animated.View>
             {ListFooterComponent}
         </View>
     );

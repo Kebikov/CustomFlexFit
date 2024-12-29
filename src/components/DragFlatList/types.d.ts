@@ -32,6 +32,8 @@ export interface IDragFlatList<T extends {id: number | string}> {
     scrollEnabled?: boolean;
     /** `Стили для DragFlatList` */
     style?: StyleProp<ViewStyle>;
+    /** `Стили для контейнера FlatList` */
+    styleFlatList?: StyleProp<ViewStyle>;
     /** `Стили для контейнера с элементами` */
     styleContainer?: StyleProp<ViewStyle>;
 }

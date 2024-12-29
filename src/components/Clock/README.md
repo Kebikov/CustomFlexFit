@@ -31,7 +31,7 @@ export const MainLayout: FC<IMainLayout> = ({children}) => {
 ### 2-Использование компонента Clock
 
 ```typescript
-import Clock, { ITimeClock, IClockRef } from '@/components/widgets/Clock/Clock';
+import Clock, { ITimeClock, IClockRef } from '@/components/Clock/Clock';
 
 export interface ITimeClock {
     hour: string;
@@ -41,7 +41,7 @@ export interface ITimeClock {
 /**
  * @param electedTime Выбранное время.
  */
-const [selectedTime, setSelectedTime] = useState<ITimeClock>({hour: '14', minute: '15'});
+const [selectedTime, setSelectedTime] = useState<ITimeClock>({one: 14, two: 15});
 
 const refClock = useRef<IClockRef>(null);
 

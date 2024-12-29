@@ -130,7 +130,7 @@ const Clock = forwardRef<IClockRef, IClock>(({
      * `Последняя позиция "Второго числа".`
      */
     const lastPositionSecondNumber = useSharedValue<number>(0);
-    //*if(lastPositionSecondNumber.value === 0) lastPositionSecondNumber.value = getPosition(selectedTime.two, itemHeight, secondNumberArray);
+    if(lastPositionSecondNumber.value === 0) lastPositionSecondNumber.value = getPosition(selectedTime.two, itemHeight, secondNumberArray);
     /**
      * `Выбраный пользователем первое число.`
      */

@@ -128,11 +128,8 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
                 {header}
                 <DragFlatList
                     style={{padding: 0, marginTop: 20, flex: 1}}
+                    styleFlatList={{marginBottom: 40}}
                     scrollEnabled={false}
-                    styleContainer={{marginButtom: 20}}
-                    
-                    // ListHeaderComponent={header}
-                    //ListFooterComponent={footer}
                     bottomComponentFlatList={<HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />}
 
                     heightElement={69}
