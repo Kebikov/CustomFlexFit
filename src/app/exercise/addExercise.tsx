@@ -36,7 +36,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
         activeButtonIdSv, 
         selectedBackground
     } = usePageAddExercise();
-    console.log(strApp.Green('Всего данных = '), data.length);
+    console.log(strApp.Green('Всего данных = '), data.length); 
     //`console.log(JSON.stringify( data, null, 2));
     const header = (
         <View>
