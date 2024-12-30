@@ -39,10 +39,9 @@ export interface IClock {
 }
 
 export type TPositions = {
-    [key: string]: {
-        updatedIndex: number;
-        updatedTop: number;
-    };
+    num: string;
+    top: number;
+    heightElement: number;
 };
 
 export interface INameAndNote {

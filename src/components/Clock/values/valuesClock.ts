@@ -3,11 +3,12 @@ import { IArraysForClock } from "../types";
 
 /** `Начальные установки для отображения.` */
 export const valuesClock = (optionsClock: IArraysForClock) => {
+
     /** `Высота окна с цыфрами.` */
-    const height = 252;
+    const height = 200;
 
     /** `Количество элементов в окне.` */
-    const totalElements = 7;
+    const totalElements = 6;
 
     /** `Высота одного элемента.` */
     const itemHeight = height / totalElements; 
@@ -20,6 +21,9 @@ export const valuesClock = (optionsClock: IArraysForClock) => {
     /** `Диаметр полного оборота второго числа.` */
     const fullRotationSecondNumber = secondNumberArray.length * itemHeight;
 
+    /** `Центр для начального элемента.` */
+    const centerTop = itemHeight * (totalElements / 2 - 0.5);
+    console.log('centerTop = ', centerTop);
     return {
         /** `Высота одного элемента.` */
         itemHeight,
@@ -32,6 +36,8 @@ export const valuesClock = (optionsClock: IArraysForClock) => {
         /** `Диаметр полного оборота второго числа.` */
         fullRotationSecondNumber,
         /** `Высота окна с цыфрами.` */
-        height
+        height,
+        /** `Центр для начального элемента.` */
+        centerTop
     }
 }

@@ -23,19 +23,11 @@ import Clock from '@/components/Clock/Clock';
 import type { IStateDataClock } from '@/components/Clock/types';
 
 
-
-const DATA = [
-    {id: 'id_1', name: 1},
-    {id: 'id_2', name: 2},
-    {id: 'id_3', name: 3}
-];
-
-
-
 const ShowImgInFolder: FC = () => {
 
      /** @param idShowClock Уникальный id для элемента на странице */
     const [idShowClock, setIdShowClock] = useState<string>('');
+    console.log('idShowClock = ', idShowClock);
 
      /** @param electedTime Выбранное время */
     const [selectedData, setSelectedData] = useState<IStateDataClock>({
@@ -57,15 +49,20 @@ const ShowImgInFolder: FC = () => {
             backgroundColor={COLOR_ROOT.ARCTIC}
             isScrollEnabled={false}
         >
-            <Clock
-                id={'id_1'}
-                idShowClock={idShowClock}
-                setIdShowClock={setIdShowClock}
-                
-                selectedData={selectedData}
-                setSelectedData={setSelectedData}
-            />
-            <Button title='TEST' onPress={() => press()} />
+            <View style={{flex: 1, justifyContent: 'center'}}>
+                <Clock
+                    id={'id_1'}
+                    idShowClock={idShowClock}
+                    setIdShowClock={setIdShowClock}
+                    
+                    selectedData={selectedData}
+                    setSelectedData={setSelectedData}
+
+                    isUsePortal={false}
+                    colorBody='red'
+                />
+                <Button title='TEST' onPress={() => press()} />
+            </View>
         </WrapperScroll>
     );
 };

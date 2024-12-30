@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
-import React, { FC, useState, forwardRef, useImperativeHandle, useMemo, memo } from 'react';
+import React, { FC, useState, forwardRef, useImperativeHandle, useMemo, memo, useEffect } from 'react';
 import { Portal } from '@gorhom/portal'; 
 import { COLOR_ROOT } from '@/constants/colors';
 import { GestureDetector } from 'react-native-gesture-handler';
@@ -15,6 +15,8 @@ import { useGetOptionsClock } from './hooks/useGetOptionsClock';
 import { valuesSv } from './values/valuesSv';
 import { valuesClock } from './values/valuesClock';
 import { getPositions } from './helpers/getPositions';
+import ItemNumber from './components/ItemNumber';
+import { Gesture } from "react-native-gesture-handler";
 
 import type { IClock,IArraysForClock, TPositions } from './types';
 
@@ -38,6 +40,9 @@ const Clock = ({
     typeOfDisplay = 'clock'
 }: IClock) => {
 
+    const [isShow, setIsShow] = useState<boolean>(false);
+    console.log('isShow = ', isShow);
+
     // Установки для массива отображаемых чисел.
     const {optionsClock} = useGetOptionsClock(typeClock);
 
@@ -48,7 +53,8 @@ const Clock = ({
         secondNumberArray,
         fullRotationFirstNumber, 
         fullRotationSecondNumber,
-        height
+        height,
+        centerTop
     } = valuesClock(optionsClock);
 
     const {
@@ -63,10 +69,10 @@ const Clock = ({
     } = valuesSv(id, selectedData, itemHeight, firstNumberArray, secondNumberArray);
 
     /** `Определение позиций всех элементов первого числа.` */
-    const currentPositionsOne = useSharedValue<TPositions>( getPositions({data: firstNumberArray, heightElement: itemHeight}) );
+    const arrPositionsOne: TPositions[] = getPositions({data: firstNumberArray, heightElement: itemHeight});
 
     /** `Определение позиций всех элементов второго числа.` */
-    const currentPositionsTwo = useSharedValue<TPositions>( getPositions({data: secondNumberArray, heightElement: itemHeight}) );
+    const arrPositionsTwo: TPositions[] = getPositions({data: secondNumberArray, heightElement: itemHeight});
 
 
     const {animatedFirstNumber, animatedSecondNumber} = animatedStyles({
@@ -116,13 +122,36 @@ const Clock = ({
         step: optionsClock.two.step
     });
 
-    const firstNumber = firstNumberArray.map((item, i) => {
-            return(
-                <Animated.View style={[styles.timeBox, {height: itemHeight}, animatedFirstNumber(Number(i))]} key={i} >
-                    <Text style={[styles.timeText, {color: colorText}]} >{item}</Text>
-                </Animated.View>
-            )
-    });
+    const MAX_HI = (arrPositionsOne.length * itemHeight - centerTop - itemHeight) * -1;
+    console.log('MAX_HI = ', MAX_HI);
+    const currentPositionsOneSv = useSharedValue<number>(centerTop);
+    const lastPositionsOneSv = useSharedValue<number>(0);
+
+    const gestureOneNumber = Gesture.Pan()
+        .onUpdate((evt) => {
+            console.log(currentPositionsOneSv.value);
+            currentPositionsOneSv.value = lastPositionsOneSv.value + evt.translationY;
+
+            if(currentPositionsOneSv.value >= centerTop) {
+                currentPositionsOneSv.value = centerTop;
+            }
+            if(currentPositionsOneSv.value <= MAX_HI) {
+                currentPositionsOneSv.value = MAX_HI;
+            }
+        })
+        .onEnd((evt) => {
+
+            lastPositionsOneSv.value = currentPositionsOneSv.value;
+        })
+
+    const firstNumber = arrPositionsOne.map((item, i) => 
+        <ItemNumber 
+            item={item}
+            colorText={colorText}
+            currentPositionSv={currentPositionsOneSv}
+            key={i}
+        />
+    );
 
     const secondNumber = secondNumberArray.map((item, i) => {
         return(
@@ -132,28 +161,30 @@ const Clock = ({
         )
     });
 
+    console.log('idShowClock === id ', idShowClock === id);
+
     const bodyClock = () => {
         return (
             <>
                 {
-                    idShowClock === id
+                    isShow
                     ?
                     <Animated.View 
-                        style={styles.main} 
-                        entering={FadeIn.duration(500)} 
+                        style={positionStyle.main_absolute} 
+                        entering={FadeIn.duration(500)}  
                         exiting={FadeOut.duration(500)} 
                     >
-                        <BlurView 
+                        <BlurView
+                            style={positionStyle.container_relative} 
                             intensity={30}
                             tint='dark'
-                            style={styles.container} 
                         >
-                            <View style={[styles.body, {backgroundColor: colorBody}]} >
-                                <View style={[styles.time, {height}]} >
-                                    <View style={styles.line}>
-                                        <View style={styles.lineBody} ></View>
+                            <View style={[styles.body, {backgroundColor: colorBody, height}]} >
+                                <View style={[styles.time]} >
+                                    <View style={[styles.line, {top: centerTop}]}>
+                                        <View style={[styles.lineBody, {height: itemHeight}]} ></View>
                                     </View>
-                                    <GestureDetector gesture={gesturePanFirstNumber} >
+                                    <GestureDetector gesture={gestureOneNumber} >
                                         <View style={styles.block} >
                                             {firstNumber}
                                         </View>
@@ -161,9 +192,7 @@ const Clock = ({
                                     {
                                         typeOfDisplay === 'clock' ?
                                         <>
-                                            <View> 
-                                                <Text style={{color: colorText, fontSize: 23}} >:</Text>
-                                            </View>
+                                            <Text style={{color: colorText, fontSize: 23, paddingBottom: 3}} >:</Text>
 
                                             <GestureDetector gesture={gesturePanSecondNumber} >
                                                 <View style={styles.block} >
@@ -195,6 +224,24 @@ const Clock = ({
         )
     }
 
+    useEffect(() => {
+        console.log('Effect');
+        if(idShowClock === id) {
+            setIsShow(true);
+        } else {
+            setIsShow(false);
+        }
+
+    }, [idShowClock]);
+
+    useEffect(() => {
+        return () => {
+            console.log('Return Effect');
+            setIdShowClock('');
+            setIsShow(false);
+        }
+    }, []);
+
     return (
         <>
             {
@@ -215,23 +262,8 @@ const widthClock = '60%';
 
 
 const styles = StyleSheet.create({
-
-    main: {
-        position: 'absolute',
-        width: '100%',
-        height: '100%'
-    },
-    container: {
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: Platform.OS === 'ios' ? 'rgba(255, 255, 255, .2)' : 'rgba(255, 255, 255, .5)'
-    },
     body: {
         width: widthClock,
-        height: 200,
         justifyContent: 'center',
         alignItems: 'center',
         borderTopLeftRadius: radiusClock,
@@ -240,6 +272,7 @@ const styles = StyleSheet.create({
     time: {
         position: 'relative',
         width: '100%',
+        height: '100%',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -280,17 +313,34 @@ const styles = StyleSheet.create({
     line: {
         position: 'absolute',
         zIndex: 1,
-        top: 106,
         left: 0,
-        width: '100%',
-        height:  40,
+        width: '100%'
     },
     lineBody: {
         flex: 1,
         backgroundColor: 'white',
-        opacity: .15
+        opacity: .5
     }
 });
+
+const positionStyle = StyleSheet.create({
+    main_absolute: {
+        position: 'absolute',
+        zIndex: 10,
+        width: '100%',
+        height: '100%'
+    },
+    container_relative: {
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Platform.OS === 'ios' ? 'rgba(255, 255, 255, .2)' : 'rgba(255, 255, 255, .5)'
+    },
+});
+
+
 
 
 export default Clock;
