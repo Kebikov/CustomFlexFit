@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
-import React, { useState, forwardRef, useImperativeHandle, useMemo, memo } from 'react';
+import React, { FC, useState, forwardRef, useImperativeHandle, useMemo, memo } from 'react';
 import { Portal } from '@gorhom/portal'; 
 import { COLOR_ROOT } from '@/constants/colors';
 import { GestureDetector } from 'react-native-gesture-handler';
@@ -13,66 +13,43 @@ import { getPosition } from './helpers/getPosition';
 import { gapsForClock } from '@/components/Clock/helpers/gapsForClock';
 import { useGetOptionsClock } from './hooks/useGetOptionsClock';
 import { valuesSv } from './values/valuesSv';
+import { valuesClock } from './values/valuesClock';
+import { getPositions } from './helpers/getPositions';
 
-import type { IClock,IArraysForClock } from './types';
+import type { IClock,IArraysForClock, TPositions } from './types';
 
-
-export interface IClockRef {
-    openClock: () => void;
-}
-
-export interface ITimeClock {
-    one: number;
-    two: number;
-}
 
 
 /** @widgets `Установка времени.`*/
-const Clock = forwardRef<IClockRef, IClock>(({
-    selectedTime,
-    setSelectedTime,
+const Clock = ({
+    id,
+    idShowClock,
+    setIdShowClock,
+
+    selectedData,
+    setSelectedData,
+
     colorBody = COLOR_ROOT.BACKGROUND,
     colorButton = COLOR_ROOT.BACKGROUND,
     colorText = 'white',
     colorLine = 'rgba(255, 255, 255, 0.3)',
     isUsePortal = true,
     typeClock = 'hours/minutes',
-    typeClockCustom,
-    typeOfDisplay = 'clock',
-    id,
-    idShowClock,
-    setIdShowClock
-}, ref) => {
-
-    /**
-     * @param isShow Показать/скрыть часы.
-     */
-    const [isShow, setIsShow] = useState<boolean>(false);
+    typeOfDisplay = 'clock'
+}: IClock) => {
 
     // Установки для массива отображаемых чисел.
-    let {optionsClock} = useGetOptionsClock(typeClock, typeClockCustom);
+    const {optionsClock} = useGetOptionsClock(typeClock);
 
-    /**
-     * `Высота окна с цыфрами.`
-     */
-    const height = 252;
-    /**
-     * `Количество элементов в окне.`
-     */
-    const totalElements = 7;
-    /**
-     * `Высота одного элемента.`
-     */
-    const itemHeight = height / totalElements; 
-    const {firstNumberArray, secondNumberArray} = arraysForClock(optionsClock);
-    /**
-     * `Диаметр полного оборота "Первого числа".`
-     */
-    const fullRotationFirstNumber = firstNumberArray.length * itemHeight;
-    /**
-     * `Диаметр полного оборота второго числа.`
-     */
-    const fullRotationSecondNumber = secondNumberArray.length * itemHeight;
+    /** `Начальные установки для отображения.` */
+    const {
+        itemHeight, 
+        firstNumberArray,
+        secondNumberArray,
+        fullRotationFirstNumber, 
+        fullRotationSecondNumber,
+        height
+    } = valuesClock(optionsClock);
 
     const {
         firstNumberPosition,
@@ -83,7 +60,13 @@ const Clock = forwardRef<IClockRef, IClock>(({
         lastVibrationPositionFirstNumber,
         lastPositionSecondNumber,
         lastVibrationPositionSecondNumber
-    } = valuesSv(selectedTime, itemHeight, firstNumberArray, secondNumberArray);
+    } = valuesSv(id, selectedData, itemHeight, firstNumberArray, secondNumberArray);
+
+    /** `Определение позиций всех элементов первого числа.` */
+    const currentPositionsOne = useSharedValue<TPositions>( getPositions({data: firstNumberArray, heightElement: itemHeight}) );
+
+    /** `Определение позиций всех элементов второго числа.` */
+    const currentPositionsTwo = useSharedValue<TPositions>( getPositions({data: secondNumberArray, heightElement: itemHeight}) );
 
 
     const {animatedFirstNumber, animatedSecondNumber} = animatedStyles({
@@ -102,11 +85,11 @@ const Clock = forwardRef<IClockRef, IClock>(({
         itemHeight, 
         fullRotationSecondNumber
     });
-    /**
-     * `Установка выбраного времени.`
-     */
+
+
+    /** `Установка выбраного времени.` */
     const setTime = () => {
-        setSelectedTime({one: selectedFirstNumber.value, two: selecteSecondNumber.value});
+        setSelectedData(state => ({...state, id: {one: selectedFirstNumber.value, two: selecteSecondNumber.value}}))
     }
 
     const {gesturePan: gesturePanFirstNumber} = gestureForClock({
@@ -149,17 +132,11 @@ const Clock = forwardRef<IClockRef, IClock>(({
         )
     });
 
-    useImperativeHandle(ref, () => ({
-        openClock: () => {
-            setIsShow(true);
-        }
-    }));
-
     const bodyClock = () => {
         return (
             <>
                 {
-                    isShow && id === undefined || id !== undefined && idShowClock === id
+                    idShowClock === id
                     ?
                     <Animated.View 
                         style={styles.main} 
@@ -203,8 +180,7 @@ const Clock = forwardRef<IClockRef, IClock>(({
                                 style={[styles.button, {backgroundColor: colorButton, borderTopColor: colorLine}]}
                                 onPress={() => {
                                     VibrationApp.pressButton();
-                                    // Если есть id, значит есть внешнее состояние контролируюшее отображение компанента.
-                                    id ? setIdShowClock(0) : setIsShow(false);
+                                    setIdShowClock('');
                                     setTime();
                                 }}
                             >
@@ -231,7 +207,7 @@ const Clock = forwardRef<IClockRef, IClock>(({
             }
         </>
     );
-});
+};
 
 
 const radiusClock = 14;
@@ -317,4 +293,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default memo(Clock);
+export default Clock;

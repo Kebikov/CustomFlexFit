@@ -7,11 +7,13 @@ import Animated,
 } from 'react-native-reanimated';
 import { getPosition } from '../helpers/getPosition';
 
-import type { ITimeClock } from '../Clock';
+import type { IStateDataClock } from '../types';
+
 
 
 export const valuesSv = (
-    selectedTime: ITimeClock,
+    id: string,
+    selectedData: IStateDataClock,
     itemHeight: number,
     firstNumberArray: string[],
     secondNumberArray: string[]
@@ -25,7 +27,7 @@ export const valuesSv = (
         () => firstNumberPosition.value,
         (currentValue, previousValue) => {
             if(currentValue === 0) {
-                firstNumberPosition.value = getPosition(selectedTime.one, itemHeight, firstNumberArray);
+                firstNumberPosition.value = getPosition(selectedData[id].one, itemHeight, firstNumberArray);
             }
         }
     );
@@ -37,7 +39,7 @@ export const valuesSv = (
         () => lastPositionFirstNumber.value,
         (currentValue, previousValue) => {
             if(currentValue === 0) {
-                lastPositionFirstNumber.value = getPosition(selectedTime.one, itemHeight, firstNumberArray);
+                lastPositionFirstNumber.value = getPosition(selectedData[id].one, itemHeight, firstNumberArray);
             }
         }
     );
@@ -50,7 +52,7 @@ export const valuesSv = (
         () => secondNumberPosition.value,
         (currentValue, previousValue) => {
             if(currentValue === 0) {
-                secondNumberPosition.value = getPosition(selectedTime.two, itemHeight, secondNumberArray);
+                secondNumberPosition.value = getPosition(selectedData[id].two, itemHeight, secondNumberArray);
             }
         }
     );
@@ -62,12 +64,12 @@ export const valuesSv = (
     /**
      * `Выбраный пользователем первое число.`
      */
-    const selectedFirstNumber = useSharedValue<number>(selectedTime.one);
+    const selectedFirstNumber = useSharedValue<number>(selectedData[id].one);
     /**
      * `Выбраное пользователем "Второе число".`
      */
-    const selecteSecondNumber = useSharedValue<number>(selectedTime.two);
-    
+    const selecteSecondNumber = useSharedValue<number>(selectedData[id].two);
+
     /**
      * `Последняя позиция вибрации для "Первого числа".`
      */

@@ -19,7 +19,8 @@ import Animated, {
     withSpring
 } from 'react-native-reanimated';
 
-import Clock, { ITimeClock, IClockRef } from '@/components/Clock/Clock';
+import Clock from '@/components/Clock/Clock';
+import type { IStateDataClock } from '@/components/Clock/types';
 
 
 
@@ -33,18 +34,22 @@ const DATA = [
 
 const ShowImgInFolder: FC = () => {
 
-    /**
-     * @param electedTime Выбранное время.
-     */
-    const [selectedTime, setSelectedTime] = useState<ITimeClock>({one: 14, two: 15});
+     /** @param idShowClock Уникальный id для элемента на странице */
+    const [idShowClock, setIdShowClock] = useState<string>('');
 
-    const refClock = useRef<IClockRef>(null);
+     /** @param electedTime Выбранное время */
+    const [selectedData, setSelectedData] = useState<IStateDataClock>({
+        'id_1': {
+            'one': 12,
+            'two': 23
+        }
+    });
+
 
     const press = () => {
         console.log('press');
-        refClock.current?.openClock();
+        setIdShowClock('id_1');
     }
-
 
 
     return (
@@ -52,10 +57,13 @@ const ShowImgInFolder: FC = () => {
             backgroundColor={COLOR_ROOT.ARCTIC}
             isScrollEnabled={false}
         >
-            <Clock 
-                setSelectedTime={setSelectedTime} 
-                selectedTime={selectedTime} 
-                ref={refClock} 
+            <Clock
+                id={'id_1'}
+                idShowClock={idShowClock}
+                setIdShowClock={setIdShowClock}
+                
+                selectedData={selectedData}
+                setSelectedData={setSelectedData}
             />
             <Button title='TEST' onPress={() => press()} />
         </WrapperScroll>
