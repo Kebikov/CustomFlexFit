@@ -58,6 +58,8 @@ const ShowImgInFolder: FC = () => {
                     selectedData={selectedData}
                     setSelectedData={setSelectedData}
 
+                    typeClock={{one: {total: 20, step: 2}, two: {total: 20, step: 2}}}
+
                     isUsePortal={false}
                     colorBody='red'
                 />

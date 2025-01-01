@@ -78,6 +78,8 @@ export interface IGetPositions {
     data: string[];
     /** `Высота одного элемента.` */
     heightElement: number; 
+    /** `Смещение для центрирования.` */
+    offset: number;
     /** `Дополнительная информация в консоль.` */
     info?: string;
 }

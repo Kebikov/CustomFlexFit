@@ -3,7 +3,7 @@ import React, { FC, useState, forwardRef, useImperativeHandle, useMemo, memo, us
 import { Portal } from '@gorhom/portal'; 
 import { COLOR_ROOT } from '@/constants/colors';
 import { GestureDetector } from 'react-native-gesture-handler';
-import Animated, { useSharedValue, FadeIn, FadeOut, useAnimatedReaction } from 'react-native-reanimated';
+import Animated, { useSharedValue, FadeIn, FadeOut, useAnimatedReaction, withSpring } from 'react-native-reanimated';
 import VibrationApp from '@/helpers/VibrationApp';
 import { BlurView } from 'expo-blur';
 import { animatedStyles } from './helpers/animatedStyles';
@@ -17,6 +17,12 @@ import { valuesClock } from './values/valuesClock';
 import { getPositions } from './helpers/getPositions';
 import ItemNumber from './components/ItemNumber';
 import { Gesture } from "react-native-gesture-handler";
+import ClockWrapper from './components/ClockWrapper';
+import LineSelectionNumbers from './components/LineSelectionNumbers';
+import ColumnNumbers from './components/ColumnNumbers';
+import BodyClockWrapper from './components/BodyClockWrapper';
+import { definingPosition } from './helpers/definingPosition';
+import { getStatePosition } from './helpers/getStatePosition';
 
 import type { IClock,IArraysForClock, TPositions } from './types';
 
@@ -54,7 +60,7 @@ const Clock = ({
         fullRotationFirstNumber, 
         fullRotationSecondNumber,
         height,
-        centerTop
+        offsetTop
     } = valuesClock(optionsClock);
 
     const {
@@ -69,10 +75,10 @@ const Clock = ({
     } = valuesSv(id, selectedData, itemHeight, firstNumberArray, secondNumberArray);
 
     /** `Определение позиций всех элементов первого числа.` */
-    const arrPositionsOne: TPositions[] = getPositions({data: firstNumberArray, heightElement: itemHeight});
-
+    const arrPositionsOne: TPositions[] = getPositions({data: firstNumberArray, heightElement: itemHeight, offset: offsetTop});
+    //console.log(JSON.stringify( arrPositionsOne, null, 2));
     /** `Определение позиций всех элементов второго числа.` */
-    const arrPositionsTwo: TPositions[] = getPositions({data: secondNumberArray, heightElement: itemHeight});
+    //const arrPositionsTwo: TPositions[] = getPositions({data: secondNumberArray, heightElement: itemHeight});
 
 
     const {animatedFirstNumber, animatedSecondNumber} = animatedStyles({
@@ -122,36 +128,45 @@ const Clock = ({
         step: optionsClock.two.step
     });
 
-    const MAX_HI = (arrPositionsOne.length * itemHeight - centerTop - itemHeight) * -1;
+    /** `Максимальная позиция первой колонки цифр.` */
+    const MAX_HI = itemHeight - arrPositionsOne.length * itemHeight;
     console.log('MAX_HI = ', MAX_HI);
-    const currentPositionsOneSv = useSharedValue<number>(centerTop);
-    const lastPositionsOneSv = useSharedValue<number>(0);
+
+    /** `Начальная позиция колонки.` */
+    const statePositionOne = getStatePosition(selectedData[id].one, arrPositionsOne, offsetTop);
+
+    /** `Текущяя позиция первой колонки цифр.` */
+    const currentPositionsOneSv = useSharedValue<number>(statePositionOne);
+
+    /** `Последняя позиция первой колонки цифр.` */
+    const lastPositionsOneSv = useSharedValue<number>(statePositionOne);
 
     const gestureOneNumber = Gesture.Pan()
         .onUpdate((evt) => {
-            console.log(currentPositionsOneSv.value);
             currentPositionsOneSv.value = lastPositionsOneSv.value + evt.translationY;
-
-            if(currentPositionsOneSv.value >= centerTop) {
-                currentPositionsOneSv.value = centerTop;
-            }
-            if(currentPositionsOneSv.value <= MAX_HI) {
-                currentPositionsOneSv.value = MAX_HI;
-            }
         })
         .onEnd((evt) => {
 
+            if(currentPositionsOneSv.value >= 0) {
+                console.log('низ');
+                currentPositionsOneSv.value = withSpring(0);
+                lastPositionsOneSv.value = 0;
+                return;
+            }
+
+            if(currentPositionsOneSv.value <= MAX_HI) {
+                console.log('верх');
+                currentPositionsOneSv.value = withSpring(MAX_HI);
+                lastPositionsOneSv.value = MAX_HI;
+                return;
+            }
+
+            /** `Ближайший элемент к центру в массиве.` */
+            const element = definingPosition(arrPositionsOne, currentPositionsOneSv, offsetTop);
+            console.log('element = ', element);
+            currentPositionsOneSv.value = withSpring(element.top);
             lastPositionsOneSv.value = currentPositionsOneSv.value;
         })
-
-    const firstNumber = arrPositionsOne.map((item, i) => 
-        <ItemNumber 
-            item={item}
-            colorText={colorText}
-            currentPositionSv={currentPositionsOneSv}
-            key={i}
-        />
-    );
 
     const secondNumber = secondNumberArray.map((item, i) => {
         return(
@@ -163,60 +178,47 @@ const Clock = ({
 
     console.log('idShowClock === id ', idShowClock === id);
 
-    const bodyClock = () => {
+    const BodyClock = () => {
         return (
             <>
                 {
                     isShow
                     ?
-                    <Animated.View 
-                        style={positionStyle.main_absolute} 
-                        entering={FadeIn.duration(500)}  
-                        exiting={FadeOut.duration(500)} 
-                    >
-                        <BlurView
-                            style={positionStyle.container_relative} 
-                            intensity={30}
-                            tint='dark'
-                        >
-                            <View style={[styles.body, {backgroundColor: colorBody, height}]} >
-                                <View style={[styles.time]} >
-                                    <View style={[styles.line, {top: centerTop}]}>
-                                        <View style={[styles.lineBody, {height: itemHeight}]} ></View>
-                                    </View>
-                                    <GestureDetector gesture={gestureOneNumber} >
-                                        <View style={styles.block} >
-                                            {firstNumber}
-                                        </View>
-                                    </GestureDetector> 
-                                    {
-                                        typeOfDisplay === 'clock' ?
-                                        <>
-                                            <Text style={{color: colorText, fontSize: 23, paddingBottom: 3}} >:</Text>
+                    <ClockWrapper>
+                        <BodyClockWrapper colorBody={colorBody} height={height} >
+                            <LineSelectionNumbers itemHeight={itemHeight} centerTop={offsetTop} />
+                            <ColumnNumbers
+                                arrayNumbers={arrPositionsOne}
+                                currentPositionsSv={currentPositionsOneSv}
+                                gestureNumbers={gestureOneNumber}
+                                colorText={colorText}
+                            />
+                            {
+                                typeOfDisplay === 'clock' ?
+                                <>
+                                    <Text style={[styles.dots, {color: colorText}]} >:</Text>
 
-                                            <GestureDetector gesture={gesturePanSecondNumber} >
-                                                <View style={styles.block} >
-                                                    {secondNumber}
-                                                </View>
-                                            </GestureDetector>
-                                        </>
-                                        :
-                                        null
-                                    }
-                                </View>
-                            </View>
-                            <Pressable 
-                                style={[styles.button, {backgroundColor: colorButton, borderTopColor: colorLine}]}
-                                onPress={() => {
-                                    VibrationApp.pressButton();
-                                    setIdShowClock('');
-                                    setTime();
-                                }}
-                            >
-                                <Text style={[styles.buttonText, {color: colorText}]} >OK</Text>
-                            </Pressable>
-                        </BlurView>
-                    </Animated.View>
+                                    <GestureDetector gesture={gesturePanSecondNumber} >
+                                        <View style={styles.block} >
+                                            {secondNumber}
+                                        </View>
+                                    </GestureDetector>
+                                </>
+                                :
+                                null
+                            }
+                        </BodyClockWrapper>
+                        <Pressable 
+                            style={[styles.button, {backgroundColor: colorButton, borderTopColor: colorLine}]}
+                            onPress={() => {
+                                VibrationApp.pressButton();
+                                setIdShowClock('');
+                                setTime();
+                            }}
+                        >
+                            <Text style={[styles.buttonText, {color: colorText}]} >OK</Text>
+                        </Pressable>
+                    </ClockWrapper>
                     :
                     null
                 }
@@ -247,10 +249,10 @@ const Clock = ({
             {
                 isUsePortal ?
                 <Portal name='clock' >
-                    {bodyClock()}
+                    <BodyClock/>
                 </Portal>
                 :
-                bodyClock()
+                <BodyClock/>
             }
         </>
     );
@@ -258,26 +260,12 @@ const Clock = ({
 
 
 const radiusClock = 14;
-const widthClock = '60%';
 
 
 const styles = StyleSheet.create({
-    body: {
-        width: widthClock,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderTopLeftRadius: radiusClock,
-        borderTopRightRadius: radiusClock
-    },
-    time: {
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 24,
-        overflow: 'hidden'
+    dots: {
+        fontSize: 23, 
+        paddingBottom: 3
     },
     block: {
         position: 'relative',
@@ -309,38 +297,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         fontSize: Platform.OS === 'ios' ? 16 : 16
-    },
-    line: {
-        position: 'absolute',
-        zIndex: 1,
-        left: 0,
-        width: '100%'
-    },
-    lineBody: {
-        flex: 1,
-        backgroundColor: 'white',
-        opacity: .5
     }
 });
-
-const positionStyle = StyleSheet.create({
-    main_absolute: {
-        position: 'absolute',
-        zIndex: 10,
-        width: '100%',
-        height: '100%'
-    },
-    container_relative: {
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: Platform.OS === 'ios' ? 'rgba(255, 255, 255, .2)' : 'rgba(255, 255, 255, .5)'
-    },
-});
-
-
 
 
 export default Clock;

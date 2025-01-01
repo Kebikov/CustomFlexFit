@@ -4,7 +4,7 @@ import { TPositions, IGetPositions } from "../types";
  * @param listlength Длинна всего списка.
  * @param heightElement Высота одного элемента.
  */
-export const getPositions = ({ data, heightElement, info }: IGetPositions): TPositions[] => {
+export const getPositions = ({ data, heightElement, offset, info }: IGetPositions): TPositions[] => {
     'worklet';
 
     let allPositions: TPositions[] = [];
@@ -13,7 +13,7 @@ export const getPositions = ({ data, heightElement, info }: IGetPositions): TPos
         allPositions.push(
             {
                 num: item,
-                top: i * heightElement,
+                top: i * heightElement + offset,
                 heightElement
             }
         )
