@@ -2,30 +2,19 @@ import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
 import React, { FC, useState, forwardRef, useImperativeHandle, useMemo, memo, useEffect } from 'react';
 import { Portal } from '@gorhom/portal'; 
 import { COLOR_ROOT } from '@/constants/colors';
-import { GestureDetector } from 'react-native-gesture-handler';
-import Animated, { useSharedValue, FadeIn, FadeOut, useAnimatedReaction, withSpring } from 'react-native-reanimated';
+import { useSharedValue } from 'react-native-reanimated';
 import VibrationApp from '@/helpers/VibrationApp';
-import { BlurView } from 'expo-blur';
-import { animatedStyles } from './helpers/animatedStyles';
-import { arraysForClock } from './helpers/arraysForClock';
-import { gestureForClock } from './helpers/gestureForClock';
-import { getPosition } from './helpers/getPosition';
-import { gapsForClock } from '@/components/Clock/helpers/gapsForClock';
 import { useGetOptionsClock } from './hooks/useGetOptionsClock';
-import { valuesSv } from './values/valuesSv';
 import { valuesClock } from './values/valuesClock';
 import { getPositions } from './helpers/getPositions';
-import ItemNumber from './components/ItemNumber';
-import { Gesture } from "react-native-gesture-handler";
 import ClockWrapper from './components/ClockWrapper';
 import LineSelectionNumbers from './components/LineSelectionNumbers';
 import ColumnNumbers from './components/ColumnNumbers';
 import BodyClockWrapper from './components/BodyClockWrapper';
-import { definingPosition } from './helpers/definingPosition';
 import { getStatePosition } from './helpers/getStatePosition';
 import { gestureColumn } from './helpers/gestureColumn';
 
-import type { IClock,IArraysForClock, TPositions } from './types';
+import type { IClock, TPositions } from './types';
 
 
 
@@ -57,22 +46,10 @@ const Clock = ({
         itemHeight, 
         firstNumberArray,
         secondNumberArray,
-        fullRotationFirstNumber, 
-        fullRotationSecondNumber,
         height,
         offsetTop
     } = valuesClock(optionsClock);
 
-    const {
-        firstNumberPosition,
-        secondNumberPosition,
-        selectedFirstNumber,
-        selecteSecondNumber,
-        lastPositionFirstNumber,
-        lastVibrationPositionFirstNumber,
-        lastPositionSecondNumber,
-        lastVibrationPositionSecondNumber
-    } = valuesSv(id, selectedData, itemHeight, firstNumberArray, secondNumberArray);
 
     /** `Позиций всех элементов первого ряда чисел.` */
     const arrPositionsOne: TPositions[] = getPositions({data: firstNumberArray, heightElement: itemHeight, offset: offsetTop});
@@ -80,52 +57,10 @@ const Clock = ({
     /** `Позиций всех элементов второго ряда чисел.` */
     const arrPositionsTwo: TPositions[] = getPositions({data: secondNumberArray, heightElement: itemHeight, offset: offsetTop});
 
-    const {animatedFirstNumber, animatedSecondNumber} = animatedStyles({
-        firstNumberPosition, 
-        itemHeight, 
-        fullRotation: fullRotationFirstNumber, 
-        height, 
-        fullRotationSecondNumber: fullRotationSecondNumber,
-        secondNumberPosition,
-        lengthArrayOne: firstNumberArray.length,
-        lengthArrayTwo: secondNumberArray.length
-    });
-
-    const {gapsFirstNumber, gapsSecondNumber} = gapsForClock({
-        fullRotationFirstNumber, 
-        itemHeight, 
-        fullRotationSecondNumber
-    });
-
-
     /** `Установка выбраного времени.` */
     const setTime = () => {
-        setSelectedData(state => ({...state, id: {one: selectedFirstNumber.value, two: selecteSecondNumber.value}}))
+        
     }
-
-    const {gesturePan: gesturePanFirstNumber} = gestureForClock({
-        svPosition: firstNumberPosition, 
-        svLastPosition: lastPositionFirstNumber, 
-        svSelectedNumber: selectedFirstNumber, 
-        fullRotation: fullRotationFirstNumber, 
-        gaps: gapsFirstNumber, 
-        itemHeight, 
-        svLastVibrationPosition: lastVibrationPositionFirstNumber,
-        maxValue: optionsClock.one.total,
-        step: optionsClock.one.step
-    });
-
-    const {gesturePan: gesturePanSecondNumber} = gestureForClock({
-        svPosition: secondNumberPosition, 
-        svLastPosition: lastPositionSecondNumber, 
-        svSelectedNumber: selecteSecondNumber, 
-        fullRotation: fullRotationSecondNumber, 
-        gaps: gapsSecondNumber, 
-        itemHeight, 
-        svLastVibrationPosition: lastVibrationPositionSecondNumber,
-        maxValue: optionsClock.two.total,
-        step: optionsClock.two.step
-    });
 
     /** `Максимальная позиция первой колонки чисел.` */
     const MAX_HI_ONE = itemHeight - arrPositionsOne.length * itemHeight;
@@ -163,15 +98,6 @@ const Clock = ({
         MAX_HI_TWO
     );
 
-    const secondNumber = secondNumberArray.map((item, i) => {
-        return(
-            <Animated.View style={[styles.timeBox, {height: itemHeight}, animatedSecondNumber(Number(i))]} key={i} >
-                <Text style={[styles.timeText, {color: colorText}]} >{item}</Text>
-            </Animated.View>
-        )
-    });
-
-    console.log('idShowClock === id ', idShowClock === id);
 
     const BodyClock = () => {
         return (
@@ -262,25 +188,6 @@ const styles = StyleSheet.create({
     dots: {
         fontSize: 23, 
         paddingBottom: 3
-    },
-    block: {
-        position: 'relative',
-        zIndex: 2,
-        width: 40,
-        height: '100%',
-        overflow: 'hidden'
-    },
-
-    timeBox: {
-        position: 'absolute',
-        left: 0,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    timeText: {
-        fontSize: Platform.OS === 'ios' ? 23 : 21,
-        textAlign: 'center',
     },
     button: {
         width: '60%',

@@ -1,9 +1,6 @@
 import { TPositions, IGetPositions } from "../types";
 
-/**
- * @param listlength Длинна всего списка.
- * @param heightElement Высота одного элемента.
- */
+/** `Получение обьектов с данными для каждого числа.` */
 export const getPositions = ({ data, heightElement, offset, info }: IGetPositions): TPositions[] => {
     'worklet';
 

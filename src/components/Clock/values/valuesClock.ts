@@ -15,12 +15,6 @@ export const valuesClock = (optionsClock: IArraysForClock) => {
 
     const {firstNumberArray, secondNumberArray} = arraysForClock(optionsClock);
 
-    /** `Диаметр полного оборота "Первого числа".` */
-    const fullRotationFirstNumber = firstNumberArray.length * itemHeight;
-
-    /** `Диаметр полного оборота второго числа.` */
-    const fullRotationSecondNumber = secondNumberArray.length * itemHeight;
-
     /** `Смешения для центра начального элемента.` */
     const offsetTop = itemHeight * (totalElements / 2 - 0.5);
     
@@ -31,10 +25,6 @@ export const valuesClock = (optionsClock: IArraysForClock) => {
         firstNumberArray,
         /** `Массив "Вторых чисел".` */
         secondNumberArray,
-        /** `Диаметр полного оборота "Первого числа".` */
-        fullRotationFirstNumber,
-        /** `Диаметр полного оборота второго числа.` */
-        fullRotationSecondNumber,
         /** `Высота окна с цыфрами.` */
         height,
         /** `Смешения для центра начального элемента.` */

@@ -16,6 +16,7 @@ interface IItemNumber {
 }
 
 
+/** `Элемент одного числа.` */
 const ItemNumber: FC<IItemNumber> = ({
     item,
     colorText,
