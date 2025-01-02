@@ -23,6 +23,7 @@ import ColumnNumbers from './components/ColumnNumbers';
 import BodyClockWrapper from './components/BodyClockWrapper';
 import { definingPosition } from './helpers/definingPosition';
 import { getStatePosition } from './helpers/getStatePosition';
+import { gestureColumn } from './helpers/gestureColumn';
 
 import type { IClock,IArraysForClock, TPositions } from './types';
 
@@ -141,32 +142,40 @@ const Clock = ({
     /** `Последняя позиция первой колонки цифр.` */
     const lastPositionsOneSv = useSharedValue<number>(statePositionOne);
 
-    const gestureOneNumber = Gesture.Pan()
-        .onUpdate((evt) => {
-            currentPositionsOneSv.value = lastPositionsOneSv.value + evt.translationY;
-        })
-        .onEnd((evt) => {
+    const gestureOneNumber = gestureColumn(
+        arrPositionsOne, 
+        currentPositionsOneSv, 
+        lastPositionsOneSv,
+        offsetTop,
+        MAX_HI
+    );
 
-            if(currentPositionsOneSv.value >= 0) {
-                console.log('низ');
-                currentPositionsOneSv.value = withSpring(0);
-                lastPositionsOneSv.value = 0;
-                return;
-            }
+    // const gestureOneNumber = Gesture.Pan()
+    //     .onUpdate((evt) => {
+    //         currentPositionsOneSv.value = lastPositionsOneSv.value + evt.translationY;
+    //     })
+    //     .onEnd((evt) => {
 
-            if(currentPositionsOneSv.value <= MAX_HI) {
-                console.log('верх');
-                currentPositionsOneSv.value = withSpring(MAX_HI);
-                lastPositionsOneSv.value = MAX_HI;
-                return;
-            }
+    //         if(currentPositionsOneSv.value >= 0) {
+    //             console.log('низ');
+    //             currentPositionsOneSv.value = withSpring(0);
+    //             lastPositionsOneSv.value = 0;
+    //             return;
+    //         }
 
-            /** `Ближайший элемент к центру в массиве.` */
-            const element = definingPosition(arrPositionsOne, currentPositionsOneSv, offsetTop);
-            console.log('element = ', element);
-            currentPositionsOneSv.value = withSpring(element.top);
-            lastPositionsOneSv.value = currentPositionsOneSv.value;
-        })
+    //         if(currentPositionsOneSv.value <= MAX_HI) {
+    //             console.log('верх');
+    //             currentPositionsOneSv.value = withSpring(MAX_HI);
+    //             lastPositionsOneSv.value = MAX_HI;
+    //             return;
+    //         }
+
+    //         /** `Ближайший элемент к центру в массиве.` */
+    //         const element = definingPosition(arrPositionsOne, currentPositionsOneSv, offsetTop);
+    //         console.log('element = ', element);
+    //         currentPositionsOneSv.value = withSpring(element.top);
+    //         lastPositionsOneSv.value = currentPositionsOneSv.value;
+    //     })
 
     const secondNumber = secondNumberArray.map((item, i) => {
         return(
