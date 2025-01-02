@@ -3,7 +3,7 @@ import { SharedValue, withSpring } from "react-native-reanimated";
 import { definingPosition } from "./definingPosition";
 import { TPositions } from "../types";
 
-
+/** `Обработчик жестов для колонки цифр.` */
 export const gestureColumn = (
     arrayPositions: TPositions[],
     currentPositionsSv: SharedValue<number>,
@@ -11,6 +11,7 @@ export const gestureColumn = (
     offset: number,
     MAX_HI: number
 ) => {
+    
         return Gesture.Pan()
             .onUpdate((evt) => {
                 currentPositionsSv.value = lastPositionsSv.value + evt.translationY;

@@ -33,7 +33,7 @@ const ShowImgInFolder: FC = () => {
     const [selectedData, setSelectedData] = useState<IStateDataClock>({
         'id_1': {
             'one': 12,
-            'two': 23
+            'two': 20
         }
     });
 

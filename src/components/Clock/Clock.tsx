@@ -48,7 +48,6 @@ const Clock = ({
 }: IClock) => {
 
     const [isShow, setIsShow] = useState<boolean>(false);
-    console.log('isShow = ', isShow);
 
     // Установки для массива отображаемых чисел.
     const {optionsClock} = useGetOptionsClock(typeClock);
@@ -75,12 +74,11 @@ const Clock = ({
         lastVibrationPositionSecondNumber
     } = valuesSv(id, selectedData, itemHeight, firstNumberArray, secondNumberArray);
 
-    /** `Определение позиций всех элементов первого числа.` */
+    /** `Позиций всех элементов первого ряда чисел.` */
     const arrPositionsOne: TPositions[] = getPositions({data: firstNumberArray, heightElement: itemHeight, offset: offsetTop});
-    //console.log(JSON.stringify( arrPositionsOne, null, 2));
-    /** `Определение позиций всех элементов второго числа.` */
-    //const arrPositionsTwo: TPositions[] = getPositions({data: secondNumberArray, heightElement: itemHeight});
 
+    /** `Позиций всех элементов второго ряда чисел.` */
+    const arrPositionsTwo: TPositions[] = getPositions({data: secondNumberArray, heightElement: itemHeight, offset: offsetTop});
 
     const {animatedFirstNumber, animatedSecondNumber} = animatedStyles({
         firstNumberPosition, 
@@ -129,53 +127,41 @@ const Clock = ({
         step: optionsClock.two.step
     });
 
-    /** `Максимальная позиция первой колонки цифр.` */
-    const MAX_HI = itemHeight - arrPositionsOne.length * itemHeight;
-    console.log('MAX_HI = ', MAX_HI);
-
+    /** `Максимальная позиция первой колонки чисел.` */
+    const MAX_HI_ONE = itemHeight - arrPositionsOne.length * itemHeight;
+    /** `Максимальная позиция второй колонки чисел.` */
+    const MAX_HI_TWO = itemHeight - arrPositionsTwo.length * itemHeight;
+    
     /** `Начальная позиция колонки.` */
     const statePositionOne = getStatePosition(selectedData[id].one, arrPositionsOne, offsetTop);
+    /** `Начальная позиция колонки.` */
+    const statePositionTwo = getStatePosition(selectedData[id].two, arrPositionsTwo, offsetTop);
 
     /** `Текущяя позиция первой колонки цифр.` */
     const currentPositionsOneSv = useSharedValue<number>(statePositionOne);
-
     /** `Последняя позиция первой колонки цифр.` */
     const lastPositionsOneSv = useSharedValue<number>(statePositionOne);
+
+    /** `Текущяя позиция первой колонки цифр.` */
+    const currentPositionsTwoSv = useSharedValue<number>(statePositionTwo);
+    /** `Последняя позиция первой колонки цифр.` */
+    const lastPositionsTwoSv = useSharedValue<number>(statePositionTwo);
 
     const gestureOneNumber = gestureColumn(
         arrPositionsOne, 
         currentPositionsOneSv, 
         lastPositionsOneSv,
         offsetTop,
-        MAX_HI
+        MAX_HI_ONE
     );
 
-    // const gestureOneNumber = Gesture.Pan()
-    //     .onUpdate((evt) => {
-    //         currentPositionsOneSv.value = lastPositionsOneSv.value + evt.translationY;
-    //     })
-    //     .onEnd((evt) => {
-
-    //         if(currentPositionsOneSv.value >= 0) {
-    //             console.log('низ');
-    //             currentPositionsOneSv.value = withSpring(0);
-    //             lastPositionsOneSv.value = 0;
-    //             return;
-    //         }
-
-    //         if(currentPositionsOneSv.value <= MAX_HI) {
-    //             console.log('верх');
-    //             currentPositionsOneSv.value = withSpring(MAX_HI);
-    //             lastPositionsOneSv.value = MAX_HI;
-    //             return;
-    //         }
-
-    //         /** `Ближайший элемент к центру в массиве.` */
-    //         const element = definingPosition(arrPositionsOne, currentPositionsOneSv, offsetTop);
-    //         console.log('element = ', element);
-    //         currentPositionsOneSv.value = withSpring(element.top);
-    //         lastPositionsOneSv.value = currentPositionsOneSv.value;
-    //     })
+    const gestureTwoNumber = gestureColumn(
+        arrPositionsTwo, 
+        currentPositionsTwoSv, 
+        lastPositionsTwoSv,
+        offsetTop,
+        MAX_HI_TWO
+    );
 
     const secondNumber = secondNumberArray.map((item, i) => {
         return(
@@ -207,11 +193,12 @@ const Clock = ({
                                 <>
                                     <Text style={[styles.dots, {color: colorText}]} >:</Text>
 
-                                    <GestureDetector gesture={gesturePanSecondNumber} >
-                                        <View style={styles.block} >
-                                            {secondNumber}
-                                        </View>
-                                    </GestureDetector>
+                                    <ColumnNumbers
+                                        arrayNumbers={arrPositionsTwo}
+                                        currentPositionsSv={currentPositionsTwoSv}
+                                        gestureNumbers={gestureTwoNumber}
+                                        colorText={colorText}
+                                    />
                                 </>
                                 :
                                 null
