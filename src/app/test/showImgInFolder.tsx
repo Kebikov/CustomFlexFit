@@ -36,7 +36,6 @@ const ShowImgInFolder: FC = () => {
             'two': 20
         }
     });
-    console.log('selectedData = ', JSON.stringify( selectedData, null, 2));
 
     const press = () => {
         console.log('press');
