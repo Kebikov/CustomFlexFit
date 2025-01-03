@@ -19,29 +19,32 @@ import Animated, {
     withSpring
 } from 'react-native-reanimated';
 
-import Clock from '@/components/Clock/Clock';
-import type { TStateDataClock } from '@/components/Clock/types';
+import Clock, { ITimeClock, IClockRef } from '@/components/Clock/Clock';
+
+
+
+const DATA = [
+    {id: 'id_1', name: 1},
+    {id: 'id_2', name: 2},
+    {id: 'id_3', name: 3}
+];
+
 
 
 const ShowImgInFolder: FC = () => {
 
-     /** @param idShowClock Уникальный id для элемента на странице */
-    const [idShowClock, setIdShowClock] = useState<string>('');
-    console.log('idShowClock = ', idShowClock);
+    /**
+     * @param electedTime Выбранное время.
+     */
+    const [selectedTime, setSelectedTime] = useState<ITimeClock>({one: 14, two: 15});
 
-     /** @param electedTime Выбранное время */
-    const [selectedData, setSelectedData] = useState<TStateDataClock>({
-        'id_1': {
-            'one': 12,
-            'two': 20
-        }
-    });
-    console.log('selectedData = ', JSON.stringify( selectedData, null, 2));
+    const refClock = useRef<IClockRef>(null);
 
     const press = () => {
         console.log('press');
-        setIdShowClock('id_1');
+        refClock.current?.openClock();
     }
+
 
 
     return (
@@ -49,24 +52,12 @@ const ShowImgInFolder: FC = () => {
             backgroundColor={COLOR_ROOT.ARCTIC}
             isScrollEnabled={false}
         >
-            <View style={{flex: 1, justifyContent: 'center'}}>
-                <Clock
-                    id={'id_1'}
-                    idShowClock={idShowClock}
-                    setIdShowClock={setIdShowClock}
-                    
-                    selectedData={selectedData}
-                    setSelectedData={setSelectedData}
-
-                    typeClock={{one: {total: 20, step: 2}, two: {total: 30, step: 2}}}
-                    //typeOfDisplay='one number'
-                    //isUsePortal={false}
-                />
-                <Text
-                    style={{textAlign: 'center', fontSize: 20}}
-                >{`one = ${selectedData['id_1'].one} & two = ${selectedData['id_1'].two}`}</Text>
-                <Button title='TEST' onPress={() => press()} />
-            </View>
+            <Clock 
+                setSelectedTime={setSelectedTime} 
+                selectedTime={selectedTime} 
+                ref={refClock} 
+            />
+            <Button title='TEST' onPress={() => press()} />
         </WrapperScroll>
     );
 };

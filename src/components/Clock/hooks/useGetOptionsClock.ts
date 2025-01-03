@@ -4,15 +4,15 @@ import type {
     TTypeClock 
 } from "../types";
 
-
 export const useGetOptionsClock = (
-    typeClock: TTypeClock | IArraysForClock
+    typeClock: TTypeClock,
+    typeClockCustom: IArraysForClock | undefined
 ) => {
 
     let optionsClock: IArraysForClock;
     
-    if(typeof typeClock === 'object') {
-        optionsClock = typeClock;
+    if(typeof typeClockCustom === 'object') {
+        optionsClock = typeClockCustom;
         optionsClock.one.total = useMemo(() => optionsClock.one.total + optionsClock.one.step, [optionsClock.one.step]); 
         optionsClock.two.total = useMemo(() => optionsClock.two.total + optionsClock.two.step, [optionsClock.two.step]); 
     } else {
