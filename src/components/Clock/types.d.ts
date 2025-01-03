@@ -1,10 +1,12 @@
 export type TTypeClock = 'hours/minutes' | 'minutes_30/seconds';
+export type TKeyClock = 'one' | 'two';
 
-export type IStateDataClock = {
-    [key: string]: {
-        one: number;
-        two: number;
-    }
+export type TDataClock = {
+    [key in TKeyClock]: number;
+}
+
+export type TStateDataClock = {
+    [key: string]: IDataClock;
 }
 
 export interface IClock {
@@ -17,9 +19,9 @@ export interface IClock {
     setIdShowClock: React.Dispatch<React.SetStateAction>;
     //* State для установки выбранного значения.
     /** `State > Обьект с выбранным временем.` */
-    selectedData:  IStateDataClock;
+    selectedData:  TStateDataClock;
     /** `SetStateAction > Установка выбранного времени.` */
-    setSelectedData: React.Dispatch<React.SetStateAction< IStateDataClock >>;
+    setSelectedData: React.Dispatch<React.SetStateAction< TStateDataClock >>;
     //* Настройка для отображения данных.
     /** `? Предустановки для отображения чисел [default: 'hours/minutes']` */
     typeClock?: TTypeClock | IArraysForClock;
@@ -60,7 +62,7 @@ export interface IWeightState {
 
 export interface IArraysForClock {
     one: {
-        /** `Первое число в установке времени.` */
+        /** `Значение последнего элемента.` */
         total: number;
         /** `Второе число в установке времени.` */
         step: number;
@@ -82,4 +84,23 @@ export interface IGetPositions {
     offset: number;
     /** `Дополнительная информация в консоль.` */
     info?: string;
+}
+
+export interface IGestureColumn {
+    /** `Массив с обьектами чисел.` */
+    arrayPositions: TPositions[];
+    /** `Текушяя позиция.` */
+    currentPositionsSv: SharedValue<number>;
+    /** `Последняя позиция.` */
+    lastPositionsSv: SharedValue<number>;
+    /** `Смещение для центрирования.` */
+    offset: number,
+    /** `Максимальная высота.` */
+    MAX_HI: number,
+    /** `Устанавливаемое значение обьекта.` */
+    num: TKeyClock;
+    /** `Обьект с установлеными значениями чисел.` */
+    setDataSv: SharedValue<TDataClock>;
+    /** `Готовы ли данные для добавления в основное состояние компонента.` */
+    isReadyData: SharedValue<boolean>;
 }

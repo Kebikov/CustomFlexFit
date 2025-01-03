@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
-import React, { FC, useState, forwardRef, useImperativeHandle, useMemo, memo, useEffect } from 'react';
+import { Text, StyleSheet, Pressable, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { Portal } from '@gorhom/portal'; 
 import { COLOR_ROOT } from '@/constants/colors';
 import { useSharedValue } from 'react-native-reanimated';
@@ -14,8 +14,7 @@ import BodyClockWrapper from './components/BodyClockWrapper';
 import { getStatePosition } from './helpers/getStatePosition';
 import { gestureColumn } from './helpers/gestureColumn';
 
-import type { IClock, TPositions } from './types';
-
+import type { IClock, TDataClock, TPositions } from './types';
 
 
 /** @widgets `Установка времени.`*/
@@ -37,6 +36,13 @@ const Clock = ({
 }: IClock) => {
 
     const [isShow, setIsShow] = useState<boolean>(false);
+    /** `Данные установленных значений.` */
+    const setSelectedDataSv = useSharedValue<TDataClock>({
+        'one': selectedData[id].one,
+        'two': selectedData[id].two
+    });
+    /** `Готовы ли данные для передачи в основное состояния, для компенсации анимации.` */
+    const isReadyData = useSharedValue<boolean>(true);
 
     // Установки для массива отображаемых чисел.
     const {optionsClock} = useGetOptionsClock(typeClock);
@@ -50,16 +56,17 @@ const Clock = ({
         offsetTop
     } = valuesClock(optionsClock);
 
-
     /** `Позиций всех элементов первого ряда чисел.` */
     const arrPositionsOne: TPositions[] = getPositions({data: firstNumberArray, heightElement: itemHeight, offset: offsetTop});
-
     /** `Позиций всех элементов второго ряда чисел.` */
     const arrPositionsTwo: TPositions[] = getPositions({data: secondNumberArray, heightElement: itemHeight, offset: offsetTop});
 
     /** `Установка выбраного времени.` */
     const setTime = () => {
-        
+        if(isReadyData.value) {
+            setSelectedData(state => ({...state, [id]: {...setSelectedDataSv.value}}));
+            setIdShowClock('');
+        }
     }
 
     /** `Максимальная позиция первой колонки чисел.` */
@@ -76,27 +83,33 @@ const Clock = ({
     const currentPositionsOneSv = useSharedValue<number>(statePositionOne);
     /** `Последняя позиция первой колонки цифр.` */
     const lastPositionsOneSv = useSharedValue<number>(statePositionOne);
-
+    
     /** `Текущяя позиция первой колонки цифр.` */
     const currentPositionsTwoSv = useSharedValue<number>(statePositionTwo);
     /** `Последняя позиция первой колонки цифр.` */
     const lastPositionsTwoSv = useSharedValue<number>(statePositionTwo);
 
-    const gestureOneNumber = gestureColumn(
-        arrPositionsOne, 
-        currentPositionsOneSv, 
-        lastPositionsOneSv,
-        offsetTop,
-        MAX_HI_ONE
-    );
+    const gestureOneNumber = gestureColumn({
+        arrayPositions: arrPositionsOne,
+        currentPositionsSv: currentPositionsOneSv,
+        lastPositionsSv: lastPositionsOneSv,
+        offset: offsetTop,
+        MAX_HI: MAX_HI_ONE,
+        num: 'one',
+        setDataSv: setSelectedDataSv,
+        isReadyData: isReadyData
+    });
 
-    const gestureTwoNumber = gestureColumn(
-        arrPositionsTwo, 
-        currentPositionsTwoSv, 
-        lastPositionsTwoSv,
-        offsetTop,
-        MAX_HI_TWO
-    );
+    const gestureTwoNumber = gestureColumn({
+        arrayPositions: arrPositionsTwo,
+        currentPositionsSv: currentPositionsTwoSv,
+        lastPositionsSv: lastPositionsTwoSv,
+        offset: offsetTop,
+        MAX_HI: MAX_HI_TWO,
+        num: 'two',
+        setDataSv: setSelectedDataSv,
+        isReadyData: isReadyData
+    });
 
 
     const BodyClock = () => {
@@ -113,6 +126,7 @@ const Clock = ({
                                 currentPositionsSv={currentPositionsOneSv}
                                 gestureNumbers={gestureOneNumber}
                                 colorText={colorText}
+                                offset={offsetTop}
                             />
                             {
                                 typeOfDisplay === 'clock' ?
@@ -124,6 +138,7 @@ const Clock = ({
                                         currentPositionsSv={currentPositionsTwoSv}
                                         gestureNumbers={gestureTwoNumber}
                                         colorText={colorText}
+                                        offset={offsetTop}
                                     />
                                 </>
                                 :
@@ -134,7 +149,6 @@ const Clock = ({
                             style={[styles.button, {backgroundColor: colorButton, borderTopColor: colorLine}]}
                             onPress={() => {
                                 VibrationApp.pressButton();
-                                setIdShowClock('');
                                 setTime();
                             }}
                         >
@@ -149,7 +163,6 @@ const Clock = ({
     }
 
     useEffect(() => {
-        console.log('Effect');
         if(idShowClock === id) {
             setIsShow(true);
         } else {
@@ -160,7 +173,6 @@ const Clock = ({
 
     useEffect(() => {
         return () => {
-            console.log('Return Effect');
             setIdShowClock('');
             setIsShow(false);
         }

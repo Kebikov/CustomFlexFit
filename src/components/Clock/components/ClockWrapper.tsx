@@ -1,7 +1,6 @@
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import React, { FC } from 'react';
 import { type ViewProps } from 'react-native';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
 
 interface IClockWrapper extends ViewProps {
@@ -14,28 +13,17 @@ interface IClockWrapper extends ViewProps {
 const ClockWrapper: FC<IClockWrapper>= ({...otherProps}) => {
 
     return (
-        <Animated.View 
-            style={positionStyle.main_absolute} 
-            entering={FadeIn.duration(500)}  
-            exiting={FadeOut.duration(500)} 
-        >
+        <View style={positionStyle.main_absolute} >
             <BlurView
                 style={positionStyle.container_relative} 
                 intensity={30}
                 tint='dark'
                 {...otherProps}
             />
-        </Animated.View>
+        </View>
     );
 };
 
-
-const styles = StyleSheet.create({
-    container: {
-    },
-    contaiber_body: {
-    }
-});
 
 const positionStyle = StyleSheet.create({
     main_absolute: {

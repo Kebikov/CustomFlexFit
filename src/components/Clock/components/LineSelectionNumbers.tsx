@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     lineBody: {
         flex: 1,
         backgroundColor: 'white',
-        opacity: .5
+        opacity: .15
     }
 });
 

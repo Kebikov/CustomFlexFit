@@ -15,6 +15,8 @@ interface IColumnNumbers {
     currentPositionsSv: SharedValue<number>;
     /** `Цвет чисел.` */
     colorText: string;
+    /** `Смешения для центра начального элемента.` */
+    offset: number;
 }
 
 
@@ -25,7 +27,8 @@ const ColumnNumbers: FC<IColumnNumbers> = ({
     arrayNumbers,
     gestureNumbers,
     currentPositionsSv,
-    colorText
+    colorText,
+    offset
 }) => {
 
     return (
@@ -37,6 +40,7 @@ const ColumnNumbers: FC<IColumnNumbers> = ({
                             item={item}
                             colorText={colorText}
                             currentPositionSv={currentPositionsSv}
+                            offset={offset}
                             key={i}
                         />
                     )         

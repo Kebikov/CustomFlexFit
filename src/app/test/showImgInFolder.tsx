@@ -20,7 +20,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import Clock from '@/components/Clock/Clock';
-import type { IStateDataClock } from '@/components/Clock/types';
+import type { TStateDataClock } from '@/components/Clock/types';
 
 
 const ShowImgInFolder: FC = () => {
@@ -30,13 +30,13 @@ const ShowImgInFolder: FC = () => {
     console.log('idShowClock = ', idShowClock);
 
      /** @param electedTime Выбранное время */
-    const [selectedData, setSelectedData] = useState<IStateDataClock>({
+    const [selectedData, setSelectedData] = useState<TStateDataClock>({
         'id_1': {
             'one': 12,
             'two': 20
         }
     });
-
+    console.log('selectedData = ', JSON.stringify( selectedData, null, 2));
 
     const press = () => {
         console.log('press');
@@ -58,11 +58,13 @@ const ShowImgInFolder: FC = () => {
                     selectedData={selectedData}
                     setSelectedData={setSelectedData}
 
-                    typeClock={{one: {total: 20, step: 2}, two: {total: 20, step: 2}}}
-
-                    isUsePortal={false}
-                    colorBody='red'
+                    typeClock={{one: {total: 20, step: 2}, two: {total: 30, step: 2}}}
+                    //typeOfDisplay='one number'
+                    //isUsePortal={false}
                 />
+                <Text
+                    style={{textAlign: 'center', fontSize: 20}}
+                >{`one = ${selectedData['id_1'].one} & two = ${selectedData['id_1'].two}`}</Text>
                 <Button title='TEST' onPress={() => press()} />
             </View>
         </WrapperScroll>
