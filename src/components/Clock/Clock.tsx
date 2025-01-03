@@ -1,217 +1,160 @@
-import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
-import React, { useState, forwardRef, useImperativeHandle, useMemo, memo } from 'react';
+import { Text, StyleSheet, Pressable, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { Portal } from '@gorhom/portal'; 
 import { COLOR_ROOT } from '@/constants/colors';
-import { GestureDetector } from 'react-native-gesture-handler';
-import Animated, { useSharedValue, FadeIn, FadeOut, useAnimatedReaction } from 'react-native-reanimated';
+import { useSharedValue } from 'react-native-reanimated';
 import VibrationApp from '@/helpers/VibrationApp';
-import { BlurView } from 'expo-blur';
-import { animatedStyles } from './helpers/animatedStyles';
-import { arraysForClock } from './helpers/arraysForClock';
-import { gestureForClock } from './helpers/gestureForClock';
-import { getPosition } from './helpers/getPosition';
-import { gapsForClock } from '@/components/Clock/helpers/gapsForClock';
 import { useGetOptionsClock } from './hooks/useGetOptionsClock';
-import { valuesSv } from './values/valuesSv';
+import { valuesClock } from './values/valuesClock';
+import { getPositions } from './helpers/getPositions';
+import ClockWrapper from './components/ClockWrapper';
+import LineSelectionNumbers from './components/LineSelectionNumbers';
+import ColumnNumbers from './components/ColumnNumbers';
+import BodyClockWrapper from './components/BodyClockWrapper';
+import { getStatePosition } from './helpers/getStatePosition';
+import { gestureColumn } from './helpers/gestureColumn';
 
-import type { IClock,IArraysForClock } from './types';
-
-
-export interface IClockRef {
-    openClock: () => void;
-}
-
-export interface ITimeClock {
-    one: number;
-    two: number;
-}
+import type { IClock, TDataClock, TPositions } from './types';
 
 
 /** @widgets `Установка времени.`*/
-const Clock = forwardRef<IClockRef, IClock>(({
-    selectedTime,
-    setSelectedTime,
+const Clock = ({
+    id,
+    idShowClock,
+    setIdShowClock,
+
+    selectedData,
+    setSelectedData,
+
     colorBody = COLOR_ROOT.BACKGROUND,
     colorButton = COLOR_ROOT.BACKGROUND,
     colorText = 'white',
     colorLine = 'rgba(255, 255, 255, 0.3)',
     isUsePortal = true,
     typeClock = 'hours/minutes',
-    typeClockCustom,
-    typeOfDisplay = 'clock',
-    id,
-    idShowClock,
-    setIdShowClock
-}, ref) => {
+    typeOfDisplay = 'clock'
+}: IClock) => {
 
-    /**
-     * @param isShow Показать/скрыть часы.
-     */
     const [isShow, setIsShow] = useState<boolean>(false);
+    /** `Данные установленных значений.` */
+    const setSelectedDataSv = useSharedValue<TDataClock>({
+        'one': selectedData[id].one,
+        'two': selectedData[id].two
+    });
+    /** `Готовы ли данные для передачи в основное состояния, для компенсации анимации.` */
+    const isReadyData = useSharedValue<boolean>(true);
 
     // Установки для массива отображаемых чисел.
-    let {optionsClock} = useGetOptionsClock(typeClock, typeClockCustom);
+    const {optionsClock} = useGetOptionsClock(typeClock);
 
-    /**
-     * `Высота окна с цыфрами.`
-     */
-    const height = 252;
-    /**
-     * `Количество элементов в окне.`
-     */
-    const totalElements = 7;
-    /**
-     * `Высота одного элемента.`
-     */
-    const itemHeight = height / totalElements; 
-    const {firstNumberArray, secondNumberArray} = arraysForClock(optionsClock);
-    /**
-     * `Диаметр полного оборота "Первого числа".`
-     */
-    const fullRotationFirstNumber = firstNumberArray.length * itemHeight;
-    /**
-     * `Диаметр полного оборота второго числа.`
-     */
-    const fullRotationSecondNumber = secondNumberArray.length * itemHeight;
-
+    /** `Начальные установки для отображения.` */
     const {
-        firstNumberPosition,
-        secondNumberPosition,
-        selectedFirstNumber,
-        selecteSecondNumber,
-        lastPositionFirstNumber,
-        lastVibrationPositionFirstNumber,
-        lastPositionSecondNumber,
-        lastVibrationPositionSecondNumber
-    } = valuesSv(selectedTime, itemHeight, firstNumberArray, secondNumberArray);
-
-
-    const {animatedFirstNumber, animatedSecondNumber} = animatedStyles({
-        firstNumberPosition, 
         itemHeight, 
-        fullRotation: fullRotationFirstNumber, 
-        height, 
-        fullRotationSecondNumber: fullRotationSecondNumber,
-        secondNumberPosition,
-        lengthArrayOne: firstNumberArray.length,
-        lengthArrayTwo: secondNumberArray.length
-    });
+        firstNumberArray,
+        secondNumberArray,
+        height,
+        offsetTop
+    } = valuesClock(optionsClock);
 
-    const {gapsFirstNumber, gapsSecondNumber} = gapsForClock({
-        fullRotationFirstNumber, 
-        itemHeight, 
-        fullRotationSecondNumber
-    });
-    /**
-     * `Установка выбраного времени.`
-     */
+    /** `Позиций всех элементов первого ряда чисел.` */
+    const arrPositionsOne: TPositions[] = getPositions({data: firstNumberArray, heightElement: itemHeight, offset: offsetTop});
+    /** `Позиций всех элементов второго ряда чисел.` */
+    const arrPositionsTwo: TPositions[] = getPositions({data: secondNumberArray, heightElement: itemHeight, offset: offsetTop});
+
+    /** `Установка выбраного времени.` */
     const setTime = () => {
-        setSelectedTime({one: selectedFirstNumber.value, two: selecteSecondNumber.value});
+        if(isReadyData.value) {
+            setSelectedData(state => ({...state, [id]: {...setSelectedDataSv.value}}));
+            setIdShowClock('');
+        }
     }
 
-    const {gesturePan: gesturePanFirstNumber} = gestureForClock({
-        svPosition: firstNumberPosition, 
-        svLastPosition: lastPositionFirstNumber, 
-        svSelectedNumber: selectedFirstNumber, 
-        fullRotation: fullRotationFirstNumber, 
-        gaps: gapsFirstNumber, 
-        itemHeight, 
-        svLastVibrationPosition: lastVibrationPositionFirstNumber,
-        maxValue: optionsClock.one.total,
-        step: optionsClock.one.step
+    /** `Максимальная позиция первой колонки чисел.` */
+    const MAX_HI_ONE = itemHeight - arrPositionsOne.length * itemHeight;
+    /** `Максимальная позиция второй колонки чисел.` */
+    const MAX_HI_TWO = itemHeight - arrPositionsTwo.length * itemHeight;
+    
+    /** `Начальная позиция колонки.` */
+    const statePositionOne = getStatePosition(selectedData[id].one, arrPositionsOne, offsetTop);
+    /** `Начальная позиция колонки.` */
+    const statePositionTwo = getStatePosition(selectedData[id].two, arrPositionsTwo, offsetTop);
+
+    /** `Текущяя позиция первой колонки цифр.` */
+    const currentPositionsOneSv = useSharedValue<number>(statePositionOne);
+    /** `Последняя позиция первой колонки цифр.` */
+    const lastPositionsOneSv = useSharedValue<number>(statePositionOne);
+    
+    /** `Текущяя позиция первой колонки цифр.` */
+    const currentPositionsTwoSv = useSharedValue<number>(statePositionTwo);
+    /** `Последняя позиция первой колонки цифр.` */
+    const lastPositionsTwoSv = useSharedValue<number>(statePositionTwo);
+
+    const gestureOneNumber = gestureColumn({
+        arrayPositions: arrPositionsOne,
+        currentPositionsSv: currentPositionsOneSv,
+        lastPositionsSv: lastPositionsOneSv,
+        offset: offsetTop,
+        MAX_HI: MAX_HI_ONE,
+        num: 'one',
+        setDataSv: setSelectedDataSv,
+        isReadyData: isReadyData
     });
 
-    const {gesturePan: gesturePanSecondNumber} = gestureForClock({
-        svPosition: secondNumberPosition, 
-        svLastPosition: lastPositionSecondNumber, 
-        svSelectedNumber: selecteSecondNumber, 
-        fullRotation: fullRotationSecondNumber, 
-        gaps: gapsSecondNumber, 
-        itemHeight, 
-        svLastVibrationPosition: lastVibrationPositionSecondNumber,
-        maxValue: optionsClock.two.total,
-        step: optionsClock.two.step
+    const gestureTwoNumber = gestureColumn({
+        arrayPositions: arrPositionsTwo,
+        currentPositionsSv: currentPositionsTwoSv,
+        lastPositionsSv: lastPositionsTwoSv,
+        offset: offsetTop,
+        MAX_HI: MAX_HI_TWO,
+        num: 'two',
+        setDataSv: setSelectedDataSv,
+        isReadyData: isReadyData
     });
 
-    const firstNumber = firstNumberArray.map((item, i) => {
-            return(
-                <Animated.View style={[styles.timeBox, {height: itemHeight}, animatedFirstNumber(Number(i))]} key={i} >
-                    <Text style={[styles.timeText, {color: colorText}]} >{item}</Text>
-                </Animated.View>
-            )
-    });
 
-    const secondNumber = secondNumberArray.map((item, i) => {
-        return(
-            <Animated.View style={[styles.timeBox, {height: itemHeight}, animatedSecondNumber(Number(i))]} key={i} >
-                <Text style={[styles.timeText, {color: colorText}]} >{item}</Text>
-            </Animated.View>
-        )
-    });
-
-    useImperativeHandle(ref, () => ({
-        openClock: () => {
-            setIsShow(true);
-        }
-    }));
-
-    const bodyClock = () => {
+    const BodyClock = () => {
         return (
             <>
                 {
-                    isShow && id === undefined || id !== undefined && idShowClock === id
+                    isShow
                     ?
-                    <Animated.View 
-                        style={styles.main} 
-                        entering={FadeIn.duration(500)} 
-                        exiting={FadeOut.duration(500)} 
-                    >
-                        <BlurView 
-                            intensity={30}
-                            tint='dark'
-                            style={styles.container} 
-                        >
-                            <View style={[styles.body, {backgroundColor: colorBody}]} >
-                                <View style={[styles.time, {height}]} >
-                                    <View style={styles.line}>
-                                        <View style={styles.lineBody} ></View>
-                                    </View>
-                                    <GestureDetector gesture={gesturePanFirstNumber} >
-                                        <View style={styles.block} >
-                                            {firstNumber}
-                                        </View>
-                                    </GestureDetector> 
-                                    {
-                                        typeOfDisplay === 'clock' ?
-                                        <>
-                                            <View> 
-                                                <Text style={{color: colorText, fontSize: 23}} >:</Text>
-                                            </View>
+                    <ClockWrapper>
+                        <BodyClockWrapper colorBody={colorBody} height={height} >
+                            <LineSelectionNumbers itemHeight={itemHeight} centerTop={offsetTop} />
+                            <ColumnNumbers
+                                arrayNumbers={arrPositionsOne}
+                                currentPositionsSv={currentPositionsOneSv}
+                                gestureNumbers={gestureOneNumber}
+                                colorText={colorText}
+                                offset={offsetTop}
+                            />
+                            {
+                                typeOfDisplay === 'clock' ?
+                                <>
+                                    <Text style={[styles.dots, {color: colorText}]} >:</Text>
 
-                                            <GestureDetector gesture={gesturePanSecondNumber} >
-                                                <View style={styles.block} >
-                                                    {secondNumber}
-                                                </View>
-                                            </GestureDetector>
-                                        </>
-                                        :
-                                        null
-                                    }
-                                </View>
-                            </View>
-                            <Pressable 
-                                style={[styles.button, {backgroundColor: colorButton, borderTopColor: colorLine}]}
-                                onPress={() => {
-                                    VibrationApp.pressButton();
-                                    // Если есть id, значит есть внешнее состояние контролируюшее отображение компанента.
-                                    id ? setIdShowClock(0) : setIsShow(false);
-                                    setTime();
-                                }}
-                            >
-                                <Text style={[styles.buttonText, {color: colorText}]} >OK</Text>
-                            </Pressable>
-                        </BlurView>
-                    </Animated.View>
+                                    <ColumnNumbers
+                                        arrayNumbers={arrPositionsTwo}
+                                        currentPositionsSv={currentPositionsTwoSv}
+                                        gestureNumbers={gestureTwoNumber}
+                                        colorText={colorText}
+                                        offset={offsetTop}
+                                    />
+                                </>
+                                :
+                                null
+                            }
+                        </BodyClockWrapper>
+                        <Pressable 
+                            style={[styles.button, {backgroundColor: colorButton, borderTopColor: colorLine}]}
+                            onPress={() => {
+                                VibrationApp.pressButton();
+                                setTime();
+                            }}
+                        >
+                            <Text style={[styles.buttonText, {color: colorText}]} >OK</Text>
+                        </Pressable>
+                    </ClockWrapper>
                     :
                     null
                 }
@@ -219,75 +162,44 @@ const Clock = forwardRef<IClockRef, IClock>(({
         )
     }
 
+    useEffect(() => {
+        if(idShowClock === id) {
+            setIsShow(true);
+        } else {
+            setIsShow(false);
+        }
+
+    }, [idShowClock]);
+
+    useEffect(() => {
+        return () => {
+            setIdShowClock('');
+            setIsShow(false);
+        }
+    }, []);
+
     return (
         <>
             {
                 isUsePortal ?
                 <Portal name='clock' >
-                    {bodyClock()}
+                    <BodyClock/>
                 </Portal>
                 :
-                bodyClock()
+                <BodyClock/>
             }
         </>
     );
-});
+};
 
 
 const radiusClock = 14;
-const widthClock = '60%';
 
 
 const styles = StyleSheet.create({
-
-    main: {
-        position: 'absolute',
-        width: '100%',
-        height: '100%'
-    },
-    container: {
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: Platform.OS === 'ios' ? 'rgba(255, 255, 255, .2)' : 'rgba(255, 255, 255, .5)'
-    },
-    body: {
-        width: widthClock,
-        height: 200,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderTopLeftRadius: radiusClock,
-        borderTopRightRadius: radiusClock
-    },
-    time: {
-        position: 'relative',
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 24,
-        overflow: 'hidden'
-    },
-    block: {
-        position: 'relative',
-        zIndex: 2,
-        width: 40,
-        height: '100%',
-        overflow: 'hidden'
-    },
-
-    timeBox: {
-        position: 'absolute',
-        left: 0,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    timeText: {
-        fontSize: Platform.OS === 'ios' ? 23 : 21,
-        textAlign: 'center',
+    dots: {
+        fontSize: 23, 
+        paddingBottom: 3
     },
     button: {
         width: '60%',
@@ -300,21 +212,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         fontSize: Platform.OS === 'ios' ? 16 : 16
-    },
-    line: {
-        position: 'absolute',
-        zIndex: 1,
-        top: 106,
-        left: 0,
-        width: '100%',
-        height:  40,
-    },
-    lineBody: {
-        flex: 1,
-        backgroundColor: 'white',
-        opacity: .15
     }
 });
 
 
-export default memo(Clock);
+export default Clock;

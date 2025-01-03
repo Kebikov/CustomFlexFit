@@ -1,10 +1,31 @@
 export type TTypeClock = 'hours/minutes' | 'minutes_30/seconds';
+export type TKeyClock = 'one' | 'two';
 
-interface IBaseClock {
+export type TDataClock = {
+    [key in TKeyClock]: number;
+}
+
+export type TStateDataClock = {
+    [key: string]: IDataClock;
+}
+
+export interface IClock {
+    //* State для контроля открытия закрытия модального окна.
+    /** `Уникальный id для элемента на странице.` */
+    id: string;
+    /** `State > id Clock который надо показать.` */
+    idShowClock: string;
+    /** `SetStateAction > id Clock который надо показать.` */
+    setIdShowClock: React.Dispatch<React.SetStateAction>;
+    //* State для установки выбранного значения.
     /** `State > Обьект с выбранным временем.` */
-    selectedTime:  ITimeClock;
+    selectedData:  TStateDataClock;
     /** `SetStateAction > Установка выбранного времени.` */
-    setSelectedTime: React.Dispatch<React.SetStateAction<ITimeClock>>;
+    setSelectedData: React.Dispatch<React.SetStateAction< TStateDataClock >>;
+    //* Настройка для отображения данных.
+    /** `? Предустановки для отображения чисел [default: 'hours/minutes']` */
+    typeClock?: TTypeClock | IArraysForClock;
+    //* Style 
     /** `? Цвет фона часов. [default: COLOR_ROOT.BACKGROUND]` */
     colorBody?: string;
     /** `? Цвет фона нажней кнопки. [default: COLOR_ROOT.BACKGROUND]` */
@@ -15,32 +36,15 @@ interface IBaseClock {
     colorLine?: string;
     /** `? Использовать ли портал, полезно для работы в модальных окнах. [default: true]` */
     isUsePortal?: boolean;
-    /** `? Предустановки для отображения чисел [default: 'hours/minutes']` */
-    typeClock?: TTypeClock;
-    /** `? Пользовательская установка отображения чисел, имеет приоритет перед typeClock.` */
-    typeClockCustom?: IArraysForClock;
     /** `? Тип отображения, как часы(2 цыфры) или одна цыфра.` */
     typeOfDisplay?: 'one number' | 'clock';
 }
 
-interface IStateIdShowClock extends IBaseClock {
-    /** `Id элемента.` */
-    id: number;
-    /** `State > id Clock который надо показать.` */
-    idShowClock: number;
-    /** `SetStateAction > id Clock который надо показать.` */
-    setIdShowClock: React.Dispatch<React.SetStateAction<number>>;
-}
-
-interface IStateIdShowClock_never extends  IBaseClock {
-    id?: never;
-    idShowClock?: never;
-    setIdShowClock?: never;
-}
-
-export type IClock = IStateIdShowClock | IStateIdShowClock_never
-
-
+export type TPositions = {
+    num: string;
+    top: number;
+    heightElement: number;
+};
 
 export interface INameAndNote {
     name: string;
@@ -58,7 +62,7 @@ export interface IWeightState {
 
 export interface IArraysForClock {
     one: {
-        /** `Первое число в установке времени.` */
+        /** `Значение последнего элемента.` */
         total: number;
         /** `Второе число в установке времени.` */
         step: number;
@@ -69,4 +73,34 @@ export interface IArraysForClock {
         /** `Шаг элемента.` */
         step: number;
     };
+}
+
+export interface IGetPositions {
+    /** `Массив для добавления позиций.` */
+    data: string[];
+    /** `Высота одного элемента.` */
+    heightElement: number; 
+    /** `Смещение для центрирования.` */
+    offset: number;
+    /** `Дополнительная информация в консоль.` */
+    info?: string;
+}
+
+export interface IGestureColumn {
+    /** `Массив с обьектами чисел.` */
+    arrayPositions: TPositions[];
+    /** `Текушяя позиция.` */
+    currentPositionsSv: SharedValue<number>;
+    /** `Последняя позиция.` */
+    lastPositionsSv: SharedValue<number>;
+    /** `Смещение для центрирования.` */
+    offset: number,
+    /** `Максимальная высота.` */
+    MAX_HI: number,
+    /** `Устанавливаемое значение обьекта.` */
+    num: TKeyClock;
+    /** `Обьект с установлеными значениями чисел.` */
+    setDataSv: SharedValue<TDataClock>;
+    /** `Готовы ли данные для добавления в основное состояние компонента.` */
+    isReadyData: SharedValue<boolean>;
 }

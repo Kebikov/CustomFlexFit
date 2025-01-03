@@ -19,32 +19,29 @@ import Animated, {
     withSpring
 } from 'react-native-reanimated';
 
-import Clock, { ITimeClock, IClockRef } from '@/components/Clock/Clock';
-
-
-
-const DATA = [
-    {id: 'id_1', name: 1},
-    {id: 'id_2', name: 2},
-    {id: 'id_3', name: 3}
-];
-
+import Clock from '@/components/Clock/Clock';
+import type { TStateDataClock } from '@/components/Clock/types';
 
 
 const ShowImgInFolder: FC = () => {
 
-    /**
-     * @param electedTime Выбранное время.
-     */
-    const [selectedTime, setSelectedTime] = useState<ITimeClock>({one: 14, two: 15});
+     /** @param idShowClock Уникальный id для элемента на странице */
+    const [idShowClock, setIdShowClock] = useState<string>('');
+    console.log('idShowClock = ', idShowClock);
 
-    const refClock = useRef<IClockRef>(null);
+     /** @param electedTime Выбранное время */
+    const [selectedData, setSelectedData] = useState<TStateDataClock>({
+        'id_1': {
+            'one': 12,
+            'two': 20
+        }
+    });
+    console.log('selectedData = ', JSON.stringify( selectedData, null, 2));
 
     const press = () => {
         console.log('press');
-        refClock.current?.openClock();
+        setIdShowClock('id_1');
     }
-
 
 
     return (
@@ -52,12 +49,24 @@ const ShowImgInFolder: FC = () => {
             backgroundColor={COLOR_ROOT.ARCTIC}
             isScrollEnabled={false}
         >
-            <Clock 
-                setSelectedTime={setSelectedTime} 
-                selectedTime={selectedTime} 
-                ref={refClock} 
-            />
-            <Button title='TEST' onPress={() => press()} />
+            <View style={{flex: 1, justifyContent: 'center'}}>
+                <Clock
+                    id={'id_1'}
+                    idShowClock={idShowClock}
+                    setIdShowClock={setIdShowClock}
+                    
+                    selectedData={selectedData}
+                    setSelectedData={setSelectedData}
+
+                    typeClock={{one: {total: 20, step: 2}, two: {total: 30, step: 2}}}
+                    //typeOfDisplay='one number'
+                    //isUsePortal={false}
+                />
+                <Text
+                    style={{textAlign: 'center', fontSize: 20}}
+                >{`one = ${selectedData['id_1'].one} & two = ${selectedData['id_1'].two}`}</Text>
+                <Button title='TEST' onPress={() => press()} />
+            </View>
         </WrapperScroll>
     );
 };
