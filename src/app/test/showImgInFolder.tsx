@@ -9,7 +9,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import { useSQLiteContext } from 'expo-sqlite';
 import useHookImageCheck from '@/hook/useHookImageCheck';
-import logApp, {strApp} from '@/helpers/log';
+import logApp, {strApp} from '@/helpers/log'; 
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
 import Animated, {
     useSharedValue,
@@ -19,8 +19,7 @@ import Animated, {
     withSpring
 } from 'react-native-reanimated';
 
-import Clock from '@/components/Clock/Clock';
-import type { TStateDataClock } from '@/components/Clock/types';
+import Clock, {TStateDataClock} from '../../components/Clock';
 
 
 const ShowImgInFolder: FC = () => {

@@ -17,7 +17,7 @@ import { gestureColumn } from './helpers/gestureColumn';
 import type { IClock, TDataClock, TPositions } from './types';
 
 
-/** @widgets `Установка времени.`*/
+/** @widgets `Установка времени.` */
 const Clock = ({
     id,
     idShowClock,

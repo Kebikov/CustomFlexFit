@@ -16,7 +16,7 @@
         "src/localization/translations", "src/localization/types/i18n.d.ts",
         "src/helpers/log/react-native-console-table/modules/dataForTable.ts",
         "src/types/**/*.d.ts"
-    ],
+, "src/components/Clock/index.ts"    ],
 }
 
 

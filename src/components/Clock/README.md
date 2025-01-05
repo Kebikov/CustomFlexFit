@@ -1,4 +1,8 @@
-### 1-Добавить поратал
+[Добавить поратал](#добавить-поратал) 
+
+[Использование компонента Clock](#использование-компонента-clock) 
+
+## Добавить поратал
 
 `Добавить портал в корневой элемент приложения.`
 
@@ -28,30 +32,42 @@ export const MainLayout: FC<IMainLayout> = ({children}) => {
 }
 ```
 
-### 2-Использование компонента Clock
+## Использование компонента Clock
 
-```typescript
-import Clock, { ITimeClock, IClockRef } from '@/components/Clock/Clock';
+```typescript Принимаемый type
+// ===Принимаемый type===
 
-export interface ITimeClock {
-    hour: string;
-    minute: string;
+export interface IClock {
+    //* State для контроля открытия закрытия модального окна.
+    /** `Уникальный id для элемента на странице.` */
+    id: string;
+    /** `State > id Clock который надо показать.` */
+    idShowClock: string;
+    /** `SetStateAction > id Clock который надо показать.` */
+    setIdShowClock: React.Dispatch<React.SetStateAction>;
+
+    //* State для установки выбранного значения.
+    /** `State > Обьект с выбранным временем.` */
+    selectedData:  TStateDataClock;
+    /** `SetStateAction > Установка выбранного времени.` */
+    setSelectedData: React.Dispatch<React.SetStateAction< TStateDataClock >>;
+
+    //* Настройка для отображения данных.
+    /** `? Предустановки для отображения чисел [default: 'hours/minutes']` */
+    typeClock?: TTypeClock | IArraysForClock;
+
+    //* Style 
+    /** `? Цвет фона часов. [default: COLOR_ROOT.BACKGROUND]` */
+    colorBody?: string;
+    /** `? Цвет фона нажней кнопки. [default: COLOR_ROOT.BACKGROUND]` */
+    colorButton?:string;
+    /** `? Цвет текста. [default: 'white']` */
+    colorText?: string;
+    /** `? Цвет линии между часами и кнопкой. [default: 'rgba(255, 255, 255, 0.3)']` */
+    colorLine?: string;
+    /** `? Использовать ли портал, полезно для работы в модальных окнах. [default: true]` */
+    isUsePortal?: boolean;
+    /** `? Тип отображения, как часы(2 цыфры) или одна цыфра.` */
+    typeOfDisplay?: 'one number' | 'clock';
 }
-
-/**
- * @param electedTime Выбранное время.
- */
-const [selectedTime, setSelectedTime] = useState<ITimeClock>({one: 14, two: 15});
-
-const refClock = useRef<IClockRef>(null);
-
-const press = () => {
-    refClock.current?.openClock();
-}
-
-<Clock 
-    setSelectedTime={setSelectedTime} 
-    selectedTime={selectedTime} 
-    ref={refClock} 
-/>
 ```
