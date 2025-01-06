@@ -2,7 +2,7 @@ import { View, StyleSheet } from 'react-native';
 import React, { FC } from 'react';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import { COLOR_ROOT } from '@/constants/colors';
-import Clock from '@/components/Clock/Clock';
+import Clock from '@/components/Clock';
 import { useLocalSearchParams } from 'expo-router';
 import Inputs from '@/components/itemsForAddRepsRest/Inputs/Inputs';
 import RepsRest from '@/components/itemsForAddRepsRest/RepsRest/RepsRest';

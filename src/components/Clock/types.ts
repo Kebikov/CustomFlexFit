@@ -1,3 +1,5 @@
+import { SharedValue } from "react-native-reanimated";
+
 export type TTypeClock = 'hours/minutes' | 'minutes_30/seconds';
 export type TKeyClock = 'one' | 'two';
 
@@ -6,7 +8,7 @@ export type TDataClock = {
 }
 
 export type TStateDataClock = {
-    [key: string]: IDataClock;
+    [key: string]: TDataClock;
 }
 
 export interface IClock {
@@ -16,7 +18,7 @@ export interface IClock {
     /** `State > id Clock который надо показать.` */
     idShowClock: string;
     /** `SetStateAction > id Clock который надо показать.` */
-    setIdShowClock: React.Dispatch<React.SetStateAction>;
+    setIdShowClock: React.Dispatch<React.SetStateAction<string>>;
     //* State для установки выбранного значения.
     /** `State > Обьект с выбранным временем.` */
     selectedData:  TStateDataClock;
