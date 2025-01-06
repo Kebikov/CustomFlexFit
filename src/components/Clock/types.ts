@@ -1,14 +1,13 @@
 import { SharedValue } from "react-native-reanimated";
 
-export type TTypeClock = 'hours/minutes' | 'minutes_30/seconds';
-export type TKeyClock = 'one' | 'two';
 
-export type TDataClock = {
-    [key in TKeyClock]: number;
-}
+export type TTypeClock = 'hours/minutes' | 'minutes_30/seconds';
 
 export type TStateDataClock = {
-    [key: string]: TDataClock;
+    [key: string]: {
+        'one': number;
+        'two': number;
+    }
 }
 
 export interface IClock {
@@ -100,9 +99,9 @@ export interface IGestureColumn {
     /** `Максимальная высота.` */
     MAX_HI: number,
     /** `Устанавливаемое значение обьекта.` */
-    num: TKeyClock;
+    num: keyof TStateDataClock[keyof TStateDataClock];
     /** `Обьект с установлеными значениями чисел.` */
-    setDataSv: SharedValue<TDataClock>;
+    setDataSv: SharedValue<TStateDataClock[keyof TStateDataClock]>;
     /** `Готовы ли данные для добавления в основное состояние компонента.` */
     isReadyData: SharedValue<boolean>;
 }

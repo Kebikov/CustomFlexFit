@@ -14,7 +14,7 @@ import BodyClockWrapper from './components/BodyClockWrapper';
 import { getStatePosition } from './helpers/getStatePosition';
 import { gestureColumn } from './helpers/gestureColumn';
 
-import type { IClock, TDataClock, TPositions } from './types';
+import type { IClock, TPositions, TStateDataClock } from './types';
 
 
 /** @widgets `Установка времени.` */
@@ -37,7 +37,7 @@ const Clock = ({
 
     const [isShow, setIsShow] = useState<boolean>(false);
     /** `Данные установленных значений.` */
-    const setSelectedDataSv = useSharedValue<TDataClock>({
+    const setSelectedDataSv = useSharedValue<TStateDataClock[keyof TStateDataClock]>({
         'one': selectedData[id].one,
         'two': selectedData[id].two
     });
