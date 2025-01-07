@@ -13,12 +13,13 @@ import ColumnNumbers from './components/ColumnNumbers';
 import BodyClockWrapper from './components/BodyClockWrapper';
 import { getStatePosition } from './helpers/getStatePosition';
 import { gestureColumn } from './helpers/gestureColumn';
+import { checkId } from './helpers/checkId';
 
 import type { IClock, TPositions, TStateDataClock } from './types';
 
 
 /** @widgets `Установка времени.` */
-const Clock = ({
+const Clock = <T extends TStateDataClock>({
     id,
     idShowClock,
     setIdShowClock,
@@ -33,13 +34,15 @@ const Clock = ({
     isUsePortal = true,
     typeClock = 'hours/minutes',
     typeOfDisplay = 'clock'
-}: IClock) => {
+}: IClock<T>) => {
+
+    checkId({id, selectedData});
 
     const [isShow, setIsShow] = useState<boolean>(false);
     /** `Данные установленных значений.` */
     const setSelectedDataSv = useSharedValue<TStateDataClock[keyof TStateDataClock]>({
-        'one': selectedData[id].one,
-        'two': selectedData[id].two
+        'one': selectedData[id as keyof TStateDataClock].one,
+        'two': selectedData[id as keyof TStateDataClock].two
     });
     /** `Готовы ли данные для передачи в основное состояния, для компенсации анимации.` */
     const isReadyData = useSharedValue<boolean>(true);
@@ -75,9 +78,9 @@ const Clock = ({
     const MAX_HI_TWO = itemHeight - arrPositionsTwo.length * itemHeight;
     
     /** `Начальная позиция колонки.` */
-    const statePositionOne = getStatePosition(selectedData[id].one, arrPositionsOne, offsetTop);
+    const statePositionOne = getStatePosition(selectedData[id as keyof TStateDataClock].one, arrPositionsOne, offsetTop);
     /** `Начальная позиция колонки.` */
-    const statePositionTwo = getStatePosition(selectedData[id].two, arrPositionsTwo, offsetTop);
+    const statePositionTwo = getStatePosition(selectedData[id as keyof TStateDataClock].two, arrPositionsTwo, offsetTop);
 
     /** `Текущяя позиция первой колонки цифр.` */
     const currentPositionsOneSv = useSharedValue<number>(statePositionOne);

@@ -24,15 +24,18 @@ import Clock, {TStateDataClock} from '../../components/Clock';
 
 const ShowImgInFolder: FC = () => {
 
-     /** @param idShowClock Уникальный id для элемента на странице */
+    /** @param idShowClock Уникальный id для элемента на странице, устанавливаем нужный id элемента для отображения компонента часов. */
     const [idShowClock, setIdShowClock] = useState<string>('');
-    console.log('idShowClock = ', idShowClock);
 
-     /** @param electedTime Выбранное время */
+    /** @param electedTime Выбранное время */
     const [selectedData, setSelectedData] = useState<TStateDataClock>({
         'id_1': {
             'one': 12,
-            'two': 20
+            'two': 23
+        },
+        'id_2': {
+            'one': 12,
+            'two': 23
         }
     });
 
@@ -55,10 +58,18 @@ const ShowImgInFolder: FC = () => {
                     
                     selectedData={selectedData}
                     setSelectedData={setSelectedData}
-
+                    // Установка для массива чисел, установка максимального отображаемого числа и шага.
                     typeClock={{one: {total: 20, step: 2}, two: {total: 30, step: 2}}}
-                    //typeOfDisplay='one number'
-                    //isUsePortal={false}
+                />
+                <Clock
+                    id={'id_2'}
+                    idShowClock={idShowClock}
+                    setIdShowClock={setIdShowClock}
+                    
+                    selectedData={selectedData}
+                    setSelectedData={setSelectedData}
+                    // Установка для массива чисел, установка максимального отображаемого числа и шага.
+                    typeClock={{one: {total: 20, step: 2}, two: {total: 30, step: 2}}}
                 />
                 <Text
                     style={{textAlign: 'center', fontSize: 20}}

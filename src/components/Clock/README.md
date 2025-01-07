@@ -34,40 +34,41 @@ export const MainLayout: FC<IMainLayout> = ({children}) => {
 
 ## Использование компонента Clock
 
-```typescript Принимаемый type
-// ===Принимаемый type===
+```typescript
+/** @param idShowClock Уникальный id для элемента на странице, устанавливаем нужный id элемента для отображения компонента часов. */
+const [idShowClock, setIdShowClock] = useState<string>('');
 
-export interface IClock {
-    //* State для контроля открытия закрытия модального окна.
-    /** `Уникальный id для элемента на странице.` */
-    id: string;
-    /** `State > id Clock который надо показать.` */
-    idShowClock: string;
-    /** `SetStateAction > id Clock который надо показать.` */
-    setIdShowClock: React.Dispatch<React.SetStateAction>;
+/** @param electedTime Выбранное время */
+const [selectedData, setSelectedData] = useState<TStateDataClock>({
+    'id_1': {
+        'one': 12,
+        'two': 23
+    },
+    'id_2': {
+        'one': 12,
+        'two': 23
+    }
+});
 
-    //* State для установки выбранного значения.
-    /** `State > Обьект с выбранным временем.` */
-    selectedData:  TStateDataClock;
-    /** `SetStateAction > Установка выбранного времени.` */
-    setSelectedData: React.Dispatch<React.SetStateAction< TStateDataClock >>;
+<Clock
+    id={'id_1'}
+    idShowClock={idShowClock}
+    setIdShowClock={setIdShowClock}
+    
+    selectedData={selectedData}
+    setSelectedData={setSelectedData}
+    // Установка для массива чисел, установка максимального отображаемого числа и шага.
+    typeClock={{one: {total: 20, step: 2}, two: {total: 30, step: 2}}}
+/>
 
-    //* Настройка для отображения данных.
-    /** `? Предустановки для отображения чисел [default: 'hours/minutes']` */
-    typeClock?: TTypeClock | IArraysForClock;
-
-    //* Style 
-    /** `? Цвет фона часов. [default: COLOR_ROOT.BACKGROUND]` */
-    colorBody?: string;
-    /** `? Цвет фона нажней кнопки. [default: COLOR_ROOT.BACKGROUND]` */
-    colorButton?:string;
-    /** `? Цвет текста. [default: 'white']` */
-    colorText?: string;
-    /** `? Цвет линии между часами и кнопкой. [default: 'rgba(255, 255, 255, 0.3)']` */
-    colorLine?: string;
-    /** `? Использовать ли портал, полезно для работы в модальных окнах. [default: true]` */
-    isUsePortal?: boolean;
-    /** `? Тип отображения, как часы(2 цыфры) или одна цыфра.` */
-    typeOfDisplay?: 'one number' | 'clock';
-}
+<Clock
+    id={'id_2'}
+    idShowClock={idShowClock}
+    setIdShowClock={setIdShowClock}
+    
+    selectedData={selectedData}
+    setSelectedData={setSelectedData}
+    // Установка для массива чисел, установка максимального отображаемого числа и шага.
+    typeClock={{one: {total: 20, step: 2}, two: {total: 30, step: 2}}}
+/>
 ```

@@ -10,10 +10,10 @@ export type TStateDataClock = {
     }
 }
 
-export interface IClock {
+export interface IClock<T extends TStateDataClock> {
     //* State для контроля открытия закрытия модального окна.
     /** `Уникальный id для элемента на странице.` */
-    id: string;
+    id: Extract<keyof T, string>;
     /** `State > id Clock который надо показать.` */
     idShowClock: string;
     /** `SetStateAction > id Clock который надо показать.` */
