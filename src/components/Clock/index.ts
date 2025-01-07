@@ -1,2 +1,2 @@
-export { default } from './Clock';
+export { default as Clock } from './Clock';
 export type { TStateDataClock } from './types';

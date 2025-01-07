@@ -35,6 +35,8 @@ export const MainLayout: FC<IMainLayout> = ({children}) => {
 ## Использование компонента Clock
 
 ```typescript
+import {Clock, TStateDataClock } from '@/components/Clock';
+
 /** @param idShowClock Уникальный id для элемента на странице, устанавливаем нужный id элемента для отображения компонента часов. */
 const [idShowClock, setIdShowClock] = useState<string>('');
 

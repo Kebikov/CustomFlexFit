@@ -1,8 +1,8 @@
 import { View, StyleSheet } from 'react-native';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import { COLOR_ROOT } from '@/constants/colors';
-import Clock from '@/components/Clock';
+import { Clock } from '@/components/Clock';
 import { useLocalSearchParams } from 'expo-router';
 import Inputs from '@/components/itemsForAddRepsRest/Inputs/Inputs';
 import RepsRest from '@/components/itemsForAddRepsRest/RepsRest/RepsRest';
@@ -28,87 +28,74 @@ const AddRepsRest: FC = () => {
 
     const {sendIndex} = useLocalSearchParams<{sendIndex: string}>();
     const index = Number(sendIndex);
-    console.log('AddRepsRest index = ', index);
+    
     const DISPATCH = useAppDispatch();
 
     const {
-        idExercise,
-        selectedWeight,
-        setSelectedWeight,
+        idShowClock, 
+        setIdShowClock,
         nameAndNote,
         setNameAndNote,
-        reps,
-        setReps,
-        runtime,
-        setRuntime,
-        idShowClock,
-        setIdShowClock,
-        setRestAfter,
-        restAfter,
-        clockCustom,
+        selectedWeight, 
+        setSelectedWeight,
+        selectedData, 
+        setSelectedData,
         clockCustomReps,
-        refRestAfter,
-        refRuntime,
-        refReps,
-        onRuntime,
-        onRestAfter,
-        onReps
+        clockCustom2,
+        clockCustom3
     } = useAddRepsRest(index);
 
 
     const Clocks = (
         <>
             <Clock 
-                id={1}
+                id={'reps'}
                 idShowClock={idShowClock}
                 setIdShowClock={setIdShowClock}
 
-                setSelectedTime={setRestAfter}
-                selectedTime={restAfter} 
-                isUsePortal={false}
-                colorText={COLOR_ROOT.LIME_70}
-                typeClockCustom={clockCustom}
-                ref={refRestAfter} 
-            />
-            <Clock 
-                id={2}
-                idShowClock={idShowClock}
-                setIdShowClock={setIdShowClock}
+                selectedData={selectedData}
+                setSelectedData={setSelectedData}
 
-                setSelectedTime={setRuntime} 
-                selectedTime={runtime} 
-                isUsePortal={false}
                 colorText={COLOR_ROOT.LIME_70}
-                typeClockCustom={clockCustom}
-                ref={refRuntime}
-            />     
-            <Clock 
-                id={3}
-                idShowClock={idShowClock}
-                setIdShowClock={setIdShowClock}
-
-                setSelectedTime={setReps} 
-                selectedTime={reps} 
-                isUsePortal={false}
-                colorText={COLOR_ROOT.LIME_70}
-                typeClockCustom={clockCustomReps}
+                typeClock={clockCustomReps}
                 typeOfDisplay='one number'
-                ref={refReps}
             />
+            <Clock 
+                id={'restAfter'}
+                idShowClock={idShowClock}
+                setIdShowClock={setIdShowClock}
+
+                selectedData={selectedData}
+                setSelectedData={setSelectedData}
+
+                colorText={COLOR_ROOT.LIME_70}
+                typeClock={clockCustom2}
+            />
+            <Clock 
+                id={'runtime'}
+                idShowClock={idShowClock}
+                setIdShowClock={setIdShowClock}
+
+                selectedData={selectedData}
+                setSelectedData={setSelectedData}
+
+                colorText={COLOR_ROOT.LIME_70}
+                typeClock={clockCustom2}
+            />     
         </>
     );
 
     const sendData = () => {
         // Формируем изминенный обьект и передаем в redux.
         const exerciseOfChanged = {
-            id: idExercise,
-            name: nameAndNote.name,
-            note: nameAndNote.note,
-            reps,
-            runtime,
-            restAfter
+            // id: idExercise,
+            // name: nameAndNote.name,
+            // note: nameAndNote.note,
+            // reps,
+            // runtime,
+            // restAfter
         };
-        DISPATCH(SET_EXERCISE_STATE(exerciseOfChanged));
+        //DISPATCH(SET_EXERCISE_STATE(exerciseOfChanged));
         if(router.canGoBack()) router.back();
     }
 
@@ -117,7 +104,6 @@ const AddRepsRest: FC = () => {
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
             isShowGoBack={{isShow: true}}
-            isScrollEnabled={!idShowClock}
         >
             <View style={styles.container} >
                 <Inputs
@@ -131,14 +117,14 @@ const AddRepsRest: FC = () => {
                     setSelectedWeight={setSelectedWeight}
                 />
                 <RepsRest
-                    onReps={() => setIdShowClock(3)}
-                    onRestAfter={() => setIdShowClock(1)}
-                    onRuntime={() => setIdShowClock(2)}
+                    onReps={() => setIdShowClock('reps')}
+                    onRestAfter={() => setIdShowClock('restAfter')}
+                    onRuntime={() => setIdShowClock('runtime')}
                     fontSizeTitle={fontSizeTitle}
                     borderRadiusBody={borderRadiusBody}
-                    reps={reps}
-                    runtime={runtime}
-                    restAfter={restAfter}
+                    reps={selectedData['reps']}
+                    runtime={selectedData['runtime']}
+                    restAfter={selectedData['restAfter']}
                 />
                 <ButtonGreen 
                     text='установить' 

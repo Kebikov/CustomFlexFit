@@ -1,22 +1,25 @@
 import { View, StyleSheet } from 'react-native';
 import React, { FC, memo } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import { ITimeClock} from '@/components/Clock/Clock';
+import { TStateDataClock } from '@/components/Clock';
 import Title from '@/components/Title/Title';
 import { useTranslation } from 'react-i18next';
 import ICON from '@/source/icon';
 import ItemRepsRest from '@/components/ItemRepsRest/ItemRepsRest';
 
+type Time = TStateDataClock[keyof TStateDataClock]
 
 interface IRepsRest {
-    onRestAfter: () => void | undefined;
-    onRuntime: () => void | undefined;
     onReps: () => void | undefined;
-    reps: ITimeClock;
-    restAfter: ITimeClock;
+    onRuntime: () => void | undefined;
+    onRestAfter: () => void | undefined;
+    /** `Количество повторов в упражнении.` */
+    reps: Time;
+    runtime: Time;
+    restAfter: Time;
+    
     fontSizeTitle: number;
     borderRadiusBody: number;
-    runtime: ITimeClock;
 }
 
 

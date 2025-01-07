@@ -30,8 +30,8 @@ const ChoiceLanguage: FC = () => {
         //appRouter.replace(path);
         DISPATCH(SET_EXERCISE_STATE('RESET'));
 
-        appRouter.navigate('/test/showImgInFolder'); // test
-        //appRouter.navigate('/exercise/addExercise'); // добавление упражнения
+        //appRouter.navigate('/test/showImgInFolder'); // test
+        appRouter.navigate('/exercise/addExercise'); // добавление упражнения
 
         // appRouter.navigate('/exercise/selectEquipment'); // добавление инвентаря
         //appRouter.navigate('/day/addDay'); // добавление дня
