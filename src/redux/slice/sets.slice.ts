@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import type { ExerciseDTO } from '@/SQL/Exercise/DTO/ExerciseDTO';
-import type { ITimeClock } from '@/components/Clock/Clock';
+import type { TStateDataClock } from '@/components/Clock';
 import i18next from 'i18next';
 
 
@@ -18,9 +18,9 @@ export interface IExerciseState {
     id: string;
     name: string;
     note: string;
-    reps: ITimeClock;
-    runtime: ITimeClock;
-    restAfter: ITimeClock;
+    reps: TStateDataClock[keyof TStateDataClock];
+    runtime: TStateDataClock[keyof TStateDataClock];
+    restAfter: TStateDataClock[keyof TStateDataClock];
 }
 
 

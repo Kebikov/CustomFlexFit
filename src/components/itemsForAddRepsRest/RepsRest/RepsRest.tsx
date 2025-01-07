@@ -15,7 +15,9 @@ interface IRepsRest {
     onRestAfter: () => void | undefined;
     /** `Количество повторов в упражнении.` */
     reps: Time;
+    /** `Временя выполнения упражнения.` */
     runtime: Time;
+    /** `Временя отдыха после упражнения.` */
     restAfter: Time;
     
     fontSizeTitle: number;

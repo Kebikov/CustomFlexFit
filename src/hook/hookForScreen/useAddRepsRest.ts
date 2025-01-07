@@ -18,16 +18,16 @@ export const useAddRepsRest = (index: number) => {
     /** @param electedTime Выбранное время */
     const [selectedData, setSelectedData] = useState<TStateDataClock>({
         'reps': {
-            'one': 12,
-            'two': 23
+            'one': 10,
+            'two': 0
         },
         'runtime': {
-            'one': 12,
-            'two': 23
+            'one': 0,
+            'two': 0
         },
         'restAfter': {
-            'one': 12,
-            'two': 23
+            'one': 2,
+            'two': 30
         }
     });
 
@@ -41,11 +41,9 @@ export const useAddRepsRest = (index: number) => {
     const [selectedWeight, setSelectedWeight] = useState<number | IWeightState>(0);
 
     /** `Обьект начальных установок для часов.` */
-    const clockCustomReps = useMemo(() => ({one: {total: 50, step: 1}, two: {total: 0, step: 0}}), []);
+    const clockCustomReps = useMemo(() => ({one: {total: 100, step: 1}, two: {total: 0, step: 0}}), []);
     /** `Обьект начальных установок для часов.` */
-    const clockCustom2 = useMemo(() => ({one: {total: 50, step: 1}, two: {total: 0, step: 0}}), []);
-    /** `Обьект начальных установок для часов.` */
-    const clockCustom3 = useMemo(() => ({one: {total: 50, step: 1}, two: {total: 0, step: 0}}), []);
+    const clockCustomClock = useMemo(() => ({one: {total: 59, step: 1}, two: {total: 55, step: 5}}), []);
 
     return {
         idShowClock, 
@@ -56,9 +54,11 @@ export const useAddRepsRest = (index: number) => {
         setNameAndNote,
         selectedWeight, 
         setSelectedWeight,
+
         clockCustomReps,
-        clockCustom2,
-        clockCustom3
+        clockCustomClock,
+        /** `ID редактируемого упражнения.` */
+        idExercise
     }
 
 }

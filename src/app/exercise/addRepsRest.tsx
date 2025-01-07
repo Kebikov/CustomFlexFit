@@ -41,13 +41,14 @@ const AddRepsRest: FC = () => {
         selectedData, 
         setSelectedData,
         clockCustomReps,
-        clockCustom2,
-        clockCustom3
+        clockCustomClock,
+        idExercise
     } = useAddRepsRest(index);
 
 
     const Clocks = (
         <>
+            {/* Установка количества повторов в упражении. */}
             <Clock 
                 id={'reps'}
                 idShowClock={idShowClock}
@@ -60,6 +61,7 @@ const AddRepsRest: FC = () => {
                 typeClock={clockCustomReps}
                 typeOfDisplay='one number'
             />
+            {/* Установка времени отдыха после выполнения упражнения. */}
             <Clock 
                 id={'restAfter'}
                 idShowClock={idShowClock}
@@ -69,8 +71,9 @@ const AddRepsRest: FC = () => {
                 setSelectedData={setSelectedData}
 
                 colorText={COLOR_ROOT.LIME_70}
-                typeClock={clockCustom2}
+                typeClock={clockCustomClock}
             />
+            {/* Установка времени выполнения упражнения. */}
             <Clock 
                 id={'runtime'}
                 idShowClock={idShowClock}
@@ -80,7 +83,7 @@ const AddRepsRest: FC = () => {
                 setSelectedData={setSelectedData}
 
                 colorText={COLOR_ROOT.LIME_70}
-                typeClock={clockCustom2}
+                typeClock={clockCustomClock}
             />     
         </>
     );
@@ -88,14 +91,16 @@ const AddRepsRest: FC = () => {
     const sendData = () => {
         // Формируем изминенный обьект и передаем в redux.
         const exerciseOfChanged = {
-            // id: idExercise,
-            // name: nameAndNote.name,
-            // note: nameAndNote.note,
-            // reps,
-            // runtime,
-            // restAfter
+            id: idExercise,
+            name: nameAndNote.name,
+            note: nameAndNote.note,
+            reps: selectedData['reps'],
+            runtime: selectedData['runtime'],
+            restAfter: selectedData['restAfter']
         };
-        //DISPATCH(SET_EXERCISE_STATE(exerciseOfChanged));
+
+        DISPATCH(SET_EXERCISE_STATE(exerciseOfChanged));
+        
         if(router.canGoBack()) router.back();
     }
 
