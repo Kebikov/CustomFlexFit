@@ -5,7 +5,7 @@ interface IcheckId {
     selectedData: TStateDataClock;
 }
 
-/** `Проверка правильности установленных id у состояний и компонента.` */
+ /** `Проверка правильности установленных id у состояний и компонента.` */
 export const checkId = ({
     id,
     selectedData

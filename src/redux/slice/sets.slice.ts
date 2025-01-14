@@ -6,28 +6,25 @@ import type { TStateDataClock } from '@/components/Clock';
 import i18next from 'i18next';
 
 
-/**
- * @param id ID упражнения.
- * @param name Название упражнения. 
- * @param note Заметка для упражнения.
- * @param reps Количество повторений в упражнении.
- * @param runtime Длительность выполнения упражнения, минут и секунд.
- * @param restAfter Время отдыха после упражнения, минут и секунд.
- */
+
 export interface IExerciseState {
+     /** `ID упражнения.` */
     id: string;
+     /** `Название упражнения.` */
     name: string;
+     /** `Заметка для упражнения.` */
     note: string;
+     /** `Количество повторений в упражнении.` */
     reps: TStateDataClock[keyof TStateDataClock];
+     /** `Длительность выполнения упражнения, минут и секунд.` */
     runtime: TStateDataClock[keyof TStateDataClock];
+     /** `Время отдыха после упражнения, минут и секунд.` */
     restAfter: TStateDataClock[keyof TStateDataClock];
 }
 
 
-/**
- * @param exerciseState Сотсояние упражнения.
- */
 interface IInitialStateSets {
+     /** `Состояние упражнения.` */
     exerciseStateArray: IExerciseState[];
 }
 

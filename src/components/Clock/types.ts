@@ -12,32 +12,32 @@ export type TStateDataClock = {
 
 export interface IClock<T extends TStateDataClock> {
     //* State для контроля открытия закрытия модального окна.
-    /** `Уникальный id для элемента на странице.` */
+     /** `Уникальный id для элемента на странице.` */
     id: Extract<keyof T, string>;
-    /** `State > id Clock который надо показать.` */
+     /** `State > id Clock который надо показать.` */
     idShowClock: string;
-    /** `SetStateAction > id Clock который надо показать.` */
+     /** `SetStateAction > id Clock который надо показать.` */
     setIdShowClock: React.Dispatch<React.SetStateAction<string>>;
     //* State для установки выбранного значения.
-    /** `State > Обьект с выбранным временем.` */
+     /** `State > Обьект с выбранным временем.` */
     selectedData:  TStateDataClock;
-    /** `SetStateAction > Установка выбранного времени.` */
+     /** `SetStateAction > Установка выбранного времени.` */
     setSelectedData: React.Dispatch<React.SetStateAction< TStateDataClock >>;
     //* Настройка для отображения данных.
-    /** `? Предустановки для отображения чисел [default: 'hours/minutes']` */
+     /** `? Предустановки для отображения чисел [default: 'hours/minutes']` */
     typeClock?: TTypeClock | IArraysForClock;
     //* Style 
-    /** `? Цвет фона часов. [default: COLOR_ROOT.BACKGROUND]` */
+     /** `? Цвет фона часов. [default: COLOR_ROOT.BACKGROUND]` */
     colorBody?: string;
-    /** `? Цвет фона нажней кнопки. [default: COLOR_ROOT.BACKGROUND]` */
+     /** `? Цвет фона нажней кнопки. [default: COLOR_ROOT.BACKGROUND]` */
     colorButton?:string;
-    /** `? Цвет текста. [default: 'white']` */
+     /** `? Цвет текста. [default: 'white']` */
     colorText?: string;
-    /** `? Цвет линии между часами и кнопкой. [default: 'rgba(255, 255, 255, 0.3)']` */
+     /** `? Цвет линии между часами и кнопкой. [default: 'rgba(255, 255, 255, 0.3)']` */
     colorLine?: string;
-    /** `? Использовать ли портал, полезно для работы в модальных окнах. [default: true]` */
+     /** `? Использовать ли портал, полезно для работы в модальных окнах. [default: true]` */
     isUsePortal?: boolean;
-    /** `? Тип отображения, как часы(2 цыфры) или одна цыфра.` */
+     /** `? Тип отображения, как часы(2 цыфры) или одна цыфра.` */
     typeOfDisplay?: 'one number' | 'clock';
 }
 
@@ -53,55 +53,55 @@ export interface INameAndNote {
 }
 
 export interface IWeightState {
-    /** `ID используемого грифа.` */
+     /** `ID используемого грифа.` */
     barbell: number;
-    /** `Массив ID блинов на первой стороне.` */
+     /** `Массив ID блинов на первой стороне.` */
     plate_1: number[];
-    /** `Массив ID блинов на второй стороне.` */
+     /** `Массив ID блинов на второй стороне.` */
     plate_2: number[];
 }
 
 export interface IArraysForClock {
     one: {
-        /** `Значение последнего элемента.` */
+         /** `Значение последнего элемента.` */
         total: number;
-        /** `Второе число в установке времени.` */
+         /** `Второе число в установке времени.` */
         step: number;
     };
     two: {
-        /** `Значение последнего элемента.` */
+         /** `Значение последнего элемента.` */
         total: number;
-        /** `Шаг элемента.` */
+         /** `Шаг элемента.` */
         step: number;
     };
 }
 
 export interface IGetPositions {
-    /** `Массив для добавления позиций.` */
+     /** `Массив для добавления позиций.` */
     data: string[];
-    /** `Высота одного элемента.` */
+     /** `Высота одного элемента.` */
     heightElement: number; 
-    /** `Смещение для центрирования.` */
+     /** `Смещение для центрирования.` */
     offset: number;
-    /** `Дополнительная информация в консоль.` */
+     /** `Дополнительная информация в консоль.` */
     info?: string;
 }
 
 export interface IGestureColumn {
-    /** `Массив с обьектами чисел.` */
+     /** `Массив с обьектами чисел.` */
     arrayPositions: TPositions[];
-    /** `Текушяя позиция.` */
+     /** `Текушяя позиция.` */
     currentPositionsSv: SharedValue<number>;
-    /** `Последняя позиция.` */
+     /** `Последняя позиция.` */
     lastPositionsSv: SharedValue<number>;
-    /** `Смещение для центрирования.` */
+     /** `Смещение для центрирования.` */
     offset: number,
-    /** `Максимальная высота.` */
+     /** `Максимальная высота.` */
     MAX_HI: number,
-    /** `Устанавливаемое значение обьекта.` */
+     /** `Устанавливаемое значение обьекта.` */
     num: keyof TStateDataClock[keyof TStateDataClock];
-    /** `Обьект с установлеными значениями чисел.` */
+     /** `Обьект с установлеными значениями чисел.` */
     setDataSv: SharedValue<TStateDataClock[keyof TStateDataClock]>;
-    /** `Готовы ли данные для добавления в основное состояние компонента.` */
+     /** `Готовы ли данные для добавления в основное состояние компонента.` */
     isReadyData: SharedValue<boolean>;
 }
