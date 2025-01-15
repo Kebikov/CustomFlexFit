@@ -5,11 +5,9 @@ import { FlatList } from 'react-native-gesture-handler';
 import Description from '@/components/Description/Description';
 import { useTranslation } from 'react-i18next';
 import ItemForChoiceBackground from '@/components/ItemForChoiceBackground/ItemForChoiceBackground';
-import { ActionCreatorWithPayload as ACP}  from '@reduxjs/toolkit';
 import HeaderGoBack from '../HeaderGoBack/HeaderGoBack';
 import WrapperScroll from '../WrapperScroll/WrapperScroll';
 import type { IExportImage } from '@/source/img/day';
-import logApp from '@/helpers/log';
 
 
 interface IScreenAddBackground {

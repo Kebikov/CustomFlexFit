@@ -18,6 +18,7 @@ import DragFlatList from '@/components/DragFlatList/DragFlatList';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import usePageAddExercise from '@/hook/hookForScreen/usePageAddExercise';
 import logApp, {strApp} from '@/helpers/log';
+import { useHandleExercise } from '@/helpers/pages/AddExercise/useHandleExercise';
 
 
 /**
@@ -36,62 +37,9 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
         activeButtonIdSv, 
         selectedBackground
     } = usePageAddExercise();
-    console.log(strApp.Green('Всего данных = '), data.length); 
+
+    const {addElement} = useHandleExercise();
     
-    const header = (
-        <View>
-            <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={10} />
-            <View style={styles.boxImageBackground} >
-                <Image source={
-                        selectedBackground && selectedBackground.path ? imgCheck(selectedBackground.path)
-                        :
-                        IMAGE.ZERO_FON
-                    } 
-                    style={styles.imageBackground} 
-                />
-                <View style={[styles.overlay, {backgroundColor: selectedBackground ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
-            </View>
-
-            <PickImage
-                aspect={[8, 5]}
-                modalPath='/exercise/modalAddImageExercise'
-                marginTop={20}
-            />
-
-            <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
-        </View>
-    );
-
-    const footer = (
-        <>
-            {/* <HelpText text={t('[exercise]:addExercise.infoCreateExercise')} /> */}
-            <ButtonGreen
-                text={t('button:create')}
-                //handlePess={() => appRouter.navigate('/exercise/modalAddImageExercise')}
-                handlePess={() => {}}
-                marginTop={20}
-                marginBottom={40}
-            />
-        </>
-    )
-
-     /** `Добавление нового элемента.` */
-    const addElement = (id: string) => {
-        const find = data.findIndex(item => item.id === id);
-         /** `Копия добавляемого элемента` */
-        const newElement: IExerciseState = JSON.parse(JSON.stringify(data[find]));
-         /** `Массив всех id` */
-        const arrId = data.map(item => Number(item.id));
-         /** `Максимальный id` */
-        const maxId = Math.max(...arrId);
-        // Установка id добавляемого элемента
-        newElement.id = String(maxId + 1);
-        // Добавляем новый элемент в конец списка.
-        const newData = [...data.slice(0, find + 1), newElement, ...data.slice(find + 1)];
-
-        DISPATCH(SET_EXERCISE_STATE(newData));
-    }
-
     const render = (item: IExerciseState) => {
         
         return(
@@ -104,7 +52,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
                     // переход на страницу редактирования упражнения по индексу в массиве данных
                     appRouter.navigate({pathname: '/exercise/addRepsRest', params: {sendIndex: String(index)}});
                 }}
-                onPressButton2={() => addElement(item.id)}
+                onPressButton2={() => addElement(item.id, data)}
                 onPressButton3={() => {}}
                 //style
                 widthOneButton={62}
@@ -126,7 +74,27 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
             backgroundColor={COLOR_ROOT.BACKGROUND}
         >
             <View style={styles.container}>
-                {header}
+                <View>
+                    <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={10} />
+                    <View style={styles.boxImageBackground} >
+                        <Image source={
+                                selectedBackground && selectedBackground.path ? imgCheck(selectedBackground.path)
+                                :
+                                IMAGE.ZERO_FON
+                            } 
+                            style={styles.imageBackground} 
+                        />
+                        <View style={[styles.overlay, {backgroundColor: selectedBackground ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
+                    </View>
+
+                    <PickImage
+                        aspect={[8, 5]}
+                        modalPath='/exercise/modalAddImageExercise'
+                        marginTop={20}
+                    />
+
+                    <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
+                </View>
                 <DragFlatList
                     style={{padding: 0, marginTop: 20, flex: 1}}
                     styleFlatList={{marginBottom: 40}}
@@ -139,7 +107,13 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
 
                     renderItem={render}
                 />
-                {footer}
+                <ButtonGreen
+                    text={t('button:create')}
+                    //handlePess={() => appRouter.navigate('/exercise/modalAddImageExercise')}
+                    handlePess={() => {}}
+                    marginTop={20}
+                    marginBottom={40}
+                />
             </View>
         </WrapperScroll>
     );

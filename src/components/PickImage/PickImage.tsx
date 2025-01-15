@@ -39,7 +39,7 @@ const PickImage: FC<IPickImage> = ({
     const pickImageAsync = async () => {
 
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ['images'],
             allowsEditing: true,
             quality: 1,
             aspect

@@ -38,7 +38,7 @@ const WrapperScroll: FC<IWrapper> = ({
 }) => {
 
     const insets = useSafeAreaInsets();
-
+    console.log('isScrollEnabled = ', isScrollEnabled);
     const headerGoBack = (
         <>
             {
@@ -72,9 +72,9 @@ const WrapperScroll: FC<IWrapper> = ({
                     <SafeAreaView style={{ flex: 1, backgroundColor }}>
                         {headerGoBack}
                         {listHeaderComponent}
-                        {/* {
+                        {
                             isScrollEnabled
-                            ? */}
+                            ? 
                             <ScrollView 
                                 scrollEnabled={isScrollEnabled} // добавил место
                                 contentContainerStyle={{flexGrow: 1}} 
@@ -83,11 +83,11 @@ const WrapperScroll: FC<IWrapper> = ({
                             >
                                 {children}
                             </ScrollView>
-                            {/* :
+                            :
                             <>
                                 {children}
                             </>
-                        } */}
+                        } 
                     </SafeAreaView>
                 </KeyboardAvoidingView>
             </SafeAreaProvider>

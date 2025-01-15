@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { exerciseImage } from '@/source/img/exercise';
-import { SET_BACKGROUND_FOR_EXERCISE } from '@/redux/slice/setup.slice';
 import ScreenAddBackground from '@/components/ScreenAddBackground/ScreenAddBackground';
 
 

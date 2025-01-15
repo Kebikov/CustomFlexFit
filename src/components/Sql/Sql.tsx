@@ -45,8 +45,7 @@ const Sql: FC = () => {
     const pressDBT = async () => {
         await databaseService.getTable(db, 'log');
     }
-    /**
-     * `Показать данные таблицы Day в консоле.`
+    /** `//= Показать данные таблицы Day в консоле.`
      */
     const showDays = async () => {
         const result = await DayService.find(db);
@@ -57,9 +56,8 @@ const Sql: FC = () => {
         await exerciseService.showTableInConsole(db);
     }
 
-    /**
-     * `Удаление базы данных.`
-     */
+    /** `//= Удаление базы данных.` 
+    */
     const removeDB = async () => {
         Alert.alert(
             'Удалить базу данных ?',
@@ -78,12 +76,13 @@ const Sql: FC = () => {
             ]
         )
     }
-    /**
-     * `Перейти на страницу с сохраненными изображениями.`
+
+    /** `//= Перейти на страницу с сохраненными изображениями.`
      */
     const goToPageImages = async () => {
         appRouter.navigate('/test/showImgInFolder');
     }
+    
     /**
      * `Удаление папки с изображениями`
      */
