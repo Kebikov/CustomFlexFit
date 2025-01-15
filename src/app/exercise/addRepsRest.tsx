@@ -12,6 +12,7 @@ import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { useHookRouter } from '@/router/useHookRouter';
+import useAppTranslation from '@/localization/helpers/useAppTranslation';
 
 
 const fontSizeTitle = 21;
@@ -30,6 +31,7 @@ const AddRepsRest: FC = () => {
     const index = Number(sendIndex);
     
     const DISPATCH = useAppDispatch();
+    const {t} = useAppTranslation(['[exercise]']);
 
     const {
         idShowClock, 
@@ -132,7 +134,7 @@ const AddRepsRest: FC = () => {
                     restAfter={selectedData['restAfter']}
                 />
                 <ButtonGreen 
-                    text='установить' 
+                    text={t('[exercise]:addRepsRest.set')} 
                     handlePess={sendData}
 
                     marginTop={20}

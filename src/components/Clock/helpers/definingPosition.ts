@@ -1,7 +1,7 @@
 import { TPositions } from "../types";
 
 
-/** `Определение какое число ближайшее к текушей позиции.` */
+ /** `Определение какое число ближайшее к текушей позиции.` */
 export const definingPosition = (arrPositions: TPositions[], currentPosition: number, offset: number): {top: number, num: string } => {
     'worklet'
     

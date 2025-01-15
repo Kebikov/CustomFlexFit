@@ -37,7 +37,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
         selectedBackground
     } = usePageAddExercise();
     console.log(strApp.Green('Всего данных = '), data.length); 
-    //`console.log(JSON.stringify( data, null, 2));
+    
     const header = (
         <View>
             <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={10} />
@@ -75,13 +75,14 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
         </>
     )
 
+     /** `Добавление нового элемента.` */
     const addElement = (id: string) => {
         const find = data.findIndex(item => item.id === id);
-        /** `Копия добавляемого элемента` */
+         /** `Копия добавляемого элемента` */
         const newElement: IExerciseState = JSON.parse(JSON.stringify(data[find]));
-        /** `Массив всех id` */
+         /** `Массив всех id` */
         const arrId = data.map(item => Number(item.id));
-        /** `Максимальный id` */
+         /** `Максимальный id` */
         const maxId = Math.max(...arrId);
         // Установка id добавляемого элемента
         newElement.id = String(maxId + 1);

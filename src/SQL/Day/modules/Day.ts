@@ -11,7 +11,7 @@ class Day {
      */
     async create(db: SQLiteDatabase): Promise<void> {
         try {
-            const result = await db.runAsync(`
+            await db.runAsync(`
                 CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE_Day}
                 (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
