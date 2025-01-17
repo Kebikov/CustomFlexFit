@@ -1,6 +1,7 @@
 import { useAppDispatch } from "@/redux/store/hooks";
 import { SET_EXERCISE_STATE } from "@/redux/slice/sets.slice";
 import { IExerciseState } from "@/redux/slice/sets.slice";
+import showMessage from "@/helpers/showMessage";
 
 
  /** `Добавление нового элемента.` */
@@ -24,8 +25,19 @@ export const useHandleExercise = () => {
         DISPATCH(SET_EXERCISE_STATE(newData));
     }
 
+     /** `Удаление элемента, если он не последний.` */
+    const removeElement = (id: string, data: IExerciseState[]) => {
+        if(data.length > 1) {
+            const filterData = data.filter(item => item.id !== id);
+            DISPATCH(SET_EXERCISE_STATE(filterData));
+        } else {
+            showMessage('Последнее упражнение нельзя удалить.')
+        }
+    }
+
     return {
-        addElement
+        addElement,
+        removeElement
     }
 }
 

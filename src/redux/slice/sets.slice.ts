@@ -55,9 +55,7 @@ const setsSlice = createSlice({
     name: 'sets',
     initialState: initialStateSets,
     reducers: {
-        /**
-         * `//--Установка состояния при создании нового упражнения.`
-         */
+         /** `//= [Redux Action] Установка состояния при создании нового упражнения.` */
         SET_EXERCISE_STATE: (state, action: PayloadAction<IExerciseState[] | IExerciseState | 'RESET'>) => {
 
             if(action.payload === 'RESET') {
@@ -81,5 +79,6 @@ export default setsSlice.reducer;
 
 
 export const {
+     /** `[Redux Action] Установка состояния при создании нового упражнения.` */
     SET_EXERCISE_STATE
 } = setsSlice.actions;

@@ -30,18 +30,10 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
     const {appRouter} = useHookRouter();
     const DISPATCH = useAppDispatch();
     const {t} = useTranslation(['[exercise]', 'button']);
-
-    const {
-        data,
-        setData,
-        activeButtonIdSv, 
-        selectedBackground
-    } = usePageAddExercise();
-
-    const {addElement} = useHandleExercise();
+    const {data, setData, activeButtonIdSv, selectedBackground} = usePageAddExercise();
+    const {addElement, removeElement} = useHandleExercise();
     
     const render = (item: IExerciseState) => {
-        
         return(
             <ButtonSwipeable
                 totalButton={3}
@@ -53,7 +45,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
                     appRouter.navigate({pathname: '/exercise/addRepsRest', params: {sendIndex: String(index)}});
                 }}
                 onPressButton2={() => addElement(item.id, data)}
-                onPressButton3={() => {}}
+                onPressButton3={() => removeElement(item.id, data)}
                 //style
                 widthOneButton={62}
                 heightOneButton={62}
@@ -66,8 +58,6 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
             </ButtonSwipeable>
         )
     };
-
-    //if(data.length === 0 || data.length !== exerciseStateArray.length) return null;
 
     return (
         <WrapperScroll

@@ -1,16 +1,14 @@
 import { IExerciseState } from '@/redux/slice/sets.slice';
-import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
-import React, { FC, useEffect, useState, useMemo } from 'react';
-import { SharedValue, useSharedValue } from 'react-native-reanimated';
+import { useAppSelector } from '@/redux/store/hooks';
+import { useEffect, useState } from 'react';
+import { useSharedValue } from 'react-native-reanimated';
 
 
 const usePageAddExercise = () => {
     const exerciseStateArray: IExerciseState[] = useAppSelector(state => state.setsSlice.exerciseStateArray);
 
-    /** Данные для FlatList. */
     const [data, setData] = useState<IExerciseState[]>(exerciseStateArray);
 
-    /** Id который активен в данный момент, остальные закрываются. */
     const activeButtonIdSv = useSharedValue<string>('');
 
     const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
@@ -21,9 +19,13 @@ const usePageAddExercise = () => {
     
     
     return {
+        /** `[State] Данные для FlatList.` */
         data,
+        /** `[SetStateAction] Данные для FlatList.` */
         setData,
+         /** `[SharedValue] Id который активен в данный момент, остальные закрываются.` */
         activeButtonIdSv, 
+         /** `[Redux State] Выбранный фон для упражнения.` */
         selectedBackground
     }
 }
