@@ -1,27 +1,10 @@
-import { 
-    SharedValue, 
-    interpolate, 
-    interpolateColor, 
-    useAnimatedReaction, 
-    useAnimatedStyle, 
-    useDerivedValue, 
-    useSharedValue, 
-    withDelay, 
-    withSpring, 
-    withTiming, 
-    runOnJS 
-} from "react-native-reanimated";
+import { useAnimatedReaction, useAnimatedStyle, useDerivedValue, useSharedValue, withDelay, withSpring, withTiming, runOnJS } from "react-native-reanimated";
 import { NullableNumber, TPositions } from "../types";
 import { Gesture } from "react-native-gesture-handler";
-import { COLOR_ROOT } from "@/constants/colors";
-import VibrationApp from "@/helpers/VibrationApp";
 import * as Haptics from 'expo-haptics';
 import { Platform, Vibration } from "react-native";
-import logApp, {strApp} from "@/helpers/log";
 import { IUseGesture } from "../types";
-
-
-const DELAY = 200;
+import { DELAY, TIME_OF_ELEVATION } from "../constants";
 
 
 export const useGesture = ({
@@ -35,7 +18,6 @@ export const useGesture = ({
 
     /** `Индекс очередности элемента до начала перемешения` */
     const startIndexDv = useDerivedValue<NullableNumber>(() => {
-        console.log(currentPositions.value);
         if(currentPositions.value[id]?.updatedIndex !== null && !isNaN( Number(currentPositions.value[id]?.updatedIndex) ) ) {
             return currentPositions.value[id].updatedIndex;
         } else {
@@ -49,15 +31,12 @@ export const useGesture = ({
     /** `Текуший индекс элемента который пользователь начал перетаскивать` */
     const currentIndex = useSharedValue<NullableNumber>(null);
     
-    //const topDv = useDerivedValue<number>(() => currentPositions.value[id].updatedTop);
     const topSv = useSharedValue<NullableNumber>(null);
 
     const opacitySv = useSharedValue<number>(1);
 
     /** `Это ? Текуший передвигаемый элемент` */
-    const isCurrentDraggingItem = useDerivedValue(() => {
-        return isDragging.value && currentIndex.value === startIndexDv.value;
-    });
+    const isCurrentDraggingItem = useDerivedValue(() => isDragging.value && currentIndex.value === startIndexDv.value);
 
     useAnimatedReaction(
         () => isCurrentDraggingItem.value,
@@ -74,13 +53,12 @@ export const useGesture = ({
         () => currentPositions.value[id].updatedTop,
         (currentValue, previousValue) => {
             if(previousValue === null) {
-                topSv.value = withDelay(200, withTiming(currentPositions.value[id].updatedTop, {duration: 400}))
+                topSv.value = withDelay(TIME_OF_ELEVATION / 2, withTiming(currentPositions.value[id].updatedTop, {duration: 0}))
             }
         }
     )
     
-    const vibroPress = () => {
-        'worklet';
+    const vibroPress = () => { 'worklet';
         Platform.OS === 'ios' ?  runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Light) : runOnJS(Vibration.vibrate)(7);
     }
 
@@ -133,7 +111,6 @@ export const useGesture = ({
             if (newIndex.value !== currentIndex.value) {
                 /** `Id элемента на место которого будет установлен перемешаемый элемент` */
                 const newIdItemKey = getIdPlace(newIndex.value, currentPositions.value);
-                //console.log('newIndexItemKey = ', newIdItemKey);
 
                 if (newIdItemKey !== undefined && id !== undefined) {
                 // Мы обновляем updatedTop и updatedIndex, так как в следующий раз мы хотим выполнять вычисления, исходя из нового значения top и нового индекса.
@@ -180,7 +157,6 @@ export const useGesture = ({
     
     //= Анимация 
     const animatedStyles = useAnimatedStyle(() => {
-
         return {
             top: topSv.value,
             opacity: opacitySv.value,

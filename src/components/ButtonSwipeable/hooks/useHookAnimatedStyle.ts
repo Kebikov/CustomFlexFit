@@ -15,7 +15,7 @@ export const useHookAnimatedStyle = (
             }
         });
         const animatedStyleDownButton1 = useAnimatedStyle(() => {
-            //  console.log('rightPositionButton1Sv = ', rightPositionButton1Sv.value);
+
             return {
                 right: rightPositionButton1Sv.value
             }

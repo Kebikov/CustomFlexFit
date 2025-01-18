@@ -1,4 +1,6 @@
 import { SharedValue } from "react-native-reanimated";
+import { StyleProp, ViewStyle } from "react-native";
+import { ComponentType, ReactElement, JSXElementConstructor } from "react";
 
 export type TPositions = {
     [key: string]: {
@@ -20,9 +22,9 @@ export interface IDragFlatList<T extends {id: number | string}> {
     renderItem: (item: T) => JSX.Element | null;
     //* Дополнительные Element
     /** `Элементы в верху FlatList` */
-    ListHeaderComponent?: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined;
+    ListHeaderComponent?: JSX.Element | JSX.Element[];
     /** `Элементы в низу FlatList` */
-    ListFooterComponent?: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>> | null | undefined;
+    ListFooterComponent?: JSX.Element | JSX.Element[];
     /** `Элемент внизу FlatList` */
     bottomComponentFlatList?: JSX.Element
     //* Стили:

@@ -1,27 +1,17 @@
-import Animated, { 
-    useSharedValue, 
-    useDerivedValue,
-    useAnimatedStyle, 
-    useAnimatedReaction, 
-    runOnJS,
-    withTiming,
-    withSpring,
-    ReduceMotion
-} from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, runOnJS, withTiming, withSpring, ReduceMotion } from 'react-native-reanimated';
 import ListItem from './components/ListItem';
-import { View, Text } from 'react-native';
-import { NullableNumber, TPositions } from './types';
+import { View } from 'react-native';
+import { TPositions } from './types';
 import { getInitialPositions } from './helpers/getInitialPositions';
 import { FlatList } from 'react-native-gesture-handler';
 import type { IDragFlatList } from './types';
-import { useState, useEffect, useLayoutEffect, memo } from 'react';
+import { useEffect } from 'react';
 import { getDataAfterDrag } from './helpers/getDataAfterDrag';
 import {strApp} from '@/helpers/log';
+import { TIME_OF_ELEVATION } from './constants';
 
 
-/**
- * `Для создания списка с возможностью перетаскивания элементов.`
- */
+/** `//= Для создания списка с возможностью перетаскивания элементов.` */
 const DragFlatList = <T extends {id: string | number}>({
     heightList,
     heightElement,
@@ -35,23 +25,22 @@ const DragFlatList = <T extends {id: string | number}>({
     styleFlatList,
     styleContainer,
     bottomComponentFlatList
-}: IDragFlatList<T>) => { console.log(strApp.Red('render DragFlatList'));
+}: IDragFlatList<T>) => { console.info(strApp.Red('render DragFlatList'));
 
     const MIN_HI = 0;
     const MAX_HI = (data.length - 1) * heightElement;
     const HI = data.length * heightElement;
 
-    /** `Высота FlatLIst` */
+     /** `Высота FlatLIst.` */
     const heightFlatListSv = useSharedValue<number>(HI);
-    /** `Расположение заметки под FlatList` */
+
+     /** `Расположение заметки под FlatList.` */
     const topNoteSv = useSharedValue<number>(MAX_HI + heightElement + 5);
 
-    // `определение позиций всех элементов`
-    const currentPositions = useSharedValue<TPositions>(
-        getInitialPositions(data, heightElement, 'useSharedValue')
-    );
+     /** `Определение позиций всех элементов.` */
+    const currentPositions = useSharedValue<TPositions>( getInitialPositions(data, heightElement, 'useSharedValue') );
 
-    // происходит ли перемешение или нет 
+     /** `Происходит ли перемешение или нет.` */
     const isDragging = useSharedValue<0 | 1>(0);
 
     useAnimatedReaction(
@@ -63,17 +52,15 @@ const DragFlatList = <T extends {id: string | number}>({
             }
         },[data]
     );
-    /** 
-     * `AnimatedStyle для высоты FlatLIst` 
-     * */
+
+     /** `AnimatedStyle для высоты FlatLIst, увеличение высоты листа при добавлении нового элемента.` */
     const animatedStyle = useAnimatedStyle(() => {
         return {
-            height: withTiming(heightFlatListSv.value, {duration: 400})
+            height: withTiming(heightFlatListSv.value, {duration: TIME_OF_ELEVATION})
         }
     });
-    /** 
-     * `AnimatedStyle для расположения заметки.` 
-     * */
+
+     /** `AnimatedStyle для расположения заметки.` */
     const animatedStyleNote = useAnimatedStyle(() => {
         return {
             top: withSpring(topNoteSv.value, {
@@ -95,11 +82,11 @@ const DragFlatList = <T extends {id: string | number}>({
     }, [data]);
     
     return (
-        <View style={{...style}} >
+        <View style={style} >
             {ListHeaderComponent}
             <Animated.View style={[animatedStyle, styleFlatList, {position: 'relative'}]} >
                 <FlatList
-                    style={{...styleContainer}}
+                    style={styleContainer}
                     scrollEnabled={scrollEnabled}
                     contentContainerStyle={[{flexGrow: 1}, styleContainer]}
                     data={data}

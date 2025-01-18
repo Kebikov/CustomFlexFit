@@ -1,6 +1,7 @@
 import logApp from "@/helpers/log";
 import { TPositions } from "../types";
 
+
 /**
  * @param listlength Длинна всего списка.
  * @param heightElement Высота одного элемента.
@@ -8,16 +9,16 @@ import { TPositions } from "../types";
 export const getInitialPositions = <T>(data: T[], heightElement: number, info?: string): TPositions => {
     'worklet';
 
-    let songPositions: TPositions = {};
+    let elPositions: TPositions = {};
 
     data.forEach((item, i) => {
         if(item && typeof item === 'object' && 'id' in item) {
-            songPositions[String(item.id)] = {
+            elPositions[String(item.id)] = {
                 updatedIndex: i,
                 updatedTop: i * heightElement
             }
         }
     })
-    console.log(`getInitialPositions / ${info}`);
-    return songPositions;
+    // console.info(`getInitialPositions / ${info}`, elPositions);
+    return elPositions;
 };

@@ -27,7 +27,7 @@ import React from 'react';
 
 DarkTheme.colors.background = COLOR_ROOT.BACKGROUND;
 
-SplashScreen.preventAutoHideAsync().then(() => console.log('Показ заставки !'))
+SplashScreen.preventAutoHideAsync();
 
 
 interface IMainLayout {

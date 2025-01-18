@@ -16,6 +16,5 @@ export const getPositions = ({ data, heightElement, offset, info }: IGetPosition
         )
     });
 
-    //console.log(`getInitialPositions / ${info}`);
     return allPositions;
 };

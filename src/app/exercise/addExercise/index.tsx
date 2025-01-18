@@ -1,5 +1,6 @@
-import { View, StyleSheet, Image, Text } from 'react-native';
-import React, { FC, memo, useCallback, useEffect } from 'react';
+import styles from './styles';
+import { View, Image } from 'react-native';
+import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
@@ -18,7 +19,8 @@ import DragFlatList from '@/components/DragFlatList/DragFlatList';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import usePageAddExercise from '@/hook/hookForScreen/usePageAddExercise';
 import logApp, {strApp} from '@/helpers/log';
-import { useHandleExercise } from '@/helpers/pages/AddExercise/useHandleExercise';
+import { useHandleExercise } from '@/app/exercise/addExercise/hooks/useHandleExercise';
+
 
 
 /**
@@ -109,33 +111,5 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingHorizontal: 10,
-        backgroundColor: COLOR_ROOT.BACKGROUND
-    },
-    bodyForm: {
-        flex: 1,
-        paddingHorizontal: 20,
-        paddingVertical: 40,
-        width: '100%',
-        justifyContent: 'center'
-    },
-    boxImageBackground: {
-        width: '100%',
-        height: 230,
-        marginTop: 20,
-    },
-    imageBackground: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        borderRadius: 20
-    },
-    overlay: {
-        ...StyleSheet.absoluteFillObject
-    }
-});
 
 export default AddExercise;

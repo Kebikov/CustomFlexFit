@@ -38,7 +38,7 @@ const WrapperScroll: FC<IWrapper> = ({
 }) => {
 
     const insets = useSafeAreaInsets();
-    console.log('isScrollEnabled = ', isScrollEnabled);
+
     const headerGoBack = (
         <>
             {
