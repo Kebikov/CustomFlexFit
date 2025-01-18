@@ -12,11 +12,13 @@ export type AppRouterTypes = {
     '/exercise/[id]': {dayExercise: number}; 
     '/exercise/modal': undefined;
     '/exercise/modalAddImageExercise': undefined;
-    '/exercise/modalAddEquipment': undefined;
-    '/exercise/modalChoiceImgForEquipment': undefined;
     '/exercise/addRepsRest': {sendIndex: string};
-    '/exercise/selectEquipment': undefined;
 
+    //: Equipment
+    '/equipment/AddEquipment': undefined;
+    '/equipment/SelectEquipment': undefined;
+    '/equipment/SelectImgEquipment': undefined;
+    
     //: day 
     '/day/guide': undefined; // описание как создавать тренировочный день
     '/day/addDay': undefined; // создание тренировочного дня

@@ -7,7 +7,7 @@ import { useLocalSearchParams } from 'expo-router';
 import Inputs from '@/components/itemsForAddRepsRest/Inputs/Inputs';
 import RepsRest from '@/components/itemsForAddRepsRest/RepsRest/RepsRest';
 import Weight from '@/components/itemsForAddRepsRest/Weight/Weight';
-import { useAddRepsRest } from '@/hook/hookForScreen/useAddRepsRest';
+import { useAddRepsRest } from '@/hook/page/useAddRepsRest';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
 import { useAppDispatch } from '@/redux/store/hooks';

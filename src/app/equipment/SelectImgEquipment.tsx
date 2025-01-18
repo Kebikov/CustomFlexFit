@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, LayoutChangeEvent, Pressable } from 'react-native';
+import { View, StyleSheet, Image, Pressable } from 'react-native';
 import React, { FC, useState } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import { FlatList } from 'react-native-gesture-handler';
@@ -14,14 +14,8 @@ import showMessage from '@/helpers/showMessage';
 import useAppTranslation from '@/localization/helpers/useAppTranslation';
 
 
-interface ImodalChoiceImgForEquipment {
-}
-
-
-/**
- * @modal `Модальное окно для выбора изображения из готовых изображений.`
- */
-const ModalChoiceImgForEquipment: FC = () => {
+/** `//= Выбор изображения из готовых изображений для инвентаря.` */
+const SelectImgEquipment: FC = () => {
 
     const DISPATCH = useAppDispatch();
     const {router} = useHookRouter();
@@ -99,4 +93,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ModalChoiceImgForEquipment;
+export default SelectImgEquipment;

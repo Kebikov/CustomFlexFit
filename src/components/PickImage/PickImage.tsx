@@ -14,7 +14,7 @@ import { SET_BACKGROUND } from '@/redux/slice/setup.slice';
 
 interface IPickImage {
     aspect: [number, number];
-    modalPath: keyof AppRouterTypes;
+    path: keyof AppRouterTypes;
     marginTop?: number;
 }
 
@@ -22,13 +22,13 @@ interface IPickImage {
 /**
  * @component `Выбор изображения.`
  * @param aspect Соотношение сторон для выбираемого изображения, работает на Андроид. [example: [2, 4]].
- * @param modalPath Путь к модальному окну для выбора изображения из библиотеки приложения.
+ * @param path Путь к модальному окну для выбора изображения из библиотеки приложения.
  * @optional
  * @param marginTop ? Отступ с верху.
  */
 const PickImage: FC<IPickImage> = ({
     aspect,
-    modalPath,
+    path,
     marginTop
 }) => {
 
@@ -65,7 +65,7 @@ const PickImage: FC<IPickImage> = ({
                     style={styles.left}
                     onPress={() => {
                         VibrationApp.pressButton();
-                        appRouter.push(modalPath);
+                        appRouter.push(path);
                     }}
                 >
                     <View style={styles.iconBody}>

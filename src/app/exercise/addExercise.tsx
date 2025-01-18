@@ -1,5 +1,4 @@
-import styles from './styles';
-import { View, Image } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
@@ -17,9 +16,9 @@ import ButtonSwipeable from '@/components/ButtonSwipeable/ButtonSwipeable';
 import SetEdit from '@/components/SetEdit/SetEdit';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
-import usePageAddExercise from '@/hook/hookForScreen/usePageAddExercise';
+import usePageAddExercise from '@/hook/page/usePageAddExercise';
 import logApp, {strApp} from '@/helpers/log';
-import { useHandleExercise } from '@/app/exercise/addExercise/hooks/useHandleExercise';
+import useHandleExercise from '@/hook/page/addExercise/useHandleExercise';
 
 
 
@@ -111,5 +110,33 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
     );
 };
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingHorizontal: 10,
+        backgroundColor: COLOR_ROOT.BACKGROUND
+    },
+    bodyForm: {
+        flex: 1,
+        paddingHorizontal: 20,
+        paddingVertical: 40,
+        width: '100%',
+        justifyContent: 'center'
+    },
+    boxImageBackground: {
+        width: '100%',
+        height: 230,
+        marginTop: 20,
+    },
+    imageBackground: {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        borderRadius: 20
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject
+    }
+});
 
 export default AddExercise;

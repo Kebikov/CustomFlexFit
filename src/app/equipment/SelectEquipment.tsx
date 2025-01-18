@@ -17,23 +17,21 @@ interface IselectEquipment {
 }
 
 
-/**
- * @page `Страница выбора оборудования для занятий.`
- */
+/** @page `//= Страница выбора оборудования для занятий.` */
 const SelectEquipment: FC = () => {
 
-    const {t, t$} = useAppTranslation(['[exercise]']);
+    const {t} = useAppTranslation(['[exercise]']);
     const db = useSQLiteContext();
     const {appRouter} = useHookRouter();
 
-    /**
-     * `Массив с инвентарем.`
-     */
+    /** @param dataEquipment `Массив с инвентарем.` */
     const [dataEquipment, setDataEquipment] = useState<EquipmentDTO[]>([]);
+    console.log(dataEquipment);
     /**
      * @param activeEquipment Массив id которые выбраны.
      */
     const [activeEquipment, setActiveEquipment] = useState<number[]>([]);
+    
     /**
      * `Обработка нажатия на переключатель элемента.`
      * @param id Id выбранного элемента.
@@ -46,6 +44,7 @@ const SelectEquipment: FC = () => {
             setActiveEquipment(filter);
         }
     }
+
     /**
      * `Определение, активный ли элемент.`
      * @param id Id элемента.
@@ -77,7 +76,7 @@ const SelectEquipment: FC = () => {
                 </View>
                 <ButtonGreen 
                     text='добавить инвентарь'
-                    handlePess={() => appRouter.navigate('/exercise/modalAddEquipment')}
+                    handlePess={() => appRouter.navigate('/equipment/AddEquipment')}
                     widthFlex={.8}
                     fontSize={15}
                     backgroundColor={COLOR_ROOT.LIME_70}

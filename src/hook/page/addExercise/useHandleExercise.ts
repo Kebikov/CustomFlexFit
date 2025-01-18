@@ -6,7 +6,7 @@ import useAppTranslation from "@/localization/helpers/useAppTranslation";
 
 
  /** `Добавление нового элемента.` */
-export const useHandleExercise = () => {
+const useHandleExercise = () => {
 
     const DISPATCH = useAppDispatch();
     const {t} = useAppTranslation(['alert_and_toast']);
@@ -43,4 +43,6 @@ export const useHandleExercise = () => {
         removeElement
     }
 }
+
+export default useHandleExercise;
 

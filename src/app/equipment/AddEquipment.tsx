@@ -1,13 +1,11 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import React, { FC, useState, useEffect } from 'react';
-import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import HeaderGoBack from '@/components/HeaderGoBack/HeaderGoBack';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
 import InputForAdd from '@/components/InputForAdd/InputForAdd';
 import { EquipmentDTO } from '@/SQL/Equipment/DTO/EquipmentDTO';
 import PickImage from '@/components/PickImage/PickImage';
-import { SET_IMG_FOR_EQUIPMENT } from '@/redux/slice/setup.slice';
 import ItemEquipment from '@/components/ItemEquipment/ItemEquipment';
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import ButtonsTypeEquipment from '@/components/ButtonsTypeEquipment/ButtonsTypeEquipment';
@@ -17,14 +15,8 @@ import useAppTranslation from '@/localization/helpers/useAppTranslation';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
 
 
-interface ImodalAddEquipment {
-}
-
-
-/**
- * @modal `Модальное окно добавления инвентаря.`
- */
-const ModalAddEquipment: FC = () => {
+/** `//= Окно добавления инвентаря.` */
+const AddEquipment: FC = () => {
 
     const DISPATCH = useAppDispatch();
     const {t} = useAppTranslation(['[exercise]']);
@@ -81,7 +73,7 @@ const ModalAddEquipment: FC = () => {
 
                     <PickImage
                         aspect={[1,1]}
-                        modalPath={'/exercise/modalChoiceImgForEquipment'}
+                        path={'/equipment/SelectImgEquipment'}
                         marginTop={20}
                     />
                     <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
@@ -112,4 +104,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ModalAddEquipment;
+export default AddEquipment;

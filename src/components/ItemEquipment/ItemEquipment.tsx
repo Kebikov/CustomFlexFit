@@ -36,17 +36,11 @@ const ItemEquipment: FC<IItemEquipment> = ({
     const {t, t$} = useAppTranslation(['[exercise]']);
 
     return (
-        <View style={[styles.buttonSwipeable, {marginTop}]}>
+        <View style={[{marginTop}]}>
             <ButtonSwipeable
                 totalButton={2}
                 onPressButton1={() => {}}
                 onPressButton2={() => {}}
-                iconForButton2={ICON.DEL_BTN}
-                colorButton2={COLOR_ROOT.BUTTON_COLOR_RED}
-                borderRadiusButton={12}
-                paddingInsideButton={21}
-                paddingOutsideButtonHorizontal={4}
-                paddingOutsideButtonVertical={8}
             >
                 <View style={[styles.container]} >
                     <View style={styles.contaiber_body} >
@@ -100,9 +94,6 @@ const ItemEquipment: FC<IItemEquipment> = ({
 
 
 const styles = StyleSheet.create({
-    buttonSwipeable: {
-
-    },
     container: {
         width: '100%',
         padding: 8,

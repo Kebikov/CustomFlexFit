@@ -1,6 +1,5 @@
-import { View, Text, StyleSheet, Image, Pressable, Button } from 'react-native';
-import React, { FC, useEffect } from 'react';
-import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import React, { FC } from 'react';
 import { useHookRouter } from '@/router/useHookRouter';
 import { COLOR_ROOT } from '../constants/colors';
 import { useTranslation } from 'react-i18next';
@@ -10,14 +9,9 @@ import VibrationApp from '../helpers/VibrationApp';
 import Menu from '@/components/Menu/Menu';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
-import SelectEquipment from './exercise/selectEquipment';
-import AddRepsRest from './exercise/addRepsRest';
 
 
-
-/**
- * @page `Страница с выбором языка.`
- */
+/** @page `//= Страница с выбором языка.` */
 const ChoiceLanguage: FC = () => {
 
     const {appRouter} = useHookRouter();
@@ -31,9 +25,9 @@ const ChoiceLanguage: FC = () => {
         DISPATCH(SET_EXERCISE_STATE('RESET'));
 
         //appRouter.navigate('/test/showImgInFolder'); // test
-        appRouter.navigate('/exercise/addExercise'); // добавление упражнения
+        //appRouter.navigate('/exercise/addExercise'); // добавление упражнения
 
-        // appRouter.navigate('/exercise/selectEquipment'); // добавление инвентаря
+        appRouter.navigate('/equipment/SelectEquipment'); // добавление инвентаря
         //appRouter.navigate('/day/addDay'); // добавление дня
     }
 
@@ -41,7 +35,7 @@ const ChoiceLanguage: FC = () => {
         <>
             {
                 0 ? 
-                <SelectEquipment/>
+                null
                 :
                 <View style={styles.container}>
                     <Menu/>
