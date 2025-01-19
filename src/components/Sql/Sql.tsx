@@ -117,7 +117,8 @@ const Sql: FC = () => {
     }
 
     const data_Equipment = async () => {
-        
+        const result = await EquipmentService.find(db);
+        consoleTable(result);
     }
 
     const test = async () => {
@@ -161,7 +162,7 @@ const Sql: FC = () => {
             <Title text='Others' fontSize={18} marginTop={10} />
             <ButtonPress title='данные Exercise' onPress={pressShowTableExercise} />
             <ButtonPress title='Tables List_Equipment' onPress={pressList_Equipment} />
-            <ButtonPress title='Add Data Equipment' onPress={data_Equipment} />
+            <ButtonPress title='Data Equipment' onPress={data_Equipment} />
             <ButtonPress title='SHOW FOLDER CASHE' onPress={test} marginTop={20} />
 
             

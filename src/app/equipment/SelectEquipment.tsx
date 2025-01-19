@@ -11,7 +11,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { useHookRouter } from '@/router/useHookRouter';
 import { FlatList } from 'react-native-gesture-handler';
-import Description from '@/components/Description/Description';
+import { useSharedValue } from 'react-native-reanimated';
 
 
 interface IselectEquipment {
@@ -25,36 +25,16 @@ const SelectEquipment: FC = () => {
     const db = useSQLiteContext();
     const {appRouter} = useHookRouter();
 
+     /** `Id активной кнопки в данный момент.` */
+    const activeButtonIdSv = useSharedValue<string>('');
+
     /** @param dataEquipment `Массив с инвентарем.` */
     const [dataEquipment, setDataEquipment] = useState<EquipmentDTO[]>([]);
-    
-    /**
-     * @param activeEquipment Массив id которые выбраны.
-     */
-    const [activeEquipment, setActiveEquipment] = useState<number[]>([]);
-
-    /**
-     * `Обработка нажатия на переключатель элемента.`
-     * @param id Id выбранного элемента.
-     */
-    const onPressing = (id: number) => {
-        if(activeEquipment.indexOf(id) === -1) {
-            setActiveEquipment(state => ([...state, id]));
-        } else {
-            const filter = activeEquipment.filter(item => item !== id);
-            setActiveEquipment(filter);
-        }
-    }
-
-    /**
-     * `Определение, активный ли элемент.`
-     * @param id Id элемента.
-     */
-    const isActive = (id: number) => activeEquipment.indexOf(id) === -1 ? false : true;
 
     useEffect(() => {
         (async () => {
             const result = await EquipmentService.find(db);
+            console.log('res >>> ', result);
             setDataEquipment(result);
         })(); 
     }, []);
@@ -70,7 +50,14 @@ const SelectEquipment: FC = () => {
                 <View style={styles.contaiber_body} >
                     <FlatList
                         data={dataEquipment}
-                        renderItem={({item}) => <ItemEquipment item={item} onPressing={onPressing} isActive={isActive} />}
+                        renderItem={({item}) => (
+                            <ItemEquipment 
+                                item={item} 
+                                activeButtonIdSv={activeButtonIdSv} 
+                                setDataEquipment={setDataEquipment} 
+                                marginTop={5}
+                            />
+                        )}
                         keyExtractor={item => String(item.id)}
                         showsVerticalScrollIndicator={false}
                     />

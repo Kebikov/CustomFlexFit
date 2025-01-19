@@ -1,28 +1,18 @@
 import { EquipmentDTO } from '@/SQL/Equipment/DTO/EquipmentDTO';
+import { SharedValue } from 'react-native-reanimated';
 
 
-interface IItemEquipmentBase {
+export interface IItemEquipment {
      /** `Object EquipmentDTO` */
     item: EquipmentDTO;
+     /** `[SetStateAction] Сотстояние инвентаря.` */
+    setDataEquipment?: React.Dispatch<React.SetStateAction<EquipmentDTO[]>>;
      /** `Отступ с верху.` */
     marginTop?: number;
+     /** `Id активной кнопки в данный момент.` */
+    activeButtonIdSv?: SharedValue<string>;
 }
 
-interface IItemEquipmentFnc extends IItemEquipmentBase {
-     /** `Функция обработки нажатия на блок.` */
-    onPressing: (id: number) => void;
-     /** `Активный ли переключатель.` */
-    isActive:  (id: number) => boolean;
-}
-
-interface IItemEquipment_never extends IItemEquipmentBase{
-     /** `Функция обработки нажатия на блок.` */
-    onPressing?: never;
-     /** `Активный ли переключатель.` */
-    isActive?: never;
-}
-
-export type IItemEquipment = IItemEquipmentFnc | IItemEquipment_never;
 
 
 

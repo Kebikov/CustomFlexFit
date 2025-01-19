@@ -7,24 +7,57 @@ import useAppTranslation from '@/localization/helpers/useAppTranslation';
 import ButtonSwipeable from '../ButtonSwipeable/ButtonSwipeable';
 import { IItemEquipment } from './types';
 import { styles } from './styles';
+import ICON from '@/source/icon';
+import { COLOR_ROOT } from '@/constants/colors';
+import { useSQLiteContext } from 'expo-sqlite';
+import EquipmentService from "@/SQL/Equipment/service/EquipmentService";
 
 
 /** @component `//= Элемент со снарядом.` */
 const ItemEquipment: FC<IItemEquipment> = ({
     item,
-    onPressing,
-    isActive,
-    marginTop = 10
+    setDataEquipment,
+    marginTop = 10,
+    activeButtonIdSv
 }) => {
     const {imgCheck} = useHookImageCheck();
     const {t, t$} = useAppTranslation(['[exercise]', '[equipment]']);
+
+    const db = useSQLiteContext();
+
+     /** `Удаление снаряда.` */
+    const deleteById = (id: number) => {
+        return async () => {
+            if(setDataEquipment) {
+                await EquipmentService.findByIdAndDelete(db, id);
+                const result = await EquipmentService.find(db);
+                setDataEquipment(result);
+            }
+        }
+    }
+
+    const editItem = (id: number) => {
+        return () => {
+            
+        }
+    }
 
     return (
         <View style={[{marginTop}]}>
             <ButtonSwipeable
                 totalButton={2}
                 onPressButton1={() => {}}
-                onPressButton2={() => {}}
+                onPressButton2={deleteById(item.id)}
+
+                iconForButton2={ICON.DEL_BTN}
+                colorButton2={COLOR_ROOT.BUTTON_COLOR_RED}
+
+                paddingInsideButton={22}
+                widthOneButton={62}
+                heightOneButton={67}
+
+                idButton={String(item.id)}
+                activeButtonIdSv={activeButtonIdSv}
             >
                 <View style={[styles.container]} >
                     <View style={styles.contaiber_body} >
@@ -56,14 +89,6 @@ const ItemEquipment: FC<IItemEquipment> = ({
                                     `${t('[equipment]:common.weight')}: ${String(item.weight) === '' ? 0 : item.weight} ${t('[exercise]:equipment.kilograms')}`
                                 }
                             </Text>
-                        </View>
-                        <View style={styles.box_switcher}>
-                            {
-                                isActive === undefined ||  onPressing === undefined ?
-                                null
-                                :
-                                <Switcher id={item.id} onPressing={onPressing} isEnabled={isActive(item.id)} />
-                            }
                         </View>
                     </View>
                 </View>

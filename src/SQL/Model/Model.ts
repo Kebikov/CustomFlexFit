@@ -1,21 +1,35 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import { extractForInsert } from './helpers/extractForInsert';
 
+interface IModel {
+     /** `Имя таблицы.` */
+    table: string
+     /** `Модель таблицы.` */
+    model: string;
+     /** `Дополнительная информация для ошибок.` */
+    info: string;
+}
 
-export function Model<T>() {
+export function Model<T>({
+    table,
+    model,
+    info
+}: IModel) {
+
     class Model {
         /** `Имя модели.` */
-        static table: string;
-        static column: string;
-        static info: string;
+        static table: string = table;
+         /** `Модель таблицы.` */
+        static model: string = model;
+         /** `Дополнительная информация для ошибок.` */
+        static info: string = info;
 
-        /** `//= Создание таблицы.` 
-        */
+         /** `//* Создание таблицы.` */
         static async create(db: SQLiteDatabase) {
             await db.runAsync(`
                 CREATE TABLE IF NOT EXISTS ${this.table}
                 (
-                    ${this.column}
+                    ${this.model}
                 )
             `)
             .catch((error) => { 
@@ -23,8 +37,7 @@ export function Model<T>() {
             })
         }
 
-        /** `//= Возврат всех записей в таблице.` 
-        */
+         /** `//* Возврат всех записей в таблице.` */
         static async find(db: SQLiteDatabase): Promise<T[] | undefined> {
             try{
                 const result: T[] = await db.getAllAsync(`SELECT * FROM ${this.table}`);
@@ -34,8 +47,7 @@ export function Model<T>() {
             };
         }
 
-        /** `//= Добавление одной записи в таблицу.` 
-        */
+         /** `//* Добавление одной записи в таблицу.` */
         static async insertOne<T extends object>(db: SQLiteDatabase, entity: T) {
             try {
                 const {keys, issues, data} = extractForInsert(entity);
@@ -51,8 +63,7 @@ export function Model<T>() {
             }
         }
 
-        /** `//= Количество записей в таблице.` 
-         */
+         /** `//* Количество записей в таблице.`  */
         static async total(db: SQLiteDatabase): Promise<number> {
             const result: {"COUNT(*)": number} | null = await db.getFirstAsync(`SELECT COUNT(*) FROM ${this.table}`);
         
@@ -63,8 +74,7 @@ export function Model<T>() {
             }    
         }
 
-        /** `//= Максимальное значение в колонке, если в колонке числа.`
-         */
+         /** `//* Максимальное значение в колонке, если в колонке числа.` */
         static async maxValueColumn<T>(db: SQLiteDatabase, column: keyof T): Promise<number | undefined> {
             try {
                 const result: {MAX: unknown} | null = await db.getFirstAsync(`
@@ -82,6 +92,16 @@ export function Model<T>() {
             } catch (error) {
                 console.error(`${this.info}`, error);
             }
+        }
+
+         /** `//* Удаление записи по ID.` */
+        static async findByIdAndDelete(db: SQLiteDatabase, id: number) {
+            try {
+                await db.runAsync(`DELETE FROM ${this.table} WHERE id = ?`, [id]);
+            } catch (error) {
+                console.error(`Error in ${this.info} >>>`, error);
+            }
+
         }
     }
 
