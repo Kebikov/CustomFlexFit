@@ -34,7 +34,6 @@ const SelectEquipment: FC = () => {
     useEffect(() => {
         (async () => {
             const result = await EquipmentService.find(db);
-            console.log('res >>> ', result);
             setDataEquipment(result);
         })(); 
     }, []);
