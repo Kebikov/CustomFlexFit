@@ -1,68 +1,39 @@
+import styles from './styles';
 import React, { FC, useEffect } from 'react';
 import { View, StyleSheet, Pressable } from 'react-native';
 import { COLOR_ROOT } from '@/constants/colors';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, runOnJS } from 'react-native-reanimated';
+import { ISwitcher } from './types';
 
 
-interface ISwitcher {
-    id: number;
-    onPressing: (id: number) => void;
-    isEnabled: boolean;
-
-    height?: number;
-    width?: number;
-    diameter?: number;
-    padding?: number;
-    colorOff?: string;
-    colorOn?: string;
-    animatedDuration?: number;
-}
-
-/**
- * @component `Переключатель.`
- * @param id Id для выбранного блока.
- * @param onPressing Функция обработки нажатия.
- * @param isEnabled ? Cостояние(вкл./выкл.).
- * @optional
- * @param height ? Высота контейнера. `default = 33`
- * @param width ? Ширина контейнера. `default = 22`
- * @param diameter ? Диаметр круга. `default = 22`
- * @param padding ? Отступ внутри контейнера. `default = 4`
- * @param colorOff ? Цвет в левом положении. `default = COLOR_ROOT.BUTTON_COLOR_RED`
- * @param colorOn ? Цвет в правом положении. `default = COLOR_ROOT.BUTTON_COLOR_GREEN`
- * @param animatedDuration ? Продолжительность анимации. `default = 200`
- */
+/** @component `//= Переключатель.` */
 const Switcher: FC<ISwitcher> = ({
     id,
     onPressing,
     isEnabled,
-
     height = 44, 
-    width = 64, 
+    width = 62, 
     diameter,
     padding = 8,
     colorOff = COLOR_ROOT.BUTTON_COLOR_RED,
     colorOn = COLOR_ROOT.BUTTON_COLOR_GREEN,
     animatedDuration = 200
 }) => {
+     /** `Отступ для круга от контейнера.` */
+    const gap = 2;
      /** `Высота контейнера для переключателя.` */
     const heightContainer = height - padding * 2;
      /** `Ширина контейнера для переключателя.` */
     const widthContainer = width - padding * 2;
      /** `Диаметр круга переключателя.` */
-    const circleDiameter = diameter ? diameter : heightContainer;
+    const circleDiameter = diameter ? diameter : heightContainer - gap;
      /** `Крайняя позиция переключателя.` */
-    const endPosition = widthContainer - circleDiameter;
+    const endPosition = widthContainer - circleDiameter - gap;
      /** `Начальная позиция переключателя.` */
-     const startPosition = 0;
+     const startPosition = 0 + gap;
 
     const circlePosition = useSharedValue<number>(isEnabled ? endPosition : startPosition);
     const circleColor = useSharedValue<string>(isEnabled ? colorOff : colorOn);
-
-    const onPress = (id: number) => {
-        'worklet';
-        runOnJS(onPressing)(id);
-    }
 
     const amimatedPosition = useAnimatedStyle(() => {
         return {
@@ -89,10 +60,7 @@ const Switcher: FC<ISwitcher> = ({
 	return (
         <Pressable
             style={[styles.container, {height, width, padding}]} 
-            onPress={() => {
-                console.log('press');
-                onPress(id);
-            }}
+            onPress={() => onPressing(id)}
         >
             <Animated.View style={[styles.body, amimatedColor]}>
                 <Animated.View 
@@ -111,23 +79,5 @@ const Switcher: FC<ISwitcher> = ({
     )
 };
 
-const styles = StyleSheet.create({
-	container: {
-		alignItems: 'flex-start',
-		justifyContent: 'center'
-	},
-    body: {
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        borderRadius: 20
-    },
-    circle: {
-        position: 'absolute',
-        top: '50%',
-        borderRadius: 100,
-        backgroundColor: 'white'
-    }
-});
 
 export default Switcher;

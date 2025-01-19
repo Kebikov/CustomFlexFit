@@ -1,0 +1,19 @@
+{
+    "common": {
+        "add": "добавить инвентарь",
+        "weight": "вес",
+        "name": "имя инвентаря",
+        "plate": "гриф",
+        "barbell": "диск"
+    },
+    "AddEquipment": {
+        "title": "Введите данные вашего инвентаря",
+        "enterEquipmentName": "введите имя инвентаря",
+        "helpEnterEquipmentName": "введите название вашего инвентаря",
+        "weightEquipment": "вес инвентаря",
+        "enterEquipmentWeight": "введите вес инвентаря",
+        "helpEnterEquipmentWeight": "введите вес инвентаря который вы добавляете",
+        "helpType": "выберите тип инвентаря, это гриф или диск",
+        "add": "добавить"
+    }
+}

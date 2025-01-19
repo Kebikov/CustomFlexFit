@@ -6,9 +6,8 @@ const barbellW: string =  String(require('@/source/img/weight/barbell_w.jpg'));
 const dumbbell: string = String(require('@/source/img/weight/dumbbell.jpg'));
 const plate: string = String(require('@/source/img/weight/plate.jpg'));
 
-/**
- * `Начальные данные для добавления в BD.`
- */
+
+ /** `Начальные данные для добавления в BD.` */
 const dataEquipment: EquipmentDTO[] = [
     {
         id: 1,
@@ -48,19 +47,12 @@ const dataEquipment: EquipmentDTO[] = [
     {
         id: 6,
         type: 'plate',
-        title: 'Привет',
+        title: 't$_[exercise]:common.plate',
         weight: 5,
         img: plate
     },
     {
         id: 7,
-        type: 'plate',
-        title: 't$_[exercise]:common.plate',
-        weight: 1.5,
-        img: plate
-    },
-    {
-        id: 8,
         type: 'plate',
         title: 't$_[exercise]:common.plate',
         weight: 1.5,

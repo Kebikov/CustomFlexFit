@@ -1,0 +1,19 @@
+{
+    "common": {
+        "add": "add equipment",
+        "weight": "weight",
+        "name": "equipment name",
+        "plate": "plate",
+        "barbell": "barbell"
+    },
+    "AddEquipment": {
+        "title": "Enter your equipment details",
+        "enterEquipmentName": "enter the equipment name",
+        "helpEnterEquipmentName": "enter the name of your equipment",
+        "weightEquipment": "equipment weight",
+        "enterEquipmentWeight": "enter the equipment weight",
+        "helpEnterEquipmentWeight": "enter the weight of the equipment you are adding",
+        "helpType": "select the type of equipment: barbell or plate",
+        "add": "add"
+    }
+}

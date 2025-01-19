@@ -9,7 +9,6 @@ import { SharedValue } from "react-native-reanimated";
  */
 export const getDataAfterDrag = <T extends {id: string | number}>(data: T[], position: TPositions): T[] => {
     'worklet'
-    console.log('work');
     const lengthObject = Object.keys(position).length;
     const arrData = Array(lengthObject);
 

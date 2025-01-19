@@ -1,31 +1,15 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
-import React, { FC, useState } from 'react';
-import { COLOR_ROOT } from '@/constants/colors';
+import { View, Text, Image } from 'react-native';
+import { FC } from 'react';
 import Switcher from '../Switcher/Switcher';
 import { interpolate, Extrapolation } from 'react-native-reanimated';
 import useHookImageCheck from '@/hook/useHookImageCheck';
-import { EquipmentDTO } from '@/SQL/Equipment/DTO/EquipmentDTO';
 import useAppTranslation from '@/localization/helpers/useAppTranslation';
 import ButtonSwipeable from '../ButtonSwipeable/ButtonSwipeable';
-import ICON from '@/source/icon';
+import { IItemEquipment } from './types';
+import { styles } from './styles';
 
 
-interface IItemEquipment {
-    item: EquipmentDTO;
-    onPressing?: (id: number) => void;
-    isActive?:  (id: number) => boolean;
-    marginTop?: number;
-}
-
-
-/**
- * @component `Элемент со снарядом.`
- * @optional
- * @param item Object EquipmentDTO
- * @param onPressing ? Функция обработки нажатия на блок.
- * @param isActive ? Активный ли переключатель
- * @param marginTop ? Отступ с верху.
- */
+/** @component `//= Элемент со снарядом.` */
 const ItemEquipment: FC<IItemEquipment> = ({
     item,
     onPressing,
@@ -33,7 +17,7 @@ const ItemEquipment: FC<IItemEquipment> = ({
     marginTop = 10
 }) => {
     const {imgCheck} = useHookImageCheck();
-    const {t, t$} = useAppTranslation(['[exercise]']);
+    const {t, t$} = useAppTranslation(['[exercise]', '[equipment]']);
 
     return (
         <View style={[{marginTop}]}>
@@ -62,14 +46,14 @@ const ItemEquipment: FC<IItemEquipment> = ({
                                     `${t$(item.title)} ${item.weight}`
                                     :
                                     t$(item.title) === '' ?
-                                    'Имя инвенаря'
+                                    t('[equipment]:common.name')
                                     :
                                     t$(item.title)
                                 }
                             </Text>
                             <Text style={styles.text_weight} >
                                 {
-                                    `Вес: ${String(item.weight) === '' ? 0 : item.weight} ${t('[exercise]:equipment.kilograms')}`
+                                    `${t('[equipment]:common.weight')}: ${String(item.weight) === '' ? 0 : item.weight} ${t('[exercise]:equipment.kilograms')}`
                                 }
                             </Text>
                         </View>
@@ -78,11 +62,7 @@ const ItemEquipment: FC<IItemEquipment> = ({
                                 isActive === undefined ||  onPressing === undefined ?
                                 null
                                 :
-                                <Switcher
-                                    id={item.id}
-                                    onPressing={onPressing}
-                                    isEnabled={isActive(item.id)}
-                                />
+                                <Switcher id={item.id} onPressing={onPressing} isEnabled={isActive(item.id)} />
                             }
                         </View>
                     </View>
@@ -91,53 +71,6 @@ const ItemEquipment: FC<IItemEquipment> = ({
         </View>
     );
 };
-
-
-const styles = StyleSheet.create({
-    container: {
-        width: '100%',
-        padding: 8,
-        backgroundColor: COLOR_ROOT.FON_GREY,
-        borderRadius: 18
-    },
-    contaiber_body: {
-        width: '100%',
-        flexDirection: 'row'
-    },
-    box_img: {
-        width: 60,
-        height: 60,
-        justifyContent: 'center',
-        alignContent: 'center',
-        backgroundColor: 'white',
-        borderRadius: 12
-    },
-    img: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        borderRadius: 12
-    },
-    box_text: {
-        flex: 1,
-        justifyContent: 'center',
-        paddingLeft: 10
-    },
-    title: {
-        textTransform: 'uppercase',
-        color: COLOR_ROOT.LIME_70,
-        fontSize: 13,
-        fontWeight: '500'
-    },
-    text_weight: {
-        color: 'white',
-        fontSize: 13
-    },
-    box_switcher: {
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-});
 
 
 export default ItemEquipment;

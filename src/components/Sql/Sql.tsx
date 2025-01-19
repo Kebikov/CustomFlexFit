@@ -98,7 +98,7 @@ const Sql: FC = () => {
                 },
                 {
                     text: 'отмена',
-                    onPress: () => console.log('вы отменили удаление'),
+                    onPress: () => console.info('вы отменили удаление'),
                     style: 'cancel'
                 }
             ]
@@ -117,7 +117,7 @@ const Sql: FC = () => {
     }
 
     const data_Equipment = async () => {
-        await EquipmentService.initializeDatabase(db, dataEquipment);
+        
     }
 
     const test = async () => {

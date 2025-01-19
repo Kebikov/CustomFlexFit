@@ -11,6 +11,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { useHookRouter } from '@/router/useHookRouter';
 import { FlatList } from 'react-native-gesture-handler';
+import Description from '@/components/Description/Description';
 
 
 interface IselectEquipment {
@@ -20,18 +21,18 @@ interface IselectEquipment {
 /** @page `//= Страница выбора оборудования для занятий.` */
 const SelectEquipment: FC = () => {
 
-    const {t} = useAppTranslation(['[exercise]']);
+    const {t} = useAppTranslation(['[exercise]', '[equipment]']);
     const db = useSQLiteContext();
     const {appRouter} = useHookRouter();
 
     /** @param dataEquipment `Массив с инвентарем.` */
     const [dataEquipment, setDataEquipment] = useState<EquipmentDTO[]>([]);
-    console.log(dataEquipment);
+    
     /**
      * @param activeEquipment Массив id которые выбраны.
      */
     const [activeEquipment, setActiveEquipment] = useState<number[]>([]);
-    
+
     /**
      * `Обработка нажатия на переключатель элемента.`
      * @param id Id выбранного элемента.
@@ -75,7 +76,7 @@ const SelectEquipment: FC = () => {
                     />
                 </View>
                 <ButtonGreen 
-                    text='добавить инвентарь'
+                    text={t('[equipment]:common.add')}
                     handlePess={() => appRouter.navigate('/equipment/AddEquipment')}
                     widthFlex={.8}
                     fontSize={15}
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     text: {
         marginTop: 20,
         color: 'white',
-        fontSize: 14
+        fontSize: 13
     }
 });
 

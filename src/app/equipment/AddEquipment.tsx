@@ -1,4 +1,4 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import React, { FC, useState, useEffect } from 'react';
 import HeaderGoBack from '@/components/HeaderGoBack/HeaderGoBack';
 import { COLOR_ROOT } from '@/constants/colors';
@@ -19,7 +19,7 @@ import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperI
 const AddEquipment: FC = () => {
 
     const DISPATCH = useAppDispatch();
-    const {t} = useAppTranslation(['[exercise]']);
+    const {t} = useAppTranslation(['[exercise]', '[equipment]']);
 
     const selectedImgForEquipment = useAppSelector(state => state.setupSlice.selectedImgForEquipment);
     const [equipment, setEquipment] = useState<EquipmentDTO>({
@@ -41,35 +41,35 @@ const AddEquipment: FC = () => {
         >
             <HeaderGoBack/>
             <View style={styles.container} >
-                <Title text='Введите данные вашего инвентаря' />
+                <Title text={t('[equipment]:AddEquipment.title')} fontSize={Platform.OS === 'ios' ? 25 : 24} />
                 <View style={styles.contaiber_body} >
                     <ItemEquipment item={equipment} />
 
                     <InputForAdd<EquipmentDTO>
                         keyForState={'title'}
-                        title={'название инвентаря'}
-                        placeholder={'введите название инвентаря'}
+                        title={t('[equipment]:common.name')}
+                        placeholder={t('[equipment]:AddEquipment.enterEquipmentName')}
                         maxLength={25}
                         value={equipment.title}
                         setState={setEquipment}
                         marginTop={20}
                     />
-                    <HelpText text='введите название вашего инвентаря' />
+                    <HelpText text={t('[equipment]:AddEquipment.helpEnterEquipmentName')} />
 
                     <InputForAdd<EquipmentDTO>
                         keyForState={'weight'}
-                        title={'вес инвентаря'}
-                        placeholder={'введите название инвентаря'}
+                        title={t('[equipment]:AddEquipment.weightEquipment')}
+                        placeholder={t('[equipment]:AddEquipment.enterEquipmentWeight')}
                         maxLength={25}
                         value={String(equipment.weight)}
                         setState={setEquipment}
                         keyboardType='numeric'
                         marginTop={10}
                     />
-                    <HelpText text='введите вес инвентаря' />
+                    <HelpText text={t('[equipment]:AddEquipment.helpEnterEquipmentWeight')} />
 
                     <ButtonsTypeEquipment setState={setEquipment} />
-                    <HelpText text='выберите тип инвентаря, это гриф или диск' />
+                    <HelpText text={t('[equipment]:AddEquipment.helpType')} />
 
                     <PickImage
                         aspect={[1,1]}
@@ -77,14 +77,14 @@ const AddEquipment: FC = () => {
                         marginTop={20}
                     />
                     <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
-
-                    <ButtonGreen
-                        text='создать'
-                        handlePess={() => {}}
-                        marginTop={20}
-                        fontSize={17}
-                    />
                 </View>
+                <ButtonGreen
+                    text={t('[equipment]:AddEquipment.add')}
+                    handlePess={() => {}}
+                    marginTop={20}
+                    fontSize={17}
+                    marginBottom={40}
+                />
             </View>
         </WrapperImageBackground>
     );

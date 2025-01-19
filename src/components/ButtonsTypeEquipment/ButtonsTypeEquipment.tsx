@@ -3,6 +3,7 @@ import React, { FC, useState } from 'react';
 import ICON from '@/source/icon';
 import { COLOR_ROOT } from '@/constants/colors';
 import { EquipmentDTO } from '@/SQL/Equipment/DTO/EquipmentDTO';
+import useAppTranslation from '@/localization/helpers/useAppTranslation';
 
 
 interface IButtonsTypeEquipment {
@@ -10,12 +11,12 @@ interface IButtonsTypeEquipment {
 }
 
 
-/**
- * @component `Группа кнопок для выбора типа инвентаря.`
- */
+/** @component `//= Группа кнопок для выбора типа инвентаря.` */
 const ButtonsTypeEquipment: FC<IButtonsTypeEquipment> = ({
     setState
 }) => {
+
+    const {t} = useAppTranslation(['[equipment]']);
 
     const [activeBox, setActiveBox] = useState<'plate' | 'barbell' | undefined>();
 
@@ -43,7 +44,7 @@ const ButtonsTypeEquipment: FC<IButtonsTypeEquipment> = ({
             <View style={styles.box_img} >
                 <Image source={ICON.WEIGHT} style={styles.img} />
             </View>
-            <Text style={styles.text} >plate</Text>
+            <Text style={styles.text} >{t('[equipment]:common.plate')}</Text>
         </Pressable>
     );
 
@@ -70,7 +71,7 @@ const ButtonsTypeEquipment: FC<IButtonsTypeEquipment> = ({
             <View style={styles.box_img} >
                 <Image source={ICON.PLATE_2} style={styles.img} />
             </View>
-            <Text style={styles.text} >barbell</Text>
+            <Text style={styles.text} >{t('[equipment]:common.barbell')}</Text>
         </Pressable>
     );
 

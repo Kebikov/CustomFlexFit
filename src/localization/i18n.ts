@@ -6,6 +6,7 @@ import { button_en, button_ru } from './translations/button';
 import { alert_and_toast_en, alert_and_toast_ru } from './translations/alert_and_toast';
 import { day_en, day_ru } from './translations/[day]';
 import { exercise_en, exercise_ru } from './translations/[exercise]';
+import { equipment_en, equipment_ru } from './translations/[equipment]';
 
 
 const STORE_LANGUAGE_KEY = "ChoiceLanguage";
@@ -47,14 +48,16 @@ const resources = {
         'button': button_en,
         'alert_and_toast': alert_and_toast_en,
         '[day]': day_en,
-        '[exercise]': exercise_en
+        '[exercise]': exercise_en,
+        '[equipment]': equipment_en
     },
     Russian: {
         'common': common_ru,
         'button': button_ru,
         'alert_and_toast': alert_and_toast_ru,
         '[day]': day_ru,
-        '[exercise]': exercise_ru
+        '[exercise]': exercise_ru,
+        '[equipment]': equipment_ru
     }
 };
 
