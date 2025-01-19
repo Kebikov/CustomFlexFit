@@ -13,10 +13,14 @@ import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import HelpText from '@/components/HelpText/HelpText';
 import useAppTranslation from '@/localization/helpers/useAppTranslation';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
+import { useLocalSearchParams } from 'expo-router';
 
 
 /** `//= Окно добавления инвентаря.` */
 const AddEquipment: FC = () => {
+
+    const {id} = useLocalSearchParams<{id: string}>();
+    console.log("ID = ", id);
 
     const DISPATCH = useAppDispatch();
     const {t} = useAppTranslation(['[exercise]', '[equipment]']);

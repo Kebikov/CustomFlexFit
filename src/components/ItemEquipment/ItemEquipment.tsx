@@ -11,6 +11,7 @@ import ICON from '@/source/icon';
 import { COLOR_ROOT } from '@/constants/colors';
 import { useSQLiteContext } from 'expo-sqlite';
 import EquipmentService from "@/SQL/Equipment/service/EquipmentService";
+import { useHookRouter } from '@/router/useHookRouter';
 
 
 /** @component `//= Элемент со снарядом.` */
@@ -22,6 +23,7 @@ const ItemEquipment: FC<IItemEquipment> = ({
 }) => {
     const {imgCheck} = useHookImageCheck();
     const {t, t$} = useAppTranslation(['[exercise]', '[equipment]']);
+    const {appRouter} = useHookRouter();
 
     const db = useSQLiteContext();
 
@@ -38,7 +40,7 @@ const ItemEquipment: FC<IItemEquipment> = ({
 
     const editItem = (id: number) => {
         return () => {
-            
+
         }
     }
 

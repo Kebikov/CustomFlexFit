@@ -9,13 +9,13 @@ export type AppRouterTypes = {
 
     //: exercise 
     '/exercise/addExercise': undefined;
-    '/exercise/[id]': {dayExercise: number}; 
+    '/exercise/[id]': {dayExercise: number};
     '/exercise/modal': undefined;
     '/exercise/modalAddImageExercise': undefined;
     '/exercise/addRepsRest': {sendIndex: string};
 
     //: Equipment
-    '/equipment/AddEquipment': undefined;
+    '/equipment/addEquipment/[equipment]': {id: string};
     '/equipment/SelectEquipment': undefined;
     '/equipment/SelectImgEquipment': undefined;
     

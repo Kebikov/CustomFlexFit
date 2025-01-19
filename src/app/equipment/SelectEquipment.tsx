@@ -23,7 +23,7 @@ const SelectEquipment: FC = () => {
 
     const {t} = useAppTranslation(['[exercise]', '[equipment]']);
     const db = useSQLiteContext();
-    const {appRouter} = useHookRouter();
+    const {appRouter, router} = useHookRouter();
 
      /** `Id активной кнопки в данный момент.` */
     const activeButtonIdSv = useSharedValue<string>('');
@@ -64,7 +64,7 @@ const SelectEquipment: FC = () => {
                 </View>
                 <ButtonGreen 
                     text={t('[equipment]:common.add')}
-                    handlePess={() => appRouter.navigate('/equipment/AddEquipment')}
+                    handlePess={() => appRouter.navigate({pathname: '/equipment/addEquipment/[equipment]', params: {id: ''}})}
                     widthFlex={.8}
                     fontSize={15}
                     backgroundColor={COLOR_ROOT.LIME_70}
