@@ -27,7 +27,7 @@ const ChoiceLanguage: FC = () => {
         //appRouter.navigate('/test/showImgInFolder'); // test
         //appRouter.navigate('/exercise/addExercise'); // добавление упражнения
 
-        appRouter.navigate('/equipment/SelectEquipment'); // добавление инвентаря
+        appRouter.navigate('/equipment'); // добавление инвентаря
         //appRouter.navigate('/day/addDay'); // добавление дня
     }
 

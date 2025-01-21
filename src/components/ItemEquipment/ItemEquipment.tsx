@@ -1,6 +1,5 @@
 import { View, Text, Image } from 'react-native';
 import { FC } from 'react';
-import Switcher from '../Switcher/Switcher';
 import { interpolate, Extrapolation } from 'react-native-reanimated';
 import useHookImageCheck from '@/hook/useHookImageCheck';
 import useAppTranslation from '@/localization/helpers/useAppTranslation';

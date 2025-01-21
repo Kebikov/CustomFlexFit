@@ -6,7 +6,7 @@
         "plate": "plate",
         "barbell": "barbell"
     },
-    "AddEquipment": {
+    "addEquipment": {
         "title": "Enter your equipment details",
         "enterEquipmentName": "enter the equipment name",
         "helpEnterEquipmentName": "enter the name of your equipment",

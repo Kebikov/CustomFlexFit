@@ -15,8 +15,8 @@ export type AppRouterTypes = {
     '/exercise/addRepsRest': {sendIndex: string};
 
     //: Equipment
+    '/equipment': undefined;
     '/equipment/addEquipment/[equipment]': {id: string};
-    '/equipment/SelectEquipment': undefined;
     '/equipment/SelectImgEquipment': undefined;
     
     //: day 

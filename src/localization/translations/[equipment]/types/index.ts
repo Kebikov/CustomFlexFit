@@ -6,7 +6,7 @@ export interface ILng_Equipment {
         plate: string;
         barbell: string;
     },
-    AddEquipment: {
+    addEquipment: {
         title: string;
         enterEquipmentName: string;
         helpEnterEquipmentName: string;

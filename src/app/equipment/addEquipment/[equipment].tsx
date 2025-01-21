@@ -16,6 +16,15 @@ import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperI
 import { useLocalSearchParams } from 'expo-router';
 
 
+const initial: EquipmentDTO = {
+    id: 1,
+    title: '',
+    img: require('@/source/img/imgForScreen/zeroFon.jpg'),
+    type: 'barbell',
+    weight: 0
+}
+
+
 /** `//= Окно добавления инвентаря.` */
 const AddEquipment: FC = () => {
 
@@ -26,14 +35,7 @@ const AddEquipment: FC = () => {
     const {t} = useAppTranslation(['[exercise]', '[equipment]']);
 
     const selectedImgForEquipment = useAppSelector(state => state.setupSlice.selectedImgForEquipment);
-    const [equipment, setEquipment] = useState<EquipmentDTO>({
-        id: 1,
-        title: '',
-        img: require('@/source/img/imgForScreen/zeroFon.jpg'),
-        type: 'barbell',
-        weight: 0
-    });
-
+    const [equipment, setEquipment] = useState<EquipmentDTO>(initial);
 
     useEffect(() => {
         if(selectedImgForEquipment) setEquipment(state => ({...state, img: String(selectedImgForEquipment)}))
@@ -45,35 +47,35 @@ const AddEquipment: FC = () => {
         >
             <HeaderGoBack/>
             <View style={styles.container} >
-                <Title text={t('[equipment]:AddEquipment.title')} fontSize={Platform.OS === 'ios' ? 25 : 24} />
+                <Title text={t('[equipment]:addEquipment.title')} fontSize={Platform.OS === 'ios' ? 25 : 24} />
                 <View style={styles.contaiber_body} >
                     <ItemEquipment item={equipment} />
 
                     <InputForAdd<EquipmentDTO>
                         keyForState={'title'}
                         title={t('[equipment]:common.name')}
-                        placeholder={t('[equipment]:AddEquipment.enterEquipmentName')}
+                        placeholder={t('[equipment]:addEquipment.enterEquipmentName')}
                         maxLength={25}
                         value={equipment.title}
                         setState={setEquipment}
                         marginTop={20}
                     />
-                    <HelpText text={t('[equipment]:AddEquipment.helpEnterEquipmentName')} />
+                    <HelpText text={t('[equipment]:addEquipment.helpEnterEquipmentName')} />
 
                     <InputForAdd<EquipmentDTO>
                         keyForState={'weight'}
-                        title={t('[equipment]:AddEquipment.weightEquipment')}
-                        placeholder={t('[equipment]:AddEquipment.enterEquipmentWeight')}
+                        title={t('[equipment]:addEquipment.weightEquipment')}
+                        placeholder={t('[equipment]:addEquipment.enterEquipmentWeight')}
                         maxLength={25}
                         value={String(equipment.weight)}
                         setState={setEquipment}
                         keyboardType='numeric'
                         marginTop={10}
                     />
-                    <HelpText text={t('[equipment]:AddEquipment.helpEnterEquipmentWeight')} />
+                    <HelpText text={t('[equipment]:addEquipment.helpEnterEquipmentWeight')} />
 
                     <ButtonsTypeEquipment setState={setEquipment} />
-                    <HelpText text={t('[equipment]:AddEquipment.helpType')} />
+                    <HelpText text={t('[equipment]:addEquipment.helpType')} />
 
                     <PickImage
                         aspect={[1,1]}
@@ -83,7 +85,7 @@ const AddEquipment: FC = () => {
                     <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
                 </View>
                 <ButtonGreen
-                    text={t('[equipment]:AddEquipment.add')}
+                    text={t('[equipment]:addEquipment.add')}
                     handlePess={() => {}}
                     marginTop={20}
                     fontSize={17}
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
     },
     contaiber_body: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center' 
     }
 });
 

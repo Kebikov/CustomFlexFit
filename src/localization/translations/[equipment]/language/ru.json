@@ -6,7 +6,7 @@
         "plate": "гриф",
         "barbell": "диск"
     },
-    "AddEquipment": {
+    "addEquipment": {
         "title": "Введите данные вашего инвентаря",
         "enterEquipmentName": "введите имя инвентаря",
         "helpEnterEquipmentName": "введите название вашего инвентаря",

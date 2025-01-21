@@ -80,7 +80,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
 
                     <PickImage
                         aspect={[8, 5]}
-                        modalPath='/exercise/modalAddImageExercise'
+                        path='/exercise/modalAddImageExercise'
                         marginTop={20}
                     />
 
