@@ -88,7 +88,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
                 </View>
                 <DragFlatList
                     style={{padding: 0, marginTop: 20, flex: 1}}
-                    //styleFlatList={{marginBottom: 40}}
+                    styleFlatList={{marginBottom: 45}}
                     scrollEnabled={false}
                     bottomComponentFlatList={<HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />}
 

@@ -86,7 +86,7 @@ const DragFlatList = <T extends {id: number}>({
             <Animated.View style={[animatedStyle, styleFlatList, {position: 'relative'}]} >
                 <FlatList
                     style={styleContainer}
-                    scrollEnabled={true}
+                    scrollEnabled={scrollEnabled}
                     contentContainerStyle={[{flexGrow: 1}, styleContainer]}
                     data={data}
                     extraData={data}
