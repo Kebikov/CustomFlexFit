@@ -16,7 +16,7 @@ export type AppRouterTypes = {
 
     //: Equipment
     '/equipment': undefined;
-    '/equipment/addEquipment/[equipment]': {id: string};
+    '/equipment/addEquipment': undefined;
     '/equipment/SelectImgEquipment': undefined;
     
     //: day 

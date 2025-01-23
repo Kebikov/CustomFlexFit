@@ -45,7 +45,7 @@ export interface IButtonSwipeable extends ViewProps {
 
     //* Переменные необходимые для определения активной кнопки и закрытия не активных. 
      /** Id кнопки. */
-    idButton?: string;
+    idButton?: number;
      /** Id активной кнопки. */
     activeButtonIdSv?: SharedValue<string>;
 }

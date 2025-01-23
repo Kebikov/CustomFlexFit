@@ -8,6 +8,7 @@
  */
 export interface EquipmentDTO {
     id: number;
+    order: number;
     title: string;
     type: 'plate' | 'barbell';
     weight: number;

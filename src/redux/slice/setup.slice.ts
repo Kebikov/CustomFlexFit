@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import logApp from '@/helpers/log';
 
 
 /**
@@ -59,6 +58,7 @@ export default setupSlice.reducer;
 export const {
     SET_BACKGROUND,
     SET_BACKGROUND_FOR_EXERCISE,
+     /** `setupSlice.selectedImgForEquipment` */
     SET_IMG_FOR_EQUIPMENT,
     SET_PATH_TO_IMAGE_FOLDER
 } = setupSlice.actions;

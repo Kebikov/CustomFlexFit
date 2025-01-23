@@ -9,7 +9,7 @@ import i18next from 'i18next';
 
 export interface IExerciseState {
      /** `ID упражнения.` */
-    id: string;
+    id: number;
      /** `Название упражнения.` */
     name: string;
      /** `Заметка для упражнения.` */
@@ -34,7 +34,7 @@ interface IInitialStateSets {
  */
 const exerciseStateInitial = (): IExerciseState[] => [
     {
-        id: '0',
+        id: 0,
         name: i18next.t('[exercise]:addExercise.title'),
         note: i18next.t('[exercise]:addExercise.description'),
         reps: {one: 10, two: 0},

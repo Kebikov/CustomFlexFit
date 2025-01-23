@@ -11,6 +11,7 @@ const plate: string = String(require('@/source/img/weight/plate.jpg'));
 const dataEquipment: EquipmentDTO[] = [
     {
         id: 1,
+        order: 1, 
         type: 'barbell',
         title: 't$_[exercise]:common.barbell',
         weight: 8,
@@ -18,6 +19,7 @@ const dataEquipment: EquipmentDTO[] = [
     },
     {
         id: 2,
+        order: 2, 
         type: 'barbell',
         title: 't$_[exercise]:common.barbell',
         weight: 5,
@@ -25,13 +27,15 @@ const dataEquipment: EquipmentDTO[] = [
     },
     {
         id: 3,
+        order: 3,
         type: 'barbell',
-        title: 't$_[exercise]:common.dumbbell',
+        title: 't$_[exercise]:common.barbell',
         weight: 1.5,
         img: dumbbell
     },
     {
         id: 4,
+        order: 4,
         type: 'plate',
         title: 't$_[exercise]:common.plate',
         weight: 20,
@@ -39,6 +43,7 @@ const dataEquipment: EquipmentDTO[] = [
     },
     {
         id: 5,
+        order: 5,
         type: 'plate',
         title: 't$_[exercise]:common.plate',
         weight: 10,
@@ -46,6 +51,7 @@ const dataEquipment: EquipmentDTO[] = [
     },
     {
         id: 6,
+        order: 6,
         type: 'plate',
         title: 't$_[exercise]:common.plate',
         weight: 5,
@@ -53,6 +59,7 @@ const dataEquipment: EquipmentDTO[] = [
     },
     {
         id: 7,
+        order: 7,
         type: 'plate',
         title: 't$_[exercise]:common.plate',
         weight: 1.5,

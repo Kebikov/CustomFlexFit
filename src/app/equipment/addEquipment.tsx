@@ -13,32 +13,25 @@ import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import HelpText from '@/components/HelpText/HelpText';
 import useAppTranslation from '@/localization/helpers/useAppTranslation';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
-import { useLocalSearchParams } from 'expo-router';
-
-
-const initial: EquipmentDTO = {
-    id: 1,
-    title: '',
-    img: require('@/source/img/imgForScreen/zeroFon.jpg'),
-    type: 'barbell',
-    weight: 0
-}
+import { SET_IMG_FOR_EQUIPMENT } from '@/redux/slice/setup.slice';
+import ZeroItemEquipment from '@/components/ZeroItemEquipment/ZeroItemEquipment';
 
 
 /** `//= Окно добавления инвентаря.` */
 const AddEquipment: FC = () => {
 
-    const {id} = useLocalSearchParams<{id: string}>();
-    console.log("ID = ", id);
-
     const DISPATCH = useAppDispatch();
     const {t} = useAppTranslation(['[exercise]', '[equipment]']);
 
     const selectedImgForEquipment = useAppSelector(state => state.setupSlice.selectedImgForEquipment);
-    const [equipment, setEquipment] = useState<EquipmentDTO>(initial);
+    const [equipment, setEquipment] = useState<Partial<EquipmentDTO>>({});
 
     useEffect(() => {
         if(selectedImgForEquipment) setEquipment(state => ({...state, img: String(selectedImgForEquipment)}))
+        
+        return () => {
+            DISPATCH(SET_IMG_FOR_EQUIPMENT(undefined));
+        }
     }, [selectedImgForEquipment]);
 
     return (
@@ -49,32 +42,32 @@ const AddEquipment: FC = () => {
             <View style={styles.container} >
                 <Title text={t('[equipment]:addEquipment.title')} fontSize={Platform.OS === 'ios' ? 25 : 24} />
                 <View style={styles.contaiber_body} >
-                    <ItemEquipment item={equipment} />
+                    <ZeroItemEquipment item={equipment} />
 
-                    <InputForAdd<EquipmentDTO>
+                    <InputForAdd<Partial<EquipmentDTO>>
                         keyForState={'title'}
                         title={t('[equipment]:common.name')}
                         placeholder={t('[equipment]:addEquipment.enterEquipmentName')}
                         maxLength={25}
-                        value={equipment.title}
+                        value={equipment.title ? equipment.title : ''}
                         setState={setEquipment}
                         marginTop={20}
                     />
                     <HelpText text={t('[equipment]:addEquipment.helpEnterEquipmentName')} />
 
-                    <InputForAdd<EquipmentDTO>
+                    <InputForAdd<Partial<EquipmentDTO>>
                         keyForState={'weight'}
                         title={t('[equipment]:addEquipment.weightEquipment')}
                         placeholder={t('[equipment]:addEquipment.enterEquipmentWeight')}
                         maxLength={25}
-                        value={String(equipment.weight)}
+                        value={equipment.weight ? String(equipment.weight) : ''}
                         setState={setEquipment}
                         keyboardType='numeric'
                         marginTop={10}
                     />
                     <HelpText text={t('[equipment]:addEquipment.helpEnterEquipmentWeight')} />
 
-                    <ButtonsTypeEquipment setState={setEquipment} />
+                    <ButtonsTypeEquipment<Partial<EquipmentDTO>> setState={setEquipment} />
                     <HelpText text={t('[equipment]:addEquipment.helpType')} />
 
                     <PickImage

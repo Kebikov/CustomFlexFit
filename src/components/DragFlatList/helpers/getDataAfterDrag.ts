@@ -1,5 +1,5 @@
 import { TPositions } from "../types"
-import { SharedValue } from "react-native-reanimated";
+
 
 /**
  * `Вентет массив с текущей очередностью элементов на экране телефона.`
@@ -7,15 +7,17 @@ import { SharedValue } from "react-native-reanimated";
  * @param positionSv Текушие позиции элементов.
  * @returns 
  */
-export const getDataAfterDrag = <T extends {id: string | number}>(data: T[], position: TPositions): T[] => {
+export const getDataAfterDrag = <T extends {id: number}>(data: T[], position: TPositions): T[] => {
     'worklet'
+    console.log('data =', typeof data[0].id);
     const lengthObject = Object.keys(position).length;
     const arrData = Array(lengthObject);
 
     for(let id in position) {
-        arrData[position[id].updatedIndex] = data.find(item => item.id === id)
+        arrData[position[id].updatedIndex] = data.find(item => String(item.id) === id)
     }
 
+    console.log('newData = ', arrData);
     return arrData;
 }
 

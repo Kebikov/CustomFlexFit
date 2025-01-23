@@ -12,7 +12,7 @@ export type TPositions = {
 
 export interface IDragFlatList<T extends {id: number | string}> {
     //* Mandatory prop
-    /** `Высота одного элемента.` */
+    /** `Высота одного элемента, отступ регулируем высотой элементов.` */
     heightElement: number;
     /** `Массив данных для отображения.` */
     data: T[];
@@ -28,8 +28,6 @@ export interface IDragFlatList<T extends {id: number | string}> {
     /** `Элемент внизу FlatList` */
     bottomComponentFlatList?: JSX.Element
     //* Стили:
-    /** `Высота всего FlatLIst` */
-    heightList?: number;
     /** Вкл./Выкл. скрола. Выключаем, если DragFlatList у родительского компонент есть Scroll*/
     scrollEnabled?: boolean;
     /** `Стили для DragFlatList` */

@@ -12,8 +12,7 @@ import { TIME_OF_ELEVATION } from './constants';
 
 
 /** `//= Для создания списка с возможностью перетаскивания элементов.` */
-const DragFlatList = <T extends {id: string | number}>({
-    heightList,
+const DragFlatList = <T extends {id: number}>({
     heightElement,
     data,
     setData,
@@ -36,7 +35,7 @@ const DragFlatList = <T extends {id: string | number}>({
 
      /** `Расположение заметки под FlatList.` */
     const topNoteSv = useSharedValue<number>(MAX_HI + heightElement + 5);
-
+    
      /** `Определение позиций всех элементов.` */
     const currentPositions = useSharedValue<TPositions>( getInitialPositions(data, heightElement, 'useSharedValue') );
 
@@ -87,7 +86,7 @@ const DragFlatList = <T extends {id: string | number}>({
             <Animated.View style={[animatedStyle, styleFlatList, {position: 'relative'}]} >
                 <FlatList
                     style={styleContainer}
-                    scrollEnabled={scrollEnabled}
+                    scrollEnabled={true}
                     contentContainerStyle={[{flexGrow: 1}, styleContainer]}
                     data={data}
                     extraData={data}

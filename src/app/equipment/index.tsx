@@ -10,7 +10,6 @@ import EquipmentService from '@/SQL/Equipment/service/EquipmentService';
 import { useSQLiteContext } from 'expo-sqlite';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { useHookRouter } from '@/router/useHookRouter';
-import { FlatList } from 'react-native-gesture-handler';
 import { useSharedValue } from 'react-native-reanimated';
 import logApp from '@/helpers/log';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
@@ -50,7 +49,30 @@ const Equipments: FC = () => { logApp.page('selectEquipment');
             const result = await EquipmentService.find(db);
             setDataEquipment(result);
         })(); 
+        return () => {
+            
+        }
     }, []);
+
+    //* render 
+    const Header = () => (
+        <>
+            <Title text={t('[exercise]:equipment.yourEquipment')} />
+            <Text style={styles.text}>{t('[exercise]:equipment.yourEquipmentInfo')}</Text>
+        </>
+    );
+
+    const Footer = () => (
+        <ButtonGreen 
+            text={t('[equipment]:common.add')}
+            handlePess={() => appRouter.navigate('/equipment/addEquipment')}
+            widthFlex={.8}
+            fontSize={15}
+            backgroundColor={COLOR_ROOT.LIME_70}
+            marginTop={20}
+            marginBottom={20}
+        />
+    );
 
     return (
         <WrapperScroll
@@ -58,41 +80,17 @@ const Equipments: FC = () => { logApp.page('selectEquipment');
             isScrollEnabled={false}
         >
             <View style={styles.container} >
-                <Title text={t('[exercise]:equipment.yourEquipment') + 'sdf'} />
-                <Text style={styles.text}>{t('[exercise]:equipment.yourEquipmentInfo')}</Text>
-                <View style={styles.contaiber_body} >
-                    {/* <DragFlatList
-                        //style={{padding: 0, marginTop: 20, flex: 1}}
-                        //styleFlatList={{marginBottom: 40}}
-                        scrollEnabled={false}
-                        bottomComponentFlatList={<HelpText text={'Текст с описанием.'}/>}
-                        heightElement={69}
-                        data={dataEquipment}
-                        setData={setDataEquipment}
-                        renderItem={render}
-                    /> */}
-                    {/* <FlatList
-                        data={dataEquipment}
-                        renderItem={({item}) => (
-                            <ItemEquipment 
-                                item={item} 
-                                activeButtonIdSv={activeButtonIdSv} 
-                                setDataEquipment={setDataEquipment} 
-                                marginTop={5}
-                            />
-                        )}
-                        keyExtractor={item => String(item.id)}
-                        showsVerticalScrollIndicator={false}
-                    /> */}
-                </View>
-                {/* <ButtonGreen 
-                    text={t('[equipment]:common.add')}
-                    handlePess={() => appRouter.navigate({pathname: '/equipment/addEquipment/[equipment]', params: {id: ''}})}
-                    widthFlex={.8}
-                    fontSize={15}
-                    backgroundColor={COLOR_ROOT.LIME_70}
-                    marginTop={20}
-                /> */}
+                <Header/>
+                <DragFlatList
+                    style={{padding: 0, marginTop: 20, backgroundColor: 'blue'}}
+                    styleFlatList={{marginBottom: 0}}
+                    scrollEnabled
+                    heightElement={82}
+                    data={dataEquipment}
+                    setData={setDataEquipment}
+                    renderItem={render}
+                />
+                <Footer/>
             </View>
         </WrapperScroll>
     );
@@ -105,12 +103,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 20,
         paddingHorizontal: 20,
-        backgroundColor: 'red'
+        //backgroundColor: 'red'
     },
     contaiber_body: {
         flex: 1,
         justifyContent: 'center',
-        marginTop: 20
+        marginTop: 20,
+        backgroundColor: 'green'
     },
     text: {
         marginTop: 20,

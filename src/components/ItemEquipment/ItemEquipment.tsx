@@ -13,6 +13,7 @@ import EquipmentService from "@/SQL/Equipment/service/EquipmentService";
 import { useHookRouter } from '@/router/useHookRouter';
 
 
+
 /** @component `//= Элемент со снарядом.` */
 const ItemEquipment: FC<IItemEquipment> = ({
     item,
@@ -44,57 +45,55 @@ const ItemEquipment: FC<IItemEquipment> = ({
     }
 
     return (
-        <View style={[{marginTop}]}>
-            <ButtonSwipeable
-                totalButton={2}
-                onPressButton1={() => {}}
-                onPressButton2={deleteById(item.id)}
+        <ButtonSwipeable
+            totalButton={2}
+            onPressButton1={() => {}}
+            onPressButton2={deleteById(item.id)}
 
-                iconForButton2={ICON.DEL_BTN}
-                colorButton2={COLOR_ROOT.BUTTON_COLOR_RED}
+            iconForButton2={ICON.DEL_BTN}
+            colorButton2={COLOR_ROOT.BUTTON_COLOR_RED}
 
-                paddingInsideButton={22}
-                widthOneButton={62}
-                heightOneButton={67}
+            paddingInsideButton={22}
+            widthOneButton={62}
+            heightOneButton={67}
 
-                idButton={String(item.id)}
-                activeButtonIdSv={activeButtonIdSv}
-            >
-                <View style={[styles.container]} >
-                    <View style={styles.contaiber_body} >
-                        <View 
-                            style={[styles.box_img, 
-                                {
-                                    padding: item.type === 'plate' && item.weight !== 0 ? 
-                                    interpolate(item.weight, [1, 5, 10, 20], [16, 8, 3, 0], Extrapolation.CLAMP)
-                                    : 
-                                    0
-                                }
-                            ]} >
-                            <Image style={styles.img} source={imgCheck(item.img)} />
-                        </View>
-                        <View style={styles.box_text} >
-                            <Text style={styles.title} >
-                                {
-                                    item.type === 'plate' ?
-                                    `${t$(item.title)} ${item.weight}`
-                                    :
-                                    t$(item.title) === '' ?
-                                    t('[equipment]:common.name')
-                                    :
-                                    t$(item.title)
-                                }
-                            </Text>
-                            <Text style={styles.text_weight} >
-                                {
-                                    `${t('[equipment]:common.weight')}: ${String(item.weight) === '' ? 0 : item.weight} ${t('[exercise]:equipment.kilograms')}`
-                                }
-                            </Text>
-                        </View>
+            idButton={item.id}
+            activeButtonIdSv={activeButtonIdSv}
+        >
+            <View style={[styles.container]} >
+                <View style={styles.contaiber_body} >
+                    <View 
+                        style={[styles.box_img, 
+                            {
+                                padding: item.type === 'plate' && item.weight !== 0 ? 
+                                interpolate(item.weight, [1, 5, 10, 20], [16, 8, 3, 0], Extrapolation.CLAMP)
+                                : 
+                                0
+                            }
+                        ]} >
+                        <Image style={styles.img} source={imgCheck(item.img)} />
+                    </View>
+                    <View style={styles.box_text} >
+                        <Text style={styles.title} >
+                            {
+                                item.type === 'plate' ?
+                                `${t$(item.title)} ${item.weight}`
+                                :
+                                t$(item.title) === '' ?
+                                t('[equipment]:common.name')
+                                :
+                                t$(item.title)
+                            }
+                        </Text>
+                        <Text style={styles.text_weight} >
+                            {
+                                `${t('[equipment]:common.weight')}: ${String(item.weight) === '' ? 0 : item.weight} ${t('[exercise]:equipment.kilograms')}`
+                            }
+                        </Text>
                     </View>
                 </View>
-            </ButtonSwipeable>
-        </View>
+            </View>
+        </ButtonSwipeable>
     );
 };
 

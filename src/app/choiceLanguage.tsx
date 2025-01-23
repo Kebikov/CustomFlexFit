@@ -36,7 +36,7 @@ const ChoiceLanguage: FC = () => {
             {
                 0 ? 
                 null
-                :
+                : 
                 <View style={styles.container}>
                     <Menu/>
                     <Text style={styles.text} >What is your {"\n"}language ?</Text>

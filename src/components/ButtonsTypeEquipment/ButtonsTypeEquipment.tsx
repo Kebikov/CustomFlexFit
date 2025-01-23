@@ -6,15 +6,15 @@ import { EquipmentDTO } from '@/SQL/Equipment/DTO/EquipmentDTO';
 import useAppTranslation from '@/localization/helpers/useAppTranslation';
 
 
-interface IButtonsTypeEquipment {
-    setState: React.Dispatch<React.SetStateAction<EquipmentDTO>>;
+interface IButtonsTypeEquipment<T> {
+    setState: React.Dispatch<React.SetStateAction<T>>;
 }
 
 
 /** @component `//= Группа кнопок для выбора типа инвентаря.` */
-const ButtonsTypeEquipment: FC<IButtonsTypeEquipment> = ({
+const ButtonsTypeEquipment = <I,>({
     setState
-}) => {
+}: IButtonsTypeEquipment<I>) => {
 
     const {t} = useAppTranslation(['[equipment]']);
 

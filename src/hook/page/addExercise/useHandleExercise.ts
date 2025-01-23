@@ -11,7 +11,7 @@ const useHandleExercise = () => {
     const DISPATCH = useAppDispatch();
     const {t} = useAppTranslation(['alert_and_toast']);
 
-    const addElement = (id: string, data: IExerciseState[]) => {
+    const addElement = (id: number, data: IExerciseState[]) => {
         // Нахадим в массиве элемент копию которого будем создавать.
         const find = data.findIndex(item => item.id === id);
             /** `Копия добавляемого элемента` */
@@ -21,7 +21,7 @@ const useHandleExercise = () => {
             /** `Максимальный id` */
         const maxId = Math.max(...arrId);
         // Установка id добавляемого элемента
-        newElement.id = String(maxId + 1);
+        newElement.id = maxId + 1;
         // Добавляем новый элемент в конец списка.
         const newData = [...data.slice(0, find + 1), newElement, ...data.slice(find + 1)];
         
@@ -29,7 +29,7 @@ const useHandleExercise = () => {
     }
 
      /** `Удаление элемента, если он не последний.` */
-    const removeElement = (id: string, data: IExerciseState[]) => {
+    const removeElement = (id: number, data: IExerciseState[]) => {
         if(data.length > 1) {
             const filterData = data.filter(item => item.id !== id);
             DISPATCH(SET_EXERCISE_STATE(filterData));
