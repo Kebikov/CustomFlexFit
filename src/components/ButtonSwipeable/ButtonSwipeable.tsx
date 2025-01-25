@@ -1,13 +1,13 @@
 import { useHookButtonSwipeable } from './hooks/useHookButtonSwipeable';
 import { useHookAnimatedStyle } from './hooks/useHookAnimatedStyle';
 import { COLOR_ROOT } from '@/constants/colors';
-import React, { FC, useState, useMemo, useEffect } from 'react';
+import React, { FC, useMemo } from 'react';
 import { StyleSheet, View, Dimensions, Image, Pressable, ViewStyle } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, {useSharedValue, useAnimatedReaction, runOnJS, runOnUI} from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedReaction } from 'react-native-reanimated';
 import VibrationApp from '@/helpers/VibrationApp';
 import ICON from '@/source/icon';
-import { IButtonSwipeable } from './types'
+import { IButtonSwipeable } from './types';
 
 
 /**

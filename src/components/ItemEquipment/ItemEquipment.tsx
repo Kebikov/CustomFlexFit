@@ -46,6 +46,7 @@ const ItemEquipment: FC<IItemEquipment> = ({
 
     return (
         <ButtonSwipeable
+            
             totalButton={2}
             onPressButton1={() => {}}
             onPressButton2={deleteById(item.id)}
