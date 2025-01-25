@@ -60,9 +60,13 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
         )
     };
 
+     /** `Высота одного элемента в DragFlatList.` */
+    const elementHeight = 69;
+
     return (
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
+            //isScrollEnabled={false}
         >
             <View style={styles.container}>
                 <View>
@@ -88,11 +92,12 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
                 </View>
                 <DragFlatList
                     style={{padding: 0, marginTop: 20, flex: 1}}
-                    styleFlatList={{marginBottom: 45}}
+                    styleFlatList={{flex: 1, marginBottom: 45}}
+
                     scrollEnabled={false}
                     bottomComponentFlatList={<HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />}
 
-                    heightElement={69}
+                    heightElement={elementHeight}
                     data={data}
                     setData={setData}
 
