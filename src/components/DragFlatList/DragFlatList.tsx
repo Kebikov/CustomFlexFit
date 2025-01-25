@@ -87,7 +87,10 @@ const DragFlatList = <T extends {id: number}>({
                 <FlatList
                     style={styleContainer}
                     scrollEnabled={scrollEnabled}
-                    contentContainerStyle={[{flexGrow: 1}, styleContainer]}
+                    contentContainerStyle={[
+                        //{flexGrow: 1}, 
+                        styleContainer
+                    ]}
                     data={data}
                     extraData={data}
 

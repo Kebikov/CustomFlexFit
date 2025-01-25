@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, ScrollView } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
@@ -19,6 +19,7 @@ import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import usePageAddExercise from '@/hook/page/usePageAddExercise';
 import logApp, {strApp} from '@/helpers/log';
 import useHandleExercise from '@/hook/page/addExercise/useHandleExercise';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 
@@ -37,6 +38,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
     const render = (item: IExerciseState) => {
         return(
             <ButtonSwipeable
+                isSwipe={false}
                 totalButton={3}
 
                 onPressButton1={() => {
@@ -63,6 +65,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
     return (
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
+            isScrollEnabled={false}
         >
             <View style={styles.container}>
                 <View>
@@ -73,7 +76,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
                                 :
                                 IMAGE.ZERO_FON
                             } 
-                            style={styles.imageBackground} 
+                            style={styles.imageBackground}
                         />
                         <View style={[styles.overlay, {backgroundColor: selectedBackground ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
                     </View>
@@ -86,10 +89,11 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
 
                     <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
                 </View>
-                <DragFlatList
-                    style={{padding: 0, marginTop: 20, flex: 1}}
-                    styleFlatList={{marginBottom: 45}}
-                    scrollEnabled={false}
+                {/* <DragFlatList
+                    //style={{padding: 0, marginTop: 20, flex: 1, backgroundColor: 'blue'}}
+                    //styleFlatList={{marginBottom: 350}}
+                    styleContainer={{height: data.length * 69}}
+                    scrollEnabled={true}
                     bottomComponentFlatList={<HelpText text={t('[exercise]:addExercise.infoCreateExercise')} />}
 
                     heightElement={69}
@@ -97,7 +101,36 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
                     setData={setData}
 
                     renderItem={render}
-                />
+                /> */}
+
+                <View style={{flex: 1, width: '100%'}}>
+                    <FlatList
+                        data={data}
+                        contentContainerStyle={{height: data.length * 69}}
+                        keyExtractor={item => String(item.id)}
+                        renderItem={({item, index}) => (
+                            <View 
+                                style={{position: 'absolute', top: 69 * index, width: '100%'}}
+                            >
+                                <SetEdit exerciseState={item} />
+                            </View>
+                        )}
+                    />
+                </View>
+
+                {/* <ScrollView contentContainerStyle={{position: 'relative', height: data.length * 69}}>
+                    {
+                        data.map((item, index) => (
+                            <View 
+                                style={{position: 'absolute', top: 69 * index, width: '100%'}}
+                                key={index}
+                            >
+                                <SetEdit exerciseState={item} />
+                            </View>
+                        ))
+                    }
+                </ScrollView> */}
+                
                 <ButtonGreen
                     text={t('button:create')}
                     //handlePess={() => appRouter.navigate('/exercise/modalAddImageExercise')}

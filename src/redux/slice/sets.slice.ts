@@ -32,16 +32,30 @@ interface IInitialStateSets {
 /**
  * `Начальное состояние упражнения при добавлении нового.`
  */
-const exerciseStateInitial = (): IExerciseState[] => [
-    {
-        id: 0,
-        name: i18next.t('[exercise]:addExercise.title'),
-        note: i18next.t('[exercise]:addExercise.description'),
-        reps: {one: 10, two: 0},
-        runtime: {one: 0, two: 0},
-        restAfter: {one: 2, two: 30}
-    }
-];
+// const exerciseStateInitial = (): IExerciseState[] => [
+//     {
+//         id: 1,
+//         name: i18next.t('[exercise]:addExercise.title'),
+//         note: i18next.t('[exercise]:addExercise.description'),
+//         reps: {one: 10, two: 0},
+//         runtime: {one: 0, two: 0},
+//         restAfter: {one: 2, two: 30}
+//     }
+// ];
+const exerciseStateInitial = (): IExerciseState[] => {
+    return Array.from({length: 10}, (_,i) => (
+        {
+            id: 1 + i,
+            name: i18next.t('[exercise]:addExercise.title'),
+            note: i18next.t('[exercise]:addExercise.description'),
+            reps: {one: 10, two: 0},
+            runtime: {one: 0, two: 0},
+            restAfter: {one: 2, two: 30}
+        }
+    ))
+};
+
+console.log('exerciseStateInitial = ', exerciseStateInitial());
 
 
 //* initialState 
