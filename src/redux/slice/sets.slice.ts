@@ -32,21 +32,34 @@ interface IInitialStateSets {
 /**
  * `Начальное состояние упражнения при добавлении нового.`
  */
-const exerciseStateInitial = (): IExerciseState[] => [
+// const exerciseStateInitial = (): IExerciseState[] => [
+//     {
+//         id: 0,
+//         name: i18next.t('[exercise]:addExercise.title'),
+//         note: i18next.t('[exercise]:addExercise.description'),
+//         reps: {one: 10, two: 0},
+//         runtime: {one: 0, two: 0},
+//         restAfter: {one: 2, two: 30}
+//     }
+// ];
+
+
+const exerciseStateInitial: IExerciseState[] = Array.from({length: 7}, (_,index) => (
     {
-        id: 0,
+        id: index,
         name: i18next.t('[exercise]:addExercise.title'),
         note: i18next.t('[exercise]:addExercise.description'),
         reps: {one: 10, two: 0},
         runtime: {one: 0, two: 0},
         restAfter: {one: 2, two: 30}
     }
-];
+))
+
 
 
 //* initialState 
 const initialStateSets: IInitialStateSets = {
-    exerciseStateArray: exerciseStateInitial()
+    exerciseStateArray: exerciseStateInitial
 }
 
 
@@ -60,7 +73,7 @@ const setsSlice = createSlice({
 
             if(action.payload === 'RESET') {
                 // Сброс состояния в ночальное, используется при изминении языка.
-                state.exerciseStateArray = exerciseStateInitial();
+                state.exerciseStateArray = exerciseStateInitial;
             } else if(Array.isArray(action.payload)){
                 // Полная замена всего состояния, если передан массив.
                 state.exerciseStateArray = action.payload;

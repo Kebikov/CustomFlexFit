@@ -35,7 +35,7 @@ export interface IDragFlatList<T extends {id: number | string}> {
     /** `Стили для контейнера FlatList` */
     styleFlatList?: StyleProp<ViewStyle>;
     /** `Стили для контейнера с элементами` */
-    styleContainer?: StyleProp<ViewStyle>;
+    contentContainerStyle?: StyleProp<ViewStyle>;
 }
 
 

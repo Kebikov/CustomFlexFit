@@ -22,7 +22,7 @@ const DragFlatList = <T extends {id: number}>({
     ListFooterComponent,
     style,
     styleFlatList,
-    styleContainer,
+    contentContainerStyle,
     bottomComponentFlatList
 }: IDragFlatList<T>) => { console.info(strApp.Red('render DragFlatList'));
 
@@ -85,9 +85,8 @@ const DragFlatList = <T extends {id: number}>({
             {ListHeaderComponent}
             <Animated.View style={[animatedStyle, styleFlatList, {position: 'relative'}]} >
                 <FlatList
-                    style={styleContainer}
                     scrollEnabled={scrollEnabled}
-                    contentContainerStyle={[{flexGrow: 1}, styleContainer]}
+                    contentContainerStyle={[{flexGrow: 1}, contentContainerStyle]}
                     data={data}
                     extraData={data}
 
