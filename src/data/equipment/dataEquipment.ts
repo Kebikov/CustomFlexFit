@@ -64,6 +64,14 @@ const dataEquipment: EquipmentDTO[] = [
         title: 't$_[exercise]:common.plate',
         weight: 1.5,
         img: plate
+    },
+    {
+        id: 8,
+        order: 8,
+        type: 'plate',
+        title: 't$_[exercise]:common.plate',
+        weight: 1,
+        img: plate
     }
 ];
 

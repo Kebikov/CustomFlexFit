@@ -74,6 +74,9 @@ const Equipments: FC = () => { logApp.page('selectEquipment');
         />
     );
 
+     /** `Высота одного элемента в DragFlatList.` */
+    const elementHeight = 82;
+
     return (
         <WrapperScroll
             backgroundColor={COLOR_ROOT.BACKGROUND}
@@ -82,10 +85,11 @@ const Equipments: FC = () => { logApp.page('selectEquipment');
             <View style={styles.container} >
                 <Header/>
                 <DragFlatList
-                    style={{padding: 0, marginTop: 20, backgroundColor: 'blue'}}
-                    styleFlatList={{marginBottom: 0}}
+                    style={{padding: 0, marginTop: 20, backgroundColor: 'blue', flex: 1}}
+                    styleFlatList={{flex: 1, overflow: 'hidden'}}
+                    contentContainerStyle={{height: dataEquipment.length * elementHeight}}
                     scrollEnabled
-                    heightElement={82}
+                    heightElement={elementHeight}
                     data={dataEquipment}
                     setData={setDataEquipment}
                     renderItem={render}
@@ -120,3 +124,4 @@ const styles = StyleSheet.create({
 
 
 export default Equipments;
+

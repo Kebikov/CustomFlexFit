@@ -18,6 +18,8 @@ export interface IButtonSwipeable extends ViewProps {
     onPressButton2?: () => void;
      /** Функция обработываюшая нажатия на кнопку #3. */
     onPressButton3?: () => void;
+    /** Обрабатывать ли жесты свайпа для открытия. */
+    isSwipe?: boolean;
 
     //* Параметры кнопок и иконок. 
      /** Цвет эконки. */

@@ -32,7 +32,8 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
     widthOneButton,
     heightOneButton,
     idButton,
-    activeButtonIdSv
+    activeButtonIdSv,
+    isSwipe = true
 }) => {
         
     /** Активна ли основная кнопка, самая верхняя, большая. */
@@ -89,6 +90,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
 
     /** Обработчик жестов. */
     const panGesture = useMemo(() => Gesture.Pan()
+        .enabled(isSwipe)
         .activeOffsetX([-10, 10])
         .onUpdate(({translationX, translationY}) => {
             if(translationX < 0) {
