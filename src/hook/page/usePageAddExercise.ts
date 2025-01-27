@@ -5,13 +5,13 @@ import { useSharedValue } from 'react-native-reanimated';
 
 
 const usePageAddExercise = () => {
-    const exerciseStateArray: IExerciseState[] = useAppSelector(state => state.setsSlice.exerciseStateArray);
+    const exerciseStateArray: IExerciseState[] = useAppSelector(state => state.setsSlice.exercise_state);
 
     const [data, setData] = useState<IExerciseState[]>(exerciseStateArray);
 
     const activeButtonIdSv = useSharedValue<string>('');
 
-    const selectedBackground = useAppSelector(state => state.setupSlice.selectedBackground);
+    const background = useAppSelector(state => state.setupSlice.background);
     
     useEffect(() => {
         setData(exerciseStateArray);
@@ -26,7 +26,7 @@ const usePageAddExercise = () => {
          /** `[SharedValue] Id который активен в данный момент, остальные закрываются.` */
         activeButtonIdSv, 
          /** `[Redux State] Выбранный фон для упражнения.` */
-        selectedBackground
+        background
     }
 }
 

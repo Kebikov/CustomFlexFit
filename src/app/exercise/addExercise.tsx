@@ -22,16 +22,14 @@ import useHandleExercise from '@/hook/page/addExercise/useHandleExercise';
 
 
 
-/**
- * @page `Страница добавления занятия.`
- */
+/** @page `//= Страница добавления занятия.` */
 const AddExercise: FC = () => { logApp.page('AddExercise');
     
     const {imgCheck} = useHookImageCheck();
     const {appRouter} = useHookRouter();
     const DISPATCH = useAppDispatch();
     const {t} = useTranslation(['[exercise]', 'button']);
-    const {data, setData, activeButtonIdSv, selectedBackground} = usePageAddExercise();
+    const {data, setData, activeButtonIdSv, background} = usePageAddExercise();
     const {addElement, removeElement} = useHandleExercise();
     
     const render = (item: IExerciseState) => {
@@ -73,13 +71,14 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
                     <Title text={t('[exercise]:addExercise.headerText')} fontSize={22} marginTop={10} />
                     <View style={styles.boxImageBackground} >
                         <Image source={
-                                selectedBackground && selectedBackground.path ? imgCheck(selectedBackground.path)
+                                background ? 
+                                imgCheck(background)
                                 :
                                 IMAGE.ZERO_FON
                             } 
                             style={styles.imageBackground} 
                         />
-                        <View style={[styles.overlay, {backgroundColor: selectedBackground ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
+                        <View style={[styles.overlay, {backgroundColor: background ? undefined : 'rgba(0, 0, 0, 0.5)'}]} />
                     </View>
 
                     <PickImage

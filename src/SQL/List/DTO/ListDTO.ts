@@ -1,14 +1,11 @@
-/**
- * @table `List - Список подходов: какое упражнение + вес + повторы + время отдыха.`
- * @param id ID.
- * @param queue Очередность выполнения подхода.
- * @param id_Day  `REFERENCES > Day` День выполнения подхода.
- * @param id_Exercise `REFERENCES > Exercise` Выполняемое упражнение.
- */
 export interface ListDTO {
+     /** `ID` */
     id: number;
-    queue: number;
+     /** `Очередность.` */
+    order: number;
+     /** `[REFERENCES] > [Day]` */
     id_Day: number;
+     /** `[REFERENCES] > [Exercise]` */
     id_Exercise: number;
 }
 

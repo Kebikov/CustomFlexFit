@@ -9,7 +9,6 @@ import { useEffect } from 'react';
 import { getDataAfterDrag } from './helpers/getDataAfterDrag';
 import {strApp} from '@/helpers/log';
 import { TIME_OF_ELEVATION } from './constants';
-import { ScrollView } from 'react-native';
 
 
 /** `//= Для создания списка с возможностью перетаскивания элементов.` */

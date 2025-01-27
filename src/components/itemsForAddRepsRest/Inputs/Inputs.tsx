@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 import React, { FC, memo } from 'react';
 import Title from '@/components/Title/Title';
 import InputForAdd from '@/components/InputForAdd/InputForAdd';
-import type { INameAndNote } from '@/components/Clock/types';
+import type { IInputsRepsRest } from './types';
 import { useTranslation } from 'react-i18next';
 import HelpText from '@/components/HelpText/HelpText';
 import { COLOR_ROOT } from '@/constants/colors';
@@ -11,8 +11,8 @@ import { COLOR_ROOT } from '@/constants/colors';
 interface IInputs {
     fontSizeTitle: number;
     borderRadiusBody: number;
-    nameAndNote: INameAndNote;
-    setNameAndNote: React.Dispatch<React.SetStateAction<INameAndNote>>;
+    titleDescription: IInputsRepsRest;
+    setTitleDescription: React.Dispatch<React.SetStateAction<IInputsRepsRest>>;
 }
 
 
@@ -21,8 +21,8 @@ interface IInputs {
  */
 const Inputs: FC<IInputs> = ({
     fontSizeTitle,
-    nameAndNote,
-    setNameAndNote,
+    titleDescription,
+    setTitleDescription,
     borderRadiusBody
 }) => {
 
@@ -35,24 +35,24 @@ const Inputs: FC<IInputs> = ({
                 marginTop={Platform.OS === 'ios' ? 10 : 0}
             />
             <View style={[styles.bodySetText, {borderRadius: borderRadiusBody}]} >
-                <InputForAdd<INameAndNote>
-                    keyForState='name'
+                <InputForAdd<IInputsRepsRest>
+                    keyForState='title'
                     title={t('[exercise]:addExercise.titleInput')}
-                    setState={setNameAndNote} 
+                    setState={setTitleDescription} 
                     placeholder={t('[exercise]:addExercise.placeholderTitle')}
                     maxLength={27}
-                    value={nameAndNote.name === t('[exercise]:addExercise.title') ? undefined : nameAndNote.name}
+                    value={titleDescription.title === t('[exercise]:addExercise.title') ? undefined : titleDescription.title}
                     isNullValue={t('[exercise]:addExercise.title')}
                 />
 
-                <InputForAdd<INameAndNote>
-                    keyForState='note'
+                <InputForAdd<IInputsRepsRest>
+                    keyForState='description'
                     title={t('[exercise]:addExercise.titleInputDescription')}
-                    setState={setNameAndNote} 
+                    setState={setTitleDescription} 
                     placeholder={t('[exercise]:addExercise.placeholderDescription')}
                     maxLength={27}
                     marginTop={10}
-                    value={nameAndNote.note === t('[exercise]:addExercise.description') ? undefined : nameAndNote.note}
+                    value={titleDescription.description === t('[exercise]:addExercise.description') ? undefined : titleDescription.description}
                     isNullValue={t('[exercise]:addExercise.description')}
                 />
             </View>

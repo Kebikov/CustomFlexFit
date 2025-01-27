@@ -1,47 +1,26 @@
-import { SQLiteDatabase } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
 import { RepsRestDTO } from '../DTO/RepsRestDTO';
+import { Model } from '@/SQL/Model/Model';
 
 
-class RepsRest {
+const repsRest_model = `
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "reps" INT,
+    "rest" INT,
+    "duration" INT,
+    "id_List" INT NOT NULL,
 
-    /**
-     * `//* Создание таблицы.`
-     */
-    async create(db: SQLiteDatabase): Promise<void> {
-        try {
-            const result = await db.runAsync(`
-                CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE_RepsRest}
-                (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    reps INT,
-                    rest INT,
-                    duration INT,
-                    id_List INT NOT NULL,
+    CONSTRAINT FK_RepsRest
+    FOREIGN KEY (id_List)
+    REFERENCES List (id) 
+    ON DELETE CASCADE
+`;
 
-                    CONSTRAINT FK_RepsRest
-                    FOREIGN KEY (id_List)
-                    REFERENCES List (id) 
-                    ON DELETE CASCADE
-                )
-            `);
-        } catch (error) {
-            console.error('Error in  >>>', error);
-        }
-    }
 
-    /**
-     * `//* Возврат записей в таблице.`
-     */
-    async find(db: SQLiteDatabase): Promise<RepsRestDTO[] | undefined> {
-        try{
-            const result: RepsRestDTO[] = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_RepsRest}`);
-            return result;
-        } catch(error) {
-            console.error('Error in Days.find >>> ', error);
-        }
-    }
+class RepsRest extends Model<RepsRestDTO>({
+    table: CONFIGURATION.TABLE_RepsRest,
+    model: repsRest_model,
+    info: '[class RepsRest]'
+}) {}
 
-}
-
-export default new RepsRest();
+export default RepsRest;

@@ -1,16 +1,15 @@
-/**
- * @table `RepsRest - Количество повторений и отдых после упражнения.`
- * @param id ID.
- * @param reps Количество повторений.
- * @param rest Время отдыха в сек. после упражнения.
- * @param duration Продолжительность выполнения упражнения.
- * @param id_List `REFERENCES > List` Подход в дне занятий.
- */
 export interface RepsRestDTO {
+     /** `ID` */
     id: number;
+     /** `Очередность.` */
+    order: number;
+     /** `Количество повторений.` */
     reps: number;
+     /** `Время отдыха в сек. после упражнения.` */
     rest: number;
+     /** `Продолжительность выполнения упражнения.` */
     duration: number;
+     /** `[REFERENCES] > [List]` */
     id_List: number;
 }
 

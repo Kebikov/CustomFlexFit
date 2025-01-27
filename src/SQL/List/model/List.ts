@@ -13,10 +13,10 @@ class List {
             const result = await db.runAsync(`
                 CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE_List}
                 (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    queue INTEGER UNIQUE,
-                    id_Day INTEGER NOT NULL,
-                    id_Exercise INTEGER NOT NULL,
+                    id INT PRIMARY KEY AUTOINCREMENT,
+                    order INT UNIQUE,
+                    id_Day INT NOT NULL,
+                    id_Exercise INT NOT NULL,
 
                     CONSTRAINT FK_List_id_Day
                     FOREIGN KEY (id_Day)

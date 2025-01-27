@@ -1,33 +1,22 @@
-import { SQLiteDatabase } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
 import { ExerciseDTO } from '@/SQL/Exercise/DTO/ExerciseDTO';
+import { Model } from '@/SQL/Model/Model';
 
 
-class Exercise {
+const exercise_model = `
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "order" INT,
+    "title" TEXT,
+    "description" TEXT,
+    "img" TEXT
+`;
 
-    /**
-     * `//* Создание таблицы.`
-     */
-    async create(db: SQLiteDatabase): Promise<void> {
-        await db.runAsync(`
-            CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE_Exercise}
-            (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT,
-                description TEXT,
-                img TEXT
-            )
-        `);
-    }
 
-    /**
-     * `//* Возврат записей в таблице.`
-     */
-    async find(db: SQLiteDatabase): Promise<ExerciseDTO[]> {
-        const result: ExerciseDTO[] = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_Exercise}`);
-        return result;
-    }
+class Exercise extends Model<ExerciseDTO>({
+    table: CONFIGURATION.TABLE_Exercise,
+    model: exercise_model,
+    info: '[class Exercise]'
+}){}
 
-}
 
-export default new Exercise();
+export default Exercise;

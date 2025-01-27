@@ -1,16 +1,17 @@
 import  { TStateDataClock } from '@/components/Clock';
 import React, { FC, useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
-import type { INameAndNote, IWeightState } from '@/components/Clock/types';
+import type { IWeightState } from '@/components/Clock/types';
+import { IInputsRepsRest } from '@/components/itemsForAddRepsRest/Inputs/types';
 import { strApp } from '@/helpers/log';
 
 
 export const useAddRepsRest = (index: number) => {
 
-    const exerciseStateArray = useAppSelector(state => state.setsSlice.exerciseStateArray);
+    const exercise_state = useAppSelector(state => state.setsSlice.exercise_state);
 
     /** @param idExercise Id редактируемого упражнения. */
-    const idExercise = exerciseStateArray[index].id;
+    const idExercise = exercise_state[index].id;
 
     /** @param idShowClock Уникальный id для элемента на странице, устанавливаем нужный id элемента для отображения компонента часов. */
     const [idShowClock, setIdShowClock] = useState<string>('');
@@ -31,10 +32,10 @@ export const useAddRepsRest = (index: number) => {
         }
     });
 
-    /** @param nameAndNote Имя и заметка для упражнения. */
-    const [nameAndNote, setNameAndNote] = useState<INameAndNote>({
-        name: exerciseStateArray[index].name,
-        note: exerciseStateArray[index].note
+    /** @param nameAndNote Заголовок и описание для упражнения. */
+    const [titleDescription, setTitleDescription] = useState<IInputsRepsRest>({
+        title: exercise_state[index].title,
+        description: exercise_state[index].description
     });
 
     /** @param selectedWeight Установка общего веса снаряда. */
@@ -50,15 +51,16 @@ export const useAddRepsRest = (index: number) => {
         setIdShowClock,
         selectedData, 
         setSelectedData,
-        nameAndNote, 
-        setNameAndNote,
+        titleDescription, 
+        setTitleDescription,
         selectedWeight, 
         setSelectedWeight,
 
         clockCustomReps,
         clockCustomClock,
         /** `ID редактируемого упражнения.` */
-        idExercise
+        idExercise,
+        exercise_state
     }
 
 }

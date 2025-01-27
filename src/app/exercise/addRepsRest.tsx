@@ -36,17 +36,18 @@ const AddRepsRest: FC = () => {
     const {
         idShowClock, 
         setIdShowClock,
-        nameAndNote,
-        setNameAndNote,
+        titleDescription,
+        setTitleDescription,
         selectedWeight, 
         setSelectedWeight,
         selectedData, 
         setSelectedData,
         clockCustomReps,
         clockCustomClock,
-        idExercise
+        idExercise,
+        exercise_state
     } = useAddRepsRest(index);
-
+    
 
     const Clocks = (
         <>
@@ -91,11 +92,13 @@ const AddRepsRest: FC = () => {
     );
 
     const sendData = () => {
+
         // Формируем изминенный обьект и передаем в redux.
         const exerciseOfChanged = {
             id: idExercise,
-            name: nameAndNote.name,
-            note: nameAndNote.note,
+            order: exercise_state[index].order,
+            title: titleDescription.title,
+            description: titleDescription.description,
             reps: selectedData['reps'],
             runtime: selectedData['runtime'],
             restAfter: selectedData['restAfter']
@@ -116,8 +119,8 @@ const AddRepsRest: FC = () => {
                 <Inputs
                     fontSizeTitle={fontSizeTitle}
                     borderRadiusBody={borderRadiusBody}
-                    nameAndNote={nameAndNote}
-                    setNameAndNote={setNameAndNote}
+                    titleDescription={titleDescription}
+                    setTitleDescription={setTitleDescription}
                 />
                 <Weight
                     value={selectedWeight}

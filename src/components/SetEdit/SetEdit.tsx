@@ -29,8 +29,8 @@ const SetEdit: FC<ISet> = ({
                 <Text style={styles.textRap} >{exerciseState.reps.one}</Text>
             </View>
             <View style={styles.descriptionsBox} >
-                <Text style={styles.textTitle} >{exerciseState.name}</Text>
-                <Text style={styles.textDescriptions} >{exerciseState.note}</Text>
+                <Text style={styles.textTitle} >{exerciseState.title}</Text>
+                <Text style={styles.textDescriptions} >{exerciseState.description}</Text>
                 <View style={styles.time} >
 
                     <View style={styles.rest} >

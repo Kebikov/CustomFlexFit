@@ -47,11 +47,6 @@ export type TPositions = {
     heightElement: number;
 };
 
-export interface INameAndNote {
-    name: string;
-    note: string;
-}
-
 export interface IWeightState {
      /** `ID используемого грифа.` */
     barbell: number;

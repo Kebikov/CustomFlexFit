@@ -12,7 +12,7 @@ const useHandleExercise = () => {
     const {t} = useAppTranslation(['alert_and_toast']);
 
     const addElement = (id: number, data: IExerciseState[]) => {
-        // Нахадим в массиве элемент копию которого будем создавать.
+         // Нахадим в массиве элемент копию которого будем создавать.
         const find = data.findIndex(item => item.id === id);
             /** `Копия добавляемого элемента` */
         const newElement: IExerciseState = JSON.parse(JSON.stringify(data[find]));
