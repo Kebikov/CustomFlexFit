@@ -1,5 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+ /** `[Type Guards] for IImageObj` */
+function isIImageObj(data: unknown): data is IImageObj {
+    if(data && typeof data === 'object' && 'path' in data && data.path) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 /**
  * @param path Путь к изображению.
@@ -10,23 +18,25 @@ export interface IImageObj {
     extension?: string;
 }
 
+type TSomeBackground = IImageObj | number | string | undefined;
+
 /**
  * @param pathToImageFolder Путь к папке с изображениями в памяти телефона.
  * @param selectedBackground Выбранное изображение для дальнейшего использования.
  */
 interface IinitialDay {
     pathToImageFolder?: string;
-    selectedBackground?: IImageObj;
+    background?: string | number;
     selectedBackgroundExercise?: number | string;
-    selectedImgForEquipment?: number | string;
+    img_for_equipment?: number | string;
 }
 
 
 //= initialState 
 const initialState: IinitialDay = {
-    selectedBackground: undefined,
+    background: undefined,
     selectedBackgroundExercise: undefined,
-    selectedImgForEquipment: undefined
+    img_for_equipment: undefined
 }
 
 
@@ -38,15 +48,22 @@ const setupSlice = createSlice({
         SET_PATH_TO_IMAGE_FOLDER: (state, action: PayloadAction<string>) => {
             state.pathToImageFolder = action.payload;
         }, 
-        SET_BACKGROUND: (state, action: PayloadAction<IImageObj | undefined>) => {
-            state.selectedBackground = action.payload;
-            //logApp.info(`PATH_TO_IMAGE_FOLDER: ${action.payload?.path}`, 'REDUX');
+        SET_BACKGROUND: (state, action: PayloadAction<TSomeBackground>) => {
+
+            // is "type IImageObj"
+            if(isIImageObj(action.payload)) {
+                if(action.payload.path) state.background = action.payload.path;
+                return;
+            }  
+            
+            state.background = action.payload;
         },
         SET_BACKGROUND_FOR_EXERCISE: (state, action) => {
+            console.log(action.payload);
             state.selectedBackgroundExercise = action.payload;
         },
         SET_IMG_FOR_EQUIPMENT: (state, action) => {
-            state.selectedImgForEquipment = action.payload;
+            state.img_for_equipment = action.payload;
         }
 
     }
@@ -54,6 +71,7 @@ const setupSlice = createSlice({
 
 
 export default setupSlice.reducer;
+
 
 export const {
     SET_BACKGROUND,

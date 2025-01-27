@@ -4,13 +4,13 @@ import { Model } from '@/SQL/Model/Model';
 
 
 const day_model = `
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    queue INT UNIQUE,
-    img TEXT,
-    date TEXT,
-    title TEXT,
-    description TEXT,
-    lastExercise INTEGER
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "queue" INT UNIQUE,
+    "img" TEXT,
+    "date" TEXT,
+    "title" TEXT,
+    "description" TEXT,
+    "lastExercise" INTEGER
 `;
 
 

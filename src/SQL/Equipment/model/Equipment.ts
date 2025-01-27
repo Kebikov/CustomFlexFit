@@ -4,11 +4,12 @@ import { Model } from '@/SQL/Model/Model';
 
 
 const equipment_model = `
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT,
-    type TEXT,
-    weight INTEGER,
-    img TEXT
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "title" TEXT,
+    "type" TEXT,
+    "weight" INTEGER,
+    "img" TEXT,
+    "order" INTEGER
 `;
 
 

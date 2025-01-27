@@ -34,10 +34,9 @@ const PickImage: FC<IPickImage> = ({
 
     const {t} = useTranslation(['alert_and_toast', '[day]']);
     const {appRouter} = useHookRouter();
-    const dispatch = useAppDispatch();
+    const DISPATCH = useAppDispatch();
 
     const pickImageAsync = async () => {
-
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ['images'],
             allowsEditing: true,
@@ -46,7 +45,7 @@ const PickImage: FC<IPickImage> = ({
         });
     
         if (!result.canceled)  {
-            dispatch(SET_BACKGROUND({path: result.assets[0].uri, extension: result.assets[0].uri.split('.').at(-1) }));
+            DISPATCH(SET_BACKGROUND({path: result.assets[0].uri, extension: result.assets[0].uri.split('.').at(-1) }));
         } else {
             Platform.OS === 'ios' 
             ?
@@ -56,33 +55,41 @@ const PickImage: FC<IPickImage> = ({
         }
     };
 
-    return (
-        <View
-            style={[styles.container, {marginTop}]} 
+     /** `Кнопка выбора изображений из памяти приложеня.` */
+    const SelectFromAppImg = () => (
+        <Pressable 
+            style={styles.left}
+            onPress={() => {
+                VibrationApp.pressButton();
+                appRouter.push(path);
+            }}
         >
+            <View style={styles.iconBody}>
+                <Image source={ICON.GALERY} style={styles.icon} />
+            </View>
+        </Pressable>
+    );
+
+     /** `Кнопка выбора изображений из памяти телефона.` */
+    const SelectFromUserImg = () => (
+        <Pressable
+            style={styles.right} 
+            onPress={() => {
+                VibrationApp.pressButton();
+                pickImageAsync();
+            }}
+        >
+            <View style={styles.buttom} >
+                <Text style={styles.text} >{t('[day]:addDay.buttonChoiceBackground')}</Text>
+            </View>
+        </Pressable>
+    );
+
+    return (
+        <View style={[styles.container, {marginTop}]} >
             <View style={styles.body} >
-                <Pressable 
-                    style={styles.left}
-                    onPress={() => {
-                        VibrationApp.pressButton();
-                        appRouter.push(path);
-                    }}
-                >
-                    <View style={styles.iconBody}>
-                        <Image source={ICON.GALERY} style={styles.icon} />
-                    </View>
-                </Pressable>
-                <Pressable
-                    style={styles.right} 
-                    onPress={() => {
-                        VibrationApp.pressButton();
-                        pickImageAsync();
-                    }}
-                >
-                    <View style={styles.buttom} >
-                        <Text style={styles.text} >{t('[day]:addDay.buttonChoiceBackground')}</Text>
-                    </View>
-                </Pressable>
+                <SelectFromAppImg/>
+                <SelectFromUserImg/>
             </View>
         </View>
     );

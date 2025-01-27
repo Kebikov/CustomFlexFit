@@ -17,7 +17,7 @@ export type AppRouterTypes = {
     //: Equipment
     '/equipment': undefined;
     '/equipment/addEquipment': undefined;
-    '/equipment/SelectImgEquipment': undefined;
+    '/equipment/selectImgEquipment': undefined;
     
     //: day 
     '/day/guide': undefined; // описание как создавать тренировочный день

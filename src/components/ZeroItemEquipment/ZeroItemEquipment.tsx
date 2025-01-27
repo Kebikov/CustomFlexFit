@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import React, { FC } from 'react';
 import { EquipmentDTO } from '@/SQL/Equipment/DTO/EquipmentDTO';
 import useAppTranslation from '@/localization/helpers/useAppTranslation';
+import useHookImageCheck from '@/hook/useHookImageCheck';
+
 
 interface IZeroItemEquipment {
     item: Partial<EquipmentDTO>;
@@ -15,6 +17,7 @@ const ZeroItemEquipment: FC<IZeroItemEquipment> = ({
 }) => {
 
     const {t} = useAppTranslation(['[exercise]', '[equipment]']);
+    const {imgCheck} = useHookImageCheck();
 
 
     //* render 
@@ -26,20 +29,21 @@ const ZeroItemEquipment: FC<IZeroItemEquipment> = ({
                 style={styles.img} 
                 source={
                     item.img ?
-                    item.img 
+                    imgCheck(item.img)
                     :
                     require('@/source/img/imgForScreen/zeroFon.jpg')
                 } 
             />
         </View>
     );
+
     /** `Текст типа инвентаря.` 
      */
     const TypeEquipment = () => (
         <Text style={styles.title} >
             {
-                item.type ? 
-                t(`[equipment]:common.${item.type}`)
+                item.title ? 
+                item.title
                 :
                 t('[equipment]:common.name')
             }
@@ -49,7 +53,7 @@ const ZeroItemEquipment: FC<IZeroItemEquipment> = ({
      */
     const WeightEquipment = () => (
         <Text style={styles.text_weight} >
-            {item.weight ? item.weight : t('[equipment]:common.weight')}
+            {item.weight ? `${item.weight} ${t('[exercise]:equipment.kilograms')}`  : t('[equipment]:common.weight')}
         </Text>
     );
 

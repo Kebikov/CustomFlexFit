@@ -2,8 +2,10 @@ import { SharedValue } from "react-native-reanimated";
 import { StyleProp, ViewStyle } from "react-native";
 import { ComponentType, ReactElement, JSXElementConstructor } from "react";
 
+
+ /** `id как свойсво.` */
 export type TPositions = {
-    [key: string]: {
+    [id: string]: {
         updatedIndex: number;
         updatedTop: number;
     };

@@ -26,19 +26,27 @@ class EquipmentServise {
 
      /** `//* Добавление начальных данных.` */
     async initializeDatabase(db: SQLiteDatabase, data: Omit<EquipmentDTO, 'id'>[]) {
-        for(const item of data) {
-            await Equipment.insertOne(db, {
-                title: item.title,
-                type: item.type,
-                weight: item.weight,
-                img: item.img
-            });
-        }
+        await db.withTransactionAsync(async () => {
+            for(const item of data) {
+                await Equipment.insertOne(db, {
+                    title: item.title,
+                    type: item.type,
+                    weight: item.weight,
+                    img: item.img,
+                    order: item.order
+                });
+            }
+        });
     }
 
      /** `//* Удаление записи по ID.` */
     async findByIdAndDelete(db: SQLiteDatabase, id: number) {
         await Equipment.findByIdAndDelete(db, id);
+    }
+
+     /** `//* Обновление поля order(очередности).` */
+    async findByIdAndUpdateOrder<T extends {id: number, order: number}>(db: SQLiteDatabase, data: T[]) {
+        await Equipment.findByIdAndUpdateOrder(db, data);
     }
 }
 

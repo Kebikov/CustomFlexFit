@@ -33,7 +33,7 @@ export const useGesture = ({
     
     const topSv = useSharedValue<NullableNumber>(null);
 
-    const opacitySv = useSharedValue<number>(1);
+    const opacitySv = useSharedValue<number>(0);
 
     /** `Это ? Текуший передвигаемый элемент` */
     const isCurrentDraggingItem = useDerivedValue(() => isDragging.value && currentIndex.value === startIndexDv.value);
@@ -53,7 +53,9 @@ export const useGesture = ({
         () => currentPositions.value[id].updatedTop,
         (currentValue, previousValue) => {
             if(previousValue === null) {
-                topSv.value = withDelay(TIME_OF_ELEVATION / 2, withTiming(currentPositions.value[id].updatedTop, {duration: 0}))
+                opacitySv.value = withTiming(1, {duration: 300});
+                topSv.value = currentPositions.value[id].updatedTop;
+                //topSv.value = withDelay(TIME_OF_ELEVATION / 2, withTiming(currentPositions.value[id].updatedTop, {duration: 100}))
             }
         }
     )

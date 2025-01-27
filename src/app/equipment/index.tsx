@@ -13,7 +13,7 @@ import { useHookRouter } from '@/router/useHookRouter';
 import { useSharedValue } from 'react-native-reanimated';
 import logApp from '@/helpers/log';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
-import HelpText from '@/components/HelpText/HelpText';
+import { sortByOrder } from '@/helpers/sortByOrder';
 
 
 interface IselectEquipment {
@@ -47,12 +47,18 @@ const Equipments: FC = () => { logApp.page('selectEquipment');
     useEffect(() => {
         (async () => {
             const result = await EquipmentService.find(db);
-            setDataEquipment(result);
+            setDataEquipment(sortByOrder(result));
         })(); 
-        return () => {
-            
-        }
     }, []);
+
+    useEffect(() => {
+        return () => {
+            if(dataEquipment.length === 0) return;
+            (async () => {
+                await EquipmentService.findByIdAndUpdateOrder(db, dataEquipment);
+            })();
+        }
+    },[dataEquipment]);
 
     //* render 
     const Header = () => (
@@ -85,7 +91,7 @@ const Equipments: FC = () => { logApp.page('selectEquipment');
             <View style={styles.container} >
                 <Header/>
                 <DragFlatList
-                    style={{padding: 0, marginTop: 20, backgroundColor: 'blue', flex: 1}}
+                    style={{padding: 0, marginTop: 20, flex: 1}}
                     styleFlatList={{flex: 1, overflow: 'hidden'}}
                     contentContainerStyle={{height: dataEquipment.length * elementHeight}}
                     scrollEnabled

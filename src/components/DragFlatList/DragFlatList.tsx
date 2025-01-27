@@ -9,10 +9,11 @@ import { useEffect } from 'react';
 import { getDataAfterDrag } from './helpers/getDataAfterDrag';
 import {strApp} from '@/helpers/log';
 import { TIME_OF_ELEVATION } from './constants';
+import { ScrollView } from 'react-native';
 
 
 /** `//= Для создания списка с возможностью перетаскивания элементов.` */
-const DragFlatList = <T extends {id: number}>({
+const DragFlatList = <T extends {id: number, order: number}>({
     heightElement,
     data,
     setData,
@@ -42,6 +43,7 @@ const DragFlatList = <T extends {id: number}>({
      /** `Происходит ли перемешение или нет.` */
     const isDragging = useSharedValue<0 | 1>(0);
 
+     /** `Обновление состояния, так как произошло изминение порядка элементов.` */
     useAnimatedReaction(
         () => isDragging.value,
         (currentValue, previousValue) => {
@@ -84,6 +86,7 @@ const DragFlatList = <T extends {id: number}>({
         <View style={style} >
             {ListHeaderComponent}
             <Animated.View style={[animatedStyle, styleFlatList, {position: 'relative'}]} >
+
                 <FlatList
                     scrollEnabled={scrollEnabled}
                     contentContainerStyle={[{flexGrow: 1}, contentContainerStyle]}
@@ -106,7 +109,10 @@ const DragFlatList = <T extends {id: number}>({
                             </ListItem>  
                         )
                     }
+                    
+                    scrollEventThrottle={16}
                 />
+
                 <Animated.View style={[{position: 'absolute'}, animatedStyleNote]} >
                     {bottomComponentFlatList}
                 </Animated.View>

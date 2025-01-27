@@ -13,7 +13,7 @@ import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import HelpText from '@/components/HelpText/HelpText';
 import useAppTranslation from '@/localization/helpers/useAppTranslation';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
-import { SET_IMG_FOR_EQUIPMENT } from '@/redux/slice/setup.slice';
+import { SET_BACKGROUND } from '@/redux/slice/setup.slice';
 import ZeroItemEquipment from '@/components/ZeroItemEquipment/ZeroItemEquipment';
 
 
@@ -23,16 +23,21 @@ const AddEquipment: FC = () => {
     const DISPATCH = useAppDispatch();
     const {t} = useAppTranslation(['[exercise]', '[equipment]']);
 
-    const selectedImgForEquipment = useAppSelector(state => state.setupSlice.selectedImgForEquipment);
+    const background = useAppSelector(state => state.setupSlice.background);
     const [equipment, setEquipment] = useState<Partial<EquipmentDTO>>({});
+    console.log(JSON.stringify( equipment, null, 2));
+
+    const onAddEquipment = () => {
+        console.log('add');
+    }
 
     useEffect(() => {
-        if(selectedImgForEquipment) setEquipment(state => ({...state, img: String(selectedImgForEquipment)}))
+        if(background) setEquipment(state => ({...state, img: String(background)}))
         
         return () => {
-            DISPATCH(SET_IMG_FOR_EQUIPMENT(undefined));
+            DISPATCH(SET_BACKGROUND(undefined));
         }
-    }, [selectedImgForEquipment]);
+    }, [background]);
 
     return (
         <WrapperImageBackground
@@ -72,14 +77,14 @@ const AddEquipment: FC = () => {
 
                     <PickImage
                         aspect={[1,1]}
-                        path={'/equipment/SelectImgEquipment'}
+                        path={'/equipment/selectImgEquipment'}
                         marginTop={20}
                     />
                     <HelpText text={t('[exercise]:addExercise.infoAddImage')} />
                 </View>
                 <ButtonGreen
                     text={t('[equipment]:addEquipment.add')}
-                    handlePess={() => {}}
+                    handlePess={onAddEquipment}
                     marginTop={20}
                     fontSize={17}
                     marginBottom={40}

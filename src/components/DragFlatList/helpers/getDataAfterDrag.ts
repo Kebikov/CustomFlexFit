@@ -7,17 +7,26 @@ import { TPositions } from "../types"
  * @param positionSv Текушие позиции элементов.
  * @returns 
  */
-export const getDataAfterDrag = <T extends {id: number}>(data: T[], position: TPositions): T[] => {
+export const getDataAfterDrag = <T extends {id: number, order: number}>(data: T[], position: TPositions): T[] => {
     'worklet'
-    console.log('data =', typeof data[0].id);
+    
+    console.log(JSON.stringify( data, null, 2));
+
     const lengthObject = Object.keys(position).length;
-    const arrData = Array(lengthObject);
+    const arrData = Array(lengthObject) as T[];
 
     for(let id in position) {
-        arrData[position[id].updatedIndex] = data.find(item => String(item.id) === id)
+        const find = data.find(item => String(item.id) === id);
+
+        if(find) {
+            arrData[position[id].updatedIndex] = find;
+            // Обнавление поля order
+            arrData[position[id].updatedIndex].order = position[id].updatedIndex + 1;
+        }
+        
     }
 
-    console.log('newData = ', arrData);
+    console.log('newData = ', JSON.stringify( arrData, null, 2));
     return arrData;
 }
 

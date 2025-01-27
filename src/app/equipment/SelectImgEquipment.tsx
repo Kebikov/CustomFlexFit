@@ -8,7 +8,7 @@ import HeaderGoBack from '@/components/HeaderGoBack/HeaderGoBack';
 import Title from '@/components/Title/Title';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { useAppDispatch } from '@/redux/store/hooks';
-import { SET_IMG_FOR_EQUIPMENT } from '@/redux/slice/setup.slice';
+import { SET_BACKGROUND} from '@/redux/slice/setup.slice';
 import { useHookRouter } from '@/router/useHookRouter';
 import showMessage from '@/helpers/showMessage';
 import useAppTranslation from '@/localization/helpers/useAppTranslation';
@@ -56,7 +56,7 @@ const SelectImgEquipment: FC = () => {
                         text='выбрать'
                         handlePess={() => {
                             if(!selectedImg) return showMessage(t('alert_and_toast:imgNotSelect'))
-                            DISPATCH(SET_IMG_FOR_EQUIPMENT(selectedImg));
+                            DISPATCH(SET_BACKGROUND(selectedImg));
                             router.back();
                         }}
                         fontSize={16}

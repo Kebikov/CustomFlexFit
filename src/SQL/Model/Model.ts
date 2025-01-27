@@ -33,7 +33,7 @@ export function Model<T>({
                 )
             `)
             .catch((error) => { 
-                console.error(`${this.info}`, error) 
+                console.error(`Error in ${this.info}.create >>> `, error) 
             })
         }
 
@@ -43,7 +43,7 @@ export function Model<T>({
                 const result: T[] = await db.getAllAsync(`SELECT * FROM ${this.table}`);
                 return result;
             } catch(error) { 
-                console.error(`${this.info}`, error) 
+                console.error(`Error in ${this.info}.find >>>`, error); 
             };
         }
 
@@ -58,8 +58,9 @@ export function Model<T>({
                     VALUES
                     (${issues.join(',')})    
                 `, data as Array<string | number>);
+
             } catch (error) {
-                console.error(`${this.info}`, error);
+                console.error(`Error in ${this.info}.insertOne >>>`, error);
             }
         }
 
@@ -90,7 +91,7 @@ export function Model<T>({
                 }
                 
             } catch (error) {
-                console.error(`${this.info}`, error);
+                console.error(`Error in ${this.info}.maxValueColumn >>>`, error);
             }
         }
 
@@ -99,9 +100,30 @@ export function Model<T>({
             try {
                 await db.runAsync(`DELETE FROM ${this.table} WHERE id = ?`, [id]);
             } catch (error) {
-                console.error(`Error in ${this.info} >>>`, error);
+                console.error(`Error in ${this.info}.findByIdAndDelete >>>`, error);
             }
 
+        }
+
+         /** `//* Обновление поля order(очередности).` */
+        static async findByIdAndUpdateOrder<T extends {id: number, order: number}>(db: SQLiteDatabase, data: T[]) {
+            try {
+                await db.withTransactionAsync(async () => {
+                    for(const item of data) {
+                        await db.runAsync(
+                            `
+                                UPDATE ${this.table} 
+                                SET
+                                "order" = ?
+                                WHERE
+                                id = ?
+                            `,[item.order, item.id]
+                        );
+                    }
+                });
+            } catch (error) {
+                console.error(`Error in ${this.info}.updateOrders >>>`, error);
+            }
         }
     }
 
