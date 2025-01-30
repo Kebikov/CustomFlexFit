@@ -25,7 +25,7 @@ const Equipments: FC = () => { logApp.page('selectEquipment');
 
     const {t} = useAppTranslation(['[exercise]', '[equipment]']);
     const db = useSQLiteContext();
-    const {appRouter, router} = useHookRouter();
+    const {appRouter} = useHookRouter();
 
      /** `Id активной кнопки в данный момент.` */
     const activeButtonIdSv = useSharedValue<string>('');

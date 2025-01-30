@@ -25,7 +25,7 @@ const AddEquipment: FC = () => {
 
     const background = useAppSelector(state => state.setupSlice.background);
     const [equipment, setEquipment] = useState<Partial<EquipmentDTO>>({});
-    console.log(JSON.stringify( equipment, null, 2));
+    
 
     const onAddEquipment = () => {
         console.log('add');
