@@ -109,7 +109,6 @@ const Sql: FC = () => {
      */
     const showImgInConsole = async () => {
         const result = await ImageService.find();
-        console.log(JSON.stringify( result, null, 2));
     }
 
     const pressList_Equipment = async () => {

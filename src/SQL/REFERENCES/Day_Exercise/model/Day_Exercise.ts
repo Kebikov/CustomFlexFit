@@ -14,14 +14,16 @@ class Day_Exercise {
             await db.runAsync(`
                 CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE_RELATION_Day_Exercise}
                 (
-                    id_Day INT REFERENCES Day(id),
+                    id_Day      INT REFERENCES Day(id),
                     id_Exercise INT REFERENCES Exercise(id),
 
                     PRIMARY KEY (id_Day, id_Exercise),
 
+                    FOREIGN KEY (id_Day)
                     REFERENCES Day(id)
                     ON DELETE CASCADE,
 
+                    FOREIGN KEY (id_Exercise)
                     REFERENCES Exercise(id)
                     ON DELETE CASCADE
                 )

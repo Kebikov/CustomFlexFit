@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, Button } from 'react-native';
 import React, { FC } from 'react';
-import { COLOR_ROOT } from '@/constants/colors';
-// import loadDb from '@/SQLite/Backup/loadDb';
+
 import backupDB from '@/SQL/Database/Backup/backupDB';
 import { useAppDispatch } from '@/redux/store/hooks';
 //* component
@@ -9,12 +8,8 @@ import TopMenu from '@/components/TopMenu/TopMenu';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import Sql from '@/components/Sql/Sql';
 
-/**
- * @screen
- * Экран с настройками приложения.
- * @returns {JSX.Element}
- */
-//= SettingsScreen
+
+/** @page `//-- Экран с настройками приложения.` */
 const SettingsScreen: FC = () => {
 
     const dispatch = useAppDispatch();

@@ -31,7 +31,7 @@ const useHandleExercise = () => {
         for(const el of copyData) el.order >= newElement.order ? el.order += 1 : undefined;
          // Добавляем новый элемент.
         const newData = [...copyData.slice(0, findIndex + 1), newElement, ...copyData.slice(findIndex + 1)];
-        for(const el of newData) console.log(el.order);
+        
         DISPATCH(SET_EXERCISE_STATE(newData));
     }
 

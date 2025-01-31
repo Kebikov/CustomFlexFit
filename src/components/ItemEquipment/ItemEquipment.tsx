@@ -24,7 +24,7 @@ const ItemEquipment: FC<IItemEquipment> = ({
     const {imgCheck} = useHookImageCheck();
     const {t, t$} = useAppTranslation(['[exercise]', '[equipment]']);
     const {appRouter} = useHookRouter();
-    console.log(item);
+
     const db = useSQLiteContext();
 
      /** `Удаление снаряда.` */

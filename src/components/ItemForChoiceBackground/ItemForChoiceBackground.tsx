@@ -34,7 +34,6 @@ const ItemForChoiceBackground: FC<IItemForChoiceBackground> = ({
 
     const stylesSelect = {borderWidth: 2, borderColor: COLOR_ROOT.LIME_70};
 
-
     return(
         <Shadow style={[styles.shadowContainer, {height}]} distance={7} startColor='rgba(255, 255, 255, .2)' >
             <Pressable 

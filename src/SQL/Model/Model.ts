@@ -27,7 +27,7 @@ export function Model<T>({
          /** `//* Создание таблицы.` */
         static async create(db: SQLiteDatabase) {
             await db.runAsync(`
-                CREATE TABLE IF NOT EXISTS ${this.table}
+                CREATE TABLE IF NOT EXISTS "${this.table}"
                 (
                     ${this.model}
                 )

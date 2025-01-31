@@ -9,8 +9,6 @@ import { TPositions } from "../types"
  */
 export const getDataAfterDrag = <T extends {id: number, order: number}>(data: T[], position: TPositions): T[] => {
     'worklet'
-    
-    console.log(JSON.stringify( data, null, 2));
 
     const lengthObject = Object.keys(position).length;
     const arrData = Array(lengthObject) as T[];
@@ -26,7 +24,6 @@ export const getDataAfterDrag = <T extends {id: number, order: number}>(data: T[
         
     }
 
-    console.log('newData = ', JSON.stringify( arrData, null, 2));
     return arrData;
 }
 

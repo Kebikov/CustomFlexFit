@@ -91,8 +91,8 @@ const IndexLayout = () => {
 
                 <Stack.Screen name="modal" options={{presentation: 'modal'}} />
                 {/* folders */}
-                <Stack.Screen name='exercise' options={{animation: 'ios_from_left'}} />
-                <Stack.Screen name='day' options={{animation: 'ios_from_left'}} />
+                {/* <Stack.Screen name='exercise' options={{animation: 'ios_from_left'}} />
+                <Stack.Screen name='day' options={{animation: 'ios_from_left'}} /> */}
             </Stack>
         </MainLayout>
     )

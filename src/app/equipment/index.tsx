@@ -46,7 +46,6 @@ const Equipments: FC = () => { logApp.page('Equipments');
 
      /** `Получение данных с BD` */
     const getDataAsync = async () => {
-        console.log('ЗАпрос !');
         const result = await EquipmentService.find(db);
         setDataEquipment(sortByOrder(result));
     }

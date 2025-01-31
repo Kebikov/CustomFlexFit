@@ -28,10 +28,7 @@ const AddEquipment: FC = () => {
     const [equipment, setEquipment] = useState<Partial<EquipmentDTO>>({});
     const {router} = useHookRouter();
 
-    console.log('add start =', equipment);
-
     const onAddEquipment = () => {
-        console.log('add = ', equipment);
         if(!checkAddDataEquipment(equipment)) return;
          // Возврат на страницу с инвентарем
         if(router.canGoBack()) router.back(); 

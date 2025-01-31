@@ -14,14 +14,16 @@ class List_Equipment {
             await db.runAsync(`
                 CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE_RELATION_Set_Equipment}
                 (
-                    id_Set INT REFERENCES Set(id),
+                    id_Set       INT REFERENCES "Set"(id),
                     id_Equipment INT REFERENCES Equipment(id),
 
                     PRIMARY KEY (id_Set, id_Equipment),
 
-                    REFERENCES Set(id)
+                    FOREIGN KEY (id_Set)
+                    REFERENCES "Set"(id)
                     ON DELETE CASCADE,
 
+                    FOREIGN KEY (id_Equipment)
                     REFERENCES Equipment(id)
                     ON DELETE CASCADE
                 )

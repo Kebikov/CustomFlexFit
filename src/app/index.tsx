@@ -9,9 +9,7 @@ import { SET_PATH_TO_IMAGE_FOLDER } from '@/redux/slice/setup.slice';
 import logApp from '@/helpers/log';
 
 
-/**
- * @page Стартовая страница приложения. 
- */
+/** @page `//-- Стартовая страница приложения.` */
 const Index: FC = () => { logApp.page('Index');
     
     const {appRouter} = useHookRouter();

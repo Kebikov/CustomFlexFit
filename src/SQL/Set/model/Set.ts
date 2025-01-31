@@ -5,14 +5,14 @@ import { Model } from '@/SQL/Model/Model';
 
 const set_model = `
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "reps" INT,
-    "rest" INT,
-    "duration" INT,
+    "reps" INTEGER,
+    "rest" INTEGER,
+    "duration" INTEGER,
     "weight" INTEGER,
-    "id_Exercise" INT NOT NULL,
+    "id_Exercise" INTEGER NOT NULL,
 
     FOREIGN KEY (id_Exercise)
-    REFERENCES Exercise (id) 
+    REFERENCES Exercise(id) 
     ON DELETE CASCADE
 `;
 

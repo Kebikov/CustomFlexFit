@@ -11,23 +11,21 @@ import type { IExportImage } from '@/source/img/day';
 
 
 interface IScreenAddBackground {
+     /** `Массив изображений из которых выбираем.` */
     imagesForChoice: IExportImage[];
+     /** `Высота одного изображения.` */
     height: number;
 }
 
 
-/**
- * @modal `Экран для выбора фона для дня занятий.`
- * @param imagesForChoice Массив изображений из которых выбираем.
- * @param height Высота одного изображения.
- */
+/** @modal `//= Экран для выбора фона для дня занятий.` */
 const ScreenAddBackground: FC<IScreenAddBackground> = ({
     imagesForChoice,
     height
 }) => {
     
     const {t} = useTranslation(['[day]']);
-    const [selectImg, setSelectImg] = useState<string | number | undefined>(undefined);
+    const [selectImg, setSelectImg] = useState<string | undefined>(undefined);
     
     return (
         <WrapperScroll
@@ -50,7 +48,7 @@ const ScreenAddBackground: FC<IScreenAddBackground> = ({
                     data={imagesForChoice}
                     renderItem={({item}) => (
                         <ItemForChoiceBackground 
-                            imgObj={item} 
+                            img={String(item.source)} 
                             selectImg={selectImg} 
                             setSelectImg={setSelectImg} 
                             height={height} 
