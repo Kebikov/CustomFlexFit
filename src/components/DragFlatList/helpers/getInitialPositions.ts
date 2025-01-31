@@ -1,4 +1,4 @@
-import logApp from "@/helpers/log";
+import {logApp} from "@/helpers/log";
 import { TPositions } from "../types";
 
 

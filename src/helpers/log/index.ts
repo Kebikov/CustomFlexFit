@@ -1,4 +1,4 @@
-const logApp = {
+export const logApp = {
     page(text: string) {
         console.info(`\x1b[${44}m${'page:'}\x1b[0m\x1b[${34}m${' ' + text}\x1b[0m`);
     },
@@ -24,5 +24,3 @@ export const strApp = {
     Blue: (text: string) => `\x1b[${44}m${text}\x1b[0m`,
     Magenta: (text: string) => `\x1b[${45}m${text}\x1b[0m`
 }
-
-export default logApp;

@@ -13,15 +13,14 @@ import type { DayDTOomitId } from '@/SQL/Day/DTO/DayDTO';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
 import useCreateDay from '@/helpers/pages/addDay/useCreateDay';
 import DayElementZero from '@/components/DayElementZero/DayElementZero';
+import { logApp } from '@/helpers/log';
 
 
 export type TdayState = Pick<DayDTOomitId, 'title' | 'description' | 'img'>;
 
 
-/**
- * @page `Добавление тренировачного дня.`
- */
-const AddDay: FC = () => {
+/** @page `//-- Добавление тренировачного дня.` */
+const AddDay: FC = () => { logApp.page('AddDay')
 
     const db = useSQLiteContext();
     const {t} = useTranslation(['common', 'button', '[day]']);

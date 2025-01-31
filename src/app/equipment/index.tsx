@@ -11,7 +11,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { useHookRouter } from '@/router/useHookRouter';
 import { useSharedValue } from 'react-native-reanimated';
-import logApp from '@/helpers/log';
+import {logApp} from '@/helpers/log';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
 import { sortByOrder } from '@/helpers/sortByOrder';
 import { useFocusEffect } from 'expo-router';

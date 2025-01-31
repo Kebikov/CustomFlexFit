@@ -13,19 +13,16 @@ import { SET_BACKGROUND } from '@/redux/slice/setup.slice';
 
 
 interface IPickImage {
+     /** `Соотношение сторон для выбираемого изображения, работает на Андроид. [example: [2, 4]].` */
     aspect: [number, number];
+     /** `Путь к модальному окну для выбора изображения из библиотеки приложения.` */
     path: keyof AppRouterTypes;
+     /** `Отступ с верху.` */
     marginTop?: number;
 }
 
 
-/**
- * @component `Выбор изображения.`
- * @param aspect Соотношение сторон для выбираемого изображения, работает на Андроид. [example: [2, 4]].
- * @param path Путь к модальному окну для выбора изображения из библиотеки приложения.
- * @optional
- * @param marginTop ? Отступ с верху.
- */
+/** * @component `//= Выбор изображения.` */
 const PickImage: FC<IPickImage> = ({
     aspect,
     path,
@@ -45,7 +42,7 @@ const PickImage: FC<IPickImage> = ({
         });
     
         if (!result.canceled)  {
-            DISPATCH(SET_BACKGROUND({path: result.assets[0].uri, extension: result.assets[0].uri.split('.').at(-1) }));
+            DISPATCH(SET_BACKGROUND(result.assets[0].uri));
         } else {
             Platform.OS === 'ios' 
             ?
