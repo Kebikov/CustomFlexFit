@@ -4,7 +4,7 @@ const stylesValue = {
     },
     folder: {
         exercise: {
-            addRepsRest: {
+            addSet: {
                 fontSizeTitle: 21,
                 borderRadius: 22
             }

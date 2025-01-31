@@ -6,31 +6,31 @@ import { Shadow } from 'react-native-shadow-2';
 import type { IExportImage } from '@/source/img/day';
 import { SET_BACKGROUND } from '@/redux/slice/setup.slice';
 import ImageService from '@/SQL/Database/service/ImageService';
+import useHookImageCheck from '@/hook/useHookImageCheck';
 
 
 export interface IItemForChoiceBackground {
-    imgObj: IExportImage;
-    setSelectImg: React.Dispatch<React.SetStateAction<string | number | undefined>>;
-    selectImg: string | number | undefined;
+     /** `Изображение фона` */
+    img: string;
+     /** `[SetStateAction] > для установки выбранного изображения.` */
+    setSelectImg: React.Dispatch<React.SetStateAction<string | undefined>>;
+     /** `Изображение фона которое было выбрано.` */
+    selectImg: string | undefined;
+     /** `Высота изображения в списке.` */
     height: number;
 }
 
 
-/**
- * @components `Изображение для фона.`
- * @param imgObj  Обьект изображение фона.
- * @param selectImg Изображение фона которое было выбрано.
- * @param setSelectImg SetStateAction для установки выбранного изображения.
- * @param height Высота изображения в списке.
- */
+/** @components `//= Изображение для фона.` */
 const ItemForChoiceBackground: FC<IItemForChoiceBackground> = ({
-    imgObj,
+    img,
     setSelectImg,
     selectImg,
     height
 }) => {
 
-    const dispatch = useAppDispatch();
+    const DISPATCH = useAppDispatch();
+    const {imgCheck} = useHookImageCheck();
 
     const stylesSelect = {borderWidth: 2, borderColor: COLOR_ROOT.LIME_70};
 
@@ -38,17 +38,15 @@ const ItemForChoiceBackground: FC<IItemForChoiceBackground> = ({
     return(
         <Shadow style={[styles.shadowContainer, {height}]} distance={7} startColor='rgba(255, 255, 255, .2)' >
             <Pressable 
-                style={[styles.img_boxImgBackground, selectImg && selectImg === imgObj.source ? stylesSelect : null]} 
+                style={[styles.img_boxImgBackground, selectImg && selectImg === img ? stylesSelect : null]} 
                 onPress={async () => {
                     try {
-                        const fullNameImage = imgObj.source + '.' + imgObj.extension;
-                        const path = await ImageService.getPathToImage(fullNameImage); 
-                        setSelectImg(imgObj.source);
-                        dispatch(SET_BACKGROUND({path: path, extension: imgObj.extension}));
+                        setSelectImg(img);
+                        DISPATCH(SET_BACKGROUND(img));
                     } catch (error) { console.error(error) }
                 }}
             >
-                <Image source={imgObj.source} style={styles.img_ImgBackground} />
+                <Image source={imgCheck(img)} style={styles.img_ImgBackground} />
             </Pressable>
         </Shadow>
     )
@@ -59,7 +57,6 @@ const styles = StyleSheet.create({
     shadowContainer: {
         width: '100%'
     },
-
     img_boxImgBackground: {
         width: '100%',
         height: '100%',

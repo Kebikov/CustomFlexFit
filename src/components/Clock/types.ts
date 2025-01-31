@@ -3,6 +3,7 @@ import { SharedValue } from "react-native-reanimated";
 
 export type TTypeClock = 'hours/minutes' | 'minutes_30/seconds';
 
+
 export type TStateDataClock = {
     [key: string]: {
         'one': number;

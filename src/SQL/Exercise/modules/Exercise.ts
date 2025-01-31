@@ -4,7 +4,7 @@ import { Model } from '@/SQL/Model/Model';
 
 
 const exercise_model = `
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id" INT PRIMARY KEY AUTOINCREMENT,
     "order" INT,
     "title" TEXT,
     "description" TEXT,

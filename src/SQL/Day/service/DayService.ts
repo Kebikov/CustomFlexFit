@@ -5,6 +5,7 @@ import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
 
 
+
 class DayServise {
 
     /**
@@ -41,14 +42,14 @@ class DayServise {
     async insertOne(db: SQLiteDatabase, entity: DayDTO): Promise<boolean> {
         try {
             // Если очередь равна 0, усанавливаем очередь.
-            if(entity.queue === 0) {
-                const maxQueue = await Day.maxValueColumn(db, 'queue');
+            if(entity.order === 0) {
+                const maxQueue = await Day.maxValueColumn(db, 'order');
                 if(maxQueue === undefined) return false;
 
                 if(maxQueue > 0) {
-                    entity.queue = maxQueue + 1;
+                    entity.order = maxQueue + 1;
                 } else {
-                    entity.queue = 1;
+                    entity.order = 1;
                 }
             }
 

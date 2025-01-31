@@ -1,7 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import { FC, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHookRouter } from '@/router/useHookRouter';
 import { useAppSelector } from '@/redux/store/hooks';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_BACKGROUND } from '@/redux/slice/setup.slice';
@@ -29,21 +28,18 @@ const AddDay: FC = () => {
     const dispatch = useAppDispatch();
 
     const [dayState, setDayState] = useState<TdayState>({
-        img: {
-            path: undefined,
-            extension: undefined
-        },
+        img: '',
         title: t('[day]:addDay.title'), 
         description: t('[day]:addDay.description')
     });
 
-    const selectedBackgroundDay = useAppSelector(state => state.setupSlice.selectedBackground);
+    const background = useAppSelector(state => state.setupSlice.background);
 
     const {createDay} = useCreateDay(db, dayState);
 
     useEffect(() => {
-        selectedBackgroundDay ? setDayState(state => ({...state, img: selectedBackgroundDay})) : null;
-    }, [selectedBackgroundDay]);
+        background ? setDayState(state => ({...state, img: String(background)})) : null;
+    }, [background]);
 
     useEffect(() => {
         return() => {
@@ -64,13 +60,13 @@ const AddDay: FC = () => {
                         title={dayState.title}
                         description={dayState.description}
                         backgroundZero={true} 
-                        img={dayState.img.path}
-                        isShowShadow={selectedBackgroundDay ? true : false}
+                        img={dayState.img}
+                        isShowShadow={background ? true : false}
                     />
 
                     <PickImage
                         aspect={[28, 10]}
-                        modalPath='/day/modalAddDay'
+                        path='/day/modalAddDay'
                         marginTop={30}
                     />
 

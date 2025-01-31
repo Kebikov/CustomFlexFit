@@ -41,7 +41,7 @@ const AddExercise: FC = () => { logApp.page('AddExercise');
                     DISPATCH(SET_EXERCISE_STATE(data));
                     const index = data.findIndex(el => el.id === item.id);
                     // переход на страницу редактирования упражнения по индексу в массиве данных
-                    appRouter.navigate({pathname: '/exercise/addRepsRest', params: {sendIndex: String(index)}});
+                    appRouter.navigate({pathname: '/exercise/addSet', params: {sendIndex: String(index)}});
                 }}
                 onPressButton2={() => addElement(item.id, data)}
                 onPressButton3={() => removeElement(item.id, data)}

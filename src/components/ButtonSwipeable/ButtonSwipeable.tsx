@@ -190,7 +190,7 @@ const ButtonSwipeable: FC<IButtonSwipeable> = ({
         (currentValue, previousValue) => {
             // Если, id(idButton) кнопки и установленный активный id(activeButtonIdSv) не совподают, закрываем данную кнопку.
             if(idButton) {
-                if(activeButtonIdSv && activeButtonIdSv.value !== idButton || activeButtonIdSv && activeButtonIdSv.value === '') {
+                if(activeButtonIdSv && activeButtonIdSv.value !== idButton || activeButtonIdSv && activeButtonIdSv.value === 0) {
                     closeStateButton();
                 }
             }

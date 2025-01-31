@@ -13,8 +13,8 @@ export interface ILng_Exercise {
         infoAddImage: string;
         infoCreateExercise: string;
     },
-    addRepsRest: {
-        titleAddRepsRest: string;
+    addSet: {
+        titleAddSet: string;
         nameAndNote: string;
 
         titleReps: string;

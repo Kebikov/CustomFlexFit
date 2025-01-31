@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, Platform, Pressable } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import type { TKeyItem } from '../itemsForAddRepsRest/Weight/Weight';
+import type { TKeyItem } from '../itemsForAddSet/Weight/Weight';
 
 
 interface IItemAddWeight {

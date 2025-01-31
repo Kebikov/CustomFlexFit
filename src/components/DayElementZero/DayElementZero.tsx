@@ -1,10 +1,5 @@
-import { View, Text, StyleSheet, ImageBackground, Image, Pressable, Platform } from 'react-native';
-import React, { FC, useState, useEffect } from 'react';
-import { COLOR_ROOT } from '@/constants/colors';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { useAppDispatch } from '@/redux/store/hooks';
-import { useHookRouter } from '@/router/useHookRouter';
-import type { DayDTOomitId, DayDTO } from '@/SQL/Day/DTO/DayDTO';
+import { View, Text, ImageBackground, Image, Pressable, Platform } from 'react-native';
+import React, { FC } from 'react';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
 import { styleFontConvertForTitle } from '@/styles/font';
 import useConvertFont from '@/hook/useConvertFont';
@@ -14,28 +9,24 @@ import { styleDayElement } from '../DayElement/DayElement';
 import useHookImageCheck from '@/hook/useHookImageCheck';
 
 
-
 interface IDayElementZero {
+     /** `Установливаеваемый заголовок.` */
     title?: string;
+     /** `Устанавливаемое описание дня занятий.` */
     description?: string;
+     /** `Цвет фона пока нет изображения.` */
     backgroundZero?: boolean;
+     /** `Выбраное изображение для фона дня.` */
     img?: number | string;
+     /** `Отображать ли тень. [default - true]` */
     isShowShadow?: boolean;
+     /** `Ширина компонента в процентах. [example - 100]` */
     width?: number;
 }
 
 
-/**
- * @component `Карточка дня занятий с нулевыми данными.`
- * @optional
- * @param title ? Установливаеваемый заголовок.
- * @param description ? Устанавливаемое описание дня занятий.
- * @param backgroundZero ? Цвет фона пока нет изображения.
- * @param img ? Выбраное изображение для фона дня.
- * @param isShowShadow ? Отображать ли тень. [default - true]
- * @param width ? Ширина компонента в процентах. [example - 100]
- */
-const DayElementZero: FC<IDayElementZero> = ({ 
+/** @component `//= Карточка дня занятий с нулевыми данными.` */
+const DayElementZero: FC<IDayElementZero> = ({
     title,
     description,
     backgroundZero,
@@ -43,7 +34,7 @@ const DayElementZero: FC<IDayElementZero> = ({
     isShowShadow = true,
     width = 100
 }) => {
-    console.debug('day >>> ', typeof img);
+    
     const {textCurrentDay} = getCurrentDateInFormatArray();
     const {convertFont} = useConvertFont();
     const {imgCheck} = useHookImageCheck();

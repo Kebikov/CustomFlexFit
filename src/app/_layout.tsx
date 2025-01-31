@@ -13,16 +13,17 @@ import { useColorScheme } from 'react-native';
 import { COLOR_ROOT } from '@/constants/colors';
 import { PortalProvider, PortalHost } from '@gorhom/portal';
 import '@/localization/i18n';
+import React from 'react';
 //* SQLite
 import DayService from '@/SQL/Day/service/DayService';
 import ExerciseService from '@/SQL/Exercise/service/ExerciseService';
 import DatabaseService from '@/SQL/Database/service/DatabaseService';
 import EquipmentService from '@/SQL/Equipment/service/EquipmentService';
-import ListService from '@/SQL/List/service/ListService';
-import List_Equipment_Service from '@/SQL/REFERENCES/List_Equipment/service/List_Equipment_Service';
-import RepsRestService from '@/SQL/RepsRest/service/RepsRestService';
+import Set_Equipment_Service from '@/SQL/REFERENCES/Set_Equipment/service/Set_Equipment_Service';
+import Day_Exercise_Service from '@/SQL/REFERENCES/Day_Exercise/service/Day_Exercise_Service';
+import SetService from '@/SQL/Set/service/SetService';
 import dataEquipment from '@/data/equipment/dataEquipment';
-import React from 'react';
+
 
 
 DarkTheme.colors.background = COLOR_ROOT.BACKGROUND;
@@ -113,15 +114,14 @@ async function migrateDbIfNeeded(db: SQLiteDatabase) {
 
                 await DayService.createTable(db);
                 await ExerciseService.createTable(db);
-                await ListService.createTable(db);
+                await SetService.createTable(db);
                 await EquipmentService.createTable(db);
-                await List_Equipment_Service.createTable(db);
-                await RepsRestService.createTable(db);
 
                 await EquipmentService.initializeDatabase(db, dataEquipment);
 
-                //await dayService.addDataStartInTableDay(db);
-                //await exerciseService.addDataStartInTableExercise(db);
+                await Day_Exercise_Service.createTable(db);
+                await Set_Equipment_Service.createTable(db);
+
             });
         }
         //* меняем версию базы данных

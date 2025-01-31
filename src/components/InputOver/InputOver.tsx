@@ -47,8 +47,8 @@ const InputOver = <I extends object | number>({
                             <View style={styles.input_container} >
                                 <InputForAdd<I>
                                     setState={setState}
-                                    title={t('[exercise]:addRepsRest.titleWeight')}
-                                    placeholder={t('[exercise]:addRepsRest.weightPlaseholder')}
+                                    title={t('[exercise]:addSet.titleWeight')}
+                                    placeholder={t('[exercise]:addSet.weightPlaseholder')}
                                     maxLength={5}
                                     keyboardType='numeric'
                                     onEnterOk={closeInput}
@@ -64,7 +64,7 @@ const InputOver = <I extends object | number>({
                                     }}
                                     style={styles.button_set}
                                 >
-                                    <Text style={styles.text_set} >{t('[exercise]:addRepsRest.set')}</Text>
+                                    <Text style={styles.text_set} >{t('[exercise]:addSet.set')}</Text>
                                 </Pressable>
                             </View>
 

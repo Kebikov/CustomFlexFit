@@ -12,7 +12,7 @@ export type AppRouterTypes = {
     '/exercise/[id]': {dayExercise: number};
     '/exercise/modal': undefined;
     '/exercise/modalAddImageExercise': undefined;
-    '/exercise/addRepsRest': {sendIndex: string};
+    '/exercise/addSet': {sendIndex: string};
 
     //: Equipment
     '/equipment': undefined;

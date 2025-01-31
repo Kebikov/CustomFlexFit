@@ -1,22 +1,21 @@
-export type TTables = 'Day' | 'Exercise' | 'List' | 'Equipment' | 'RepsRest' | 'List_Equipment';
+export type TTables = 'Day' | 'Exercise' | 'List' | 'Equipment' | 'Set' | 'Set_Equipment' | 'Day_Exercise';
 
-/**
- * @constant Таблицы в BD.
- * @param DB_Name Имя BD.
- * @param TABLE_Day Тренировочный день.
- * @param TABLE_Exercise Упражнение.
- * @param TABLE_List Список подходов: какое упражнение + вес + повторы + время отдыха.
- * @param TABLE_Equipment Используемый инвентарь, блины, грифы.
- * @param TABLE_RepsRest Количество повторений и отдых после упражнения.
- */
+
 export interface IConfiguration {
+     /** `Имя BD` */
     DB_Name: string;
+     /** `Тренировочный день.` */
     TABLE_Day: TTables;
+     /** `Упражнение.` */
     TABLE_Exercise: TTables;
     TABLE_List: TTables;
+     /** `Используемый инвентарь, блины, грифы.` */
     TABLE_Equipment: TTables;
-    TABLE_RepsRest: TTables;
-    TABLE_RELATION_List_Equipment: TTables;
+     /** `Подход в упражнении.` */
+    TABLE_Set: TTables;
+
+    TABLE_RELATION_Day_Exercise: TTables;
+    TABLE_RELATION_Set_Equipment: TTables;
 }
 
 
@@ -27,9 +26,10 @@ const CONFIGURATION: IConfiguration = {
 	TABLE_Exercise: 'Exercise',
     TABLE_List: 'List',
     TABLE_Equipment: 'Equipment',
-    TABLE_RepsRest: 'RepsRest',
+    TABLE_Set: 'Set',
     
-    TABLE_RELATION_List_Equipment: 'List_Equipment'
+    TABLE_RELATION_Day_Exercise: 'Day_Exercise',
+    TABLE_RELATION_Set_Equipment: 'Set_Equipment'
 };
 
 

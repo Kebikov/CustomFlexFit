@@ -12,7 +12,7 @@ import DayService from '@/SQL/Day/service/DayService';
 import exerciseService from '@/SQL/Exercise/service/ExerciseService';
 import databaseService from '@/SQL/Database/service/DatabaseService';
 import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
-import List_Equipment_Service from '@/SQL/REFERENCES/List_Equipment/service/List_Equipment_Service';
+import List_Equipment_Service from '@/SQL/REFERENCES/Set_Equipment/service/Set_Equipment_Service';
 import Database from '@/SQL/Database/model/Database';
 import DatabaseService from '@/SQL/Database/service/DatabaseService';
 
