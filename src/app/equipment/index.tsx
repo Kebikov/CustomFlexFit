@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useCallback } from 'react';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import { COLOR_ROOT } from '@/constants/colors';
 import Title from '@/components/Title/Title';
@@ -14,14 +14,14 @@ import { useSharedValue } from 'react-native-reanimated';
 import logApp from '@/helpers/log';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
 import { sortByOrder } from '@/helpers/sortByOrder';
-
+import { useFocusEffect } from 'expo-router';
 
 interface IselectEquipment {
 }
 
 
 /** @page `//: Страница выбора оборудования для занятий.` */
-const Equipments: FC = () => { logApp.page('selectEquipment');
+const Equipments: FC = () => { logApp.page('Equipments');
 
     const {t} = useAppTranslation(['[exercise]', '[equipment]']);
     const db = useSQLiteContext();
@@ -44,13 +44,21 @@ const Equipments: FC = () => { logApp.page('selectEquipment');
         )
     };
 
-    useEffect(() => {
-        (async () => {
-            const result = await EquipmentService.find(db);
-            setDataEquipment(sortByOrder(result));
-        })(); 
-    }, []);
+     /** `Получение данных с BD` */
+    const getDataAsync = async () => {
+        console.log('ЗАпрос !');
+        const result = await EquipmentService.find(db);
+        setDataEquipment(sortByOrder(result));
+    }
 
+     // Обновление данных при фокусе страницы.
+    useFocusEffect(
+        useCallback(() => { 
+            getDataAsync();
+        }, [])
+    );
+
+     // Обновление очередности при покидании страницы.
     useEffect(() => {
         return () => {
             if(dataEquipment.length === 0) return;

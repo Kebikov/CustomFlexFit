@@ -105,7 +105,7 @@ async function migrateDbIfNeeded(db: SQLiteDatabase) {
         let version = await DatabaseService.getVersion(db);
         
         //* если версия равна или больше чем DATABASE_VERSION, то ни чего не делаем
-        if (version >= DATABASE_VERSION) return;
+        if (version && version >= DATABASE_VERSION) return;
         //* если версия равна 0 значит она только что создана и можно заволняь ее начальными данными, если надо
         if(version === 0) {
             await db.withExclusiveTransactionAsync(async () => {

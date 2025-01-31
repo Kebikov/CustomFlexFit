@@ -30,8 +30,12 @@ class ImageService {
 
     //* Получение всех изображений в папке. 
     async find(): Promise<string[] | undefined> {
-        const arrNamesImg = await Database.getFilesFromFolder('myImage');
-        return arrNamesImg && Array.isArray(arrNamesImg) ? arrNamesImg : undefined;
+        try {
+            const arrNamesImg = await Database.getFilesFromFolder('myImage');
+            return arrNamesImg && Array.isArray(arrNamesImg) ? arrNamesImg : undefined;
+        } catch (error) {
+            console.error('Error in ImageService.find >>>', error);
+        }
     }
 
     /**
@@ -46,17 +50,21 @@ class ImageService {
     /**
      * `Получение пути к изображению.`
      */
-    async getPathToImage(data: string): Promise<string> {
-        // Проверяем, это путь или название файла, если изображение выбрано из библиотеке App, то имя будет как число + расширение файла > "12.jpg"
-        const partOne = data.split('.')[0];
-        // Проверка, является ли первая састь имени числом, если да то изображение выбрано из App
-        if(partOne && !isNaN(Number(partOne))) {
-            const assetObj = Asset.fromModule(Number(partOne));
-            await assetObj.downloadAsync();
-            const assetPath = assetObj.localUri || assetObj.uri;
-            return assetPath;
-        } else {
-            return data;
+    async getPathToImage(data: string): Promise<string | undefined> {
+        try {
+            // Проверяем, это путь или название файла, если изображение выбрано из библиотеке App, то имя будет как число + расширение файла > "12.jpg"
+            const partOne = data.split('.')[0];
+            // Проверка, является ли первая састь имени числом, если да то изображение выбрано из App
+            if(partOne && !isNaN(Number(partOne))) {
+                const assetObj = Asset.fromModule(Number(partOne));
+                await assetObj.downloadAsync();
+                const assetPath = assetObj.localUri || assetObj.uri;
+                return assetPath;
+            } else {
+                return data;
+            }
+        } catch (error) {
+            console.error('Error in DatabaseService.getPathToImage >>>', error);
         }
     }
 

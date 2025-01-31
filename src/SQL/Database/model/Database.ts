@@ -25,58 +25,86 @@ class Database {
      * `//* Закрытие базы данных.`
      */
     async close(db: SQLiteDatabase) {
-        await db.closeAsync();
+        try {
+            await db.closeAsync();
+        } catch (error) {
+            console.error('Error in Database.close >>>', error);
+        }
     }
 
     /**
      * `//* Удаление базы даннных.`
      */
     async remove() {
-        await SQLite.deleteDatabaseAsync(CONFIGURATION.DB_Name);
+        try {
+            await SQLite.deleteDatabaseAsync(CONFIGURATION.DB_Name);
+        } catch (error) {
+            console.error('Error in Database.remove >>>', error);
+        }
     }
 
     /**
      * `//* Возврат количества записей в таблице.`
      */
-    async findCountTable(db: SQLiteDatabase, table: TTables): Promise<number | null> {
-        const result: {"COUNT(*)": number} | null = await db.getFirstAsync(`SELECT COUNT(*) FROM ${table}`);
-        if(result !== null) {
-            return result['COUNT(*)'];
-        } else {
-            return null;
+    async findCountTable(db: SQLiteDatabase, table: TTables): Promise<number | null | undefined> {
+        try {
+
+            const result: {"COUNT(*)": number} | null = await db.getFirstAsync(`SELECT COUNT(*) FROM ${table}`);
+            if(result !== null) {
+                return result['COUNT(*)'];
+            } else {
+                return null;
+            }
+
+        } catch (error) {
+            console.error('Error in  Database.findCountTable >>>', error);
         }
     }
 
     /**
      * `//* Возврат всех таблиц в базе данных.`
      */
-    async findTable(db: SQLiteDatabase): Promise<Array<string>> {
-        const tables: Array<{"name": string}> = await db.getAllAsync(`SELECT name FROM sqlite_master WHERE type='table'`);
-        const currentArrayTables: Array<string> = [];
+    async findTable(db: SQLiteDatabase): Promise<Array<string> | undefined> {
+        try {
+            const tables: Array<{"name": string}> = await db.getAllAsync(`SELECT name FROM sqlite_master WHERE type='table'`);
+            const currentArrayTables: Array<string> = [];
 
-        tables.forEach(item => {
-            if(item.name !== 'sqlite_sequence') currentArrayTables.push(item.name);
-        });
-        
-        return currentArrayTables;
+            tables.forEach(item => {
+                if(item.name !== 'sqlite_sequence') currentArrayTables.push(item.name);
+            });
+            
+            return currentArrayTables;
+
+        } catch (error) {
+            console.error('Error in  Database.findTable >>>', error);
+        }
     }
 
     /**
      * `//* Установка версии базы данных.`
      */
     async setVersion(db: SQLiteDatabase, version: number) {
-        await db.runAsync(`PRAGMA user_version = ${version}`);
+        try {
+            await db.runAsync(`PRAGMA user_version = ${version}`);
+        } catch (error) {
+            console.error('Error in Database.setVersion >>>', error);
+        }
     }
 
     /**
      * `//* Возврат версии базы данных.`
      */
     async getVersion(db: SQLiteDatabase) {
-        let version = await db.getFirstAsync<{ user_version: number } | null>('PRAGMA user_version');
-        if(version && version.user_version) {
-            return version.user_version;
-        } else {
-            return 0;
+        try {
+
+            let version = await db.getFirstAsync<{ user_version: number } | null>('PRAGMA user_version');
+            if(version && version.user_version) {
+                return version.user_version;
+            } else {
+                return 0;
+            }
+        } catch (error) {
+            console.error('Error in Database.getVersion >>>', error);
         }
     }
 
@@ -84,7 +112,12 @@ class Database {
      * `//* включени более эфективного режима работы базы данных.`
      */
     async modeWal(db: SQLiteDatabase) {
-        await db.runAsync(`PRAGMA journal_mode = 'wal'`);
+        try {
+            await db.runAsync(`PRAGMA journal_mode = 'wal'`);
+        } catch (error) {
+            console.error('Error in Database.modeWal >>>', error);
+        }
+        
     }
 
     /**
@@ -161,7 +194,7 @@ class Database {
             // const folders1 = await FileSystem.readDirectoryAsync(pathPicasso);
 
         } catch (error) {
-            console.error('Error in showCasheFolder >>>', error);
+            console.error('Error in Database.showCasheFolder >>>', error);
         }
     }
 
@@ -185,7 +218,7 @@ class Database {
             console.info(`Файлы в папке "${folderName}:"`, files);
             return files;
         } catch (error) {
-            console.error('Error in Database.getFilesFromFolder() >>>', error);
+            console.error('Error in Database.getFilesFromFolder >>>', error);
         }
     }
 

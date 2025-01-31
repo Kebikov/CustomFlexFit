@@ -5,18 +5,16 @@ import { ListDTO } from '../DTO/ListDTO';
 
 class List {
 
-    /**
-     * `//* Создание таблицы.`
-     */
+    /** `//* Создание таблицы.` */
     async create(db: SQLiteDatabase): Promise<void> {
         try {
-            const result = await db.runAsync(`
+            await db.runAsync(`
                 CREATE TABLE IF NOT EXISTS ${CONFIGURATION.TABLE_List}
                 (
-                    id INT PRIMARY KEY AUTOINCREMENT,
-                    order INT UNIQUE,
-                    id_Day INT NOT NULL,
-                    id_Exercise INT NOT NULL,
+                    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+                    "order" INT UNIQUE,
+                    "id_Day" INT NOT NULL,
+                    "id_Exercise" INT NOT NULL,
 
                     CONSTRAINT FK_List_id_Day
                     FOREIGN KEY (id_Day)
@@ -30,19 +28,17 @@ class List {
                 )
             `);
         } catch (error) {
-            console.error('Error in  >>>', error);
+            console.error('Error in List.create >>>', error);
         }
     }
 
-    /**
-     * `//* Возврат записей в таблице.`
-     */
+    /** `//* Возврат записей в таблице.` */
     async find(db: SQLiteDatabase): Promise<ListDTO[] | undefined> {
         try{
             const result: ListDTO[] = await db.getAllAsync(`SELECT * FROM ${CONFIGURATION.TABLE_List}`);
             return result;
         } catch(error) {
-            console.error('Error in Days.find >>> ', error);
+            console.error('Error in List.find >>> ', error);
         }
     }
 

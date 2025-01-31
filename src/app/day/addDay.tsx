@@ -12,7 +12,7 @@ import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import InputForAdd from '@/components/InputForAdd/InputForAdd';
 import type { DayDTOomitId } from '@/SQL/Day/DTO/DayDTO';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
-import useCreateDay from '@/helpers/pages/AddDay/useCreateDay';
+import useCreateDay from '@/helpers/pages/addDay/useCreateDay';
 import DayElementZero from '@/components/DayElementZero/DayElementZero';
 
 

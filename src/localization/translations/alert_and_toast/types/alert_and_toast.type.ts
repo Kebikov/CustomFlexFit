@@ -5,4 +5,5 @@ export interface ILng_alert_and_toast {
     maxLength1: string;
     maxLength2: string;
     itLastElement: string;
+    notWeight: string;
 }

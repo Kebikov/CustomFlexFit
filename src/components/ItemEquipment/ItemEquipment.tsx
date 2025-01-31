@@ -24,7 +24,7 @@ const ItemEquipment: FC<IItemEquipment> = ({
     const {imgCheck} = useHookImageCheck();
     const {t, t$} = useAppTranslation(['[exercise]', '[equipment]']);
     const {appRouter} = useHookRouter();
-
+    console.log(item);
     const db = useSQLiteContext();
 
      /** `Удаление снаряда.` */
@@ -77,13 +77,7 @@ const ItemEquipment: FC<IItemEquipment> = ({
                     <View style={styles.box_text} >
                         <Text style={styles.title} >
                             {
-                                item.type === 'plate' ?
-                                `${t$(item.title)} ${item.weight}`
-                                :
-                                t$(item.title) === '' ?
-                                t('[equipment]:common.name')
-                                :
-                                t$(item.title)
+                                item.order + ' ' + t$(item.title)
                             }
                         </Text>
                         <Text style={styles.text_weight} >

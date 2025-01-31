@@ -6,7 +6,6 @@ import Title from '@/components/Title/Title';
 import InputForAdd from '@/components/InputForAdd/InputForAdd';
 import { EquipmentDTO } from '@/SQL/Equipment/DTO/EquipmentDTO';
 import PickImage from '@/components/PickImage/PickImage';
-import ItemEquipment from '@/components/ItemEquipment/ItemEquipment';
 import { useAppSelector, useAppDispatch } from '@/redux/store/hooks';
 import ButtonsTypeEquipment from '@/components/ButtonsTypeEquipment/ButtonsTypeEquipment';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
@@ -15,6 +14,8 @@ import useAppTranslation from '@/localization/helpers/useAppTranslation';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
 import { SET_BACKGROUND } from '@/redux/slice/setup.slice';
 import ZeroItemEquipment from '@/components/ZeroItemEquipment/ZeroItemEquipment';
+import { useHookRouter } from '@/router/useHookRouter';
+import { checkAddDataEquipment } from '@/helpers/pages/addEquipment/checkAddData';
 
 
 /** `//= Окно добавления инвентаря.` */
@@ -25,10 +26,15 @@ const AddEquipment: FC = () => {
 
     const background = useAppSelector(state => state.setupSlice.background);
     const [equipment, setEquipment] = useState<Partial<EquipmentDTO>>({});
-    
+    const {router} = useHookRouter();
+
+    console.log('add start =', equipment);
 
     const onAddEquipment = () => {
-        console.log('add');
+        console.log('add = ', equipment);
+        if(!checkAddDataEquipment(equipment)) return;
+         // Возврат на страницу с инвентарем
+        if(router.canGoBack()) router.back(); 
     }
 
     useEffect(() => {
