@@ -3,19 +3,17 @@ import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { Shadow } from 'react-native-shadow-2';
-import type { IExportImage } from '@/source/img/day';
 import { SET_BACKGROUND } from '@/redux/slice/setup.slice';
-import ImageService from '@/SQL/Database/service/ImageService';
 import useHookImageCheck from '@/hook/useHookImageCheck';
 
 
 export interface IItemForChoiceBackground {
      /** `Изображение фона` */
-    img: string;
+    img: number;
      /** `[SetStateAction] > для установки выбранного изображения.` */
-    setSelectImg: React.Dispatch<React.SetStateAction<string | undefined>>;
+    setSelectImg: React.Dispatch<React.SetStateAction<number| undefined>>;
      /** `Изображение фона которое было выбрано.` */
-    selectImg: string | undefined;
+    selectImg: number | undefined;
      /** `Высота изображения в списке.` */
     height: number;
 }

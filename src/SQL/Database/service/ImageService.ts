@@ -1,30 +1,84 @@
-import { SQLiteDatabase } from "expo-sqlite";
-import CONFIGURATION from '@/constants/сonfiguration';
 import * as FileSystem from 'expo-file-system';
-import Database, { ISave, TExistingFolders } from "../model/Database";
-import type { IExportImage } from "@/source/img/day";
+import Database from "../model/Database";
+import { ISave, IUpdate } from "../types";
 import { Asset } from "expo-asset";
+import DayService from '@/SQL/Day/service/DayService';
+import ExerciseService from '@/SQL/Exercise/service/ExerciseService';
+import EquipmentService from '@/SQL/Equipment/service/EquipmentService';
+import { SQLiteDatabase } from 'expo-sqlite';
+import { neverCheck } from '@/helpers/neverCheck';
 
 
 class ImageService {
 
     /**
-     * `//* Сохранение изображения.`
-     * @accept
-     * @object {
-     * @param folderForSave Папка в которую сохраняем файл. Без '/' в конце. [example - 'someFolderName']
+     * `//* Запись изображения в память приложения.`
+     * @param [folderForSave = 'myImage'] ? Папка в которую сохраняем файл. Без '/' в конце.
      * @param pathToFile Путь к копируемому файлу из памяти телефона в память приложения.
-     * @param saveFileName Имя сохроняемого файла. [example - '123.jpg']
-     * @}
-     * @return nameForSaveImage || false 
      */
-    async saveImage(options: ISave): Promise<boolean> {
+    async save(options: ISave): Promise<string | undefined> {
+        try{
+
+             /** `Путь к папке с изображениями.` */
+            const pathToFolder = await Database.getPathToFolder(options.folderForSave  ?  options.folderForSave : 'myImage');
+            if(!pathToFolder) throw new Error('Путь к папке с изображениями не получен.');
+
+             // Если передано изображение из памяти телефона.
+            if(typeof options.pathToFile === 'string') {
+                 /** `Имя сохраняемого изображения.` */
+                const saveFileName = this.getNameForSaveImage(options.pathToFile.split('.').at(-1) ?? 'jpg');
+                 // Копируем файл из(from) в(to).
+                await FileSystem.copyAsync({from: options.pathToFile, to: pathToFolder + saveFileName});
+                 // Возврат пути к изображению.
+                return pathToFolder + saveFileName;
+            }
+
+             // Если передано изображение из памяти App.
+            if(typeof options.pathToFile === 'number') {
+                const asset = Asset.fromModule(options.pathToFile);
+                 // Загружаем файл.
+                await asset.downloadAsync();
+                 /** `Имя сохраняемого изображения.` */
+                const saveFileName = this.getNameForSaveImage(asset.type);
+                 // Копируем файл из(from) в(to).
+                await FileSystem.copyAsync({from: asset.localUri || asset.uri, to: pathToFolder + saveFileName});
+                 // Возврат пути к изображению.
+                return pathToFolder + saveFileName;
+            }
+            console.info('File saved!');
+        } catch(error) {
+            console.error('Error in [ImageService.saveImage] >>> ', error);
+        }
+    }
+
+    async update(db: SQLiteDatabase, options: IUpdate) {
         try {
-            const result = await Database.saveImg({...options});
-            return result;
+        
+            if(options.table === 'Day') {
+                const result = await DayService.findById(db,options.id);
+                if(!result) return null;
+                const imgOldName = result.img;
+                const imgNewName = await this.save({pathToFile: options.pathToFile});
+                //await DayService.
+                
+                return;
+            }
+
+            // if(options.table === 'Equipment') {
+            //     const result = await DayService.findById(db,options.id);
+            //     if(result) tableList = result;
+            //     return;
+            // }
+
+            // if(options.table === 'Exercise') {
+            //     const result = await DayService.findById(db,options.id);
+            //     if(result) tableList = result;
+            //     return;
+            // }
+
+            // neverCheck(options.table);
         } catch (error) {
-            console.error('Error in ImageService.saveImage() >>>', error);
-            return false;
+            console.error('Error in [ImageService.update] >>>', error);
         }
     }
 
@@ -34,7 +88,7 @@ class ImageService {
             const arrNamesImg = await Database.getFilesFromFolder('myImage');
             return arrNamesImg && Array.isArray(arrNamesImg) ? arrNamesImg : undefined;
         } catch (error) {
-            console.error('Error in ImageService.find >>>', error);
+            console.error('Error in [ImageService.find] >>>', error);
         }
     }
 
@@ -42,7 +96,7 @@ class ImageService {
      * `Получение имени для сохроняемого изображения.`
      * @param extension расширение изображения (.jpg и т.д.)
      */
-    getNameForImage(extension: string): string {
+    getNameForSaveImage(extension: string): string {
         // Задаем имя для изображения.
         return new Date().getTime() + '.' + extension;
     }
@@ -64,7 +118,7 @@ class ImageService {
                 return data;
             }
         } catch (error) {
-            console.error('Error in DatabaseService.getPathToImage >>>', error);
+            console.error('Error in [DatabaseService.getPathToImage] >>>', error);
         }
     }
 

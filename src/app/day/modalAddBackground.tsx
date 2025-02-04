@@ -8,7 +8,7 @@ import ScreenAddBackground from '@/components/ScreenAddBackground/ScreenAddBackg
 /**
  * @modal `Модальное окно для выбора фона для дня занятий.`
  */
-const ModalAddDay: FC = () => {
+const ModalAddBackground: FC = () => {
     
     return (
         <ScreenAddBackground
@@ -19,4 +19,4 @@ const ModalAddDay: FC = () => {
 };
 
 
-export default ModalAddDay;
+export default ModalAddBackground;

@@ -25,7 +25,7 @@ const ScreenAddBackground: FC<IScreenAddBackground> = ({
 }) => {
     
     const {t} = useTranslation(['[day]']);
-    const [selectImg, setSelectImg] = useState<string | undefined>(undefined);
+    const [selectImg, setSelectImg] = useState<number | undefined>(undefined);
     
     return (
         <WrapperScroll
@@ -48,7 +48,7 @@ const ScreenAddBackground: FC<IScreenAddBackground> = ({
                     data={imagesForChoice}
                     renderItem={({item}) => (
                         <ItemForChoiceBackground 
-                            img={String(item.source)} 
+                            img={item.source} 
                             selectImg={selectImg} 
                             setSelectImg={setSelectImg} 
                             height={height} 

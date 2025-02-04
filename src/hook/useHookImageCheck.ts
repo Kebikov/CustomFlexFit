@@ -1,11 +1,14 @@
 import { useAppSelector } from "@/redux/store/hooks";
 
 
+type TReturnImgCheck = number | {uri: string} | undefined;
+
+
 const useHookImageCheck = () => {
 
     const pathToImageFolder = useAppSelector(state => state.setupSlice.pathToImageFolder);
 
-    const imgCheck = (value: number | string): number | {uri: string} | undefined => {
+    const imgCheck = (value: number | string): TReturnImgCheck => {
 
         if(typeof value === 'string' && isNaN(Number(value))) {
 

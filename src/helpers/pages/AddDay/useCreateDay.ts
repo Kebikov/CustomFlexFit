@@ -15,36 +15,28 @@ const useCreateDay = (db: SQLiteDatabase, dayState: TdayState) => {
     const {appRouter} = useHookRouter();
 
     async function createDay() {
-        // Проверка входящих данных
+         // Проверка входящих данных
         if(dayState.img === undefined) return showMessage(t('alert_and_toast:imgNotSelect'));
         if(dayState.title === t('[day]:addDay.title')) return showMessage(t('alert_and_toast:imgNotSelect'));
 
-        if(!dayState.img.extension) return console.error('createDay() => Нет расширения.');;
+         // Сохранение изображения в пользовательской папке.
+        const resultNameForSaveImg = await ImageService.save({pathToFile: dayState.img});
+        if(!resultNameForSaveImg) throw new Error('Ощибка при сохранении изображения.');
 
-        // Задаем имя для изображения.
-        let nameForSaveImage: string = ImageService.getNameForImage(dayState.img.extension);
-
-        // Формируем обьект сушности для записи в таблицу Day.
-        const entity: DayDTO = {
-            id: 0,
-            queue: 0,
-            img: nameForSaveImage,
+         // Формируем обьект сушности для записи в таблицу Day.
+        const entity: Omit<DayDTO, 'id'> = {
+            order: 0,
+            img: resultNameForSaveImg,
             date: '',
-            title: dayState.title === t('[day]:addDay.title') ? '' : dayState.title,
+            title: dayState.title,
             description: dayState.description === t('[day]:addDay.description') ? '' : dayState.description,
             lastExercise: 0
         }
-
+        
+         // Добавление в BD нового дня.
         const result = await DayService.insertOne(db, entity);
+        if(!result) throw new Error('Ошыбка при добавлении дня в BD.');
 
-        // Сохраняем изображение при удачной записи в BD.
-        if(result && typeof dayState.img.path === 'string') {
-            await ImageService.saveImage({
-                folderForSave: 'myImage', 
-                pathToFile: dayState.img.path, 
-                saveFileName: nameForSaveImage
-            });
-        }
         //if(result) appRouter.replace('/exercise/addExercise');
         if(result) appRouter.replace('/day/listDay');
     }

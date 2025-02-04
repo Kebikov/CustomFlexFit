@@ -3,9 +3,9 @@ import React, { FC } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
 import CONFIGURATION from '@/constants/сonfiguration';
 import ButtonPress from '../ButtonPress/ButtonPress';
-import Days from '@/SQL/Day/modules/Day';
-import Exercise from '@/SQL/Exercise/modules/Exercise';
-import Day from '@/SQL/Day/modules/Day';
+import Days from '@/SQL/Day/model/Day';
+import Exercise from '@/SQL/Exercise/model/Exercise';
+import Day from '@/SQL/Day/model/Day';
 import { Asset } from 'expo-asset';
 
 import DayService from '@/SQL/Day/service/DayService';
@@ -112,7 +112,7 @@ const Sql: FC = () => {
     }
 
     const pressList_Equipment = async () => {
-        await List_Equipment_Service.showTableInConsole(db);
+        
     }
 
     const data_Equipment = async () => {
@@ -121,18 +121,7 @@ const Sql: FC = () => {
     }
 
     const test = async () => {
-        // const days = await DayService.find(db);
-        // consoleTable(days, 
-        //     {
-        //         title: 'Table User', 
-        //         sing: 'anchor', 
-        //         selectionTitle: 'background_green', 
-        //         selectionHeader: 'background_magenta', 
-        //         filter: ['lastExercise']
-        //     }
-        // );
-
-        appRouter.navigate('/day/listDay');
+        await ImageService.update(db, {table: 'Day', id: 2})
     }
 
     return (

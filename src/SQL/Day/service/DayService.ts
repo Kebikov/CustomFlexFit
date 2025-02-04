@@ -1,12 +1,25 @@
 import { SQLiteDatabase } from 'expo-sqlite';
-import Day from '@/SQL/Day/modules/Day';
+import Day from '@/SQL/Day/model/Day';
 import showMessage from '@/helpers/showMessage';
 import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
+import { consoleTable } from 'react-native-console-table';
 
 
 
 class DayServise {
+
+    /**
+     * `//* Показать все данные в таблице.`
+     */
+    async show(db: SQLiteDatabase) {
+        try {
+            const result = await this.find(db);
+            consoleTable(result, {title: 'Day', selectionTitle: 'background_green', selectionHeader: 'background_magenta'});
+        } catch (error) {
+            console.error('Error in [DayServise.show] >>>', error);
+        }
+    }
 
     /**
      * `//* Создание таблицы.`
@@ -37,20 +50,27 @@ class DayServise {
     }
 
     /**
+     * `//* Возврат записи по ID.`
+     */
+    async findById(db: SQLiteDatabase, id: number): Promise<DayDTO | null | undefined> {
+        try {
+            const result = await Day.findById(db, id);
+            return result ? result : null;
+        } catch (error) {
+            console.error('Error in [DayServise.findById] >>>', error);
+        }
+    }
+
+    /**
      * `//* Добавление одной записи в таблицу.`
      */
-    async insertOne(db: SQLiteDatabase, entity: DayDTO): Promise<boolean> {
+    async insertOne(db: SQLiteDatabase, entity: App.StrictOmit<DayDTO, 'id'>): Promise<boolean> {
         try {
             // Если очередь равна 0, усанавливаем очередь.
             if(entity.order === 0) {
                 const maxQueue = await Day.maxValueColumn(db, 'order');
                 if(maxQueue === undefined) return false;
-
-                if(maxQueue > 0) {
-                    entity.order = maxQueue + 1;
-                } else {
-                    entity.order = 1;
-                }
+                entity.order = maxQueue + 1;
             }
 
             // Заполняем поле даты, если пустое.
@@ -58,13 +78,13 @@ class DayServise {
                 const {textCurrentDay} = getCurrentDateInFormatArray();
                 entity.date = textCurrentDay;
             }
-
+             // Добавление записи.
             await Day.insertOne(db, entity);
-
-            console.info('Добавлена запись в таблицу: Day');
+             // Показ всей таблицы.
+            await this.show(db);
             return true;
         } catch (error) {
-            console.error('Error in DayServise.insertOne() >>>', error);
+            console.error('Error in [DayServise.insertOne] >>>', error);
             return false;
         }
     }

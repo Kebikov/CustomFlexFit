@@ -1,9 +1,7 @@
-import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
-import { SQLiteDatabase } from 'expo-sqlite';
-import type { DayDTOomitId } from '@/SQL/Day/DTO/DayDTO';
 import { useHookRouter } from '@/router/useHookRouter';
-import dayService from '@/SQL/Day/service/DayService';
+import DayService from '@/SQL/Day/service/DayService';
 import Gradient from '@/components/Gradient/Gradient';
 import DayElement from '@/components/DayElement/DayElement';
 import WrapperScroll from '../../components/WrapperScroll/WrapperScroll';
@@ -28,7 +26,7 @@ const ListDay: FC = () => {
     
     useEffect(() => {
         (async () => {
-            let data: Array<DayDTO> = await dayService.find(db);
+            let data: Array<DayDTO> = await DayService.find(db);
             setStateDays(data);
         })();
     },[]);

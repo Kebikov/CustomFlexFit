@@ -16,7 +16,7 @@ import DayElementZero from '@/components/DayElementZero/DayElementZero';
 import { logApp } from '@/helpers/log';
 
 
-export type TdayState = Pick<DayDTOomitId, 'title' | 'description' | 'img'>;
+export type TdayState = Omit<Pick<DayDTOomitId, 'title' | 'description' | 'img'>, 'img'> & {img: string | number | undefined};
 
 
 /** @page `//-- Добавление тренировачного дня.` */
@@ -27,7 +27,7 @@ const AddDay: FC = () => { logApp.page('AddDay')
     const dispatch = useAppDispatch();
 
     const [dayState, setDayState] = useState<TdayState>({
-        img: '',
+        img: undefined,
         title: t('[day]:addDay.title'), 
         description: t('[day]:addDay.description')
     });
@@ -37,7 +37,7 @@ const AddDay: FC = () => { logApp.page('AddDay')
     const {createDay} = useCreateDay(db, dayState);
 
     useEffect(() => {
-        background ? setDayState(state => ({...state, img: String(background)})) : null;
+        background ? setDayState(state => ({...state, img: background})) : null;
     }, [background]);
 
     useEffect(() => {
@@ -65,7 +65,7 @@ const AddDay: FC = () => { logApp.page('AddDay')
 
                     <PickImage
                         aspect={[28, 10]}
-                        path='/day/modalAddDay'
+                        path='/day/modalAddBackground'
                         marginTop={30}
                     />
 

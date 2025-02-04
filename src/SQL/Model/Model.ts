@@ -1,6 +1,7 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import { extractForInsert } from './helpers/extractForInsert';
 
+
 interface IModel {
      /** `Имя таблицы.` */
     table: string
@@ -33,7 +34,7 @@ export function Model<T>({
                 )
             `)
             .catch((error) => { 
-                console.error(`Error in ${this.info}.create >>> `, error) 
+                console.error(`Error in [${this.info}.create] >>> `, error) 
             })
         }
 
@@ -47,8 +48,22 @@ export function Model<T>({
             };
         }
 
+         /** `//* Возврат записи по ID.` */
+        static async findById(db: SQLiteDatabase, id: number): Promise<T | null | undefined > {
+            try {
+                const result: T | null = await db.getFirstAsync(`
+                    SELECT * FROM "${this.table}" 
+                    WHERE id = ? 
+                `, [id]);
+
+                return result;
+            } catch (error) {
+                console.error(`Error in [${this.info}.findById] >>>`, error);
+            }
+        }
+
          /** `//* Добавление одной записи в таблицу.` */
-        static async insertOne<T extends object>(db: SQLiteDatabase, entity: T) {
+        static async insertOne<T extends object>(db: SQLiteDatabase, entity: T extends {id: any} ? never : T) {
             try {
                 const {keys, issues, data} = extractForInsert(entity);
 
@@ -60,28 +75,34 @@ export function Model<T>({
                 `, data as Array<string | number>);
 
             } catch (error) {
-                console.error(`Error in ${this.info}.insertOne >>>`, error);
+                console.error(`Error in [${this.info}.insertOne] >>>`, error);
             }
         }
 
          /** `//* Количество записей в таблице.`  */
-        static async total(db: SQLiteDatabase): Promise<number> {
-            const result: {"COUNT(*)": number} | null = await db.getFirstAsync(`SELECT COUNT(*) FROM ${this.table}`);
-        
-            if(result === null || result["COUNT(*)"] === 0) {
-                return 0;
-            } else {
-                return result["COUNT(*)"];
-            }    
+        static async total(db: SQLiteDatabase): Promise<number | undefined> {
+            try {
+                const result: {"COUNT(*)": number} | null = await db.getFirstAsync(`SELECT COUNT(*) FROM ${this.table}`);
+                if(result === null || result["COUNT(*)"] === 0) {
+                    return 0;
+                } else {
+                    return result["COUNT(*)"];
+                }    
+            } catch (error) {
+                console.error(`Error in [${this.info}.total] >>>`, error);
+            }
+
         }
 
          /** `//* Максимальное значение в колонке, если в колонке числа.` */
         static async maxValueColumn<T>(db: SQLiteDatabase, column: keyof T): Promise<number | undefined> {
             try {
                 const result: {MAX: unknown} | null = await db.getFirstAsync(`
-                    SELECT MAX(${column as string}) AS MAX
-                    FROM ${this.table}
+                    SELECT MAX("${column as string}") AS MAX
+                    FROM "${this.table}"
                 `);
+
+                 // Вернет {result.MAX: null}, если в столбце нет данных.
                 if(result && result.MAX === null) return 0;
                 
                 if(result && typeof result.MAX === 'number') {
@@ -91,7 +112,7 @@ export function Model<T>({
                 }
                 
             } catch (error) {
-                console.error(`Error in ${this.info}.maxValueColumn >>>`, error);
+                console.error(`Error in [${this.info}.maxValueColumn] >>>`, error);
             }
         }
 
@@ -100,9 +121,31 @@ export function Model<T>({
             try {
                 await db.runAsync(`DELETE FROM ${this.table} WHERE id = ?`, [id]);
             } catch (error) {
-                console.error(`Error in ${this.info}.findByIdAndDelete >>>`, error);
+                console.error(`Error in [${this.info}.findByIdAndDelete] >>>`, error);
             }
+        }
 
+        static async findByIdAndUpdate<T extends object>(db: SQLiteDatabase, params: T extends {id: number} ? T : never) {
+            try {
+                const keys = Object.keys(params);
+                const keysWithoutId = keys.filter(item => item !== 'id');
+                let values: string[] = [];
+            
+                for(const key of keysWithoutId) {
+                    const keyValue = typeof params[key as keyof typeof params] === 'string' ? `"${params[key as keyof typeof params]}"` : params[key as keyof typeof params];
+                    values.push(`"${key}" = ${keyValue}`)
+                }
+
+                await db.runAsync(`
+                    UPDATE some_table 
+                    SET 
+                    ${values.join(',')}
+                    WHERE
+                    id = ${params.id}
+                `);
+            } catch (error) {
+                console.error(`Error in [${this.info}.findByIdAndUpdate] >>>`, error);
+            }
         }
 
          /** `//* Обновление поля order(очередности).` */
@@ -122,7 +165,7 @@ export function Model<T>({
                     }
                 });
             } catch (error) {
-                console.error(`Error in ${this.info}.updateOrders >>>`, error);
+                console.error(`Error in [${this.info}.updateOrders] >>>`, error);
             }
         }
     }

@@ -1,4 +1,4 @@
-export type TTables = 'Day' | 'Exercise' | 'List' | 'Equipment' | 'Set' | 'Set_Equipment' | 'Day_Exercise';
+export type TTables = 'Day' | 'Exercise' | 'Equipment' | 'Set' | 'Set_Equipment' | 'Day_Exercise';
 
 
 export interface IConfiguration {
@@ -24,7 +24,6 @@ const CONFIGURATION: IConfiguration = {
 
 	TABLE_Day: 'Day',
 	TABLE_Exercise: 'Exercise',
-    TABLE_List: 'List',
     TABLE_Equipment: 'Equipment',
     TABLE_Set: 'Set',
     

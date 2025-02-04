@@ -1,5 +1,5 @@
 import { SQLiteDatabase } from 'expo-sqlite';
-import Exercise from "../modules/Exercise";
+import Exercise from "../model/Exercise";
 
 
 class ExerciseService {
