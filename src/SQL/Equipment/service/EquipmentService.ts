@@ -44,6 +44,14 @@ class EquipmentServise {
         await Equipment.findByIdAndDelete(db, id);
     }
 
+    async findByIdAndUpdate<K extends Partial<Omit<EquipmentDTO, 'id'>> & {id: number}>(db: SQLiteDatabase, params: K | K[]) {
+        try {
+            await Equipment.findByIdAndUpdate(db, params);
+        } catch (error) {
+            console.error('Error in [EquipmentServise.findByIdAndUpdate] >>>', error);
+        }
+    }
+
      /** `//* Обновление поля order(очередности).` */
     async findByIdAndUpdateOrder<T extends {id: number, order: number}>(db: SQLiteDatabase, data: T[]) {
         await Equipment.findByIdAndUpdateOrder(db, data);

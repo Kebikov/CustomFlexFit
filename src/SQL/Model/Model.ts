@@ -125,24 +125,42 @@ export function Model<T>({
             }
         }
 
-        static async findByIdAndUpdate<T extends object>(db: SQLiteDatabase, params: T extends {id: number} ? T : never) {
+         /** `//* Обновление записи по ID.` */
+        static async findByIdAndUpdate<K* extends Partial<Omit<T, 'id'>> & {id: number}>(db: SQLiteDatabase, params: K | K[] ) {
             try {
-                const keys = Object.keys(params);
-                const keysWithoutId = keys.filter(item => item !== 'id');
-                let values: string[] = [];
-            
-                for(const key of keysWithoutId) {
-                    const keyValue = typeof params[key as keyof typeof params] === 'string' ? `"${params[key as keyof typeof params]}"` : params[key as keyof typeof params];
-                    values.push(`"${key}" = ${keyValue}`)
+                 /** `Обновление данных одной записи.` */
+                async function update<T extends {id: number}>(item: T) {
+                    const keys = Object.keys(item);
+                     /** `Все ключи, кроме ID.` */
+                    const keysWithoutId = keys.filter(item => item !== 'id');
+                    let values: string[] = [];
+                
+                    for(const key of keysWithoutId) {
+                        // Если значение string, оборачиваем значение в ковычки.
+                        const keyValue = typeof item[key as keyof typeof item] === 'string' ? `"${item[key as keyof typeof item]}"` : item[key as keyof typeof item];
+                        values.push(`"${key}" = ${keyValue}`)
+                    }
+
+                    await db.runAsync(`
+                        UPDATE some_table 
+                        SET 
+                        ${values.join(',')}
+                        WHERE
+                        id = ${item.id}
+                    `);
                 }
 
-                await db.runAsync(`
-                    UPDATE some_table 
-                    SET 
-                    ${values.join(',')}
-                    WHERE
-                    id = ${params.id}
-                `);
+                // Если, передан массив, то запускаем обновление в цикле.
+                if(Array.isArray(params)) {
+                    await db.withTransactionAsync(async () => {
+                        for(const item of params) {
+                            await update(item);
+                        }
+                    });
+                } else {
+                    await update(params);
+                }
+
             } catch (error) {
                 console.error(`Error in [${this.info}.findByIdAndUpdate] >>>`, error);
             }

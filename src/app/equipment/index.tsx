@@ -62,7 +62,8 @@ const Equipments: FC = () => { logApp.page('Equipments');
         return () => {
             if(dataEquipment.length === 0) return;
             (async () => {
-                await EquipmentService.findByIdAndUpdateOrder(db, dataEquipment);
+                //await EquipmentService.findByIdAndUpdateOrder(db, dataEquipment);
+                await EquipmentService.findByIdAndUpdate(db, {id: 1, name: 'sdf'});
             })();
         }
     },[dataEquipment]);
