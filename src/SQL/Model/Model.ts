@@ -11,7 +11,7 @@ interface IModel {
     info: string;
 }
 
-export function Model<T>({
+export function Model<T extends {id: number}>({
     table,
     model,
     info
@@ -126,10 +126,13 @@ export function Model<T>({
         }
 
          /** `//* Обновление записи по ID.` */
-        static async findByIdAndUpdate<K* extends Partial<Omit<T, 'id'>> & {id: number}>(db: SQLiteDatabase, params: K | K[] ) {
+        static async findByIdAndUpdate(
+            db: SQLiteDatabase, 
+            params: App.PartialExceptId<T> | App.PartialExceptId<T>[] 
+        ) {
             try {
                  /** `Обновление данных одной записи.` */
-                async function update<T extends {id: number}>(item: T) {
+                const update = async <T extends {id: number}>(item: T) => {
                     const keys = Object.keys(item);
                      /** `Все ключи, кроме ID.` */
                     const keysWithoutId = keys.filter(item => item !== 'id');
@@ -140,9 +143,9 @@ export function Model<T>({
                         const keyValue = typeof item[key as keyof typeof item] === 'string' ? `"${item[key as keyof typeof item]}"` : item[key as keyof typeof item];
                         values.push(`"${key}" = ${keyValue}`)
                     }
-
+                    console.log(values.join(','));
                     await db.runAsync(`
-                        UPDATE some_table 
+                        UPDATE "${this.table}" 
                         SET 
                         ${values.join(',')}
                         WHERE
@@ -166,26 +169,26 @@ export function Model<T>({
             }
         }
 
-         /** `//* Обновление поля order(очередности).` */
-        static async findByIdAndUpdateOrder<T extends {id: number, order: number}>(db: SQLiteDatabase, data: T[]) {
-            try {
-                await db.withTransactionAsync(async () => {
-                    for(const item of data) {
-                        await db.runAsync(
-                            `
-                                UPDATE ${this.table} 
-                                SET
-                                "order" = ?
-                                WHERE
-                                id = ?
-                            `,[item.order, item.id]
-                        );
-                    }
-                });
-            } catch (error) {
-                console.error(`Error in [${this.info}.updateOrders] >>>`, error);
-            }
-        }
+        //  /** `//* Обновление поля order(очередности).` */
+        // static async findByIdAndUpdateOrder<T extends {id: number, order: number}>(db: SQLiteDatabase, data: T[]) {
+        //     try {
+        //         await db.withTransactionAsync(async () => {
+        //             for(const item of data) {
+        //                 await db.runAsync(
+        //                     `
+        //                         UPDATE ${this.table} 
+        //                         SET
+        //                         "order" = ?
+        //                         WHERE
+        //                         id = ?
+        //                     `,[item.order, item.id]
+        //                 );
+        //             }
+        //         });
+        //     } catch (error) {
+        //         console.error(`Error in [${this.info}.updateOrders] >>>`, error);
+        //     }
+        // }
     }
 
     return Model;

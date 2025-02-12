@@ -15,6 +15,7 @@ import {logApp} from '@/helpers/log';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
 import { sortByOrder } from '@/helpers/sortByOrder';
 import { useFocusEffect } from 'expo-router';
+import { pickObject } from '@/helpers/pickObject';
 
 interface IselectEquipment {
 }
@@ -63,7 +64,7 @@ const Equipments: FC = () => { logApp.page('Equipments');
             if(dataEquipment.length === 0) return;
             (async () => {
                 //await EquipmentService.findByIdAndUpdateOrder(db, dataEquipment);
-                await EquipmentService.findByIdAndUpdate(db, {id: 1, name: 'sdf'});
+                await EquipmentService.findByIdAndUpdate(db, pickObject(dataEquipment, ['id']));
             })();
         }
     },[dataEquipment]);

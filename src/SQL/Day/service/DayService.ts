@@ -26,7 +26,7 @@ class DayServise {
      */
     async createTable(db: SQLiteDatabase) {
         await Day.create(db);
-        const foo = await Day.findByIdAndUpdate(db, {id: 12})
+        const foo = await Day.findByIdAndUpdate(db, {id: 12, title: 'sdf'})
     }
 
     /**
