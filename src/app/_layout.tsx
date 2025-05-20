@@ -8,8 +8,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import CONFIGURATION from '@/constants/сonfiguration';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
-import { ThemeProvider, DarkTheme, DefaultTheme } from '@react-navigation/native';
-import { useColorScheme } from 'react-native';
+import { ThemeProvider, DarkTheme } from '@react-navigation/native';
 import { COLOR_ROOT } from '@/constants/colors';
 import { PortalProvider, PortalHost } from '@gorhom/portal';
 import '@/localization/i18n';
@@ -23,7 +22,6 @@ import Set_Equipment_Service from '@/SQL/REFERENCES/Set_Equipment/service/Set_Eq
 import Day_Exercise_Service from '@/SQL/REFERENCES/Day_Exercise/service/Day_Exercise_Service';
 import SetService from '@/SQL/Set/service/SetService';
 import dataEquipment from '@/data/equipment/dataEquipment';
-
 
 
 DarkTheme.colors.background = COLOR_ROOT.BACKGROUND;

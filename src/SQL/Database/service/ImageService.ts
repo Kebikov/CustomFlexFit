@@ -63,20 +63,6 @@ class ImageService {
                 
                 return;
             }
-
-            // if(options.table === 'Equipment') {
-            //     const result = await DayService.findById(db,options.id);
-            //     if(result) tableList = result;
-            //     return;
-            // }
-
-            // if(options.table === 'Exercise') {
-            //     const result = await DayService.findById(db,options.id);
-            //     if(result) tableList = result;
-            //     return;
-            // }
-
-            // neverCheck(options.table);
         } catch (error) {
             console.error('Error in [ImageService.update] >>>', error);
         }

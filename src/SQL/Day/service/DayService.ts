@@ -8,7 +8,6 @@ import { consoleTable } from 'react-native-console-table';
 
 
 class DayServise {
-
     /**
      * `//* Показать все данные в таблице.`
      */
@@ -68,10 +67,10 @@ class DayServise {
     async insertOne(db: SQLiteDatabase, entity: App.StrictOmit<DayDTO, 'id'>): Promise<boolean> {
         try {
             // Если очередь равна 0, усанавливаем очередь.
-            if(entity.order === 0) {
-                const maxQueue = await Day.maxValueColumn(db, 'order');
+            if(entity.queue === 0) {
+                const maxQueue = await Day.maxValueColumn(db, 'queue');
                 if(maxQueue === undefined) return false;
-                entity.order = maxQueue + 1;
+                entity.queue = maxQueue + 1;
             }
 
             // Заполняем поле даты, если пустое.

@@ -1,14 +1,15 @@
-type TValue<T> = ['id', ...(keyof Omit<T, 'id'>)[]];
+type TValue<T> = (keyof T)[];
 
-const filterObject = <T extends {id: number}>(item: T, value: TValue<T>) => {
+
+const filterObject = <T extends {id: number}>(item: T, value: TValue<T>): App.PartialExceptId<T> => {
     return Object.fromEntries(
-        Object.entries(item).filter(([key, keyValue]) => value.includes(key as 'id' | Exclude<(keyof T), 'id'>))
-    );
-}
+        Object.entries(item).filter(([key, keyValue]) => value.includes(key as keyof T))
+    ) as App.PartialExceptId<T>;
+};
 
 
  /** `Выбор свойств из обьекта или массива обьектов.` */
-export const pickObject = <T extends {id: number}>(item: T | T[], value: TValue<T> ) => {
+export const pickObject = <T extends {id: number}>(item: T | T[], value: TValue<T> ): App.PartialExceptId<T> | App.PartialExceptId<T>[] => {
     if(Array.isArray(item)) {
         //* Если передан массив для сортировки.
         return item.map(obj => {
@@ -19,4 +20,5 @@ export const pickObject = <T extends {id: number}>(item: T | T[], value: TValue<
         return filterObject(item, value);
     }
 }
+
 

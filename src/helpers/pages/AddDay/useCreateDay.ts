@@ -25,7 +25,7 @@ const useCreateDay = (db: SQLiteDatabase, dayState: TdayState) => {
 
          // Формируем обьект сушности для записи в таблицу Day.
         const entity: Omit<DayDTO, 'id'> = {
-            order: 0,
+            queue: 0,
             img: resultNameForSaveImg,
             date: '',
             title: dayState.title,

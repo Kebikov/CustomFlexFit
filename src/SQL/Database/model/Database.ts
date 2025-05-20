@@ -7,7 +7,6 @@ import { TExistingFolders } from '../types';
 
 
 class Database {
-
     /**
      * `//* Закрытие базы данных.`
      */
@@ -35,7 +34,6 @@ class Database {
      */
     async findCountTable(db: SQLiteDatabase, table: TTables): Promise<number | null | undefined> {
         try {
-
             const result: {"COUNT(*)": number} | null = await db.getFirstAsync(`SELECT COUNT(*) FROM ${table}`);
             if(result !== null) {
                 return result['COUNT(*)'];
@@ -146,20 +144,6 @@ class Database {
                     return item;
                 }
             })
-
-            // for(let item of removeJpg) {
-            //     await FileSystem.deleteAsync(root + '/' + item);
-            // }
-
-            // const check = await FileSystem.getInfoAsync(pathPicasso);
-            // if(!check.exists) {
-            //     await FileSystem.makeDirectoryAsync(pathPicasso, {intermediates: true});
-            // }
-
-            // const files = await FileSystem.readDirectoryAsync(pathPicasso);
-
-            // const folders1 = await FileSystem.readDirectoryAsync(pathPicasso);
-
         } catch (error) {
             console.error('Error in [Database.showCasheFolder] >>>', error);
         }

@@ -9,7 +9,7 @@ const usePageAddExercise = () => {
 
     const [data, setData] = useState<IExerciseState[]>(exerciseStateArray);
 
-    const activeButtonIdSv = useSharedValue<number>(0);
+    const activeButtonIdSv = useSharedValue<number | undefined>(undefined);
 
     const background = useAppSelector(state => state.setupSlice.background);
     

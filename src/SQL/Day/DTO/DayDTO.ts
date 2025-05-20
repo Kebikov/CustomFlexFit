@@ -1,7 +1,7 @@
 export interface DayDTO {
     id: number;
      /** `Очередность.` */
-    order: number;
+    queue: number;
      /** `Изображение фоновое, имя изображения в папке памяти телефона > 'myImage'.` */
     img: string;
      /** `Дата последнего занятия по данной программе.[example '23.12.2023']` */

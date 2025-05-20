@@ -1,13 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { FlatNamespace } from 'i18next';
-import { $Tuple } from 'react-i18next/helpers';
 
 
 /**
  * `Вернет fnc.t для перевода и fnc.t$ для перевода с проверкой ключа.`
  */
 const useAppTranslation = <
-    Ns extends FlatNamespace | $Tuple<FlatNamespace> | undefined = undefined
+    Ns extends FlatNamespace | FlatNamespace | FlatNamespace[] | undefined = undefined
 >(ns?: Ns) => {
     const {t} = useTranslation(ns);
 

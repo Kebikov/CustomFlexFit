@@ -8,7 +8,6 @@ export interface IConfiguration {
     TABLE_Day: TTables;
      /** `Упражнение.` */
     TABLE_Exercise: TTables;
-    TABLE_List: TTables;
      /** `Используемый инвентарь, блины, грифы.` */
     TABLE_Equipment: TTables;
      /** `Подход в упражнении.` */

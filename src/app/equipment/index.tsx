@@ -29,7 +29,7 @@ const Equipments: FC = () => { logApp.page('Equipments');
     const {appRouter} = useHookRouter();
 
      /** `Id активной кнопки в данный момент.` */
-    const activeButtonIdSv = useSharedValue<string>('');
+    const activeButtonIdSv = useSharedValue<number | undefined>(undefined);
 
     /** @param dataEquipment `Массив с инвентарем.` */
     const [dataEquipment, setDataEquipment] = useState<EquipmentDTO[]>([]);
@@ -65,6 +65,9 @@ const Equipments: FC = () => { logApp.page('Equipments');
             (async () => {
                 //await EquipmentService.findByIdAndUpdateOrder(db, dataEquipment);
                 await EquipmentService.findByIdAndUpdate(db, pickObject(dataEquipment, ['id']));
+                await EquipmentService.findByIdAndUpdate(db, 
+                    {id: 1, order: 1}
+                );
             })();
         }
     },[dataEquipment]);

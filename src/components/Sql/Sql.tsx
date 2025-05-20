@@ -121,7 +121,6 @@ const Sql: FC = () => {
     }
 
     const test = async () => {
-        await ImageService.update(db, {table: 'Day', id: 2})
     }
 
     return (

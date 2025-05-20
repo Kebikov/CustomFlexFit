@@ -10,7 +10,7 @@ export interface IItemEquipment {
      /** `Отступ с верху.` */
     marginTop?: number;
      /** `Id активной кнопки в данный момент.` */
-    activeButtonIdSv?: SharedValue<string>;
+    activeButtonIdSv?: SharedValue<number | undefined>;
 }
 
 

@@ -38,12 +38,6 @@ const ItemEquipment: FC<IItemEquipment> = ({
         }
     }
 
-    const editItem = (id: number) => {
-        return () => {
-
-        }
-    }
-
     return (
         <ButtonSwipeable
             isSwipe={false}

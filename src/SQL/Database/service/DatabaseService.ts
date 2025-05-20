@@ -1,7 +1,8 @@
 import { SQLiteDatabase } from "expo-sqlite";
 import CONFIGURATION from '@/constants/сonfiguration';
 import * as FileSystem from 'expo-file-system';
-import Database, { ISave, TExistingFolders } from "../model/Database";
+import Database from "../model/Database";
+import type { TExistingFolders } from "../types";
 import { TTables } from "@/constants/сonfiguration";
 import {logApp} from "@/helpers/log";
 
