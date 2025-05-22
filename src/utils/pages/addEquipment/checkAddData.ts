@@ -1,5 +1,5 @@
 import { EquipmentDTO } from "@/SQL/Equipment/DTO/EquipmentDTO";
-import showMessage from "@/helpers/showMessage";
+import showMessage from "@/utils/showMessage";
 import i18next from 'i18next';
 
 

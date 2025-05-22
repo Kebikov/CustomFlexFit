@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
 import React, { FC } from 'react';
-import VibrationApp from '@/helpers/VibrationApp';
+import VibrationApp from '@/utils/VibrationApp';
 
 interface IButton {
     title: string;

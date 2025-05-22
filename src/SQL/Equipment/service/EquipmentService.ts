@@ -1,5 +1,5 @@
 import { SQLiteDatabase } from 'expo-sqlite';
-import showMessage from '@/helpers/showMessage';
+import showMessage from '@/utils/showMessage';
 import Equipment from '../model/Equipment';
 import { EquipmentDTO } from '../DTO/EquipmentDTO';
 

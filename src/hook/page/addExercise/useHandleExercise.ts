@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/redux/store/hooks";
 import { SET_EXERCISE_STATE } from "@/redux/slice/sets.slice";
 import { IExerciseState } from "@/redux/slice/sets.slice";
-import showMessage from "@/helpers/showMessage";
+import showMessage from "@/utils/showMessage";
 import useAppTranslation from "@/localization/helpers/useAppTranslation";
 
 

@@ -5,7 +5,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { useHookRouter } from '@/router/useHookRouter';
 import type { DayDTOomitId, DayDTO } from '@/SQL/Day/DTO/DayDTO';
-import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
+import getCurrentDateInFormatArray from '@/utils/getCurrentDateInFormatArray';
 import { styleFontConvertForTitle } from '@/styles/font';
 import useConvertFont from '@/hook/useConvertFont';
 import { Shadow } from 'react-native-shadow-2';

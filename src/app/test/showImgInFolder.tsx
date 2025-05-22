@@ -9,7 +9,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import { useSQLiteContext } from 'expo-sqlite';
 import useHookImageCheck from '@/hook/useHookImageCheck';
-import {logApp} from '@/helpers/log';
+import {logApp} from '@/utils/log';
 
 
 interface IshowImgInFolder {

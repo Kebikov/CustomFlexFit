@@ -11,9 +11,9 @@ import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import InputForAdd from '@/components/InputForAdd/InputForAdd';
 import type { DayDTOomitId } from '@/SQL/Day/DTO/DayDTO';
 import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperImageBackground';
-import useCreateDay from '@/helpers/pages/addDay/useCreateDay';
+import useCreateDay from '@/utils/pages/addDay/useCreateDay';
 import DayElementZero from '@/components/DayElementZero/DayElementZero';
-import { logApp } from '@/helpers/log';
+import { logApp } from '@/utils/log';
 
 
 export type TdayState = Omit<Pick<DayDTOomitId, 'title' | 'description' | 'img'>, 'img'> & {img: string | number | undefined};

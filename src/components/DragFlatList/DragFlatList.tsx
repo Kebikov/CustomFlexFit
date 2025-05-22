@@ -7,7 +7,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import type { IDragFlatList } from './types';
 import { useEffect } from 'react';
 import { getDataAfterDrag } from './helpers/getDataAfterDrag';
-import {strApp} from '@/helpers/log';
+import {strApp} from '@/utils/log';
 import { TIME_OF_ELEVATION } from './constants';
 
 

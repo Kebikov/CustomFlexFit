@@ -10,7 +10,7 @@ import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_BACKGROUND} from '@/redux/slice/setup.slice';
 import { useHookRouter } from '@/router/useHookRouter';
-import showMessage from '@/helpers/showMessage';
+import showMessage from '@/utils/showMessage';
 import useAppTranslation from '@/localization/helpers/useAppTranslation';
 
 

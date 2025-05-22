@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground, Image, Pressable, Platform } from 'react-native';
 import React, { FC } from 'react';
-import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
+import getCurrentDateInFormatArray from '@/utils/getCurrentDateInFormatArray';
 import { styleFontConvertForTitle } from '@/styles/font';
 import useConvertFont from '@/hook/useConvertFont';
 import { Shadow } from 'react-native-shadow-2';

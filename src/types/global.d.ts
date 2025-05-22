@@ -15,6 +15,11 @@ declare global {
                 id: number
             }
     }
+
+    interface Console {
+        cleaning: () => void;
+    }
 }
+
 
 export {}

@@ -22,6 +22,7 @@ import Set_Equipment_Service from '@/SQL/REFERENCES/Set_Equipment/service/Set_Eq
 import Day_Exercise_Service from '@/SQL/REFERENCES/Day_Exercise/service/Day_Exercise_Service';
 import SetService from '@/SQL/Set/service/SetService';
 import dataEquipment from '@/data/equipment/dataEquipment';
+import '@/utils/log/console.global';
 
 
 DarkTheme.colors.background = COLOR_ROOT.BACKGROUND;
@@ -48,7 +49,7 @@ export const MainLayout: FC<IMainLayout> = ({children}) => {
 
     useEffect(() => {
         if (loaded || error) {
-            SplashScreen.hide();
+            SplashScreen.hideAsync();
         }
     }, [loaded, error]);
     

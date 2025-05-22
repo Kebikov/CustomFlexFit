@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Portal } from '@gorhom/portal'; 
 import { COLOR_ROOT } from '@/constants/colors';
 import { useSharedValue } from 'react-native-reanimated';
-import VibrationApp from '@/helpers/VibrationApp';
+import VibrationApp from '@/utils/VibrationApp';
 import { useGetOptionsClock } from './hooks/useGetOptionsClock';
 import { valuesClock } from './values/valuesClock';
 import { getPositions } from './helpers/getPositions';

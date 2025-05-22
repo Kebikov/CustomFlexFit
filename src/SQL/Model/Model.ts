@@ -16,7 +16,7 @@ export function Model<T extends {id: number}>({
     model,
     info
 }: IModel) {
-
+    console.log(`Создание модели: ${info}`);
     class Model {
         /** `Имя модели.` */
         static table: string = table;
@@ -41,7 +41,7 @@ export function Model<T extends {id: number}>({
          /** `//* Возврат всех записей в таблице.` */
         static async find(db: SQLiteDatabase): Promise<T[] | undefined> {
             try{
-                const result: T[] = await db.getAllAsync(`SELECT * FROM ${this.table}`);
+                const result: T[] = await db.getAllAsync(`SELECT * FROM "${this.table}"`);
                 return result;
             } catch(error) { 
                 console.error(`Error in ${this.info}.find >>>`, error); 

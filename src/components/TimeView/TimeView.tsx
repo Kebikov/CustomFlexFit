@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Pressable, type LayoutChangeEvent, Platform } f
 import React, { FC } from 'react';
 import { Svg, Circle, G } from 'react-native-svg';
 import { useState, useEffect } from 'react';
-import transferSecInTime from '@/helpers/transferSecInTime';
+import transferSecInTime from '@/utils/transferSecInTime';
 import { COLOR_ROOT } from '@/constants/colors';
 import { Audio, AVPlaybackSource } from 'expo-av';
 import {soundAudio} from '@/constants/soundAudio';

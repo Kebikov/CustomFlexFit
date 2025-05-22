@@ -10,12 +10,6 @@
         "ios": {
             "supportsTablet": true
         },
-        "icon": "./assets/images/icon.png",
-        "splash": {
-            "image": "./assets/images/icon.png",
-            "backgroundColor": "#131313",
-            "resizeMode": "contain"
-        },
         "android": {
             "adaptiveIcon": {
                 "foregroundImage": "./assets/images/adaptive-icon.png",
@@ -27,16 +21,22 @@
             "output": "static",
             "favicon": "./assets/favicon.png"
         },
+
+        "icon": "./assets/images/icon.png",
+        "splash": {
+            "backgroundColor": "#131313"
+        },
         "plugins": [
             [
                 "expo-splash-screen",
                 {
                     "backgroundColor": "#131313",
-                    "image": "./assets/images/icon.png",
+                    //"image": "./assets/images/icon.png",
                     "dark": {
-                        "image": "./assets/images/icon.png",
+                        //"image": "./assets/images/icon.png",
                         "backgroundColor": "rgba( 241, 50, 43, .5)"
-                    }
+                    },
+                    "imageWidth": 200
                 }
             ],
             "expo-router",

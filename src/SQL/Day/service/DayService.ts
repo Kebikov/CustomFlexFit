@@ -1,8 +1,8 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import Day from '@/SQL/Day/model/Day';
-import showMessage from '@/helpers/showMessage';
+import showMessage from '@/utils/showMessage';
 import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
-import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
+import getCurrentDateInFormatArray from '@/utils/getCurrentDateInFormatArray';
 import { consoleTable } from 'react-native-console-table';
 
 

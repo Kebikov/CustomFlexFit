@@ -17,7 +17,7 @@ import SetEdit from '@/components/SetEdit/SetEdit';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
 import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 import usePageAddExercise from '@/hook/page/usePageAddExercise';
-import {logApp} from '@/helpers/log';
+import {logApp} from '@/utils/log';
 import useHandleExercise from '@/hook/page/addExercise/useHandleExercise';
 
 

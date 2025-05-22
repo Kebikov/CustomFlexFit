@@ -6,7 +6,7 @@ import DayService from '@/SQL/Day/service/DayService';
 import ExerciseService from '@/SQL/Exercise/service/ExerciseService';
 import EquipmentService from '@/SQL/Equipment/service/EquipmentService';
 import { SQLiteDatabase } from 'expo-sqlite';
-import { neverCheck } from '@/helpers/neverCheck';
+import { neverCheck } from '@/utils/neverCheck';
 
 
 class ImageService {

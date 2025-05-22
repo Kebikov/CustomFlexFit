@@ -15,7 +15,7 @@ import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperI
 import { SET_BACKGROUND } from '@/redux/slice/setup.slice';
 import ZeroItemEquipment from '@/components/ZeroItemEquipment/ZeroItemEquipment';
 import { useHookRouter } from '@/router/useHookRouter';
-import { checkAddDataEquipment } from '@/helpers/pages/addEquipment/checkAddData';
+import { checkAddDataEquipment } from '@/utils/pages/addEquipment/checkAddData';
 
 
 /** `//= Окно добавления инвентаря.` */

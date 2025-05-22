@@ -1,6 +1,6 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import Set from '../model/Set';
-import showMessage from '@/helpers/showMessage';
+import showMessage from '@/utils/showMessage';
 import { SetDTO } from '../DTO/SetDTO';
 
 
@@ -27,7 +27,7 @@ class SetServise {
      */
     async find(db: SQLiteDatabase): Promise<SetDTO[]> {
         const result = await Set.find(db);
-        return result === undefined ? [] : result;
+        return result ? result : [];
     }
 }
 

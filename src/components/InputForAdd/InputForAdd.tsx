@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TextInput, NativeSyntheticEvent, TextInputChangeEventData, Platform } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import showMessage from '@/helpers/showMessage';
+import showMessage from '@/utils/showMessage';
 import { useTranslation } from 'react-i18next';
 
 

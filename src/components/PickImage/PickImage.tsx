@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { ActionCreatorWithPayload as ACP}  from '@reduxjs/toolkit';
 import { AppRouterTypes } from '@/router/app.router.types';
-import VibrationApp from '@/helpers/VibrationApp';
+import VibrationApp from '@/utils/VibrationApp';
 import ICON from '@/source/icon';
 import { SET_BACKGROUND } from '@/redux/slice/setup.slice';
 

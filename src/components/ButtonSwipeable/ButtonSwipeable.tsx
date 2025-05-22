@@ -5,7 +5,7 @@ import React, { FC, useMemo } from 'react';
 import { StyleSheet, View, Dimensions, Image, Pressable, ViewStyle } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedReaction } from 'react-native-reanimated';
-import VibrationApp from '@/helpers/VibrationApp';
+import VibrationApp from '@/utils/VibrationApp';
 import ICON from '@/source/icon';
 import { IButtonSwipeable } from './types';
 

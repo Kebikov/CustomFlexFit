@@ -11,14 +11,10 @@ import { useSQLiteContext } from 'expo-sqlite';
 import ButtonGreen from '@/components/ButtonGreen/ButtonGreen';
 import { useHookRouter } from '@/router/useHookRouter';
 import { useSharedValue } from 'react-native-reanimated';
-import {logApp} from '@/helpers/log';
+import {logApp} from '@/utils/log';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
-import { sortByOrder } from '@/helpers/sortByOrder';
+import { sortByOrder } from '@/utils/sortByOrder';
 import { useFocusEffect } from 'expo-router';
-import { pickObject } from '@/helpers/pickObject';
-
-interface IselectEquipment {
-}
 
 
 /** @page `//: Страница выбора оборудования для занятий.` */
@@ -64,21 +60,9 @@ const Equipments: FC = () => { logApp.page('Equipments');
             if(dataEquipment.length === 0) return;
             (async () => {
                 //await EquipmentService.findByIdAndUpdateOrder(db, dataEquipment);
-                await EquipmentService.findByIdAndUpdate(db, pickObject(dataEquipment, ['id']));
-                await EquipmentService.findByIdAndUpdate(db, 
-                    {id: 1, order: 1}
-                );
             })();
         }
     },[dataEquipment]);
-
-    //* render 
-    const Header = () => (
-        <>
-            <Title text={t('[exercise]:equipment.yourEquipment')} />
-            <Text style={styles.text}>{t('[exercise]:equipment.yourEquipmentInfo')}</Text>
-        </>
-    );
 
     const Footer = () => (
         <ButtonGreen 
@@ -101,7 +85,8 @@ const Equipments: FC = () => { logApp.page('Equipments');
             isScrollEnabled={false}
         >
             <View style={styles.container} >
-                <Header/>
+                <Title text={t('[exercise]:equipment.yourEquipment')} />
+                <Text style={styles.text}>{t('[exercise]:equipment.yourEquipmentInfo')}</Text>
                 <DragFlatList
                     style={{padding: 0, marginTop: 20, flex: 1}}
                     styleFlatList={{flex: 1, overflow: 'hidden'}}

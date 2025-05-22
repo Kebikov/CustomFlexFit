@@ -4,11 +4,10 @@ import * as FileSystem from 'expo-file-system';
 import Database from "../model/Database";
 import type { TExistingFolders } from "../types";
 import { TTables } from "@/constants/сonfiguration";
-import {logApp} from "@/helpers/log";
+import {logApp} from "@/utils/log";
 
 
 class DatabaseService {
-
     /**
      * `//* Проверка сушествования базы данных.`
      */
@@ -74,18 +73,16 @@ class DatabaseService {
      * - `get` Вернет все таблицы.
      * - `log` Покажет таблицы в консоле.
      */
-    async getTable(db: SQLiteDatabase, comand: 'get' | 'log') {
-        try {
-
-            const result = await Database.findTable(db);
-            if(comand === 'get') {
-                return result;
-            } else {
-                console.info(`Таблицы в ${CONFIGURATION.DB_Name}: `, JSON.stringify( result, null, 2));
+    get getTable() {
+        return {
+            async get(db: SQLiteDatabase) {
+                return await Database.findTable(db);
+            },
+            async log(db: SQLiteDatabase) {
+                const result = await Database.findTable(db);
+                logApp.info(`Таблицы в ${CONFIGURATION.DB_Name}: ${result}`);
+                console.log('\n');
             }
-
-        } catch (error) {
-            console.error('Error in DatabaseService.getTable >>>', error);
         }
     }
     

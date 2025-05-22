@@ -1,32 +1,22 @@
-import { View, StyleSheet, Button, Platform, Alert } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import React, { FC } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
-import CONFIGURATION from '@/constants/сonfiguration';
 import ButtonPress from '../ButtonPress/ButtonPress';
-import Days from '@/SQL/Day/model/Day';
-import Exercise from '@/SQL/Exercise/model/Exercise';
-import Day from '@/SQL/Day/model/Day';
-import { Asset } from 'expo-asset';
 
 import DayService from '@/SQL/Day/service/DayService';
 import exerciseService from '@/SQL/Exercise/service/ExerciseService';
 import databaseService from '@/SQL/Database/service/DatabaseService';
-import LocalStorageService from '@/LocalStorage/service/LocalStorage.service';
-import List_Equipment_Service from '@/SQL/REFERENCES/Set_Equipment/service/Set_Equipment_Service';
-import Database from '@/SQL/Database/model/Database';
 import DatabaseService from '@/SQL/Database/service/DatabaseService';
 
-import dataEquipment from '@/data/equipment/dataEquipment';
 import EquipmentService from '@/SQL/Equipment/service/EquipmentService';
 
 import { useHookRouter } from '@/router/useHookRouter'; 
 import { consoleTable } from 'react-native-console-table';
 import Title from '../Title/Title';
 import ImageService from '@/SQL/Database/service/ImageService';
+import SetService from '@/SQL/Set/service/SetService';
+import Equipment from '@/SQL/Equipment/model/Equipment';
 
-
-const colorBlue = '#007aeb';
-const colorRed = 'rgba( 241, 50, 43, .9)';
 
 
 
@@ -42,9 +32,20 @@ const Sql: FC = () => {
         await databaseService.checkExistenceDataBase();
     }
 
+    // `//= Все таблицы в BD`
     const pressDBT = async () => {
-        await databaseService.getTable(db, 'log');
+        // "Day"
+        //"Exercise"
+        //"Set"
+        // "Equipment"
+        console.cleaning();
+        await databaseService.getTable.log(db);
+        consoleTable(await DayService.find(db), {title: 'Day', selectionTitle: 'background_green', selectionHeader: 'background_magenta'});
+        consoleTable(await EquipmentService.find(db), {title: 'Exercise', selectionTitle: 'background_green', selectionHeader: 'background_magenta'});
+        consoleTable(await SetService.find(db), {title: 'Set', selectionTitle: 'background_green', selectionHeader: 'background_magenta'});
+        consoleTable(await EquipmentService.find(db), {title: 'Equipment', selectionTitle: 'background_green', selectionHeader: 'background_magenta'});
     }
+
     /** `//= Показать данные таблицы Day в консоле.`
      */
     const showDays = async () => {
@@ -84,7 +85,7 @@ const Sql: FC = () => {
     }
     
     /**
-     * `Удаление папки с изображениями`
+     * `//= Удаление папки с изображениями`
      */
     const removeFolderImages = async () => {
         Alert.alert(
@@ -105,7 +106,7 @@ const Sql: FC = () => {
         )
     }
     /**
-     *  `Показ сохраненных изображений в консоле.`
+     *  `//= Показ сохраненных изображений в консоле.`
      */
     const showImgInConsole = async () => {
         const result = await ImageService.find();

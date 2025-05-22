@@ -5,7 +5,7 @@ import { COLOR_ROOT } from '../constants/colors';
 import { useTranslation } from 'react-i18next';
 import { TLanguage } from '../LocalStorage/model/LocalStorage';
 import { AppRouterTypes } from '../router/app.router.types';
-import VibrationApp from '../helpers/VibrationApp';
+import VibrationApp from '../utils/VibrationApp';
 import Menu from '@/components/Menu/Menu';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';

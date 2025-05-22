@@ -2,7 +2,7 @@ import  { TStateDataClock } from '@/components/Clock';
 import { useState, useMemo } from 'react';
 import { useAppSelector } from '@/redux/store/hooks';
 import { IInputsSet } from '@/components/itemsForAddSet/Inputs/types';
-import { strApp } from '@/helpers/log';
+import { strApp } from '@/utils/log';
 
 
 export const useAddSet = (index: number) => {

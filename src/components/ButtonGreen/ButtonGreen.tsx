@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '../../constants/colors';
-import VibrationApp from '../../helpers/VibrationApp';
+import VibrationApp from '../../utils/VibrationApp';
 import useConvertFont from '../../hook/useConvertFont';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { Shadow } from 'react-native-shadow-2';

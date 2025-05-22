@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import getCurrentDateInFormatArray from '@/helpers/getCurrentDateInFormatArray';
+import getCurrentDateInFormatArray from '@/utils/getCurrentDateInFormatArray';
 
 /**
  * @component
