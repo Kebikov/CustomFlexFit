@@ -6,7 +6,6 @@ import store from '@/redux/store/store';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import CONFIGURATION from '@/constants/сonfiguration';
-import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { ThemeProvider, DarkTheme } from '@react-navigation/native';
 import { COLOR_ROOT } from '@/constants/colors';
@@ -80,7 +79,6 @@ const IndexLayout = () => {
 
     return(
         <MainLayout>
-            <StatusBar translucent backgroundColor='transparent'/>
             <Stack 
                 screenOptions={{
                     headerShown: false

@@ -11,7 +11,7 @@ const plate: string = String(require('@/source/img/weight/plate.jpg'));
 const dataEquipment: EquipmentDTO[] = [
     {
         id: 1,
-        order: 1, 
+        queue: 1, 
         type: 'barbell',
         title: 't$_[exercise]:common.barbell',
         weight: 8,
@@ -19,7 +19,7 @@ const dataEquipment: EquipmentDTO[] = [
     },
     {
         id: 2,
-        order: 2, 
+        queue: 2, 
         type: 'barbell',
         title: 't$_[exercise]:common.barbell',
         weight: 5,
@@ -27,7 +27,7 @@ const dataEquipment: EquipmentDTO[] = [
     },
     {
         id: 3,
-        order: 3,
+        queue: 3,
         type: 'barbell',
         title: 't$_[exercise]:common.barbell',
         weight: 1.5,
@@ -35,7 +35,7 @@ const dataEquipment: EquipmentDTO[] = [
     },
     {
         id: 4,
-        order: 4,
+        queue: 4,
         type: 'plate',
         title: 't$_[exercise]:common.plate',
         weight: 20,
@@ -43,7 +43,7 @@ const dataEquipment: EquipmentDTO[] = [
     },
     {
         id: 5,
-        order: 5,
+        queue: 5,
         type: 'plate',
         title: 't$_[exercise]:common.plate',
         weight: 10,
@@ -51,7 +51,7 @@ const dataEquipment: EquipmentDTO[] = [
     },
     {
         id: 6,
-        order: 6,
+        queue: 6,
         type: 'plate',
         title: 't$_[exercise]:common.plate',
         weight: 5,
@@ -59,7 +59,7 @@ const dataEquipment: EquipmentDTO[] = [
     },
     {
         id: 7,
-        order: 7,
+        queue: 7,
         type: 'plate',
         title: 't$_[exercise]:common.plate',
         weight: 1.5,
@@ -67,12 +67,13 @@ const dataEquipment: EquipmentDTO[] = [
     },
     {
         id: 8,
-        order: 8,
+        queue: 8,
         type: 'plate',
         title: 't$_[exercise]:common.plate',
         weight: 1,
         img: plate
     }
 ];
+
 
 export default dataEquipment;

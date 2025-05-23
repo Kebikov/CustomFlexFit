@@ -33,7 +33,7 @@ class EquipmentServise {
                     type: item.type,
                     weight: item.weight,
                     img: item.img,
-                    order: item.order
+                    queue: item.queue
                 });
             }
         });

@@ -5,7 +5,7 @@ import { Model } from '@/SQL/Model/Model';
 
 const day_model = `
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "order" INT UNIQUE,
+    "queue" INT UNIQUE,
     "img" TEXT,
     "date" TEXT,
     "title" TEXT,

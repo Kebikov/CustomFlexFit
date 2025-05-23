@@ -35,7 +35,7 @@ const useCreateDay = (db: SQLiteDatabase, dayState: TdayState) => {
         
          // Добавление в BD нового дня.
         const result = await DayService.insertOne(db, entity);
-        if(!result) throw new Error('Ошыбка при добавлении дня в BD.');
+        if(!result) throw new Error('Ошибка при добавлении дня в BD.');
 
         //if(result) appRouter.replace('/exercise/addExercise');
         if(result) appRouter.replace('/day/listDay');

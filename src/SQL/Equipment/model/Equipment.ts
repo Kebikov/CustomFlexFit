@@ -9,7 +9,7 @@ const equipment_model = `
     "type" TEXT,
     "weight" INTEGER,
     "img" TEXT,
-    "order" INTEGER
+    "queue" INTEGER
 `;
 
 

@@ -25,15 +25,6 @@ interface IDayElementZero {
 }
 
 
-const Title = () => {
-    return(
-        <Text style={[styleDayElement.title, styleFontConvertForTitle.sport, {fontSize: convertFont(Platform.OS === 'ios' ? 16 : 15)}]} >
-            {title}
-        </Text>
-    )
-}
-
-
 /** @component `//= Карточка дня занятий с нулевыми данными.` */
 const DayElementZero: FC<IDayElementZero> = ({
     title,
@@ -82,9 +73,9 @@ const DayElementZero: FC<IDayElementZero> = ({
                             <View>
                                 
                                 <View style={styleDayElement.titleBox}>
-                                    {/* <Text style={[styleDayElement.title, styleFontConvertForTitle.sport, {fontSize: convertFont(Platform.OS === 'ios' ? 16 : 15)}]} >
+                                    <Text style={[styleDayElement.title, styleFontConvertForTitle.sport, {fontSize: convertFont(Platform.OS === 'ios' ? 16 : 15)}]} >
                                         {title}
-                                    </Text> */}
+                                    </Text>
                                 </View>
                                 
                                 <Text style={[styleDayElement.textPart, {fontSize: convertFont(Platform.OS === 'ios' ? 15 : 14)}]} >

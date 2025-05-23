@@ -8,7 +8,7 @@
  */
 export interface EquipmentDTO {
     id: number;
-    order: number;
+    queue: number;
     title: string;
     type: 'plate' | 'barbell';
     weight: number;

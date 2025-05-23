@@ -59,7 +59,7 @@ const WrapperScroll: FC<IWrapper> = ({
     return (
         <>
             <View style={{backgroundColor, height: insets.top}} >
-                <StatusBar animated={true} barStyle={barStyle} backgroundColor={backgroundColor} />
+                <StatusBar animated={true} barStyle={barStyle} backgroundColor={backgroundColor} translucent />
             </View>
             <SafeAreaProvider>
                 <KeyboardAvoidingView
