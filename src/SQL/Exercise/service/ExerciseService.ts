@@ -1,9 +1,9 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import Exercise from "../model/Exercise";
+import type { ExerciseDTO } from '../DTO/ExerciseDTO';
 
 
 class ExerciseService {
-
     /**
      * `//* Создание таблицы.`
      */
@@ -19,6 +19,12 @@ class ExerciseService {
         console.info(JSON.stringify(result, null, 2));
     }
 
+     /** `//* Возврат всех записей.` */
+    async find(db: SQLiteDatabase): Promise<ExerciseDTO[]> {
+        const result = await Exercise.find(db);
+        return result === undefined ? [] : result;
+    }
 }
+
 
 export default new ExerciseService();

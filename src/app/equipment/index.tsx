@@ -23,11 +23,13 @@ const Equipments: FC = () => { logApp.page('Equipments');
     const {t} = useAppTranslation(['[exercise]', '[equipment]']);
     const db = useSQLiteContext();
     const {appRouter} = useHookRouter();
-
-     /** `Id активной кнопки в данный момент.` */
+    /** 
+      * `Id активной кнопки в данный момент.` 
+      * */
     const activeButtonIdSv = useSharedValue<number | undefined>(undefined);
-
-    /** @param dataEquipment `Массив с инвентарем.` */
+    /** 
+     * @param dataEquipment `Массив с инвентарем.` 
+     * */
     const [dataEquipment, setDataEquipment] = useState<EquipmentDTO[]>([]);
 
     const render = (item: EquipmentDTO) => {
@@ -64,18 +66,6 @@ const Equipments: FC = () => { logApp.page('Equipments');
         }
     },[dataEquipment]);
 
-    const Footer = () => (
-        <ButtonGreen 
-            text={t('[equipment]:common.add')}
-            handlePess={() => appRouter.navigate('/equipment/addEquipment')}
-            widthFlex={.8}
-            fontSize={15}
-            backgroundColor={COLOR_ROOT.LIME_70}
-            marginTop={20}
-            marginBottom={20}
-        />
-    );
-
      /** `Высота одного элемента в DragFlatList.` */
     const elementHeight = 82;
 
@@ -97,7 +87,15 @@ const Equipments: FC = () => { logApp.page('Equipments');
                     setData={setDataEquipment}
                     renderItem={render}
                 />
-                <Footer/>
+                <ButtonGreen 
+                    text={t('[equipment]:common.add')}
+                    handlePess={() => appRouter.navigate('/equipment/addEquipment')}
+                    widthFlex={.8}
+                    fontSize={15}
+                    backgroundColor={COLOR_ROOT.LIME_70}
+                    marginTop={20}
+                    marginBottom={20}
+                />
             </View>
         </WrapperScroll>
     );

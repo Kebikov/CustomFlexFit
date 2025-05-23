@@ -14,13 +14,21 @@ import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperI
 import useCreateDay from '@/utils/pages/addDay/useCreateDay';
 import DayElementZero from '@/components/DayElementZero/DayElementZero';
 import { logApp } from '@/utils/log';
+import { createContext } from "react";
 
 
 export type TdayState = Omit<Pick<DayDTOomitId, 'title' | 'description' | 'img'>, 'img'> & {img: string | number | undefined};
 
+interface IContextAddDay {
+    title: string;
+    description: string;
+}
 
-/** @page `//-- Добавление тренировачного дня.` */
+/** `Добавление тренировачного дня.` */
 const AddDay: FC = () => { logApp.page('AddDay')
+
+    const 
+    const contextAddDay = createContext<IContextAddDay>({title: '', description: ''});
 
     const db = useSQLiteContext();
     const {t} = useTranslation(['common', 'button', '[day]']);

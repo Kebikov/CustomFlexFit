@@ -69,7 +69,7 @@ const WrapperScroll: FC<IWrapper> = ({
                         insets.top
                     }
                 >
-                    <SafeAreaView style={{ flex: 1, backgroundColor }}>
+                    <SafeAreaView style={{ flex: 1, backgroundColor }} >
                         {headerGoBack}
                         {listHeaderComponent}
                         {

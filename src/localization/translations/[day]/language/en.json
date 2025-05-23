@@ -1,11 +1,12 @@
 {
     "guide": {
-        "title": "Three simple steps to create a workout",
-        "description": "Below is a guide for a simpler understanding of how to build your workout plan.",
-        "step1": "Create a workout day. Later, you can fill it with the exercises you’ve created that you plan to perform on that day.", 
-        "step2": "Set the weight of the bars you plan to use for calculating the total weight. Specify which plate weights you will use in the exercises.",
-        "step3": "Create exercises. You can create exercises and then add them to the desired workout day, specifying the number of repetitions, the weight used, rest time after the exercise, etc.",
-        "button": "Let’s go"
+        "title": "Two simple steps\nto create\nyour workout",
+        "description": "Want to start working out but don't know where to begin ? Just follow these steps:",
+        "step1": "Create a workout day.",
+        "step1_description": "This is the day you plan to work out. For example: 'Monday — chest and triceps'. Later, you can add the necessary exercises to it.",
+        "step2": "Add exercises.",
+        "step2_description": "Create the exercises you want to do (e.g., bench press, squats). Specify the number of sets, reps, weight used, and rest time between sets. Then add the exercises to the desired workout day.",
+        "button": "let’s start"
     },
     "addDay": {
         "pageTitle": "Creating a workout day",

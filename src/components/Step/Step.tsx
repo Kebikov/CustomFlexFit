@@ -7,24 +7,24 @@ import useConvertFont from '@/hook/useConvertFont';
 
 
 interface IStep {
+     /** `Цыфра номера шага.` */
     numberStep: number;
-    text: string;
+     /** `Заголовок.` */
+    title: string;
+     /** `Описание.` */
+    discription: string;
+     /** `Отступ с верху.` */
     marginTop?: number;
+     /** `Отступ с низу` */
     marginBottom?: number;
 }
 
 
-/**
- * @component `Блок для страницы Guide, шаги действий.`
- * @param numberStep Цыфра номера шага.
- * @param text Текст для блока.
- * @optional
- * @param marginTop ? Отступ с верху.
- * @param marginBottom ? Отступ с низу. 
- */
+/** `Блок для страницы Guide, шаги действий.` */
 const Step: FC<IStep> = ({
     numberStep,
-    text,
+    title,
+    discription,
     marginBottom = 0,
     marginTop = 0
 }) => {
@@ -34,7 +34,7 @@ const Step: FC<IStep> = ({
     return (
         <BlurView 
             intensity={30}
-            tint='light'
+            tint={Platform.OS === 'ios' ? 'light' : 'default'}
             style={[styles.container, {marginBottom, marginTop}]} 
         >
             <View style={styles.body} >
@@ -44,7 +44,8 @@ const Step: FC<IStep> = ({
                     </View>
                 </View>
                 <View style={styles.textBox} >
-                    <Text style={[styles.text, {fontSize: convertFont(Platform.OS === 'ios' ? 15 : 14)}]} >{text}</Text>
+                    <Text style={styles.title} >{title}</Text>
+                    <Text style={styles.text} >{discription}</Text>
                 </View>
             </View>
         </BlurView>
@@ -78,16 +79,26 @@ const styles = StyleSheet.create({
                 },
                     num: {
                         fontFamily: 'Sport500',
+                        textAlign: 'center',
+                        marginTop: -4,
                         color: COLOR_ROOT.WHITE_70
                     },
         textBox: {
-            flexDirection: 'row',
+            flexDirection: 'column',
             flex: .8,
             paddingLeft: 12
         },
-            text: {
+            title: {
                 fontFamily: 'Sport400',
-                letterSpacing: .2,
+                fontSize: Platform.OS === 'ios' ? 17 : 15,
+                letterSpacing: .5,
+                color: 'white'
+            },
+            text: {
+                marginTop: 3,
+                fontFamily: 'Sport400',
+                fontSize: Platform.OS === 'ios' ? 16 : 14,
+                letterSpacing: .3,
                 color: COLOR_ROOT.WHITE_70
             }
 });

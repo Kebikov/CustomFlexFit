@@ -23,6 +23,7 @@ import Day_Exercise_Service from '@/SQL/REFERENCES/Day_Exercise/service/Day_Exer
 import SetService from '@/SQL/Set/service/SetService';
 import dataEquipment from '@/data/equipment/dataEquipment';
 import '@/utils/log/console.global';
+import ButtonTablesSQL from '@/components/ButtonTablesSQL/ButtonTablesSQL';
 
 
 DarkTheme.colors.background = COLOR_ROOT.BACKGROUND;
@@ -61,6 +62,7 @@ export const MainLayout: FC<IMainLayout> = ({children}) => {
                 <PortalProvider>
                     <SQLiteProvider databaseName={CONFIGURATION.DB_Name} onInit={migrateDbIfNeeded} >
                         <Provider store={store} >
+                                <ButtonTablesSQL/>
                                 <PortalHost name='clock' />
                                 <PortalHost name='InputOver' />
                                 <>

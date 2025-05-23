@@ -4,8 +4,9 @@ export interface ILng_Day {
         description: string;
         button: string;
         step1: string; 
+        step1_description: string;
         step2: string;
-        step3: string;
+        step2_description: string;
     },
     addDay: {
         pageTitle: string;

@@ -53,9 +53,7 @@ export const useGesture = ({
         () => currentPositions.value[id].updatedTop,
         (currentValue, previousValue) => {
             if(previousValue === null) {
-                //opacitySv.value = withTiming(1, {duration: 100});
                 topSv.value = currentPositions.value[id].updatedTop;
-                //topSv.value = withDelay(TIME_OF_ELEVATION / 2, withTiming(currentPositions.value[id].updatedTop, {duration: 100}))
             }
         }
     )

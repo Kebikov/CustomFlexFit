@@ -16,21 +16,18 @@ interface ILinearGradient {
 
 interface IWrapperImageBackground {
     children: JSX.Element | JSX.Element[];
+     /** `Цвет перекрытия фонового изображения.` */
     overlayColor?: string;
+     /** `Фоновое изображение.` */
     imageBackground?: number;
+     /** `Установка в качестве фона гредиента, принимает обьект с начальными данными. `default = undefined`` */
     linearGradient?: ILinearGradient;
+     /** `Если не нужен ScrollView, передаем false. [default = true]` */
     isScrollEnabled?: boolean;
 }
 
 
-/**
- * @wrapper `Обертка для страниц с фоновым изображением.`
- * @param imageBackground Фоновое изображение.
- * @param overlayColor ? Цвет перекрытия фонового изображения.
- * @optional
- * @param linearGradient ? Установка в качестве фона гредиента, принимает обьект с начальными данными. `default = undefined`
- * @param isScrollEnabled ? Если не нужен ScrollView, передаем false. `default = true`
- */
+/** `Обертка для страниц с фоновым изображением.` */
 const WrapperImageBackground: FC<IWrapperImageBackground> = ({
     children,
     overlayColor,

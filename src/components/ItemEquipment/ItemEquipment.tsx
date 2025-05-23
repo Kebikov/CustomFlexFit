@@ -10,7 +10,6 @@ import ICON from '@/source/icon';
 import { COLOR_ROOT } from '@/constants/colors';
 import { useSQLiteContext } from 'expo-sqlite';
 import EquipmentService from "@/SQL/Equipment/service/EquipmentService";
-import { useHookRouter } from '@/router/useHookRouter';
 
 
 
@@ -18,12 +17,10 @@ import { useHookRouter } from '@/router/useHookRouter';
 const ItemEquipment: FC<IItemEquipment> = ({
     item,
     setDataEquipment,
-    marginTop = 10,
     activeButtonIdSv
 }) => {
     const {imgCheck} = useHookImageCheck();
     const {t, t$} = useAppTranslation(['[exercise]', '[equipment]']);
-    const {appRouter} = useHookRouter();
 
     const db = useSQLiteContext();
 

@@ -1,4 +1,3 @@
-import {logApp} from "@/utils/log";
 import { TPositions } from "../types";
 
 
@@ -19,6 +18,5 @@ export const getInitialPositions = <T>(data: T[], heightElement: number, info?: 
             }
         }
     })
-    // console.info(`getInitialPositions / ${info}`, elPositions);
     return elPositions;
 };

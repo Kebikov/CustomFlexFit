@@ -9,6 +9,7 @@ import VibrationApp from '../utils/VibrationApp';
 import Menu from '@/components/Menu/Menu';
 import { useAppDispatch } from '@/redux/store/hooks';
 import { SET_EXERCISE_STATE } from '@/redux/slice/sets.slice';
+import WrapperScroll from '@/components/WrapperScroll/WrapperScroll';
 
 
 /** @page `//-- Страница с выбором языка.` */
@@ -27,51 +28,47 @@ const ChoiceLanguage: FC = () => {
         //appRouter.navigate('/test/showImgInFolder'); // test
         //appRouter.navigate('/exercise/addExercise'); // добавление упражнения
 
-        appRouter.navigate('/equipment'); // добавление инвентаря
+        // appRouter.navigate('/equipment'); // добавление инвентаря
         //appRouter.navigate('/day/addDay'); // добавление дня
+        appRouter.navigate('/day/guide'); // гайд по созданию тренировки
     }
 
     return (
-        <>
-            {
-                0 ? 
-                null
-                : 
-                <View style={styles.container}>
-                    <Menu/>
-                    <Text style={styles.text} >What is your {"\n"}language ?</Text>
+        <WrapperScroll>
+            <View style={styles.container}>
+                <Menu/>
+                <Text style={styles.text} >What is your {"\n"}language ?</Text>
 
-                    <Pressable 
-                        style={styles.language} 
-                        onPress={async () => {
-                            await setLanguage('English', '/day/guide');
-                        }}
-                    >
-                        <View style={styles.imgBox} >
-                            <Image source={require('@/source/img/flags/States.svg.jpg')} style={styles.img} />
-                        </View>
-                        <Text style={styles.textLanguage} >English</Text>
-                    </Pressable>
+                <Pressable 
+                    style={styles.language} 
+                    onPress={async () => {
+                        await setLanguage('English', '/day/guide');
+                    }}
+                >
+                    <View style={styles.imgBox} >
+                        <Image source={require('@/source/img/flags/States.svg.jpg')} style={styles.img} />
+                    </View>
+                    <Text style={styles.textLanguage} >English</Text>
+                </Pressable>
 
-                    <View style={styles.line}></View>
-                    
-                    <Pressable 
-                        style={styles.language} 
-                        onPress={async () => {
-                            setLanguage('Russian', '/day/guide');
-                        }}
-                    >
-                        <View style={styles.imgBox} >
-                            <Image source={require('@/source/img/flags/rus.jpg')} style={styles.img} />
-                        </View>
-                        <Text style={styles.textLanguage} >Russian</Text>
-                    </Pressable>
-                    {/* <View style={{marginTop: 40}}>
-                        <Button title='TABLE' onPress={() => consoleTable(dataMock, {selectionType: 'text_yellow', isShowLine: true, sing: 'rocket'}) }/>
-                    </View> */}
-                </View>
-            }
-        </>
+                <View style={styles.line}></View>
+                
+                <Pressable 
+                    style={styles.language} 
+                    onPress={async () => {
+                        setLanguage('Russian', '/day/guide');
+                    }}
+                >
+                    <View style={styles.imgBox} >
+                        <Image source={require('@/source/img/flags/rus.jpg')} style={styles.img} />
+                    </View>
+                    <Text style={styles.textLanguage} >Russian</Text>
+                </Pressable>
+                {/* <View style={{marginTop: 40}}>
+                    <Button title='TABLE' onPress={() => consoleTable(dataMock, {selectionType: 'text_yellow', isShowLine: true, sing: 'rocket'}) }/>
+                </View> */}
+            </View>
+        </WrapperScroll>
     );
 };
 
