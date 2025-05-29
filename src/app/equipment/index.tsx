@@ -13,7 +13,7 @@ import { useHookRouter } from '@/router/useHookRouter';
 import { useSharedValue } from 'react-native-reanimated';
 import {logApp} from '@/utils/log';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
-import { sortByOrder } from '@/utils/sortByOrder';
+import { sortByQueue } from '@/utils/sortByOrder';
 import { useFocusEffect } from 'expo-router';
 
 
@@ -46,7 +46,7 @@ const Equipments: FC = () => { logApp.page('Equipments');
      /** `Получение данных с BD` */
     const getDataAsync = async () => {
         const result = await EquipmentService.find(db);
-        setDataEquipment(sortByOrder(result));
+        setDataEquipment(sortByQueue(result));
     }
 
      // Обновление данных при фокусе страницы.

@@ -94,7 +94,7 @@ const AddSet: FC = () => {
         // Формируем изминенный обьект и передаем в redux.
         const exerciseOfChanged = {
             id: idExercise,
-            order: exercise_state[index].order,
+            queue: exercise_state[index].queue,
             title: titleDescription.title,
             description: titleDescription.description,
             reps: selectedData['reps'],

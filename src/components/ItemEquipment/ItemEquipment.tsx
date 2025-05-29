@@ -68,7 +68,7 @@ const ItemEquipment: FC<IItemEquipment> = ({
                     <View style={styles.box_text} >
                         <Text style={styles.title} >
                             {
-                                item.order + ' ' + t$(item.title)
+                                item.queue + ' ' + t$(item.title)
                             }
                         </Text>
                         <Text style={styles.text_weight} >

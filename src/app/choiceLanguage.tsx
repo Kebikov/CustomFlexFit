@@ -29,8 +29,8 @@ const ChoiceLanguage: FC = () => {
         //appRouter.navigate('/exercise/addExercise'); // добавление упражнения
 
         // appRouter.navigate('/equipment'); // добавление инвентаря
-        //appRouter.navigate('/day/addDay'); // добавление дня
-        appRouter.navigate('/day/listDay'); // все дни тренеровок
+        appRouter.navigate('/day/addDay'); // добавление дня
+        //appRouter.navigate('/day/listDay'); // все дни тренеровок
         //appRouter.navigate('/day/guide'); // гайд по созданию тренировки
     }
 

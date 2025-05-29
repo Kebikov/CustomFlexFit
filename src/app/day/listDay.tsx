@@ -15,6 +15,7 @@ const ListDay: FC = () => {
      * @param stateDays Массив с данными дней.
      */
     const [stateDays, setStateDays] = useState<Array<DayDTO> | []>([]);
+    console.log(JSON.stringify( stateDays, null, 2));
     const render = (item: DayDTO) => <DayElement day={item} key={item.id} />
     /** 
       * `Высота одного элемента в DragFlatList.` 

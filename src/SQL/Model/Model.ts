@@ -34,7 +34,7 @@ export function Model<T extends {id: number}>({
                 )
             `)
             .catch((error) => { 
-                console.error(`Error in [${this.info}.create] >>> `, error) 
+                console.error(`Error in Model, [${this.info}.create] >>> `, error) 
             })
         }
 
@@ -44,7 +44,7 @@ export function Model<T extends {id: number}>({
                 const result: T[] = await db.getAllAsync(`SELECT * FROM "${this.table}"`);
                 return result;
             } catch(error) { 
-                console.error(`Error in ${this.info}.find >>>`, error); 
+                console.error(`Error in Model, ${this.info}.find >>>`, error); 
             };
         }
 
@@ -58,7 +58,7 @@ export function Model<T extends {id: number}>({
 
                 return result;
             } catch (error) {
-                console.error(`Error in [${this.info}.findById] >>>`, error);
+                console.error(`Error in Model, [${this.info}.findById] >>>`, error);
             }
         }
 
@@ -75,7 +75,7 @@ export function Model<T extends {id: number}>({
                 `, data as Array<string | number>);
 
             } catch (error) {
-                console.error(`Error in [${this.info}.insertOne] >>>`, error);
+                console.error(`Error in Model, [${this.info}.insertOne] >>>`, error);
             }
         }
 
@@ -89,7 +89,7 @@ export function Model<T extends {id: number}>({
                     return result["COUNT(*)"];
                 }    
             } catch (error) {
-                console.error(`Error in [${this.info}.total] >>>`, error);
+                console.error(`Error in Model, [${this.info}.total] >>>`, error);
             }
 
         }
@@ -112,7 +112,7 @@ export function Model<T extends {id: number}>({
                 }
                 
             } catch (error) {
-                console.error(`Error in [${this.info}.maxValueColumn] >>>`, error);
+                console.error(`Error in Model, [${this.info}.maxValueColumn] >>>`, error);
             }
         }
 
@@ -121,7 +121,7 @@ export function Model<T extends {id: number}>({
             try {
                 await db.runAsync(`DELETE FROM ${this.table} WHERE id = ?`, [id]);
             } catch (error) {
-                console.error(`Error in [${this.info}.findByIdAndDelete] >>>`, error);
+                console.error(`Error in Model, [${this.info}.findByIdAndDelete] >>>`, error);
             }
         }
 
@@ -165,7 +165,7 @@ export function Model<T extends {id: number}>({
                 }
 
             } catch (error) {
-                console.error(`Error in [${this.info}.findByIdAndUpdate] >>>`, error);
+                console.error(`Error in Model, [${this.info}.findByIdAndUpdate] >>>`, error);
             }
         }
 
@@ -186,7 +186,7 @@ export function Model<T extends {id: number}>({
         //             }
         //         });
         //     } catch (error) {
-        //         console.error(`Error in [${this.info}.updateOrders] >>>`, error);
+        //         console.error(`Error in Model, [${this.info}.updateOrders] >>>`, error);
         //     }
         // }
     }
