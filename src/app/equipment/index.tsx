@@ -13,7 +13,7 @@ import { useHookRouter } from '@/router/useHookRouter';
 import { useSharedValue } from 'react-native-reanimated';
 import {logApp} from '@/utils/log';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
-import { sortByQueue } from '@/utils/sortByOrder';
+import { sortByQueue } from '@/utils/sortByQueue';
 import { useFocusEffect } from 'expo-router';
 
 

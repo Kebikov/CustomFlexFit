@@ -7,4 +7,4 @@
 
 - Weights, images, rest after each set — everything is easily customizable.
 
-![любой текст](./assets/forReadme/1.jpg)
+<img src="./assets/forReadme/1.jpg" alt="#" width="300" >	

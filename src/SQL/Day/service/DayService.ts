@@ -97,6 +97,10 @@ class DayServise {
         return result;
     }
 
+    async findByIdAndUpdate(db: SQLiteDatabase, data: App.PartialExceptId<DayDTO> | App.PartialExceptId<DayDTO>[]) {
+        await Day.findByIdAndUpdate(db, data);
+    }
+
 }
 
 export default new DayServise();
