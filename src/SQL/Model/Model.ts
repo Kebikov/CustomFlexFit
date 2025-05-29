@@ -16,7 +16,7 @@ export function Model<T extends {id: number}>({
     model,
     info
 }: IModel) {
-    console.log(`Создание модели: ${info}`);
+    
     class Model {
         /** `Имя модели.` */
         static table: string = table;

@@ -10,7 +10,8 @@ import i18next from 'i18next';
 export interface IExerciseState {
      /** `ID упражнения.` */
     id: number;
-    order: number;
+     /** `Очередность.` */
+    queue: number;
      /** `Название упражнения.` */
     title: string;
      /** `Заметка для упражнения.` */
@@ -36,7 +37,7 @@ interface IInitialStateSets {
 const exerciseStateInitial = (): IExerciseState[] => [
     {
         id: 1,
-        order: 1,
+        queue: 1,
         title: i18next.t('[exercise]:addExercise.title'),
         description: i18next.t('[exercise]:addExercise.description'),
         reps: {one: 10, two: 0},

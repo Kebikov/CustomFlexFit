@@ -18,5 +18,5 @@
         "src/localization/types/i18n.d.ts",
         "src/utils/log/react-native-console-table/modules/dataForTable.ts",
         "src/types/**/*.d.ts"
-    ]
+, "1.js"    ]
 }

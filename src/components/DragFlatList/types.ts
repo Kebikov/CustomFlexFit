@@ -32,11 +32,35 @@ export interface IDragFlatList<T extends {id: number | string}> {
     //* Стили:
     /** Вкл./Выкл. скрола. Выключаем, если DragFlatList у родительского компонент есть Scroll*/
     scrollEnabled?: boolean;
-    /** `Стили для DragFlatList` */
+    /** 
+     * `Стили главного контейнера, в котором уже все остальное.` 
+     * @example
+     * <View style={`style`} >
+     *     <View style={styleFlatList} >
+     *          <FlatList contentContainerStyle={contentContainerStyle} />
+     *     </View>
+     * </View>
+     * */
     style?: StyleProp<ViewStyle>;
-    /** `Стили для контейнера FlatList` */
+    /** 
+     * `Стили для дочернего контейнера в котором находится FlatList` 
+     * @example
+     * <View style={style} >
+     *     <View style={`styleFlatList`} >
+     *          <FlatList contentContainerStyle={contentContainerStyle} />
+     *     </View>
+     * </View>
+     * */
     styleFlatList?: StyleProp<ViewStyle>;
-    /** `Стили для контейнера с элементами` */
+    /** 
+     * `Стили для контейнера с элементами FlatList`
+     * @example 
+     * <View style={style} >
+     *     <View style={styleFlatList} >
+     *          <FlatList contentContainerStyle={`contentContainerStyle`} />
+     *     </View>
+     * </View>
+     * */
     contentContainerStyle?: StyleProp<ViewStyle>;
 }
 

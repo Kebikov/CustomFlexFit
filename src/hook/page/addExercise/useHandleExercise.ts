@@ -26,9 +26,9 @@ const useHandleExercise = () => {
          // Установка id добавляемого элемента
         newElement.id = maxId + 1;
          // Установка очередности у добавляемого элемента
-        newElement.order = newElement.order + 1;
+        newElement.queue = newElement.queue + 1;
          // Обновление очередности в элементах массива которые ниже добавляемого элемента
-        for(const el of copyData) el.order >= newElement.order ? el.order += 1 : undefined;
+        for(const el of copyData) el.queue >= newElement.queue ? el.queue += 1 : undefined;
          // Добавляем новый элемент.
         const newData = [...copyData.slice(0, findIndex + 1), newElement, ...copyData.slice(findIndex + 1)];
         

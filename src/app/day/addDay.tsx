@@ -14,6 +14,7 @@ import WrapperImageBackground from '@/components/WrapperImageBackground/WrapperI
 import useCreateDay from '@/utils/pages/addDay/useCreateDay';
 import DayElementZero from '@/components/DayElementZero/DayElementZero';
 import { logApp } from '@/utils/log';
+import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 
 
 export type TdayState = Omit<Pick<DayDTOomitId, 'title' | 'description' | 'img'>, 'img'> & {img: string | number | undefined};

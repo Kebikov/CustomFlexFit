@@ -84,7 +84,6 @@ const DayElement: FC<IDay> = ({
 
 export const styleDayElement = StyleSheet.create({
     container: {
-        marginTop: 15,
 		height: 132,
         borderRadius: 10,
         overflow: 'hidden'

@@ -1,8 +1,8 @@
 export interface ExerciseDTO {
      /** `ID` */
     id: number;
-     /** `Очередность упражнения.` */
-    order: number;
+     /** `Очередность.` */
+    queue: number;
      /** `Титульное название упражнения.` */
     title: string;
      /** `Дополнительная информация к упражнению.` */

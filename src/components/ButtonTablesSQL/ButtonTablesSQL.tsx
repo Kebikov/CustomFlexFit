@@ -46,7 +46,7 @@ const ButtonTablesSQL = () => {
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        top: 0,
+        top: 23,
         right: 0,
         width: 60,
         height: 60,

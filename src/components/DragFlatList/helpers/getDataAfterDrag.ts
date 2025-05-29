@@ -7,7 +7,7 @@ import { TPositions } from "../types"
  * @param positionSv Текушие позиции элементов.
  * @returns 
  */
-export const getDataAfterDrag = <T extends {id: number, order: number}>(data: T[], position: TPositions): T[] => {
+export const getDataAfterDrag = <T extends {id: number, queue: number}>(data: T[], position: TPositions): T[] => {
     'worklet'
 
     const lengthObject = Object.keys(position).length;
@@ -18,8 +18,8 @@ export const getDataAfterDrag = <T extends {id: number, order: number}>(data: T[
 
         if(find) {
             arrData[position[id].updatedIndex] = find;
-            // Обнавление поля order
-            arrData[position[id].updatedIndex].order = position[id].updatedIndex + 1;
+            // Обнавление поля queue
+            arrData[position[id].updatedIndex].queue = position[id].updatedIndex + 1;
         }
         
     }

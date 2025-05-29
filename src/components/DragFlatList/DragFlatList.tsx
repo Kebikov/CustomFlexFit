@@ -12,7 +12,7 @@ import { TIME_OF_ELEVATION } from './constants';
 
 
 /** `//= Для создания списка с возможностью перетаскивания элементов.` */
-const DragFlatList = <T extends {id: number, order: number}>({
+const DragFlatList = <T extends {id: number, queue: number}>({
     heightElement,
     data,
     setData,

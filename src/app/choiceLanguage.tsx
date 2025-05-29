@@ -30,7 +30,8 @@ const ChoiceLanguage: FC = () => {
 
         // appRouter.navigate('/equipment'); // добавление инвентаря
         //appRouter.navigate('/day/addDay'); // добавление дня
-        appRouter.navigate('/day/guide'); // гайд по созданию тренировки
+        appRouter.navigate('/day/listDay'); // все дни тренеровок
+        //appRouter.navigate('/day/guide'); // гайд по созданию тренировки
     }
 
     return (
