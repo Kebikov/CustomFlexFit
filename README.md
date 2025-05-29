@@ -1,6 +1,10 @@
-// "title": "Создание дня тренировки",
-// "description": "Создайте свой тренировочный день, укажите его фоновое изображение и описание. Позже, мы наполним его упражнениями.",
-// "button": "начнем"
+# CustomFlexFit
+> Apps for Android and iOS for working out in the gym.
 
+- Maximum flexibility when creating exercises.
 
-# При записи файла из приложения использовать Asset
+- Create your own sets of workouts, with the ability to share them.
+
+- Weights, images, rest after each set — everything is easily customizable.
+
+![любой текст](./assets/forReadme/1.jpg)
