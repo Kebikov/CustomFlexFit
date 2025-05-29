@@ -13,8 +13,8 @@ import { useHookRouter } from '@/router/useHookRouter';
 import { useSharedValue } from 'react-native-reanimated';
 import {logApp} from '@/utils/log';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
-import { sortByQueue } from '@/utils/sortByQueue';
 import { useFocusEffect } from 'expo-router';
+import HelperUtils from '@/utils/HelperUtils';
 
 
 /** @page `//: Страница выбора оборудования для занятий.` */
@@ -46,7 +46,7 @@ const Equipments: FC = () => { logApp.page('Equipments');
      /** `Получение данных с BD` */
     const getDataAsync = async () => {
         const result = await EquipmentService.find(db);
-        setDataEquipment(sortByQueue(result));
+        setDataEquipment(HelperUtils.sortByQueue(result));
     }
 
      // Обновление данных при фокусе страницы.

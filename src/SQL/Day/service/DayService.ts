@@ -2,7 +2,7 @@ import { SQLiteDatabase } from 'expo-sqlite';
 import Day from '@/SQL/Day/model/Day';
 import showMessage from '@/utils/showMessage';
 import { DayDTO } from '@/SQL/Day/DTO/DayDTO';
-import getCurrentDateInFormatArray from '@/utils/getCurrentDateInFormatArray';
+import HelperUtils from '@/utils/HelperUtils';
 import { consoleTable } from 'react-native-console-table';
 
 
@@ -75,7 +75,7 @@ class DayServise {
 
             // Заполняем поле даты, если пустое.
             if(entity.date === '') {
-                const {textCurrentDay} = getCurrentDateInFormatArray();
+                const {textCurrentDay} = HelperUtils.getCurrentDateInFormatArray();
                 entity.date = textCurrentDay;
             }
              // Добавление записи.

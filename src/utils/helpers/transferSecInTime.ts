@@ -1,9 +1,9 @@
 /**
- * @function
  * Перевод секунд во время.
- * - из 150 в 02:30
- * @param {number} sec - Время в секундах. 
- * @return {string} Строка в формате времени.
+ * @param sec Время в секундах.
+ * @example
+ * req > 150
+ * res > '02:30'
  */
 const transferSecInTime = (sec: number): string => {
     const minutes: number = Math.floor(sec / 60);

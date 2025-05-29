@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground, Image, Pressable, Platform } from 'react-native';
 import React, { FC } from 'react';
-import getCurrentDateInFormatArray from '@/utils/getCurrentDateInFormatArray';
+import HelperUtils from '@/utils/HelperUtils';
 import { styleFontConvertForTitle } from '@/styles/font';
 import useConvertFont from '@/hook/useConvertFont';
 import { Shadow } from 'react-native-shadow-2';
@@ -35,7 +35,7 @@ const DayElementZero: FC<IDayElementZero> = ({
     width = 100
 }) => {
     
-    const {textCurrentDay} = getCurrentDateInFormatArray();
+    const {textCurrentDay} = HelperUtils.getCurrentDateInFormatArray();
     const {convertFont} = useConvertFont();
     const {imgCheck} = useHookImageCheck();
 

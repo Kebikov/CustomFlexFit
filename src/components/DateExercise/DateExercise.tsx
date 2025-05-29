@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React, { FC } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import getCurrentDateInFormatArray from '@/utils/getCurrentDateInFormatArray';
+import HelperUtils from '@/utils/HelperUtils';
 
 /**
  * @component
@@ -12,7 +12,7 @@ import getCurrentDateInFormatArray from '@/utils/getCurrentDateInFormatArray';
  */
 const DateExercise: FC = () => {
 
-    const {arraySplitMinus} = getCurrentDateInFormatArray();
+    const {arraySplitMinus} = HelperUtils.getCurrentDateInFormatArray();
 
 
 	return (

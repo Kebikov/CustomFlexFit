@@ -6,8 +6,7 @@ import { COLOR_ROOT } from '@/constants/colors';
 import { useSQLiteContext } from 'expo-sqlite';
 import type { DayDTO } from '@/SQL/Day/DTO/DayDTO';
 import DragFlatList from '@/components/DragFlatList/DragFlatList';
-import { pickObject } from '@/utils/pickObject';
-import { sortByQueue } from '@/utils/sortByQueue';
+import HelperUtils from '@/utils/HelperUtils';
 
 
 /** `Страница с днями занятий.` */ 
@@ -27,15 +26,14 @@ const ListDay: FC = () => {
     useEffect(() => {
         (async () => {
             let data: Array<DayDTO> = await DayService.find(db);
-            setStateDays(sortByQueue(data));
+            setStateDays(HelperUtils.sortByQueue(data));
         })();
     },[]);
 
     useEffect(() => {
         return () => {
             (async () => {
-                console.log(JSON.stringify( pickObject(stateDays, ['id', 'queue']), null, 2));
-                await DayService.findByIdAndUpdate(db, pickObject(stateDays, ['id', 'queue']));
+                await DayService.findByIdAndUpdate(db, HelperUtils.pickObject(stateDays, ['id', 'queue']));
             })();
         }
     },[stateDays]);

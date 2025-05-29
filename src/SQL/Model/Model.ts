@@ -1,5 +1,6 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import { extractForInsert } from './helpers/extractForInsert';
+import HelperUtils from '@/utils/HelperUtils';
 
 
 interface IModel {

@@ -1,14 +1,10 @@
 import { View, Text, StyleSheet, ImageBackground, Image, Pressable, Platform } from 'react-native';
 import React, { FC, useState, useEffect } from 'react';
 import { COLOR_ROOT } from '@/constants/colors';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { useAppDispatch } from '@/redux/store/hooks';
-import { useHookRouter } from '@/router/useHookRouter';
 import type { DayDTOomitId, DayDTO } from '@/SQL/Day/DTO/DayDTO';
-import getCurrentDateInFormatArray from '@/utils/getCurrentDateInFormatArray';
 import { styleFontConvertForTitle } from '@/styles/font';
 import useConvertFont from '@/hook/useConvertFont';
-import { Shadow } from 'react-native-shadow-2';
+import HelperUtils from '@/utils/HelperUtils';
 import IMAGE from '@/source/img';
 import useHookImageCheck from '@/hook/useHookImageCheck';
 
@@ -32,7 +28,7 @@ const DayElement: FC<IDay> = ({
     backgroundZero,
     width = 100
 }) => {
-    const {textCurrentDay} = getCurrentDateInFormatArray();
+    const {textCurrentDay} = HelperUtils.getCurrentDateInFormatArray();
     const {convertFont} = useConvertFont();
     const {imgCheck} = useHookImageCheck();
 

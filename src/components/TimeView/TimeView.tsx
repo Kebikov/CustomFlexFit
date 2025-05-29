@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Pressable, type LayoutChangeEvent, Platform } f
 import React, { FC } from 'react';
 import { Svg, Circle, G } from 'react-native-svg';
 import { useState, useEffect } from 'react';
-import transferSecInTime from '@/utils/transferSecInTime';
+import HelperUtils from '@/utils/HelperUtils';
 import { COLOR_ROOT } from '@/constants/colors';
 import { Audio, AVPlaybackSource } from 'expo-av';
 import {soundAudio} from '@/constants/soundAudio';
@@ -185,7 +185,7 @@ const TimeView: FC<ITimerView> = ({ givenTime }) => {
                     </G>
                 </Svg>
                 <View style={[styles.containerText, {marginTop: heightTime === 0 ? 0 : -1 * heightTime / 2}]} onLayout={onLayoutContainerText} >
-                    <Text style={[styles.text]}>{transferSecInTime(balanceTime)}</Text>
+                    <Text style={[styles.text]}>{HelperUtils.transferSecInTime(balanceTime)}</Text>
                 </View>
             </View>
 
